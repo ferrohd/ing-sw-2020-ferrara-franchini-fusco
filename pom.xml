@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>it.polimi.deib</groupId>
-    <artifactId>ing-sw-2020-ferrara-franchini-fusco</artifactId>
+    <groupId>it.polimi.ingsw.ing-sw-2020-ferrara-franchini-fusco</groupId>
+    <artifactId>santorini</artifactId>
     <version>0.0.1</version>
 
 
