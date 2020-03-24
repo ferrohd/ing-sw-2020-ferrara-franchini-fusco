@@ -7,6 +7,14 @@
     <groupId>it.polimi.ingsw.ing-sw-2020-ferrara-franchini-fusco</groupId>
     <artifactId>santorini</artifactId>
     <version>0.0.1</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 
 </project>
