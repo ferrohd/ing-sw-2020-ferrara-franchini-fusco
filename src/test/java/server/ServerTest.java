@@ -1,7 +1,7 @@
 package server;
 
 
-import it.polimi.ingsw.ing_sw_2020_ferrara_franchini_fusco.server.Server;
+import it.polimi.ingsw.PSP14.server.Server;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,4 +1,4 @@
 package it.polimi.ingsw.PSP14.server.Match;
 
-public class InvalidActionException {
+public class InvalidActionException extends Exception {
 }
