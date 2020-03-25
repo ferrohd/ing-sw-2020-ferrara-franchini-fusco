@@ -1,4 +1,4 @@
-package it.polimi.ingsw.ing_sw_2020_ferrara_franchini_fusco.server;
+package it.polimi.ingsw.PSP14.server;
 
 public class Server {
     public static void main(String[] args) {
