@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP14.server.Match;
 
+/**
+ * Defines the eight main cardinal directions.
+ */
 public enum Direction {
     NW(-1, 1),
     N(0, 1),
@@ -13,15 +16,25 @@ public enum Direction {
     private final int xOffset;
     private final int yOffset;
 
+    /**
+     * @param xOffset the offset in the x direction
+     * @param yOffset the offset in the y direction
+     */
     Direction(int xOffset, int yOffset) {
         this.xOffset = xOffset;
         this.yOffset = yOffset;
     }
 
+    /**
+     * @return the offset in the x direction
+     */
     public int getXOffset() {
         return xOffset;
     }
 
+    /**
+     * @return the offset in the y direction
+     */
     public int getYOffset() {
         return yOffset;
     }
