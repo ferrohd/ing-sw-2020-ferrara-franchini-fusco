@@ -24,6 +24,14 @@ public class Point {
         return y;
     }
 
+    /**
+     * Compare two points and return a boolean whether they are equals or not.
+     * @param point a point to confront with
+     * @return whether the points are in the same position
+     */
+    public boolean equals(Point point) {
+        return this.x == point.x && this.y == point.y;
+    }
 //    public void setX(int x) {
 //        this.x = x;
 //    }

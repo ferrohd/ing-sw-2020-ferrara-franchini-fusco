@@ -12,13 +12,14 @@ public class Worker {
 
     /**
      * @param dir the direction in which to move the worker
-     * @throws InvalidActionException if movement goes out of the board
+     * @throws InvalidActionException if the worker tries to go outside the board
      */
     public void move(Direction dir) throws InvalidActionException {
         pos = new Point(
                 pos.getX() + dir.getXOffset(),
                 pos.getY() + dir.getYOffset()
         );
+        //TODO: Check if movement is allowed, else throw exception
     }
 
     /**

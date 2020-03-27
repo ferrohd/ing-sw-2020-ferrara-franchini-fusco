@@ -26,7 +26,7 @@ public class Cell {
      * @throws TowerSizeException when you try to increase a tower of 3 blocks.
      */
     public void incrementTowerSize() throws TowerSizeException{
-        if (towerSize <= 3) {
+        if (towerSize < 3) {
             towerSize += 1;
         } else throw new TowerSizeException();
     }
