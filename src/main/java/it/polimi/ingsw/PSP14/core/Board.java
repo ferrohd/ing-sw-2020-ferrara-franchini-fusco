@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.server.Match;
+package it.polimi.ingsw.PSP14.core;
 
 /**
  * A board for the game.
@@ -28,8 +28,9 @@ public class Board {
     /**
      * @param x the x coordinate of the cell
      * @param y the y coordinate of the cell
+     * @throws TowerSizeException when you can't increase a tower size
      */
-    public void incrementTowerSize(int x, int y) {
+    public void incrementTowerSize(int x, int y) throws TowerSizeException {
         board[y][x].incrementTowerSize();
     }
 
@@ -44,7 +45,7 @@ public class Board {
     /**
      * @param x the x coordinate of the cell
      * @param y the y coordinate of the cell
-     * @return
+     * @return whether the tower is complete.
      */
     public boolean getIsCompleted(int x, int y) {
         return board[y][x].getIsCompleted();

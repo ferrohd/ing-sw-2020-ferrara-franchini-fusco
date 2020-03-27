@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.server.Match;
+package it.polimi.ingsw.PSP14.core;
 
 /**
  * Contains information about a single cell of the board.
@@ -15,7 +15,7 @@ public class Cell {
     }
 
     /**
-     * @return a truth value indicating if the dome is built.
+     * @return a truth value indicating if the dome has been built.
      */
     public boolean getIsCompleted() {
         return isCompleted;
@@ -23,13 +23,16 @@ public class Cell {
 
     /**
      * Increases by one the size of the tower.
+     * @throws TowerSizeException when you try to increase a tower of 3 blocks.
      */
-    public void incrementTowerSize() {
-        towerSize++;
+    public void incrementTowerSize() throws TowerSizeException{
+        if (towerSize <= 3) {
+            towerSize += 1;
+        } else throw new TowerSizeException();
     }
 
     /**
-     * Builds the dome.
+     * Builds the dome, marking the tower as completed.
      */
     public void setAsCompleted() {
         isCompleted = true;

@@ -1,4 +1,4 @@
-package server;
+package it.polimi.ingsw.PSP14.server;
 
 
 import it.polimi.ingsw.PSP14.server.Server;

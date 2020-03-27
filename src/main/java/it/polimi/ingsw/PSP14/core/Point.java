@@ -1,7 +1,7 @@
-package it.polimi.ingsw.PSP14.server.Match;
+package it.polimi.ingsw.PSP14.core;
 
 /**
- * Immutable object containing integer 2D coordinates.
+ * An immutable object containing integer 2D coordinates.
  */
 public class Point {
     private int x;
