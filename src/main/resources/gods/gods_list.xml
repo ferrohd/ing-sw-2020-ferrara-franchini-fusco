@@ -1,0 +1,68 @@
+<gods_list>
+    <!--Simple Gods List BEGIN-->
+    <god>
+        <id>1</id>
+        <name>Apollo</name>
+        <description>God of Music</description>
+    </god>
+    <god>
+        <id>2</id>
+        <name>Artemis</name>
+        <description>Goddess of The Hunt</description>
+    </god>
+    <god>
+        <id>3</id>
+        <name>Athena</name>
+        <description>Goddess of Wisdom</description>
+    </god>
+    <god>
+        <id>4</id>
+        <name>Atlas</name>
+        <description>Titan Shouldering the Heavens</description>
+    </god>
+    <god>
+        <id>5</id>
+        <name>Demeter</name>
+        <description>Goddess of the Harvest</description>
+    </god>
+    <god>
+        <id>6</id>
+        <name>Hephaestus</name>
+        <description>God of Blacksmiths</description>
+    </god>
+    <!-- Hermes no implementation required
+    <god>
+        <id>7</id>
+        <name>Hermes</name>
+        <description>God of Travel</description>
+    </god>
+    -->
+    <god>
+        <id>8</id>
+        <name>Minotaur</name>
+        <description>Bull-headed Monster</description>
+    </god>
+    <god>
+        <id>9</id>
+        <name>Pan</name>
+        <description>God of the Wild</description>
+    </god>
+    <god>
+        <id>10</id>
+        <name>Prometheus</name>
+        <description>Titan Benefactor of Mankind</description>
+    </god>
+    <!--Simple Gods List END-->
+    <!--Advanced Gods List BEGIN-->
+    <god>
+        <id>16</id>
+        <name>Chronus</name>
+        <description>God of Time</description>
+    </god>
+    <god>
+        <id>30</id>
+        <name>Zeus</name>
+        <description>God of The Sky</description>
+    </god>
+    <!--Advanced Gods List END-->
+</gods_list>
