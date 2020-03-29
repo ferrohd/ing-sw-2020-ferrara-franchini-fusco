@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.server.Match;
+package it.polimi.ingsw.PSP14.core;
 
 import java.time.Instant;
 
@@ -6,6 +6,9 @@ import java.time.Instant;
  * A game action.
  */
 public abstract class Action {
+    Action() {
+        this.timestamp = Instant.now();
+    }
     private Instant timestamp;
 
     /**

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.server.Match;
+package it.polimi.ingsw.PSP14.core;
 
 /**
  * Defines the eight main cardinal directions.

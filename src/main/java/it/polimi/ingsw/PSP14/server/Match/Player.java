@@ -1,5 +1,9 @@
 package it.polimi.ingsw.PSP14.server.Match;
 
+import it.polimi.ingsw.PSP14.core.Direction;
+import it.polimi.ingsw.PSP14.core.InvalidActionException;
+import it.polimi.ingsw.PSP14.core.Worker;
+
 /**
  * Model for a player in the game.
  */
