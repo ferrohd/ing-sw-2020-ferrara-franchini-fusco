@@ -1,0 +1,130 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Player</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.server.Match</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Player (it.polimi.ingsw.PSP14.server.Match)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Player</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.server.Match;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP14.core.Direction;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP14.core.InvalidActionException;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP14.core.Worker;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * Model for a player in the game.
+<i>9</i>&nbsp; */
+<i>10</i>&nbsp;public class Player {
+<i>11</i>&nbsp;    private String username;
+<i>12</i>&nbsp;    //private God god;
+<b class="nc"><i>13</i>&nbsp;    private Worker[] workers = new Worker[2];</b>
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * @param username username of the player to display in game
+<i>17</i>&nbsp;     * @param maleWorker first worker
+<i>18</i>&nbsp;     * @param femaleWorker second worker
+<i>19</i>&nbsp;     */
+<b class="nc"><i>20</i>&nbsp;    Player(String username /*, God god */, Worker maleWorker, Worker femaleWorker) {</b>
+<b class="nc"><i>21</i>&nbsp;        this.username = username;</b>
+<i>22</i>&nbsp;        // this.god = god;
+<b class="nc"><i>23</i>&nbsp;        workers[0] = maleWorker;</b>
+<b class="nc"><i>24</i>&nbsp;        workers[1] = femaleWorker;</b>
+<b class="nc"><i>25</i>&nbsp;    }</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * @param index index of the worker to move
+<i>29</i>&nbsp;     * @param dir direction of movement
+<i>30</i>&nbsp;     * @throws InvalidActionException if movement goes out of the board
+<i>31</i>&nbsp;     * @throws IndexOutOfBoundsException if the index does not correspond to any worker
+<i>32</i>&nbsp;     */
+<i>33</i>&nbsp;    public void moveWorker(int index, Direction dir) throws InvalidActionException, IndexOutOfBoundsException {
+<b class="nc"><i>34</i>&nbsp;        workers[index].move(dir);</b>
+<b class="nc"><i>35</i>&nbsp;    }</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * @return the username
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    public String getUsername() {
+<b class="nc"><i>41</i>&nbsp;        return username;</b>
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    /* public God getGod() {
+<i>45</i>&nbsp;        return god;
+<i>46</i>&nbsp;    } */
+<i>47</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-03-31 18:39</div>
+</div>
+</body>
+</html>
