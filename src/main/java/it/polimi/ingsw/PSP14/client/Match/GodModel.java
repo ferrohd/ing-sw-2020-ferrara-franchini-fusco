@@ -13,6 +13,8 @@ public enum GodModel {
     MINOTAUR(),
     PAN(),
     PROMETHEUS();
+    CHRONUS(),
+    ZEUS();
 
     private String name;
     private String description;
