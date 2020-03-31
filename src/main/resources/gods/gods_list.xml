@@ -3,77 +3,88 @@
     <god>
         <id>1</id>
         <name>Apollo</name>
-        <description>God of Music</description>
-        <ability>Your move: Your Worker may move into an opponent Worker' space by forcing their Worker to the space yours just vacated.</ability>
+        <alias>God of Music</alias>
+        <ability>Your move</ability>
+        <description>Your Worker may move into an opponent Worker' space by forcing their Worker to the space yours just vacated.</description>
     </god>
     <god>
         <id>2</id>
         <name>Artemis</name>
-        <description>Goddess of The Hunt</description>
-        <ability>Your Move: Your Worker may move one additional time, but not back to its initial space.</ability>
+        <alias>Goddess of The Hunt</alias>
+        <ability>Your move</ability>
+        <description>Your Worker may move one additional time, but not back to its initial space.</description>
     </god>
     <god>
         <id>3</id>
         <name>Athena</name>
-        <description>Goddess of Wisdom</description>
-        <ability>Opponent's Turn: If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.</ability>
+        <alias>Goddess of Wisdom</alias>
+        <ability>Opponent's Turn</ability>
+        <description>If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.</description>
     </god>
     <god>
         <id>4</id>
         <name>Atlas</name>
-        <description>Titan Shouldering the Heavens</description>
-        <ability>Your Build: Your Worker may build a dome at any level.</ability>
+        <alias>Titan Shouldering the Heavens</alias>
+        <ability>Your Build</ability>
+        <description>Your Worker may build a dome at any level.</description>
     </god>
     <god>
         <id>5</id>
         <name>Demeter</name>
-        <description>Goddess of the Harvest</description>
-        <ability>Your Build: Your Worker may build one additional time, but not on the same space.</ability>
+        <alias>Goddess of the Harvest</alias>
+        <ability>Your Build</ability>
+        <description>Your Worker may build one additional time, but not on the same space.</description>
     </god>
     <god>
         <id>6</id>
         <name>Hephaestus</name>
-        <description>God of Blacksmiths</description>
-        <ability>Your Build: Your Worker may build one additional block (not dome) on top of your first block.</ability>
+        <alias>God of Blacksmiths</alias>
+        <ability>Your Build</ability>
+        <description>Your Worker may build one additional block (not dome) on top of your first block.</description>
     </god>
     <!-- Hermes no implementation required
     <god>
         <id>7</id>
         <name>Hermes</name>
-        <description>God of Travel</description>
+        <alias>God of Travel</alias>
     </god>
     -->
     <god>
         <id>8</id>
         <name>Minotaur</name>
-        <description>Bull-headed Monster</description>
-        <ability>Your Move: Your Worker may move into an opponent Worker' space, if their Worker can be forced one space straight backwards to an unoccupied space at any level.</ability>
+        <alias>Bull-headed Monster</alias>
+        <ability>Your move</ability>
+        <description>Your Worker may move into an opponent Worker' space, if their Worker can be forced one space straight backwards to an unoccupied space at any level.</description>
     </god>
     <god>
         <id>9</id>
         <name>Pan</name>
-        <description>God of the Wild</description>
-        <ability>Wind Condition: You also win if your Worker moves down two or more levels.</ability>
+        <alias>God of the Wild</alias>
+        <ability>Wind Condition</ability>
+        <description>You also win if your Worker moves down two or more levels.</description>
     </god>
     <god>
         <id>10</id>
         <name>Prometheus</name>
-        <description>Titan Benefactor of Mankind</description>
-        <ability>Your Turn: If your Worker does not move up, it may build both before and after moving.</ability>
+        <alias>Titan Benefactor of Mankind</alias>
+        <ability>Your Turn</ability>
+        <description>If your Worker does not move up, it may build both before and after moving.</description>
     </god>
     <!--Simple Gods List END-->
     <!--Advanced Gods List BEGIN-->
     <god>
         <id>16</id>
         <name>Chronus</name>
-        <description>God of Time</description>
-        <ability>Win Condition: You also win when there are at least five Complete Towers on the board.</ability>
+        <alias>God of Time</alias>
+        <ability>Wind Condition</ability>
+        <description>You also win when there are at least five Complete Towers on the board.</description>
     </god>
     <god>
         <id>30</id>
         <name>Zeus</name>
-        <description>God of The Sky</description>
-        <ability>Your Build: Your Worker may build a block under itself.</ability>
+        <alias>God of The Sky</alias>
+        <ability>Your Build</ability>
+        <description>Your Worker may build a block under itself.</description>
     </god>
     <!--Advanced Gods List END-->
 </gods_list>
