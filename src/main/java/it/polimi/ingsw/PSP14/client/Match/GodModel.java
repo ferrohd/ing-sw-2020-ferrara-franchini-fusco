@@ -4,17 +4,17 @@ package it.polimi.ingsw.PSP14.client.Match;
  * Contains God data.
  */
 public enum GodModel {
-    APOLLO("apollo"),
-    ARTEMIS("artemis"),
-    ATHENA("athena"),
-    ATLAS("atlas"),
-    DEMETER("demeter"),
-    HEPHAESTUS("hephaestus"),
-    MINOTAUR("minotaur"),
-    PAN("pan"),
-    PROMETHEUS("prometheus"),
-    CHRONUS("chronus"),
-    ZEUS("zeus");
+    APOLLO(),
+    ARTEMIS(),
+    ATHENA(),
+    ATLAS(),
+    DEMETER(),
+    HEPHAESTUS(),
+    MINOTAUR(),
+    PAN(),
+    PROMETHEUS();
+    CHRONUS(),
+    ZEUS();
 
     private String name;
     private String description;
@@ -22,9 +22,13 @@ public enum GodModel {
     /**
      * @param name name of the God, which has to be found in the God configuration file.
      */
-    GodModel(String name) {
-        this.name = name;
+    GodModel() {
+        this.name = formatName();
         //TODO using name, get description from file
+    }
+
+    private String formatName() {
+        return name().substring(0, 1) + name().substring(1).toLowerCase();
     }
 
     /**
