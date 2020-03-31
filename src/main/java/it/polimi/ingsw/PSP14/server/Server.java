@@ -1,11 +1,13 @@
 package it.polimi.ingsw.PSP14.server;
 
-public class Server {
-    public static void main(String[] args) {
-        System.out.println("Hello World");
-    }
+import java.io.IOException;
 
-    public static String greetings(String name) {
-        return "Hi " + name;
+public class Server {
+    public static void main(String[] args) throws InterruptedException, IOException {
+        ClientConnectionFactory clientConnectionFactory = new TCPClientConnectionFactory(42069);
+        GameFactory gameFactory = new GameFactory(clientConnectionFactory);
+        Thread mainThread = new Thread(gameFactory);
+        mainThread.start();
+        mainThread.join();
     }
 }
