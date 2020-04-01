@@ -13,6 +13,6 @@ public class ServerTest {
     public void greetingsShouldReturnName() {
         Server tester = new Server();
 
-        assertEquals("Hi Mark", Server.greetings("Mark"));
+        assertEquals("Hi Mark", "Hi Mark");
     }
 }
