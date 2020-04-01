@@ -1,8 +1,9 @@
 package it.polimi.ingsw.PSP14.server.Match;
 
-import it.polimi.ingsw.PSP14.core.Action;
-import it.polimi.ingsw.PSP14.core.Board;
+import it.polimi.ingsw.PSP14.core.model.Action;
+import it.polimi.ingsw.PSP14.core.model.Board;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,8 +11,13 @@ import java.util.List;
  * The MatchModel contains references to the clients' connections.
  */
 public class MatchModel {
-    // private PlayerConnection[] playerConnections;
-    private Player[] players;
+    private List<Player> players;
     private Board board;
     private List<Action> history;
+
+    public MatchModel() {
+        players = new ArrayList<>();
+        board = new Board();
+        history = new ArrayList<>();
+    }
 }

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.core;
+package it.polimi.ingsw.PSP14.core.model;
 
 import java.time.Instant;
 

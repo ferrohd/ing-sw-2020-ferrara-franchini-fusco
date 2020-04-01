@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP14.server;
 
+import it.polimi.ingsw.PSP14.core.controller.Match;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +40,9 @@ public class GameFactory implements Runnable {
                 if (gameSize == 3) {
                     players.add(clientConnectionFactory.getClientConnection());
                 }
-                // TODO: start game
+
+                Thread newGame = new Thread(new Match(players));
+                newGame.start();
             } catch(InterruptedException e) {
                 players.forEach(ClientConnection::sendFatalError);
             }
