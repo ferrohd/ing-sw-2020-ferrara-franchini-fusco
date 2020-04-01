@@ -34,22 +34,20 @@ public class GodModelFactory {
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.parse(new File(godsFile));
 
-        Node root = doc.getFirstChild();
+        Element root = (Element) doc.getFirstChild();
+        NodeList gods = root.getElementsByTagName("god");
 
-        for(int i = 0; i < root.getChildNodes().getLength(); ++i) {
-            Node node = root.getChildNodes().item(i);
-            if(node.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) node;
-                String godName = element.getElementsByTagName("name").item(0).getTextContent();
-                String godAlias = element.getElementsByTagName("alias").item(0).getTextContent();
-                String godAbility = element.getElementsByTagName("ability").item(0).getTextContent();
-                String godDescription = element.getElementsByTagName("description").item(0).getTextContent();
+        for(int i = 0; i < gods.getLength(); ++i) {
+            Element element = (Element) gods.item(i);
+            String godName = element.getElementsByTagName("name").item(0).getTextContent();
+            String godAlias = element.getElementsByTagName("alias").item(0).getTextContent();
+            String godAbility = element.getElementsByTagName("ability").item(0).getTextContent();
+            String godDescription = element.getElementsByTagName("description").item(0).getTextContent();
 
-                godMap.put(
-                        godName,
-                        new GodModelImplementation(godName, godAlias, godAbility, godDescription)
-                );
-            }
+            godMap.put(
+                    godName,
+                    new GodModelImplementation(godName, godAlias, godAbility, godDescription)
+            );
         }
     }
 
