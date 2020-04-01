@@ -1,0 +1,3 @@
+interface: cli
+hostname: localhost
+port: 42069
