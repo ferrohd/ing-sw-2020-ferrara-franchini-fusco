@@ -1,7 +1,4 @@
-package it.polimi.ingsw.PSP14.server.Match;
-
-import it.polimi.ingsw.PSP14.core.Action;
-import it.polimi.ingsw.PSP14.core.Board;
+package it.polimi.ingsw.PSP14.core;
 
 import java.util.List;
 
