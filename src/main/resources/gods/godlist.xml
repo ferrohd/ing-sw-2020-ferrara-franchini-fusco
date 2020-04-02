@@ -1,5 +1,4 @@
-<gods_list>
-    <!--Simple Gods List BEGIN-->
+<godlist>
     <god>
         <name>Apollo</name>
         <alias>God of Music</alias>
@@ -36,12 +35,6 @@
         <ability>Your Build</ability>
         <description>Your Worker may build one additional block (not dome) on top of your first block.</description>
     </god>
-    <!-- Hermes no implementation required
-    <god>
-        <name>Hermes</name>
-        <alias>God of Travel</alias>
-    </god>
-    -->
     <god>
         <name>Minotaur</name>
         <alias>Bull-headed Monster</alias>
@@ -60,8 +53,6 @@
         <ability>Your Turn</ability>
         <description>If your Worker does not move up, it may build both before and after moving.</description>
     </god>
-    <!--Simple Gods List END-->
-    <!--Advanced Gods List BEGIN-->
     <god>
         <name>Chronus</name>
         <alias>God of Time</alias>
@@ -74,5 +65,4 @@
         <ability>Your Build</ability>
         <description>Your Worker may build a block under itself.</description>
     </god>
-    <!--Advanced Gods List END-->
-</gods_list>
+</godlist>

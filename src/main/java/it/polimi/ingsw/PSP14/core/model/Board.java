@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.core;
+package it.polimi.ingsw.PSP14.core.model;
 
 /**
  * A board for the game.
@@ -7,7 +7,7 @@ package it.polimi.ingsw.PSP14.core;
 public class Board {
     private Cell[][] board = new Cell[5][5];
 
-    Board() {
+    public Board() {
         for(int i = 0; i < 5; ++i) {
             for(int j = 0; j < 5; ++j) {
                 board[j][i] = new Cell();

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP14.client.Match;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -26,22 +27,22 @@ public class GodModelFactory {
      * @throws IOException
      * @throws SAXException
      */
-    private GodModelFactory(String godsFile) throws ParserConfigurationException, IOException, SAXException {
+    public GodModelFactory(String godsFile) throws ParserConfigurationException, IOException, SAXException {
         godMap = new HashMap<>();
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.parse(new File(godsFile));
 
-        Node root = doc.getFirstChild();
+        Element root = (Element) doc.getFirstChild();
+        NodeList gods = root.getElementsByTagName("god");
 
-        for(int i = 0; i < root.getChildNodes().getLength(); ++i) {
-            Node godData = root.getChildNodes().item(i);
-            NodeList godAttributes = godData.getChildNodes();
-            String godName = godAttributes.item(0).getTextContent();
-            String godAlias = godAttributes.item(1).getTextContent();
-            String godAbility = godAttributes.item(2).getTextContent();
-            String godDescription = godAttributes.item(3).getTextContent();
+        for(int i = 0; i < gods.getLength(); ++i) {
+            Element element = (Element) gods.item(i);
+            String godName = element.getElementsByTagName("name").item(0).getTextContent();
+            String godAlias = element.getElementsByTagName("alias").item(0).getTextContent();
+            String godAbility = element.getElementsByTagName("ability").item(0).getTextContent();
+            String godDescription = element.getElementsByTagName("description").item(0).getTextContent();
 
             godMap.put(
                     godName,

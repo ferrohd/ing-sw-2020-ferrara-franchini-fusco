@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.core;
+package it.polimi.ingsw.PSP14.core.model;
 
 /**
  * Contains information about a single cell of the board.
