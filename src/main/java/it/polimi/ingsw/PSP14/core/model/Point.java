@@ -11,7 +11,7 @@ public class Point {
      * @param x the x coordinate of the point
      * @param y the y coordinate of the point
      */
-    Point(int x, int y) {
+    public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
