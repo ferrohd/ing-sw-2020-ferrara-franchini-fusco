@@ -6,7 +6,7 @@ import java.time.Instant;
  * A game action.
  */
 public abstract class Action {
-    Action() {
+    public Action() {
         this.timestamp = Instant.now();
     }
     private Instant timestamp;
