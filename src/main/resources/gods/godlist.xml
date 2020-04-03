@@ -1,90 +1,68 @@
-<gods_list>
-    <!--Simple Gods List BEGIN-->
+<godlist>
     <god>
-        <id>1</id>
         <name>Apollo</name>
         <alias>God of Music</alias>
         <ability>Your move</ability>
         <description>Your Worker may move into an opponent Worker' space by forcing their Worker to the space yours just vacated.</description>
     </god>
     <god>
-        <id>2</id>
         <name>Artemis</name>
         <alias>Goddess of The Hunt</alias>
         <ability>Your move</ability>
         <description>Your Worker may move one additional time, but not back to its initial space.</description>
     </god>
     <god>
-        <id>3</id>
         <name>Athena</name>
         <alias>Goddess of Wisdom</alias>
         <ability>Opponent's Turn</ability>
         <description>If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.</description>
     </god>
     <god>
-        <id>4</id>
         <name>Atlas</name>
         <alias>Titan Shouldering the Heavens</alias>
         <ability>Your Build</ability>
         <description>Your Worker may build a dome at any level.</description>
     </god>
     <god>
-        <id>5</id>
         <name>Demeter</name>
         <alias>Goddess of the Harvest</alias>
         <ability>Your Build</ability>
         <description>Your Worker may build one additional time, but not on the same space.</description>
     </god>
     <god>
-        <id>6</id>
         <name>Hephaestus</name>
         <alias>God of Blacksmiths</alias>
         <ability>Your Build</ability>
         <description>Your Worker may build one additional block (not dome) on top of your first block.</description>
     </god>
-    <!-- Hermes no implementation required
     <god>
-        <id>7</id>
-        <name>Hermes</name>
-        <alias>God of Travel</alias>
-    </god>
-    -->
-    <god>
-        <id>8</id>
         <name>Minotaur</name>
         <alias>Bull-headed Monster</alias>
         <ability>Your move</ability>
         <description>Your Worker may move into an opponent Worker' space, if their Worker can be forced one space straight backwards to an unoccupied space at any level.</description>
     </god>
     <god>
-        <id>9</id>
         <name>Pan</name>
         <alias>God of the Wild</alias>
         <ability>Wind Condition</ability>
         <description>You also win if your Worker moves down two or more levels.</description>
     </god>
     <god>
-        <id>10</id>
         <name>Prometheus</name>
         <alias>Titan Benefactor of Mankind</alias>
         <ability>Your Turn</ability>
         <description>If your Worker does not move up, it may build both before and after moving.</description>
     </god>
-    <!--Simple Gods List END-->
-    <!--Advanced Gods List BEGIN-->
     <god>
-        <id>16</id>
         <name>Chronus</name>
         <alias>God of Time</alias>
         <ability>Wind Condition</ability>
         <description>You also win when there are at least five Complete Towers on the board.</description>
     </god>
     <god>
-        <id>30</id>
         <name>Zeus</name>
         <alias>God of The Sky</alias>
         <ability>Your Build</ability>
         <description>Your Worker may build a block under itself.</description>
     </god>
-    <!--Advanced Gods List END-->
-</gods_list>
+</godlist>

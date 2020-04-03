@@ -1,11 +1,21 @@
 package it.polimi.ingsw.PSP14.server;
 
+import it.polimi.ingsw.PSP14.core.controller.Match;
+
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Runnable to be run in a thread.
+ *
+ * Continuously creates and starts game threads with the connections provided by a ClientConnectionFactory.
+ */
 public class GameFactory implements Runnable {
     private ClientConnectionFactory clientConnectionFactory;
 
+    /**
+     * @param clientConnectionFactory factory that provides the ClientConnection objects
+     */
     public GameFactory(ClientConnectionFactory clientConnectionFactory) {
         this.clientConnectionFactory = clientConnectionFactory;
         Thread clientConnectionThread = new Thread(clientConnectionFactory);
@@ -16,6 +26,9 @@ public class GameFactory implements Runnable {
         createGameLoop();
     }
 
+    /**
+     * Creates and starts games.
+     */
     private void createGameLoop() {
         List<ClientConnection> players;
         while(true) {
@@ -27,7 +40,9 @@ public class GameFactory implements Runnable {
                 if (gameSize == 3) {
                     players.add(clientConnectionFactory.getClientConnection());
                 }
-                // TODO: start game
+
+                Thread newGame = new Thread(new Match(players));
+                newGame.start();
             } catch(InterruptedException e) {
                 players.forEach(ClientConnection::sendFatalError);
             }

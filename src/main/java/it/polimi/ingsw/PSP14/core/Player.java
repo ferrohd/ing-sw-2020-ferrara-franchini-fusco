@@ -1,8 +1,8 @@
 package it.polimi.ingsw.PSP14.core;
 
-import it.polimi.ingsw.PSP14.core.Direction;
-import it.polimi.ingsw.PSP14.core.InvalidActionException;
-import it.polimi.ingsw.PSP14.core.Worker;
+import it.polimi.ingsw.PSP14.core.model.Direction;
+import it.polimi.ingsw.PSP14.core.model.InvalidActionException;
+import it.polimi.ingsw.PSP14.core.model.Worker;
 
 import java.util.Random;
 import java.awt.Color;

@@ -6,6 +6,9 @@ import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * ClientConnectionFactory implemented using TCP sockets.
+ */
 public class TCPClientConnectionFactory implements ClientConnectionFactory {
     private final ServerSocket serverSocket;
     private final BlockingQueue<TCPClientConnection> clientQueue = new LinkedBlockingQueue<>();
