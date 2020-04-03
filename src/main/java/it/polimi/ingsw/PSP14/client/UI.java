@@ -2,8 +2,9 @@ package it.polimi.ingsw.PSP14.client;
 
 import it.polimi.ingsw.PSP14.core.Cell;
 import it.polimi.ingsw.PSP14.core.Player;
+import it.polimi.ingsw.PSP14.core.Point;
 
-public abstract class UI {
+public abstract class   UI {
 
     Player[] players;
 
@@ -36,11 +37,11 @@ public abstract class UI {
     }
 
     public abstract void drawBoardInit(Cell[][] board);
-    public abstract void drawWorkerAdd();
-    public abstract void drawWorkerRemove();
-    public abstract void drawWorkerMove();
-    public abstract void drawBlockAdd();
-    public abstract void drawBlockRemove();
-    public abstract void drawDomeAdd();
-    public abstract void drawDomeRemove();
+    public abstract void drawWorkerAdd(Point newPos);
+    public abstract void drawWorkerRemove(Point oldPos);
+    public abstract void drawWorkerMove(Point oldPos, Point newPos);
+    public abstract void drawBlockAdd(Point pos);
+    public abstract void drawBlockRemove(Point pos);
+    public abstract void drawDomeAdd(Point pos);
+    public abstract void drawDomeRemove(Point pos);
 }
