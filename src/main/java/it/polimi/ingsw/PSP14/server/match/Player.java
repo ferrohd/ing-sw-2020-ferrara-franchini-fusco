@@ -1,8 +1,9 @@
-package it.polimi.ingsw.PSP14.server.Match;
+package it.polimi.ingsw.PSP14.server.match;
 
 import it.polimi.ingsw.PSP14.core.model.Direction;
 import it.polimi.ingsw.PSP14.core.model.InvalidActionException;
 import it.polimi.ingsw.PSP14.core.model.Worker;
+import it.polimi.ingsw.PSP14.server.ClientConnection;
 
 /**
  * Model for a player in the game.
@@ -14,14 +15,10 @@ public class Player {
 
     /**
      * @param username username of the player to display in game
-     * @param maleWorker first worker
-     * @param femaleWorker second worker
+     * @param connection a client connection interface to communicate with the client
      */
-    Player(String username /*, God god */, Worker maleWorker, Worker femaleWorker) {
+    Player(String username) {
         this.username = username;
-        // this.god = god;
-        workers[0] = maleWorker;
-        workers[1] = femaleWorker;
     }
 
     /**

@@ -6,7 +6,7 @@ package it.polimi.ingsw.PSP14.core.model;
 public class Worker {
     private Point pos;
 
-    Worker(Point pos) {
+    public Worker(Point pos) {
         this.pos = pos;
     }
 
