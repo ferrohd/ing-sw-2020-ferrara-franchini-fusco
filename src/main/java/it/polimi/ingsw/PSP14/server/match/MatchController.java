@@ -1,6 +1,8 @@
 package it.polimi.ingsw.PSP14.server.match;
 
-import it.polimi.ingsw.PSP14.core.controller.GodController;
+import it.polimi.ingsw.PSP14.core.controller.gods.GodController;
+import it.polimi.ingsw.PSP14.core.controller.gods.GodControllerFactory;
+import it.polimi.ingsw.PSP14.core.model.GodNotFoundException;
 import it.polimi.ingsw.PSP14.server.ClientConnection;
 import it.polimi.ingsw.PSP14.server.GodfileParser;
 import it.polimi.ingsw.PSP14.core.model.actions.*;
@@ -83,7 +85,12 @@ public class MatchController implements Runnable {
             ClientConnection player = clients.get(players.get(i));
             PickGodAction res = (PickGodAction) player.receiveAction();
             if (res.msg != null && selectedGods.contains(res.msg)) {
-                this.gods.put(players.get(i), /* TODO: Ref to a specific GodController */);
+                try {
+                    this.gods.put(players.get(i), GodControllerFactory.getController(res.msg));
+                } catch (GodNotFoundException e) {
+                    // TODO: Pick another god maybe, a random default one?
+                    // Else crash the lobby.
+                }
             }
         }
     }
