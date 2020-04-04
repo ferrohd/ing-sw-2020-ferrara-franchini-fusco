@@ -10,22 +10,18 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Controller for Match, supports Multi-Threading
  */
 public class MatchController implements Runnable {
     // List of PlayerUsername
-    private ArrayList<String> players = new ArrayList<>();
-    // List of Gods
-    private ArrayList<String> selectedGods = new ArrayList<>();
+    private List<String> players = new ArrayList<>();
     // PlayerUsername <-> ClientConnection
-    private HashMap<String, ClientConnection> clients = new HashMap<>();
+    private Map<String, ClientConnection> clients = new HashMap<>();
     // PlayerUsername <--> GodController
-    private HashMap<String, GodController> gods = new HashMap<>();
+    private Map<String, GodController> gods = new HashMap<>();
     // Contains data about players, board...
     private MatchModel match;
 
@@ -55,38 +51,70 @@ public class MatchController implements Runnable {
     }
 
     private void setupGame() {
-        ArrayList<String> availableGods = null;
+        /*================ 1. GAME SETUP ==================*/
+        // List of the gods that are available to play;
+        List<String> availableGods = null;
+        // List of the gods the players choose
+        List<String> selectedGods = new ArrayList<>();
+
+        // Populate the available gods list from file
         try {
             availableGods = GodfileParser.getGodIdList("gods/godlist.xml");
         } catch (ParserConfigurationException | SAXException | IOException e) {
             //TODO: handle exception
-            // Ideas: load an hardcoded set of gods?
+            // Ideas: load a hardcoded set of gods?
             // Try loading the class names in package?
         }
 
-        if (availableGods != null)
-            letPlayersChooseGods(availableGods);
+        /*================ 1.1 PLAYERS PICK GODS ==================*/
+        if (availableGods != null) {
+            // First player chooses the gods for the other players
+            firstPlayerSelectsGods(availableGods, selectedGods);
+
+            playersPickOwnGod(selectedGods, players);
+            // At this point each player should have a unique binding with a god controller.
+        } // else play a game without gods, or with hardcoded ones?
+
+        /*================ 1.2 PLAYER DECIDES WHO GOES FIRST ==================*/
+        // The first player has to choose who goes first, including itself.
+
+        String startingPlayer = players.get(0);
+
+        
+
     }
 
-    private void letPlayersChooseGods(List<String> gods) {
-        // First player chooses the gods for the other players
+    /**
+     * Receive each gods Player1 selects and add them to a list.
+     * @param availableGods list of the names of the available gods.
+     */
+    private void firstPlayerSelectsGods(List<String> availableGods, List<String> selectedGods) {
+        // Get the first player who has to choose the gods for the other players.
         ClientConnection firstPlayer = clients.get(players.get(0));
 
-        // Receive each gods Player1 selects and add them to a list
         for (int i = 0; i < players.size(); i++) {
             PickGodAction res = (PickGodAction) firstPlayer.receiveAction();
-            if (res.msg != null && gods.contains(res.msg)) {
+            if (res.msg != null // I have a valid action
+                    && availableGods.contains(res.msg) // The god is in the available ones
+                    && !selectedGods.contains(res.msg) // The god hasn't already been chosen
+            ) {
                 selectedGods.add(res.msg);
             }
         }
+    }
 
-        // Each player select a god starting from the second
-        for (int i = 0; i < players.size() - 1; i++) {
+    /**
+     * Each player select a god starting from any but the first one.
+     */
+    public void playersPickOwnGod(List<String> selectedGods,
+                                  List<String> players) {
+        for (int i = players.size() - 1; i >= 0; i--) {
             ClientConnection player = clients.get(players.get(i));
             PickGodAction res = (PickGodAction) player.receiveAction();
             if (res.msg != null && selectedGods.contains(res.msg)) {
                 try {
                     this.gods.put(players.get(i), GodControllerFactory.getController(res.msg));
+                    selectedGods.remove(res.msg);
                 } catch (GodNotFoundException e) {
                     // TODO: Pick another god maybe, a random default one?
                     // Else crash the lobby.
@@ -94,4 +122,6 @@ public class MatchController implements Runnable {
             }
         }
     }
+
+
 }
