@@ -11,13 +11,18 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class UI {
-    protected UICache cache;
-    protected Map<String, Color> colorMap;
+    private UICache cache;
+    private Map<String, Color> colorMap;
 
     public UI() {
         cache = new UICache();
         colorMap = new HashMap<>();
     }
+
+    protected UICache getCache() { return cache; }
+    protected Map<String, Color> { return colorMap; }
+
+    public abstract update();
 
     /**
      * @param newPlayer new player to be registered in the view
