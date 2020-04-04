@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP14.client;
 
+import it.polimi.ingsw.PSP14.client.view.UI;
+import it.polimi.ingsw.PSP14.client.view.UIFactory;
+
 import java.io.IOException;
 
 public class Client {
@@ -15,15 +18,15 @@ public class Client {
         }
 
         // starting user interface
-        ClientInterface ci;
+        UI ui;
         try {
-            ci = ClientInterfaceFactory.getClientInterface(settings.get("interface"));
+            ui = UIFactory.getUI(settings.get("interface"));
         } catch (InvalidSettingsException e) {
             System.out.println(settings.get("interface") + " is not a valid interface");
             e.printStackTrace();
             return;
         }
 
-        ci.welcome();
+        ui.welcome();
     }
 }
