@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.client.Match;
+package it.polimi.ingsw.PSP14.client.model;
 
 /**
  * Contains information about a god.

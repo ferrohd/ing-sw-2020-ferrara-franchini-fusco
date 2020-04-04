@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.client;
+package it.polimi.ingsw.PSP14.client.view;
 
 import it.polimi.ingsw.PSP14.core.Cell;
 

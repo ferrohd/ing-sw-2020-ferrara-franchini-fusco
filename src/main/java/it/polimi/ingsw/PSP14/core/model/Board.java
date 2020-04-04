@@ -21,8 +21,8 @@ public class Board {
      * @return the tower size of the selected cell
      * @throws IndexOutOfBoundsException if the coordinates do not correspond to any cell
      */
-    public int getTowerSize(int x, int y) {
-        return board[y][x].getTowerSize();
+    public int getTowerSize(Point pos) {
+        return board[pos.getY()][pos.getX()].getTowerSize();
     }
 
     /**
@@ -31,8 +31,8 @@ public class Board {
      * @throws TowerSizeException when you can't increase a tower size
      * @throws IndexOutOfBoundsException when the cell is outside the board
      */
-    public void incrementTowerSize(int x, int y) throws TowerSizeException {
-        board[y][x].incrementTowerSize();
+    public void incrementTowerSize(Point pos) throws TowerSizeException {
+        board[pos.getY()][pos.getX()].incrementTowerSize();
     }
 
     /**
@@ -40,8 +40,8 @@ public class Board {
      * @param y the y coordinate of the cell
      * @throws IndexOutOfBoundsException if the cell is outside the board
      */
-    public void setAsCompleted(int x, int y) {
-        board[y][x].setAsCompleted();
+    public void setAsCompleted(Point pos) {
+        board[pos.getY()][pos.getX()].setAsCompleted();
     }
 
     /**
@@ -50,7 +50,7 @@ public class Board {
      * @return whether the tower is complete
      * @throws IndexOutOfBoundsException if the cell is outside the board
      */
-    public boolean getIsCompleted(int x, int y) {
-        return board[y][x].getIsCompleted();
+    public boolean getIsCompleted(Point pos) {
+        return board[pos.getY()][pos.getX()].getIsCompleted();
     }
 }
