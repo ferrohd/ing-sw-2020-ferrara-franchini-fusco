@@ -1,13 +1,8 @@
 package it.polimi.ingsw.PSP14.client.view;
 
-import it.polimi.ingsw.PSP14.core.model.Cell;
-import it.polimi.ingsw.PSP14.core.Player;
 import it.polimi.ingsw.PSP14.core.model.Point;
 
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public abstract class UI {
@@ -20,15 +15,16 @@ public abstract class UI {
     }
 
     protected UICache getCache() { return cache; }
-    protected Map<String, Color> { return colorMap; }
+    protected Map<String, Color> getColorMap() { return colorMap; }
 
-    public abstract update();
+    public abstract void update();
+    abstract Color getColor();
 
     /**
      * @param newPlayer new player to be registered in the view
      */
     public void registerPlayer(String newPlayer) {
-        colorMap.put(newPlayer, new Color(0, 0, 0));
+        colorMap.put(newPlayer, getColor());
     }
 
     /**
@@ -39,32 +35,32 @@ public abstract class UI {
     }
 
     public void drawWorkerSet(Point pos, String player) {
-        cache.setWorker(pos, player);
+        cache.getBlock(pos).setWorker(player);
     }
 
     public void drawWorkerUnset(Point pos) {
-        cache.unsetWorker(pos);
+        cache.getBlock(pos).unsetWorker();
     }
 
     public void drawWorkerMove(Point oldPos, Point newPos) {
-        String player = cache.getWorker(oldPos);
+        String player = cache.getBlock(oldPos).getWorker();
         drawWorkerUnset(oldPos);
         drawWorkerSet(newPos, player);
     }
 
     public void drawBlockAdd(Point pos) {
-        cache.incrementSize(pos);
+        cache.getBlock(pos).incrementSize();
     }
 
     public void drawBlockRemove(Point pos) {
-        cache.decrementSize(pos);
+        cache.getBlock(pos).decrementSize();
     }
 
     public void drawDomeAdd(Point pos) {
-        cache.setDome(pos);
+        cache.getBlock(pos).setDome();
     }
 
     public void drawDomeRemove(Point pos) {
-        cache.unsetDome(pos);
+        cache.getBlock(pos).unsetDome();
     }
 }
