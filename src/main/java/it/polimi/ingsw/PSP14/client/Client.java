@@ -27,6 +27,6 @@ public class Client {
             return;
         }
 
-        ui.welcome();
+        //ui.welcome();
     }
 }

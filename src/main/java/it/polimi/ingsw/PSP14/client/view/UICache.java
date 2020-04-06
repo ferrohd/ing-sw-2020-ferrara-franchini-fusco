@@ -6,32 +6,18 @@ import it.polimi.ingsw.PSP14.core.model.Point;
 public class UICache {
     private UIBlock[][] board;
 
-    public int getSize(Point pos) {
-        return board[pos.getY()][pos.getY()].getSize();
+    public UICache() {
+        board = new UIBlock[5][5];
+        for(int i = 0; i < 5; ++i) {
+            for(int j = 0; j < 5; ++j) {
+                board[i][j] = new UIBlock();
+            }
+        }
     }
 
-    public boolean getHasDome(Point pos) {
-        return board[pos.getY()][pos.getY()].getHasDome();
+    public UIBlock getBlock(Point pos) {
+        return board[pos.getY()][pos.getX()];
     }
-
-    public boolean hasWorker(Point pos) {
-        return board[pos.getY()][pos.getY()].hasWorker();
-    }
-
-    public String getWorker(Point pos) {
-        return board[pos.getY()][pos.getY()].getWorker();
-    }
-
-    public void setWorker(Point pos, String worker) { board[pos.getY()][pos.getY()].setWorker(worker); }
-
-    public void unsetWorker(Point pos) { board[pos.getY()][pos.getY()].unsetWorker(); }
-
-    public void incrementSize(Point pos) { board[pos.getY()][pos.getX()].incrementSize(); }
-
-    public void decrementSize(Point pos) { board[pos.getY()][pos.getX()].decrementSize(); }
-
-    public void setDome(Point pos) { board[pos.getY()][pos.getX()].setDome(); }
-    public void unsetDome(Point pos) { board[pos.getY()][pos.getX()].unsetDome(); }
 }
 
 class UIBlock {
