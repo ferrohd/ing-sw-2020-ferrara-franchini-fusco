@@ -82,4 +82,6 @@ buildNumber.properties
 out/
 
 # VSCode *wink wink*
+.classpath
+.project
 .settings/
