@@ -1,6 +1,5 @@
-package it.polimi.ingsw.PSP14.client.Match;
+package it.polimi.ingsw.PSP14.client.model;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

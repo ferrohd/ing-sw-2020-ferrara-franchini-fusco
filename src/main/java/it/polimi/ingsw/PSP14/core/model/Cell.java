@@ -4,8 +4,13 @@ package it.polimi.ingsw.PSP14.core.model;
  * Contains information about a single cell of the board.
  */
 public class Cell {
-    private int towerSize = 0;
-    private boolean isCompleted = false;
+    private int towerSize;
+    private boolean isCompleted;
+
+    public Cell() {
+        towerSize = 0;
+        isCompleted = false;
+    }
 
     /**
      * @return the current tower size.
