@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.core;
 
-import it.polimi.ingsw.PSP14.core.model.Action;
+import it.polimi.ingsw.PSP14.core.model.actions.*;
 import it.polimi.ingsw.PSP14.core.model.Board;
 
 import java.util.ArrayList;

@@ -80,3 +80,6 @@ buildNumber.properties
 
 # IntelliJ
 out/
+
+# VSCode *wink wink*
+.settings/

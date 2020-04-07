@@ -1,0 +1,8 @@
+<godlist>
+    <god>
+        <name>Apollo</name>
+        <alias>God of Music</alias>
+        <ability>Your move</ability>
+        <description>Your Worker may move into an opponent Worker' space by forcing their Worker to the space yours just vacated.</description>
+    </god>
+</godlist>

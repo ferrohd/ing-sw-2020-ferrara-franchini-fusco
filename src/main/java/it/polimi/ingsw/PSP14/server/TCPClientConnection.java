@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP14.server;
 
+import it.polimi.ingsw.PSP14.core.model.actions.Action;
+
 import java.net.Socket;
 
 /**
@@ -17,6 +19,24 @@ public class TCPClientConnection implements ClientConnection {
     }
 
     public void sendFatalError() {
+        //TODO
+    }
 
+    @Override
+    public String getPlayerUsername() {
+        //TODO: Implement function
+        // Use a cache, as username should not change
+        return "";
+    }
+
+    @Override
+    public void sendAction(Action action) {
+        //TODO
+    }
+
+    @Override
+    public Action receiveAction() {
+        //TODO
+        return null;
     }
 }
