@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.server;
 
-import it.polimi.ingsw.PSP14.core.controller.Match;
+import it.polimi.ingsw.PSP14.server.match.MatchController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,8 @@ public class GameFactory implements Runnable {
                     players.add(clientConnectionFactory.getClientConnection());
                 }
 
-                Thread newGame = new Thread(new Match(players));
+                // Starts a new game lobby/match with the players in the arrayList
+                Thread newGame = new Thread(new MatchController(players));
                 newGame.start();
             } catch(InterruptedException e) {
                 players.forEach(ClientConnection::sendFatalError);

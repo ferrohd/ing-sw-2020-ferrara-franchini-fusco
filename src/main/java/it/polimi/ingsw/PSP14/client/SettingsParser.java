@@ -23,8 +23,8 @@ public class SettingsParser {
     public SettingsParser(String filename) throws IOException {
         settingsMap = new HashMap<>();
         BufferedReader reader = new BufferedReader(new FileReader(filename));
-        String line = reader.readLine();
-        while(line != null) {
+        String line;
+        while((line = reader.readLine()) != null) {
             line = line.replace(" ", "");
             String[] tokens = line.split(":");
             settingsMap.put(tokens[0], tokens[1]);
@@ -35,7 +35,7 @@ public class SettingsParser {
      * @param key the name of the option
      * @return the value of the option as a string
      */
-    public String getSetting(String key) {
+    public String get(String key) {
         return settingsMap.get(key);
     }
 }

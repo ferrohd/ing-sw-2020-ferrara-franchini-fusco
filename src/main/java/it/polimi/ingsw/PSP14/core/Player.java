@@ -1,8 +1,12 @@
-package it.polimi.ingsw.PSP14.server.Match;
+package it.polimi.ingsw.PSP14.core;
 
 import it.polimi.ingsw.PSP14.core.model.Direction;
 import it.polimi.ingsw.PSP14.core.model.InvalidActionException;
 import it.polimi.ingsw.PSP14.core.model.Worker;
+import it.polimi.ingsw.PSP14.server.ClientConnection;
+
+import java.util.Random;
+import java.awt.Color;
 
 /**
  * Model for a player in the game.
@@ -11,17 +15,25 @@ public class Player {
     private String username;
     //private God god;
     private Worker[] workers = new Worker[2];
+    private Color color;
 
     /**
      * @param username username of the player to display in game
-     * @param maleWorker first worker
-     * @param femaleWorker second worker
      */
-    Player(String username /*, God god */, Worker maleWorker, Worker femaleWorker) {
+    Player(String username) {
         this.username = username;
         // this.god = god;
         workers[0] = maleWorker;
         workers[1] = femaleWorker;
+        setPlayerColor();
+    }
+
+    /**
+     *  Set the player color to a random one
+     */
+    private void setPlayerColor() {
+        Random ran = new Random();
+        color = new Color(ran.nextFloat(), ran.nextFloat(), ran.nextFloat());
     }
 
     /**
@@ -40,6 +52,11 @@ public class Player {
     public String getUsername() {
         return username;
     }
+
+    /**
+     * @return the color
+     */
+    public Color getColor() { return color;}
 
     /* public God getGod() {
         return god;
