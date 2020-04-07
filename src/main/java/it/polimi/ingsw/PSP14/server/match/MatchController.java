@@ -134,25 +134,44 @@ public class MatchController implements Runnable {
      * @throws PlayerNotFoundException if the player given is not playing
      */
     public ArrayList<Point> getMovements(String player, int worker) throws PlayerNotFoundException {
-        ArrayList<Point> toRet = new ArrayList<>();
+        ArrayList<Point> legalPositions = new ArrayList<>();
         ArrayList<Player> players = match.getPlayers();
 
-        ArrayList<Point> workerPositions = new ArrayList<>();
-        for(Player p : match.getPlayers())
-            for(int i = 0; i < 2; ++i)
-                workerPositions.add(p.getWorker(i).getPos());
+        ArrayList<Point> workerPositions = match.getWorkerPositions();
 
         Point currentPos = match.getPlayerByUsername(player).getWorker(worker).getPos();
-        int currentLevel = match.getBoard().getTowerSize(currentPos);
+        int currentLevel = match.getBoard().getCell(currentPos).getTowerSize();
         for(Direction dir: Direction.values()) {
             Point toCheckPos = currentPos.move(dir);
-            int toCheckLevel = match.getBoard().getTowerSize(toCheckPos);
+            int toCheckLevel = match.getBoard().getCell(toCheckPos).getTowerSize();
             if(!workerPositions.contains(toCheckPos) &&
                     toCheckLevel <= currentLevel+1 &&
-                    !match.getBoard().getIsCompleted(toCheckPos))
-                toRet.add(toCheckPos);
+                    !match.getBoard().getCell(toCheckPos).getIsCompleted())
+                legalPositions.add(toCheckPos);
         }
 
-        return toRet;
+        return legalPositions;
+    }
+
+    /**
+     * @param player player who builds
+     * @param worker index of worker who builds
+     * @return an array of Points where building is possible (including dome-building)
+     * @throws PlayerNotFoundException if the player given is not playing
+     */
+    public ArrayList<Point> getBuildable(String player, int worker) throws PlayerNotFoundException {
+        ArrayList<Point> buildablePositions = new ArrayList<>();
+        ArrayList<Player> players = match.getPlayers();
+
+        ArrayList<Point> workerPositions = match.getWorkerPositions();
+
+        Point currentPos = match.getPlayerByUsername(player).getWorker(worker).getPos();
+        for(Direction dir: Direction.values()) {
+            Point toCheckPos = currentPos.move(dir);
+            if(!workerPositions.contains(toCheckPos) && !match.getBoard().getCell(toCheckPos).getIsCompleted())
+                buildablePositions.add(toCheckPos);
+        }
+
+        return buildablePositions;
     }
 }
