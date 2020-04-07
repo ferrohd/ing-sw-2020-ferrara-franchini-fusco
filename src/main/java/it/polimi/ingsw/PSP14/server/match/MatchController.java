@@ -1,8 +1,12 @@
 package it.polimi.ingsw.PSP14.server.match;
 
+import it.polimi.ingsw.PSP14.core.Player;
 import it.polimi.ingsw.PSP14.core.controller.gods.GodController;
 import it.polimi.ingsw.PSP14.core.controller.gods.GodControllerFactory;
+import it.polimi.ingsw.PSP14.core.model.Direction;
 import it.polimi.ingsw.PSP14.core.model.GodNotFoundException;
+import it.polimi.ingsw.PSP14.core.model.PlayerNotFoundException;
+import it.polimi.ingsw.PSP14.core.model.Point;
 import it.polimi.ingsw.PSP14.server.ClientConnection;
 import it.polimi.ingsw.PSP14.server.GodfileParser;
 import it.polimi.ingsw.PSP14.core.model.actions.*;
@@ -123,5 +127,30 @@ public class MatchController implements Runnable {
         }
     }
 
+    /**
+     * @param player player to move
+     * @param worker index of worker to move
+     * @return an array of Points to move to
+     * @throws PlayerNotFoundException if the player given is not playing
+     */
+    public ArrayList<Point> getMovements(String player, int worker) throws PlayerNotFoundException {
+        ArrayList<Point> toRet = new ArrayList<>();
+        ArrayList<Player> players = match.getPlayers();
 
+        ArrayList<Point> workerPositions = new ArrayList<>();
+        for(Player p : match.getPlayers())
+            for(int i = 0; i < 2; ++i)
+                workerPositions.add(p.getWorker(i).getPos());
+
+        Point currentPos = match.getPlayerByUsername(player).getWorker(worker).getPos();
+        int currentLevel = match.getBoard().getTowerSize(currentPos);
+        for(Direction dir: Direction.values()) {
+            Point toCheckPos = new Point(currentPos.getX() + dir.getXOffset(), currentPos.getY() + dir.getYOffset());
+            int toCheckLevel = match.getBoard().getTowerSize(toCheckPos);
+            if(!workerPositions.contains(toCheckPos) && toCheckLevel <= currentLevel+1)
+                toRet.add(toCheckPos);
+        }
+
+        return toRet;
+    }
 }

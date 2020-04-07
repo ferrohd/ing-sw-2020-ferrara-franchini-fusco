@@ -53,4 +53,12 @@ public class MatchModel {
             throw new PlayerNotFoundException();
         else return player;
     }
+
+    public ArrayList<Player> getPlayers() {
+        return new ArrayList<Player>(players.values());
+    }
+
+    public Board getBoard() {
+        return board;
+    }
 }

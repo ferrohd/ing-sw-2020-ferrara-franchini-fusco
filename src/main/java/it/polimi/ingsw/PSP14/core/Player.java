@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP14.core;
 
 import it.polimi.ingsw.PSP14.core.model.Direction;
 import it.polimi.ingsw.PSP14.core.model.InvalidActionException;
+import it.polimi.ingsw.PSP14.core.model.Point;
 import it.polimi.ingsw.PSP14.core.model.Worker;
 import it.polimi.ingsw.PSP14.server.ClientConnection;
 
@@ -44,6 +45,10 @@ public class Player {
      */
     public void moveWorker(int index, Direction dir) throws InvalidActionException, IndexOutOfBoundsException {
         workers[index].move(dir);
+    }
+
+    public Worker getWorker(int index) {
+        return workers[index];
     }
 
     /**
