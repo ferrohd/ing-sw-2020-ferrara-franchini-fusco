@@ -145,9 +145,11 @@ public class MatchController implements Runnable {
         Point currentPos = match.getPlayerByUsername(player).getWorker(worker).getPos();
         int currentLevel = match.getBoard().getTowerSize(currentPos);
         for(Direction dir: Direction.values()) {
-            Point toCheckPos = new Point(currentPos.getX() + dir.getXOffset(), currentPos.getY() + dir.getYOffset());
+            Point toCheckPos = currentPos.move(dir);
             int toCheckLevel = match.getBoard().getTowerSize(toCheckPos);
-            if(!workerPositions.contains(toCheckPos) && toCheckLevel <= currentLevel+1 )
+            if(!workerPositions.contains(toCheckPos) &&
+                    toCheckLevel <= currentLevel+1 &&
+                    !match.getBoard().getIsCompleted(toCheckPos))
                 toRet.add(toCheckPos);
         }
 
