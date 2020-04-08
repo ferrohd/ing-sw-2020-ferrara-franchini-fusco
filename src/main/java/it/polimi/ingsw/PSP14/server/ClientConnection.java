@@ -2,7 +2,9 @@ package it.polimi.ingsw.PSP14.server;
 
 import it.polimi.ingsw.PSP14.core.model.actions.Action;
 
-import java.util.concurrent.TimeoutException;
+import java.io.IOException;
+
+import it.polimi.ingsw.PSP14.core.Message;
 
 /**
  * Generic connection to a client.
@@ -11,6 +13,16 @@ import java.util.concurrent.TimeoutException;
 public interface ClientConnection {
     int requestGameOptions();
     void sendFatalError();
+
+    /**
+     * Serialize and send a message to the client.
+     */
+    void sendMessage(Message message) throws IOException;
+
+    /**
+     * Receive a message from the client.
+     */
+    Message receiveMessage() throws IOException;
 
     /**
      * A request to the client to provide the name that the player has chosen.
@@ -22,11 +34,11 @@ public interface ClientConnection {
      * Send an Action that will be serialized to the client.
      * @param action the action you want to send
      */
-    void sendAction(Action action);
+    void sendAction(Action action) throws IOException;
 
     /**
      * Receive an Action that will be deserialized from the client.
      * @param action the action
      */
-    Action receiveAction();
+    Action receiveAction() throws IOException;
 }
