@@ -53,4 +53,8 @@ public class Board {
     public boolean getIsCompleted(Point pos) {
         return board[pos.getY()][pos.getX()].getIsCompleted();
     }
+
+    public Cell getCell(Point pos) {
+        return board[pos.getY()][pos.getX()];
+    }
 }

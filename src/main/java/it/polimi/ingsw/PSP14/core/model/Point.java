@@ -32,16 +32,15 @@ public class Point {
     public boolean equals(Point point) {
         return this.x == point.x && this.y == point.y;
     }
-//    public void setX(int x) {
-//        this.x = x;
-//    }
-//
-//    public void setY(int y) {
-//        this.y = y;
-//    }
-//
-//    public void set(int x, int y) {
-//        setX(x);
-//        setY(y);
-//    }
+
+    public Point move(Direction dir) {
+        return new Point(
+                x + dir.getXOffset(),
+                y + dir.getYOffset()
+        );
+    }
+
+    public int distance(Point p) {
+        return Math.abs(x - p.x) + Math.abs(y - p.y);
+    }
 }

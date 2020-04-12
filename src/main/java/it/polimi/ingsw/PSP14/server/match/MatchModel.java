@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP14.server.match;
 
 import it.polimi.ingsw.PSP14.core.model.PlayerNotFoundException;
+import it.polimi.ingsw.PSP14.core.model.Point;
 import it.polimi.ingsw.PSP14.core.model.actions.Action;
 import it.polimi.ingsw.PSP14.core.Player;
 import it.polimi.ingsw.PSP14.core.model.Board;
@@ -52,5 +53,22 @@ public class MatchModel {
         if (player == null)
             throw new PlayerNotFoundException();
         else return player;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return new ArrayList<Player>(players.values());
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public ArrayList<Point> getWorkerPositions() {
+        ArrayList<Point> workerPositions = new ArrayList<>();
+        for(Player p : getPlayers())
+            for(int i = 0; i < 2; ++i)
+                workerPositions.add(p.getWorker(i).getPos());
+
+        return workerPositions;
     }
 }
