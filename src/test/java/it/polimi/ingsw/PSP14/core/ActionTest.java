@@ -10,6 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ActionTest {
 
     class MyAction extends Action {
+        private static final long serialVersionUID = 1L;
+
         public MyAction() {
             super();
         }

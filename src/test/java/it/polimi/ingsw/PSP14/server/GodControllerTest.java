@@ -1,16 +1,13 @@
 package it.polimi.ingsw.PSP14.server;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
+
 import it.polimi.ingsw.PSP14.core.controller.gods.GodController;
 import it.polimi.ingsw.PSP14.core.controller.gods.GodControllerFactory;
 import it.polimi.ingsw.PSP14.core.model.GodNotFoundException;
-import it.polimi.ingsw.PSP14.core.model.PlayerNotFoundException;
-import it.polimi.ingsw.PSP14.server.match.MatchModel;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class GodControllerTest {
 

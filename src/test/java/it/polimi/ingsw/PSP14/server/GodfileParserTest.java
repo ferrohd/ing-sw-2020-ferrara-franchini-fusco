@@ -1,14 +1,14 @@
 package it.polimi.ingsw.PSP14.server;
 
-import org.junit.jupiter.api.*;
-import org.xml.sax.SAXException;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import org.xml.sax.SAXException;
 
 public class GodfileParserTest {
     @Test
@@ -24,14 +24,14 @@ public class GodfileParserTest {
     @Test
     void shouldFailParse() {
         assertThrows(FileNotFoundException.class, () -> {
-            ArrayList<String> test = GodfileParser.getGodIdList("src/test/resources/godlist_invalid_2_electric_boogaloo.xml");
+            GodfileParser.getGodIdList("src/test/resources/godlist_invalid_2_electric_boogaloo.xml");
         });
     }
 
     @Test
     void shouldFailParse2() {
         assertThrows(SAXException.class, () -> {
-            ArrayList<String> test = GodfileParser.getGodIdList("src/test/resources/godlist_invalid_1.xml");
+            GodfileParser.getGodIdList("src/test/resources/godlist_invalid_1.xml");
         });
     }
 }

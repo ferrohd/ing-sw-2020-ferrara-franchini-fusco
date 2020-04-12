@@ -1,13 +1,11 @@
 package it.polimi.ingsw.PSP14.core;
 
+import java.awt.Color;
+import java.util.Random;
+
 import it.polimi.ingsw.PSP14.core.model.Direction;
 import it.polimi.ingsw.PSP14.core.model.InvalidActionException;
-import it.polimi.ingsw.PSP14.core.model.Point;
 import it.polimi.ingsw.PSP14.core.model.Worker;
-import it.polimi.ingsw.PSP14.server.ClientConnection;
-
-import java.util.Random;
-import java.awt.Color;
 
 /**
  * Model for a player in the game.
@@ -21,11 +19,11 @@ public class Player {
     /**
      * @param username username of the player to display in game
      */
-    Player(String username) {
+    public Player(String username) {
         this.username = username;
         // this.god = god;
-        workers[0] = maleWorker;
-        workers[1] = femaleWorker;
+        // workers[0] = maleWorker;
+        // workers[1] = femaleWorker;
         setPlayerColor();
     }
 

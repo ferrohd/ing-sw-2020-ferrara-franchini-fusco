@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.server.match;
+package it.polimi.ingsw.PSP14.server;
 
 import it.polimi.ingsw.PSP14.core.model.PlayerNotFoundException;
 import it.polimi.ingsw.PSP14.core.model.Point;

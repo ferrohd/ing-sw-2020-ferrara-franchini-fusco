@@ -1,10 +1,5 @@
 package it.polimi.ingsw.PSP14.core;
 
-import it.polimi.ingsw.PSP14.core.model.Board;
-import it.polimi.ingsw.PSP14.core.model.TowerSizeException;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 /*
 public class BoardTest {
 
