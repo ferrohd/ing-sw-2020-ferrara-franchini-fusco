@@ -1,10 +1,10 @@
 package it.polimi.ingsw.PSP14.server;
 
-import it.polimi.ingsw.PSP14.core.model.PlayerNotFoundException;
-import it.polimi.ingsw.PSP14.core.model.Point;
-import it.polimi.ingsw.PSP14.core.model.actions.Action;
+import it.polimi.ingsw.PSP14.core.PlayerNotFoundException;
+import it.polimi.ingsw.PSP14.core.Point;
+import it.polimi.ingsw.PSP14.core.actions.Action;
 import it.polimi.ingsw.PSP14.core.Player;
-import it.polimi.ingsw.PSP14.core.model.Board;
+import it.polimi.ingsw.PSP14.core.Board;
 
 import java.util.*;
 

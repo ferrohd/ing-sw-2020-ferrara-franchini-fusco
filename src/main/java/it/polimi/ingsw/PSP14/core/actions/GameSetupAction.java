@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.core.model.actions;
+package it.polimi.ingsw.PSP14.core.actions;
 
 public class GameSetupAction extends Action {
     // DO NOT TOUCH!

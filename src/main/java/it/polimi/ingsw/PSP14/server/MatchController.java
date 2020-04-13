@@ -1,13 +1,13 @@
 package it.polimi.ingsw.PSP14.server;
 
 import it.polimi.ingsw.PSP14.core.Player;
-import it.polimi.ingsw.PSP14.core.controller.gods.GodController;
-import it.polimi.ingsw.PSP14.core.controller.gods.GodControllerFactory;
-import it.polimi.ingsw.PSP14.core.model.Direction;
-import it.polimi.ingsw.PSP14.core.model.GodNotFoundException;
-import it.polimi.ingsw.PSP14.core.model.PlayerNotFoundException;
-import it.polimi.ingsw.PSP14.core.model.Point;
-import it.polimi.ingsw.PSP14.core.model.actions.*;
+import it.polimi.ingsw.PSP14.core.gods.GodController;
+import it.polimi.ingsw.PSP14.core.gods.GodControllerFactory;
+import it.polimi.ingsw.PSP14.core.Direction;
+import it.polimi.ingsw.PSP14.core.GodNotFoundException;
+import it.polimi.ingsw.PSP14.core.PlayerNotFoundException;
+import it.polimi.ingsw.PSP14.core.Point;
+import it.polimi.ingsw.PSP14.core.actions.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;

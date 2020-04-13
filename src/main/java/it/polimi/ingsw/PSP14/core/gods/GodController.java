@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.core.controller.gods;
+package it.polimi.ingsw.PSP14.core.gods;
 
 public abstract class GodController {
     /**

@@ -1,7 +1,15 @@
-package it.polimi.ingsw.PSP14.core.model;
+package it.polimi.ingsw.PSP14.core;
 
 /**
  * Defines the eight main cardinal directions.
+ * N  (x+0, y+1) <br>
+ * NE (x+1, y+1) <br>
+ * NW (x-1, y+1) <br>
+ * W  (x-1, y+0) <br>
+ * E  (x+1, y+0) <br>
+ * S  (x+0, y-1) <br>
+ * SE (x+1, y+1) <br>
+ * SW (x-1, y-1)
  */
 public enum Direction {
     NW(-1, 1),
