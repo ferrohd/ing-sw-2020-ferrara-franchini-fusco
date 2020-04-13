@@ -1,15 +1,13 @@
-package it.polimi.ingsw.PSP14.server.match;
+package it.polimi.ingsw.PSP14.server;
 
 import it.polimi.ingsw.PSP14.core.Player;
-import it.polimi.ingsw.PSP14.core.controller.gods.GodController;
-import it.polimi.ingsw.PSP14.core.controller.gods.GodControllerFactory;
-import it.polimi.ingsw.PSP14.core.model.Direction;
-import it.polimi.ingsw.PSP14.core.model.GodNotFoundException;
-import it.polimi.ingsw.PSP14.core.model.PlayerNotFoundException;
-import it.polimi.ingsw.PSP14.core.model.Point;
-import it.polimi.ingsw.PSP14.server.ClientConnection;
-import it.polimi.ingsw.PSP14.server.GodfileParser;
-import it.polimi.ingsw.PSP14.core.model.actions.*;
+import it.polimi.ingsw.PSP14.core.gods.GodController;
+import it.polimi.ingsw.PSP14.core.gods.GodControllerFactory;
+import it.polimi.ingsw.PSP14.core.Direction;
+import it.polimi.ingsw.PSP14.core.GodNotFoundException;
+import it.polimi.ingsw.PSP14.core.PlayerNotFoundException;
+import it.polimi.ingsw.PSP14.core.Point;
+import it.polimi.ingsw.PSP14.core.actions.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -72,11 +70,15 @@ public class MatchController implements Runnable {
 
         /*================ 1.1 PLAYERS PICK GODS ==================*/
         if (availableGods != null) {
-            // First player chooses the gods for the other players
-            firstPlayerSelectsGods(availableGods, selectedGods);
+            try {
+                // First player chooses the gods for the other players
+                firstPlayerSelectsGods(availableGods, selectedGods);
 
-            playersPickOwnGod(selectedGods, players);
-            // At this point each player should have a unique binding with a god controller.
+                playersPickOwnGod(selectedGods, players);
+                // At this point each player should have a unique binding with a god controller.
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } // else play a game without gods, or with hardcoded ones?
 
         /*================ 1.2 PLAYER DECIDES WHO GOES FIRST ==================*/
@@ -92,7 +94,8 @@ public class MatchController implements Runnable {
      * Receive each gods Player1 selects and add them to a list.
      * @param availableGods list of the names of the available gods.
      */
-    private void firstPlayerSelectsGods(List<String> availableGods, List<String> selectedGods) {
+    private void firstPlayerSelectsGods(List<String> availableGods, List<String> selectedGods)
+    throws IOException {
         // Get the first player who has to choose the gods for the other players.
         ClientConnection firstPlayer = clients.get(players.get(0));
 
@@ -111,7 +114,8 @@ public class MatchController implements Runnable {
      * Each player select a god starting from any but the first one.
      */
     public void playersPickOwnGod(List<String> selectedGods,
-                                  List<String> players) {
+                                  List<String> players)
+                                  throws IOException {
         for (int i = players.size() - 1; i >= 0; i--) {
             ClientConnection player = clients.get(players.get(i));
             PickGodAction res = (PickGodAction) player.receiveAction();

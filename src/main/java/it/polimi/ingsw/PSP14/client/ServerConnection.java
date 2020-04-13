@@ -3,7 +3,7 @@ package it.polimi.ingsw.PSP14.client;
 import java.io.IOException;
 
 import it.polimi.ingsw.PSP14.core.Message;
-import it.polimi.ingsw.PSP14.core.model.actions.*;
+import it.polimi.ingsw.PSP14.core.actions.*;
 
 /**
  * ServerConnection implemented using TCP sockets.

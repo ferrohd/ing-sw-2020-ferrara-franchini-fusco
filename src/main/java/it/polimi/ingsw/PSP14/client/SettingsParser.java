@@ -29,6 +29,7 @@ public class SettingsParser {
             String[] tokens = line.split(":");
             settingsMap.put(tokens[0], tokens[1]);
         }
+        reader.close();
     }
 
     /**

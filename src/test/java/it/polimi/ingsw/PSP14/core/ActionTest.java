@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.core;
 
-import it.polimi.ingsw.PSP14.core.model.actions.*;
+import it.polimi.ingsw.PSP14.core.actions.*;
 import org.junit.jupiter.api.Test;
 import java.time.Instant;
 
@@ -10,6 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ActionTest {
 
     class MyAction extends Action {
+        private static final long serialVersionUID = 1L;
+
         public MyAction() {
             super();
         }

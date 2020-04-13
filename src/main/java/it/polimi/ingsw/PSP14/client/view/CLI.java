@@ -1,10 +1,8 @@
 package it.polimi.ingsw.PSP14.client.view;
 
-import it.polimi.ingsw.PSP14.core.model.Point;
-
-import java.util.Formatter;
-import java.util.List;
 import java.util.Random;
+
+import it.polimi.ingsw.PSP14.core.Point;
 
 public class CLI extends UI {
     private static final String CELL_S = "%d%s",

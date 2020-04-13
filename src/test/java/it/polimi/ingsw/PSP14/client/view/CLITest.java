@@ -1,10 +1,8 @@
 package it.polimi.ingsw.PSP14.client.view;
 
 import it.polimi.ingsw.PSP14.client.InvalidSettingsException;
-import it.polimi.ingsw.PSP14.core.model.Point;
+import it.polimi.ingsw.PSP14.core.Point;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CLITest {
 

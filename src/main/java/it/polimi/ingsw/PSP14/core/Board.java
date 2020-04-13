@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.core.model;
+package it.polimi.ingsw.PSP14.core;
 
 /**
  * A board for the game.
