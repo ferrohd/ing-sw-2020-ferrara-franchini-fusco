@@ -1,12 +1,9 @@
 package it.polimi.ingsw.PSP14.server;
 
-import it.polimi.ingsw.PSP14.core.Player;
+import it.polimi.ingsw.PSP14.core.Match;
 import it.polimi.ingsw.PSP14.core.gods.GodController;
 import it.polimi.ingsw.PSP14.core.gods.GodControllerFactory;
-import it.polimi.ingsw.PSP14.core.Direction;
 import it.polimi.ingsw.PSP14.core.GodNotFoundException;
-import it.polimi.ingsw.PSP14.core.PlayerNotFoundException;
-import it.polimi.ingsw.PSP14.core.Point;
 import it.polimi.ingsw.PSP14.core.actions.*;
 import org.xml.sax.SAXException;
 
@@ -25,7 +22,7 @@ public class MatchController implements Runnable {
     // PlayerUsername <--> GodController
     private Map<String, GodController> gods = new HashMap<>();
     // Contains data about players, board...
-    private MatchModel match;
+    private Match match;
 
     /**
      * Constructor of MatchController.
@@ -41,7 +38,7 @@ public class MatchController implements Runnable {
         });
 
         // Bind Model
-        match = new MatchModel(clients.keySet());
+        match = new Match(clients.keySet());
     }
 
     /**
@@ -129,53 +126,5 @@ public class MatchController implements Runnable {
                 }
             }
         }
-    }
-
-    /**
-     * @param player player to move
-     * @param worker index of worker to move
-     * @return an array of Points to move to
-     * @throws PlayerNotFoundException if the player given is not playing
-     */
-    public ArrayList<Point> getMovements(String player, int worker) throws PlayerNotFoundException {
-        ArrayList<Point> legalPositions = new ArrayList<>();
-        ArrayList<Player> players = match.getPlayers();
-
-        ArrayList<Point> workerPositions = match.getWorkerPositions();
-
-        Point currentPos = match.getPlayerByUsername(player).getWorker(worker).getPos();
-        int currentLevel = match.getBoard().getCell(currentPos).getTowerSize();
-        for(Direction dir: Direction.values()) {
-            Point toCheckPos = currentPos.move(dir);
-            int toCheckLevel = match.getBoard().getCell(toCheckPos).getTowerSize();
-            if(!workerPositions.contains(toCheckPos) &&
-                    toCheckLevel <= currentLevel+1 &&
-                    !match.getBoard().getCell(toCheckPos).getIsCompleted())
-                legalPositions.add(toCheckPos);
-        }
-
-        return legalPositions;
-    }
-
-    /**
-     * @param player player who builds
-     * @param worker index of worker who builds
-     * @return an array of Points where building is possible (including dome-building)
-     * @throws PlayerNotFoundException if the player given is not playing
-     */
-    public ArrayList<Point> getBuildable(String player, int worker) throws PlayerNotFoundException {
-        ArrayList<Point> buildablePositions = new ArrayList<>();
-        ArrayList<Player> players = match.getPlayers();
-
-        ArrayList<Point> workerPositions = match.getWorkerPositions();
-
-        Point currentPos = match.getPlayerByUsername(player).getWorker(worker).getPos();
-        for(Direction dir: Direction.values()) {
-            Point toCheckPos = currentPos.move(dir);
-            if(!workerPositions.contains(toCheckPos) && !match.getBoard().getCell(toCheckPos).getIsCompleted())
-                buildablePositions.add(toCheckPos);
-        }
-
-        return buildablePositions;
     }
 }
