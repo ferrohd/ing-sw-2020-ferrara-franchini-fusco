@@ -1,10 +1,9 @@
-package it.polimi.ingsw.PSP14.server;
+package it.polimi.ingsw.PSP14.server.controller;
 
 import it.polimi.ingsw.PSP14.core.actions.Action;
+import it.polimi.ingsw.PSP14.server.model.Message;
 
 import java.io.IOException;
-
-import it.polimi.ingsw.PSP14.core.Message;
 
 /**
  * Generic connection to a client.

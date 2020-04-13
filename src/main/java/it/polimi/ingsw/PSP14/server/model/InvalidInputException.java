@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.core;
+package it.polimi.ingsw.PSP14.server.model;
 
 /**
  * Exception for generic invalid move.

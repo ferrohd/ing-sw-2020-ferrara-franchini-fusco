@@ -8,9 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.polimi.ingsw.PSP14.core.Board;
-import it.polimi.ingsw.PSP14.core.Point;
-import it.polimi.ingsw.PSP14.core.TowerSizeException;
+import it.polimi.ingsw.PSP14.server.model.Board;
+import it.polimi.ingsw.PSP14.server.model.Point;
+import it.polimi.ingsw.PSP14.server.model.TowerSizeException;
 
 public class BoardTest {
 

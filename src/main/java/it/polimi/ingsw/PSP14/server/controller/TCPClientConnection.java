@@ -1,7 +1,7 @@
-package it.polimi.ingsw.PSP14.server;
+package it.polimi.ingsw.PSP14.server.controller;
 
-import it.polimi.ingsw.PSP14.core.Message;
 import it.polimi.ingsw.PSP14.core.actions.Action;
+import it.polimi.ingsw.PSP14.server.model.Message;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

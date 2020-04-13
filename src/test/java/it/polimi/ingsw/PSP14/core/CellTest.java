@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.core;
 
-import it.polimi.ingsw.PSP14.core.Cell;
-import it.polimi.ingsw.PSP14.core.TowerSizeException;
+import it.polimi.ingsw.PSP14.server.model.Cell;
+import it.polimi.ingsw.PSP14.server.model.TowerSizeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

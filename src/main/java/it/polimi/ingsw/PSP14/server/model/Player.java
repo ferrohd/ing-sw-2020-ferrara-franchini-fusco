@@ -1,19 +1,16 @@
-package it.polimi.ingsw.PSP14.core;
+package it.polimi.ingsw.PSP14.server.model;
 
 import java.awt.Color;
 import java.util.Random;
 
-import it.polimi.ingsw.PSP14.core.Direction;
-import it.polimi.ingsw.PSP14.core.InvalidActionException;
-import it.polimi.ingsw.PSP14.core.InvalidInputException;
-import it.polimi.ingsw.PSP14.core.Worker;
+import it.polimi.ingsw.PSP14.server.model.gods.God;
 
 /**
  * Model for a player in the game.
  */
 public class Player {
     private String username;
-    //private God god;
+    private God god;
     private Worker[] workers = new Worker[2];
     private Color color;
 
@@ -21,11 +18,9 @@ public class Player {
      * @param username username of the player to display in game
      * @throws InvalidInputException if the input is invalid
      */
-    public Player(String username) throws InvalidInputException {
-        if (username.equals("") || username == null)
-            throw new InvalidInputException("The username isn't acceptable.");
+    public Player(String username, God god) {
         this.username = username;
-        // this.god = god;
+        this.god = god;
         // workers[0] = maleWorker;
         // workers[1] = femaleWorker;
         setPlayerColor();
@@ -65,7 +60,7 @@ public class Player {
      */
     public Color getColor() { return color;}
 
-    /* public God getGod() {
+    public God getGod() {
         return god;
-    } */
+    }
 }
