@@ -20,7 +20,7 @@ public class Match {
      * the order of setup doesn't matter.
      * @param usernames a Set of each player's username
      */
-    public Match(Set<String> usernames) throws InvalidInputException {
+    public Match(Set<String> usernames) {
         // Init players
         for (String username : usernames) {
             players.put(username, new Player(username));

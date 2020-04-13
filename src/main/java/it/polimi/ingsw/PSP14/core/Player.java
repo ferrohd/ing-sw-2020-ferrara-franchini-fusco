@@ -21,9 +21,7 @@ public class Player {
      * @param username username of the player to display in game
      * @throws InvalidInputException if the input is invalid
      */
-    public Player(String username) throws InvalidInputException {
-        if (username.equals("") || username == null)
-            throw new InvalidInputException("The username isn't acceptable.");
+    public Player(String username) {
         this.username = username;
         // this.god = god;
         // workers[0] = maleWorker;
