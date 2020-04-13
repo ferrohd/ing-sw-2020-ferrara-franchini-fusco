@@ -5,16 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import it.polimi.ingsw.PSP14.core.gods.GodController;
+import it.polimi.ingsw.PSP14.core.gods.God;
 import it.polimi.ingsw.PSP14.core.gods.GodControllerFactory;
 import it.polimi.ingsw.PSP14.core.GodNotFoundException;
 
-public class GodControllerTest {
+public class GodTest {
 
     @Test
     void factoryShouldNotThrow() {
         assertDoesNotThrow(() -> {
-            GodController testGod = GodControllerFactory.getController("Apollo");
+            God testGod = GodControllerFactory.getController("Apollo");
             testGod.onMovePhase(); // Overridden
             testGod.onBuildPhase(); // Not overridden
         });

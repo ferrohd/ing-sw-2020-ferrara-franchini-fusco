@@ -1,6 +1,10 @@
 package it.polimi.ingsw.PSP14.core.gods;
 
-public class Apollo extends GodController {
+import it.polimi.ingsw.PSP14.core.*;
+
+import java.util.ArrayList;
+
+public class Apollo extends God {
 
     private static Apollo ref = new Apollo();
 
@@ -14,8 +18,20 @@ public class Apollo extends GodController {
     }
 
     @Override
-    public void onMovePhase() {
-        /* Your Worker may move into an opponent Worker' space
-        by forcing their Worker to the space yours just vacated. */
+    public void addMoves(ArrayList<Point> moves, Player player, Worker worker, Match match) {
+        ArrayList<Point> workerPos = match.getWorkerPositions();
+        workerPos.remove(player.getWorker(0).getPos());
+        workerPos.remove(player.getWorker(1).getPos());
+
+        Point currPos = worker.getPos();
+        int currentLevel = match.getBoard().getCell(currPos).getTowerSize();
+
+        for(Direction dir: Direction.values()) {
+            Point newPos = currPos.move(dir);
+            int newLevel = match.getBoard().getCell(newPos).getTowerSize();
+            if(workerPos.contains(newPos) && newLevel <= currentLevel+1 &&
+                    !match.getBoard().getCell(newPos).getIsCompleted())
+                moves.add(newPos);
+        }
     }
 }

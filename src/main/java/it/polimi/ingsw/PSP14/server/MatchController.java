@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.server;
 
 import it.polimi.ingsw.PSP14.core.Match;
-import it.polimi.ingsw.PSP14.core.gods.GodController;
+import it.polimi.ingsw.PSP14.core.gods.God;
 import it.polimi.ingsw.PSP14.core.gods.GodControllerFactory;
 import it.polimi.ingsw.PSP14.core.GodNotFoundException;
 import it.polimi.ingsw.PSP14.core.actions.*;
@@ -20,7 +20,7 @@ public class MatchController implements Runnable {
     // PlayerUsername <-> ClientConnection
     private Map<String, ClientConnection> clients = new HashMap<>();
     // PlayerUsername <--> GodController
-    private Map<String, GodController> gods = new HashMap<>();
+    private Map<String, God> gods = new HashMap<>();
     // Contains data about players, board...
     private Match match;
 

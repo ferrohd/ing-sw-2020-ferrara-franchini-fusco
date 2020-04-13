@@ -56,7 +56,7 @@ public class Match {
         return board;
     }
 
-    private ArrayList<Point> getWorkerPositions() {
+    public ArrayList<Point> getWorkerPositions() {
         ArrayList<Point> workerPositions = new ArrayList<>();
         for(Player p : players.values())
             for(int i = 0; i < 2; ++i)
@@ -75,8 +75,9 @@ public class Match {
         ArrayList<Point> legalPositions = new ArrayList<>();
 
         ArrayList<Point> workerPositions = getWorkerPositions();
+        Player currPlayer = getPlayerByUsername(player);
 
-        Point currentPos = getPlayerByUsername(player).getWorker(worker).getPos();
+        Point currentPos = currPlayer.getWorker(worker).getPos();
         int currentLevel = board.getCell(currentPos).getTowerSize();
         for(Direction dir: Direction.values()) {
             Point toCheckPos = currentPos.move(dir);
@@ -86,6 +87,9 @@ public class Match {
                     !board.getCell(toCheckPos).getIsCompleted())
                 legalPositions.add(toCheckPos);
         }
+
+        players.values().forEach(p -> p.getGod().addMoves(legalPositions, currPlayer, currPlayer.getWorker(worker), this));
+        players.values().forEach(p -> p.getGod().removeMoves(legalPositions, currPlayer, this));
 
         return legalPositions;
     }
