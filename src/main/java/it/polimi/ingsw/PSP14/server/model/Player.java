@@ -1,13 +1,9 @@
-package it.polimi.ingsw.PSP14.core;
+package it.polimi.ingsw.PSP14.server.model;
 
 import java.awt.Color;
 import java.util.Random;
 
-import it.polimi.ingsw.PSP14.core.Direction;
-import it.polimi.ingsw.PSP14.core.InvalidActionException;
-import it.polimi.ingsw.PSP14.core.InvalidInputException;
-import it.polimi.ingsw.PSP14.core.Worker;
-import it.polimi.ingsw.PSP14.core.gods.God;
+import it.polimi.ingsw.PSP14.server.model.gods.God;
 
 /**
  * Model for a player in the game.

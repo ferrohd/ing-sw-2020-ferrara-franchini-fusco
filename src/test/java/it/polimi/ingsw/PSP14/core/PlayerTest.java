@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import it.polimi.ingsw.PSP14.server.model.Player;
 import org.junit.jupiter.api.Test;
 
 public class PlayerTest {

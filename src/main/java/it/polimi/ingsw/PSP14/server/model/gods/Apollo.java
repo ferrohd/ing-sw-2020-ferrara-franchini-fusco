@@ -1,6 +1,6 @@
-package it.polimi.ingsw.PSP14.core.gods;
+package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.core.*;
+import it.polimi.ingsw.PSP14.server.model.*;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.core;
 
-import it.polimi.ingsw.PSP14.core.Direction;
-import it.polimi.ingsw.PSP14.core.Point;
+import it.polimi.ingsw.PSP14.server.model.Direction;
+import it.polimi.ingsw.PSP14.server.model.Point;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

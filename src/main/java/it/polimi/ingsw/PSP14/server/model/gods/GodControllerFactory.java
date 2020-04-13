@@ -1,6 +1,6 @@
-package it.polimi.ingsw.PSP14.core.gods;
+package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.core.GodNotFoundException;
+import it.polimi.ingsw.PSP14.server.model.GodNotFoundException;
 
 public class GodControllerFactory {
     public static God getController(String name) throws GodNotFoundException {

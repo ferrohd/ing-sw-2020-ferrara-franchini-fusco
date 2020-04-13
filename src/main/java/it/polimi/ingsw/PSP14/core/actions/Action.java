@@ -2,7 +2,7 @@ package it.polimi.ingsw.PSP14.core.actions;
 
 import java.time.Instant;
 
-import it.polimi.ingsw.PSP14.core.Message;
+import it.polimi.ingsw.PSP14.server.model.Message;
 
 /**
  * A game action.

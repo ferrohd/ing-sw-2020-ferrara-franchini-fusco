@@ -1,9 +1,9 @@
-package it.polimi.ingsw.PSP14.core.gods;
+package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.core.Match;
-import it.polimi.ingsw.PSP14.core.Player;
-import it.polimi.ingsw.PSP14.core.Point;
-import it.polimi.ingsw.PSP14.core.Worker;
+import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.Player;
+import it.polimi.ingsw.PSP14.server.model.Point;
+import it.polimi.ingsw.PSP14.server.model.Worker;
 
 import java.util.ArrayList;
 

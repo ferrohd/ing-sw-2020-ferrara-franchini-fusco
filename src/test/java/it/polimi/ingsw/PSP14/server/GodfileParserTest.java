@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import it.polimi.ingsw.PSP14.server.controller.GodfileParser;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 

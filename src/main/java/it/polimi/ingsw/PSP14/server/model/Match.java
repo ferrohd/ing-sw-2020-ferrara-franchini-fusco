@@ -1,6 +1,5 @@
-package it.polimi.ingsw.PSP14.core;
+package it.polimi.ingsw.PSP14.server.model;
 
-import it.polimi.ingsw.PSP14.core.*;
 import it.polimi.ingsw.PSP14.core.actions.Action;
 
 import java.util.*;

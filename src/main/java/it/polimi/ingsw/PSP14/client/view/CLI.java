@@ -2,7 +2,7 @@ package it.polimi.ingsw.PSP14.client.view;
 
 import java.util.Random;
 
-import it.polimi.ingsw.PSP14.core.Point;
+import it.polimi.ingsw.PSP14.server.model.Point;
 
 public class CLI extends UI {
     private static final String CELL_S = "%d%s",

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.server;
+package it.polimi.ingsw.PSP14.server.controller;
 
 import java.io.IOException;
 import java.net.ServerSocket;
