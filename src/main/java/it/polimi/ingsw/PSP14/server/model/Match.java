@@ -38,6 +38,10 @@ public class Match {
         return history;
     }
 
+    public ArrayList<Player> getPlayers() {
+        return new ArrayList<>(players.values());
+    }
+
     /**
      * Retrieve a Player object by username.
      * @param username the username of the Player

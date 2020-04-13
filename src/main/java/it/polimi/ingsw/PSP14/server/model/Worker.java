@@ -28,4 +28,6 @@ public class Worker {
     public Point getPos() {
         return pos;
     }
+
+    public void setPos(Point pos) { this.pos = pos; }
 }
