@@ -4,7 +4,7 @@ import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.Player;
 import it.polimi.ingsw.PSP14.server.model.Point;
 
-public class MoveAction {
+public class MoveAction extends Action {
     private Point from;
     private Point to;
 
@@ -25,11 +25,11 @@ public class MoveAction {
         return false;
     }
 
-    public Point getFrom() {
+    protected Point getFrom() {
         return from;
     }
 
-    public Point getTo() {
+    protected Point getTo() {
         return to;
     }
 

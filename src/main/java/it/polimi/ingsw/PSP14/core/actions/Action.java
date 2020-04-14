@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP14.core.actions;
 
 import java.time.Instant;
 
+import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.Message;
 
 /**
@@ -22,4 +23,6 @@ public abstract class Action extends Message {
     public Instant getTimestamp() {
         return timestamp;
     }
+
+    public abstract boolean execute(Match match);
 }
