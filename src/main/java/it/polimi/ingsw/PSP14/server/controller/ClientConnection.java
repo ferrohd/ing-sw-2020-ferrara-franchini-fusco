@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
-import it.polimi.ingsw.PSP14.core.actions.Action;
+import it.polimi.ingsw.PSP14.server.actions.Action;
 import it.polimi.ingsw.PSP14.server.model.Message;
 
 import java.io.IOException;

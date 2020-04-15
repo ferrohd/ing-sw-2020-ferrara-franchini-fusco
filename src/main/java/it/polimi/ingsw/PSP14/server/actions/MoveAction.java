@@ -1,16 +1,22 @@
-package it.polimi.ingsw.PSP14.core.actions;
+package it.polimi.ingsw.PSP14.server.actions;
 
+import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.Player;
 import it.polimi.ingsw.PSP14.server.model.Point;
 
-public class MoveAction extends Action {
+public class MoveAction extends Action implements Proposable {
     private Point from;
     private Point to;
 
-    public MoveAction(Point from, Point to) {
+    public MoveAction(String user, Point from, Point to) {
+        super(user);
         this.from = from;
         this.to = to;
+    }
+
+    public MoveProposal getProposal() {
+        return new MoveProposal(to);
     }
 
     public boolean execute(Match match) {

@@ -1,0 +1,11 @@
+package it.polimi.ingsw.PSP14.core.proposals;
+
+/**
+ * Generic proposal. It is contained in a ProposalMessage.
+ *
+ * A list of proposals is sent from the server to the client whenever the client
+ * has to make a choice. The client will respond with a ChoiceMessage, indicating the index of
+ * the chosen proposal in the list of proposals.
+ */
+public interface Proposal {
+}

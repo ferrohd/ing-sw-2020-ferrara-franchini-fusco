@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.core;
 
-import it.polimi.ingsw.PSP14.core.actions.*;
+import it.polimi.ingsw.PSP14.server.actions.*;
 import org.junit.jupiter.api.Test;
 import java.time.Instant;
 

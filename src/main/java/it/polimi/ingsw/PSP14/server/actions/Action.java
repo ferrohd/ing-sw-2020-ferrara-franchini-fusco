@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.core.actions;
+package it.polimi.ingsw.PSP14.server.actions;
 
 import java.time.Instant;
 
@@ -11,11 +11,13 @@ import it.polimi.ingsw.PSP14.server.model.Message;
 public abstract class Action extends Message {
     // DO NOT TOUCH!
     private static final long serialVersionUID = 1L;
-
-    public Action() {
-        this.timestamp = Instant.now();
-    }
     private Instant timestamp;
+    String user;
+
+    public Action(String user) {
+        this.timestamp = Instant.now();
+        this.user = user;
+    }
 
     /**
      * @return the timestamp at which the action was created.
@@ -23,6 +25,8 @@ public abstract class Action extends Message {
     public Instant getTimestamp() {
         return timestamp;
     }
+
+    public String getUser() { return user; }
 
     public abstract boolean execute(Match match);
 }

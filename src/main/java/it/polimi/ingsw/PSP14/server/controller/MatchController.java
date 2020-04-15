@@ -2,7 +2,7 @@ package it.polimi.ingsw.PSP14.server.controller;
 
 import it.polimi.ingsw.PSP14.server.model.gods.God;
 import it.polimi.ingsw.PSP14.server.model.gods.GodControllerFactory;
-import it.polimi.ingsw.PSP14.core.actions.*;
+import it.polimi.ingsw.PSP14.server.actions.*;
 import it.polimi.ingsw.PSP14.server.model.GodNotFoundException;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import org.xml.sax.SAXException;
