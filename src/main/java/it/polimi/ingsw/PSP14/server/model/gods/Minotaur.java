@@ -16,11 +16,14 @@ public class Minotaur extends God {
         int currentLevel = match.getBoard().getCell(currPos).getTowerSize();
 
         for(Direction dir: Direction.values()) {
-            Point newPos = currPos.move(dir);
-            int newLevel = match.getBoard().getCell(newPos).getTowerSize();
-            if(workerPos.contains(newPos) && newLevel <= currentLevel+1 &&
-                    !match.getBoard().getCell(newPos).getIsCompleted())
-                moves.add(newPos);
+            Point newPos = currPos.move(dir),
+                    minotaurPos = newPos.move(dir);
+            if(Board.isValidPos(minotaurPos)) {
+                int newLevel = match.getBoard().getCell(newPos).getTowerSize();
+                if (workerPos.contains(newPos) && newLevel <= currentLevel + 1 &&
+                        !match.getBoard().getCell(newPos).getIsCompleted())
+                    moves.add(newPos);
+            }
         }
     }
 }
