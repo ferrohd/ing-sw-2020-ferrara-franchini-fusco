@@ -5,19 +5,7 @@ import it.polimi.ingsw.PSP14.server.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Apollo extends God {
-
-    private static Apollo ref = new Apollo();
-
-    private Apollo() { }
-
-    public static Apollo getInstance() {
-        if (ref == null) {
-            ref = new Apollo();
-        }
-        return ref;
-    }
-
+public class Minotaur extends God {
     @Override
     public void addMoves(List<Point> moves, Player player, Worker worker, Match match) {
         List<Point> workerPos = match.getWorkerPositions();

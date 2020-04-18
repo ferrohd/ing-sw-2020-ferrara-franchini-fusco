@@ -6,13 +6,14 @@ import it.polimi.ingsw.PSP14.server.model.Point;
 import it.polimi.ingsw.PSP14.server.model.Worker;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class God {
-    public void addMoves(ArrayList<Point> moves, Player player, Worker worker, Match match) {
+    public void addMoves(List<Point> moves, Player player, Worker worker, Match match) {
 
     }
 
-    public void removeMoves(ArrayList<Point> moves, Player player, Worker worker, Match match) {
+    public void removeMoves(List<Point> moves, Player player, Worker worker, Match match) {
 
     }
 }
