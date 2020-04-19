@@ -29,12 +29,11 @@ public class Apollo extends God {
 
         for(Direction dir: Direction.values()) {
             Point newPos = currPos.move(dir);
-            if(Board.isValidPos(newPos)) {
                 int newLevel = match.getBoard().getCell(newPos).getTowerSize();
                 if (workerPos.contains(newPos) && newLevel <= currentLevel + 1 &&
-                        !match.getBoard().getCell(newPos).getIsCompleted())
+                        !match.getBoard().getCell(newPos).getIsCompleted() &&
+                        Board.isValidPos(newPos))
                     moves.add(newPos);
-            }
         }
     }
 }

@@ -16,7 +16,6 @@ public class Player {
 
     /**
      * @param username username of the player to display in game
-     * @throws InvalidInputException if the input is invalid
      */
     public Player(String username, God god) {
         this.username = username;

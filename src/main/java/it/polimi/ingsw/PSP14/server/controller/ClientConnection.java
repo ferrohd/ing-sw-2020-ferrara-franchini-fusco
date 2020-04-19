@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
+import it.polimi.ingsw.PSP14.core.messages.Message;
 import it.polimi.ingsw.PSP14.server.actions.Action;
-import it.polimi.ingsw.PSP14.server.model.Message;
 
 import java.io.IOException;
 
@@ -40,4 +40,6 @@ public interface ClientConnection {
      * @param action the action
      */
     Action receiveAction() throws IOException;
+
+    int receiveChoice() throws IOException;
 }

@@ -3,7 +3,6 @@ package it.polimi.ingsw.PSP14.client;
 import java.io.IOException;
 import java.net.Socket;
 
-import it.polimi.ingsw.PSP14.server.model.Message;
 import it.polimi.ingsw.PSP14.server.actions.Action;
 
 import java.io.DataInputStream;

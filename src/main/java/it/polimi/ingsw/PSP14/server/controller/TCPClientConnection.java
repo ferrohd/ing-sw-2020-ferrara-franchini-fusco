@@ -1,10 +1,8 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
+import it.polimi.ingsw.PSP14.core.messages.ChoiceMessage;
 import it.polimi.ingsw.PSP14.server.actions.Action;
-import it.polimi.ingsw.PSP14.server.model.Message;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -15,14 +13,14 @@ import java.net.Socket;
  */
 public class TCPClientConnection implements ClientConnection {
     private final Socket clientSocket;
-    private DataOutputStream clientOutput;
-    private DataInputStream clientInput;
+    private ObjectOutputStream clientOutput;
+    private ObjectInputStream clientInput;
 
     public TCPClientConnection(final Socket socket) {
         clientSocket = socket;
         try {
-            clientOutput = new DataOutputStream(socket.getOutputStream());
-            clientInput = new DataInputStream(socket.getInputStream());
+            clientOutput = new ObjectOutputStream(socket.getOutputStream());
+            clientInput = new ObjectInputStream(socket.getInputStream());
         } catch (final IOException e) {
             // TODO: Make server crash
             e.printStackTrace();
@@ -79,5 +77,17 @@ public class TCPClientConnection implements ClientConnection {
         while (!((msg = receiveMessage()) instanceof Action));
        
         return (Action) msg;
+    }
+
+    @Override
+    public int receiveChoice() throws IOException {
+        ChoiceMessage choice;
+        try {
+            choice = (ChoiceMessage) clientInput.readObject();
+        } catch(ClassNotFoundException e) {
+            return -1;
+        }
+
+        return choice.getIndex();
     }
 }

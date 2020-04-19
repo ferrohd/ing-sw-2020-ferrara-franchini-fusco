@@ -85,9 +85,8 @@ public class Match {
         for(Direction dir: Direction.values()) {
             Point toCheckPos = currentPos.move(dir);
             int toCheckLevel = board.getCell(toCheckPos).getTowerSize();
-            if(!workerPositions.contains(toCheckPos) &&
-                    toCheckLevel <= currentLevel+1 &&
-                    !board.getCell(toCheckPos).getIsCompleted())
+            if(!workerPositions.contains(toCheckPos) && toCheckLevel <= currentLevel+1 &&
+                    !board.getCell(toCheckPos).getIsCompleted() && Board.isValidPos(toCheckPos))
                 legalPositions.add(toCheckPos);
         }
 
