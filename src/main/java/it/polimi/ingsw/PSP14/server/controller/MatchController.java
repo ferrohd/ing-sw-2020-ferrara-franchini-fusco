@@ -155,8 +155,8 @@ public class MatchController implements Runnable {
 
         int choice = client.receiveChoice();
 
-        ArrayList<Point> movements = match.getMovements(player, choice);
-        List<MoveProposal> moveProposals = movements.stream().map(MoveProposal::new).collect(Collectors.toList());
+        List<MoveAction> movements = match.getMovements(player, choice);
+        List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
         message = new MoveProposalMessage(moveProposals);
         client.sendMessage(message);
 
