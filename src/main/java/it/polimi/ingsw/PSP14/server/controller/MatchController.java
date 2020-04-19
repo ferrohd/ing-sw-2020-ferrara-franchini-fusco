@@ -1,8 +1,12 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
-import it.polimi.ingsw.PSP14.core.messages.GodChoiceProposalMessage;
-import it.polimi.ingsw.PSP14.core.messages.GodSublistProposalMessage;
+import it.polimi.ingsw.PSP14.core.messages.*;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
+import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
+import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
+import it.polimi.ingsw.PSP14.core.proposals.WorkerProposal;
+import it.polimi.ingsw.PSP14.server.model.Player;
+import it.polimi.ingsw.PSP14.server.model.Point;
 import it.polimi.ingsw.PSP14.server.model.gods.God;
 import it.polimi.ingsw.PSP14.server.model.gods.GodControllerFactory;
 import it.polimi.ingsw.PSP14.server.actions.*;
@@ -75,7 +79,7 @@ public class MatchController implements Runnable {
                 // First player chooses the gods for the other players
                 firstPlayerSelectsGods(availableGods, selectedGods);
 
-                playersPickOwnGod(selectedGods, players);
+                playersPickOwnGod(selectedGods);
                 // At this point each player should have a unique binding with a god controller.
             } catch (IOException | GodNotFoundException e) {
                 e.printStackTrace();
@@ -85,9 +89,18 @@ public class MatchController implements Runnable {
         /*================ 1.2 PLAYER DECIDES WHO GOES FIRST ==================*/
         // The first player has to choose who goes first, including itself.
 
-        String startingPlayer = players.get(0);
+        try {
+            firstPlayerSelectFirst();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        
+        while(true) {
+            for(String p: players) {
+                turn(p);
+            }
+        }
+
 
     }
 
@@ -111,9 +124,7 @@ public class MatchController implements Runnable {
     /**
      * Each player select a god starting from any but the first one.
      */
-    public void playersPickOwnGod(List<String> selectedGods,
-                                  List<String> players)
-                                  throws IOException, GodNotFoundException {
+    public void playersPickOwnGod(List<String> selectedGods) throws IOException, GodNotFoundException {
         for (int i = players.size() - 1; i >= 0; i--) {
             ClientConnection player = clients.get(players.get(i));
             List<GodProposal> godProposals = selectedGods.stream().map(GodProposal::new).collect(Collectors.toList());
@@ -123,5 +134,32 @@ public class MatchController implements Runnable {
             this.gods.put(players.get(i), GodControllerFactory.getController(selectedGods.get(choice)));
             selectedGods.remove(choice);
         }
+    }
+
+    private void firstPlayerSelectFirst() throws IOException {
+        ClientConnection player = clients.get(players.get(0));
+        List<PlayerProposal> playerProposals = players.stream().map(PlayerProposal::new).collect(Collectors.toList());
+        FirstPlayerProposalMessage message = new FirstPlayerProposalMessage(playerProposals);
+
+        player.sendMessage(message);
+        int choice = player.receiveChoice();
+
+        Collections.rotate(players, choice);
+    }
+
+    private void turn(String player) throws IOException {
+        ClientConnection client = clients.get(player);
+        List<WorkerProposal> workerProposals = WorkerProposal.getDefaultProposalList();
+        Message message = new WorkerProposalMessage(workerProposals);
+        client.sendMessage(message);
+
+        int choice = client.receiveChoice();
+
+        ArrayList<Point> movements = match.getMovements(player, choice);
+        List<MoveProposal> moveProposals = movements.stream().map(MoveProposal::new).collect(Collectors.toList());
+        message = new MoveProposalMessage(moveProposals);
+        client.sendMessage(message);
+
+        choice = client.receiveChoice();
     }
 }
