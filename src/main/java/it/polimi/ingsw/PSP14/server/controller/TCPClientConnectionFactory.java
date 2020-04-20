@@ -22,6 +22,7 @@ public class TCPClientConnectionFactory implements ClientConnectionFactory {
             Socket newConnectionSocket;
             try {
                 newConnectionSocket = serverSocket.accept();
+                System.out.println("New client connected!");
             } catch(IOException e) {
                 continue;
             }

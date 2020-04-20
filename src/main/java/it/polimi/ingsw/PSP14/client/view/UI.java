@@ -71,4 +71,6 @@ public abstract class UI {
     public abstract int getRoomSize();
 
     public abstract void notice(String s);
+
+    public abstract String askUsername();
 }

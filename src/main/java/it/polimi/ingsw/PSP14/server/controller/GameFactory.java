@@ -34,18 +34,24 @@ public class GameFactory implements Runnable {
     private void createGameLoop() {
         List<ClientConnection> players;
         while(true) {
+            System.out.println("Creating new room...");
             players = new ArrayList<>();
             try {
                 players.add(clientConnectionFactory.getClientConnection());
+                System.out.println("Room leader found.");
                 Message message = new RoomSizeMessage();
                 players.get(0).sendMessage(message);
                 int choice = players.get(0).receiveChoice();
+                System.out.println("Room size is: " + choice + ".");
                 players.add(clientConnectionFactory.getClientConnection());
+                System.out.println("Found player 2.");
                 if (choice == 3) {
                     players.add(clientConnectionFactory.getClientConnection());
+                    System.out.println("Found player 3.");
                 }
 
                 // Starts a new game lobby/match with the players in the arrayList
+                System.out.println("Starting game...");
                 Thread newGame = new Thread(new MatchController(players));
                 newGame.start();
             } catch(InterruptedException | IOException e) {

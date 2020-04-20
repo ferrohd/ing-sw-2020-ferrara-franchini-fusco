@@ -53,7 +53,7 @@ public class MatchController implements Runnable {
     private void initializeConnection(ClientConnection connection) throws IOException {
         Message message = new UsernameMessage();
         connection.sendMessage(message);
-        String username = connection.getPlayerUsername();
+        String username = connection.receiveString();
         clients.put(username, connection);
         players.add(username);
     }

@@ -58,18 +58,24 @@ public class CLI extends UI {
 
     @Override
     public int getRoomSize() {
-        int choice;
+        String choice;
         do {
             System.out.println("How many players? (2 or 3)");
-            choice = in.nextInt();
-        } while(choice != 2 && choice != 3);
+            choice = in.nextLine();
+        } while(!choice.equals("2") && !choice.equals("3"));
 
-        return choice;
+        return Integer.parseInt(choice);
     }
 
     @Override
     public void notice(String s) {
         System.out.println(s);
+    }
+
+    @Override
+    public String askUsername() {
+        System.out.println("Insert username:");
+        return in.nextLine();
     }
 }
 

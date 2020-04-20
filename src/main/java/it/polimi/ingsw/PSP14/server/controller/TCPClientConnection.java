@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP14.server.controller;
 
 import it.polimi.ingsw.PSP14.core.messages.ChoiceMessage;
 import it.polimi.ingsw.PSP14.core.messages.Message;
+import it.polimi.ingsw.PSP14.core.messages.StringMessage;
 import it.polimi.ingsw.PSP14.server.actions.Action;
 
 import java.io.*;
@@ -39,28 +40,31 @@ public class TCPClientConnection implements ClientConnection {
     }
 
     @Override
-    public void sendMessage(final Message message) throws IOException {
+    public void sendMessage(Message message) throws IOException {
         clientOutput.writeObject(message);
     }
 
     @Override
     public Message receiveMessage() throws IOException {
         try {
-            return (Message) clientInput.readObject();
-        } catch (final ClassNotFoundException e) {
+            Message message = (Message) clientInput.readObject();
+            return message;
+        } catch (ClassNotFoundException e) {
             throw new IOException();
         }
     }
 
     @Override
     public int receiveChoice() throws IOException {
-        ChoiceMessage choice;
-        try {
-            choice = (ChoiceMessage) clientInput.readObject();
-        } catch(ClassNotFoundException e) {
-            return -1;
-        }
+        ChoiceMessage choice = (ChoiceMessage) receiveMessage();
 
         return choice.getIndex();
+    }
+
+    @Override
+    public String receiveString() throws IOException {
+        StringMessage string = (StringMessage) receiveMessage();
+
+        return string.getString();
     }
 }

@@ -29,4 +29,6 @@ public interface ClientConnection {
     String getPlayerUsername();
 
     int receiveChoice() throws IOException;
+
+    String receiveString() throws IOException;
 }
