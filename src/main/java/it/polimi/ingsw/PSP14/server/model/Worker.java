@@ -18,4 +18,8 @@ public class Worker {
     }
 
     public void setPos(Point pos) { this.pos = pos; }
+
+    public void move(Direction dir) {
+        pos = pos.move(dir);
+    }
 }

@@ -29,17 +29,5 @@ public interface ClientConnection {
      */
     String getPlayerUsername();
 
-    /**
-     * Send an Action that will be serialized to the client.
-     * @param action the action you want to send
-     */
-    void sendAction(Action action) throws IOException;
-
-    /**
-     * Receive an Action that will be deserialized from the client.
-     * @param action the action
-     */
-    Action receiveAction() throws IOException;
-
     int receiveChoice() throws IOException;
 }

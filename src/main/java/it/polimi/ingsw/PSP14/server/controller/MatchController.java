@@ -4,9 +4,6 @@ import it.polimi.ingsw.PSP14.core.messages.*;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
-import it.polimi.ingsw.PSP14.core.proposals.WorkerProposal;
-import it.polimi.ingsw.PSP14.server.model.Player;
-import it.polimi.ingsw.PSP14.server.model.Point;
 import it.polimi.ingsw.PSP14.server.model.gods.God;
 import it.polimi.ingsw.PSP14.server.model.gods.GodControllerFactory;
 import it.polimi.ingsw.PSP14.server.actions.*;
@@ -25,10 +22,13 @@ import java.util.stream.Collectors;
 public class MatchController implements Runnable {
     // List of PlayerUsername
     private List<String> players = new ArrayList<>();
+
     // PlayerUsername <-> ClientConnection
     private Map<String, ClientConnection> clients = new HashMap<>();
+
     // PlayerUsername <--> GodController
     private Map<String, God> gods = new HashMap<>();
+
     // Contains data about players, board...
     private Match match;
 
@@ -39,14 +39,23 @@ public class MatchController implements Runnable {
      */
     public MatchController(List<ClientConnection> clientConnections) {
         // Init Connections
-        clientConnections.forEach(connection -> {
-            String username = connection.getPlayerUsername();
-            clients.put(username, connection);
-            players.add(username);
-        });
-
+        try {
+            for (ClientConnection connection : clientConnections)
+                initializeConnection(connection);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
         // Bind Model
         match = new Match(clients.keySet());
+    }
+
+    private void initializeConnection(ClientConnection connection) throws IOException {
+        Message message = new UsernameMessage();
+        connection.sendMessage(message);
+        String username = connection.getPlayerUsername();
+        clients.put(username, connection);
+        players.add(username);
     }
 
     /**
@@ -97,7 +106,11 @@ public class MatchController implements Runnable {
 
         while(true) {
             for(String p: players) {
-                turn(p);
+                try {
+                    turn(p);
+                } catch (Exception e) {
+                    return;
+                }
             }
         }
 
@@ -149,8 +162,7 @@ public class MatchController implements Runnable {
 
     private void turn(String player) throws IOException {
         ClientConnection client = clients.get(player);
-        List<WorkerProposal> workerProposals = WorkerProposal.getDefaultProposalList();
-        Message message = new WorkerProposalMessage(workerProposals);
+        Message message = new WorkerIndexMessage();
         client.sendMessage(message);
 
         int choice = client.receiveChoice();
@@ -161,5 +173,7 @@ public class MatchController implements Runnable {
         client.sendMessage(message);
 
         choice = client.receiveChoice();
+
+        movements.get(choice).execute(match);
     }
 }

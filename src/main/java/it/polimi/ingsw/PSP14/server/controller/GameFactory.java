@@ -1,5 +1,9 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
+import it.polimi.ingsw.PSP14.core.messages.Message;
+import it.polimi.ingsw.PSP14.core.messages.RoomSizeMessage;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,16 +37,18 @@ public class GameFactory implements Runnable {
             players = new ArrayList<>();
             try {
                 players.add(clientConnectionFactory.getClientConnection());
-                int gameSize = players.get(0).requestGameOptions();
+                Message message = new RoomSizeMessage();
+                players.get(0).sendMessage(message);
+                int choice = players.get(0).receiveChoice();
                 players.add(clientConnectionFactory.getClientConnection());
-                if (gameSize == 3) {
+                if (choice == 3) {
                     players.add(clientConnectionFactory.getClientConnection());
                 }
 
                 // Starts a new game lobby/match with the players in the arrayList
                 Thread newGame = new Thread(new MatchController(players));
                 newGame.start();
-            } catch(InterruptedException e) {
+            } catch(InterruptedException | IOException e) {
                 players.forEach(ClientConnection::sendFatalError);
             }
         }

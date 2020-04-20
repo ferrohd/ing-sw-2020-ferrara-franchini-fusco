@@ -8,7 +8,7 @@ import it.polimi.ingsw.PSP14.server.model.Worker;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class God {
+public class God {
     public void addMoves(List<Point> moves, Player player, Worker worker, Match match) {
 
     }

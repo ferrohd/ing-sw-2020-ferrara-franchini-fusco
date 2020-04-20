@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
 import it.polimi.ingsw.PSP14.core.messages.ChoiceMessage;
+import it.polimi.ingsw.PSP14.core.messages.Message;
 import it.polimi.ingsw.PSP14.server.actions.Action;
 
 import java.io.IOException;
@@ -63,20 +64,6 @@ public class TCPClientConnection implements ClientConnection {
         } catch (final ClassNotFoundException e) {
             throw new IOException();
         }
-    }
-
-    @Override
-    public void sendAction(final Action action) throws IOException {
-        sendMessage(action);
-    }
-
-    @Override
-    public Action receiveAction() throws IOException {
-        
-        Message msg;
-        while (!((msg = receiveMessage()) instanceof Action));
-       
-        return (Action) msg;
     }
 
     @Override
