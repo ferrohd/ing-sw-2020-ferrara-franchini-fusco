@@ -51,8 +51,9 @@ public class GameFactory implements Runnable {
                 }
 
                 // Starts a new game lobby/match with the players in the arrayList
-                System.out.println("Starting game...");
+                System.out.println("Creating game...");
                 Thread newGame = new Thread(new MatchController(players));
+                System.out.println("Starting game...");
                 newGame.start();
             } catch(InterruptedException | IOException e) {
                 players.forEach(ClientConnection::sendFatalError);

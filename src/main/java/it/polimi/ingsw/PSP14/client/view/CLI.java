@@ -1,8 +1,12 @@
 package it.polimi.ingsw.PSP14.client.view;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
+import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.model.Point;
 
 public class CLI extends UI {
@@ -76,6 +80,42 @@ public class CLI extends UI {
     public String askUsername() {
         System.out.println("Insert username:");
         return in.nextLine();
+    }
+
+    private int choose(List<String> options) {
+        for(int i = 0; i < options.size(); ++i) {
+            System.out.println(i + ") " + options.get(i));
+        }
+
+        int choice;
+        while(true) {
+            String line = in.nextLine();
+            try {
+                choice = Integer.parseInt(line);
+                if(choice < 0 || choice >= options.size()) throw new NumberFormatException();
+                return choice;
+            } catch (NumberFormatException e) {
+                System.out.println("Please insert a number between 0 and " + (options.size()-1) + ".");
+            }
+        }
+    }
+
+    @Override
+    public int chooseFirstPlayer(List<PlayerProposal> proposals) {
+        System.out.println("Choose the player who goes first:");
+        List<String> names = proposals.stream().map(PlayerProposal::getName).collect(Collectors.toList());
+
+        return choose(names);
+    }
+
+    @Override
+    public int chooseWorker() {
+        System.out.println("Choose the worker to move:");
+        List<String> options = new ArrayList<String>();
+        options.add("0");
+        options.add("1");
+
+        return choose(options);
     }
 }
 
