@@ -43,9 +43,9 @@ public class Client {
             try {
                 serverSocket = new Socket(hostname, port);
                 connected = true;
-                System.out.println("Connected!");
+                ui.notice("Connected!");
             } catch (IOException e) {
-                System.out.println("Could not connect to the server. Retrying...");
+                ui.notice("Could not connect to the server. Retrying...");
             }
         }
         ServerConnection connection = new TCPServerConnection(serverSocket);

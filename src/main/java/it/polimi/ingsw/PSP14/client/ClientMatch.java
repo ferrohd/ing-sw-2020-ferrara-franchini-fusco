@@ -20,13 +20,12 @@ public class ClientMatch implements Runnable {
     @Override
     public void run() {
         while(true) {
-            ClientExecutableMessage inMessage;
+            ClientExecutableMessage inMessage = null;
             try {
                 inMessage = (ClientExecutableMessage) serverConnection.receiveMessage();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Connection lost. Closing...");
                 System.exit(-1);
-                return;
             }
 
             inMessage.execute(ui, serverConnection);

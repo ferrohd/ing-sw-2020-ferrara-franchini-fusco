@@ -53,7 +53,7 @@ public class CLI extends UI {
 
     @Override
     public void noticeConnecting(String hostname, int port) {
-        System.out.println("Connecting to " + hostname + " at port " + port);
+        notice("Connecting to " + hostname + " at port " + port + "...");
     }
 
     @Override
@@ -65,6 +65,11 @@ public class CLI extends UI {
         } while(choice != 2 && choice != 3);
 
         return choice;
+    }
+
+    @Override
+    public void notice(String s) {
+        System.out.println(s);
     }
 }
 
