@@ -157,7 +157,7 @@ public class MatchController implements Runnable {
         player.sendMessage(message);
         int choice = player.receiveChoice();
 
-        Collections.rotate(players, choice);
+        Collections.rotate(players, players.size() - choice);
     }
 
     private void turn(String player) throws IOException {
