@@ -4,9 +4,7 @@ import it.polimi.ingsw.PSP14.core.messages.ChoiceMessage;
 import it.polimi.ingsw.PSP14.core.messages.Message;
 import it.polimi.ingsw.PSP14.server.actions.Action;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -23,14 +21,10 @@ public class TCPClientConnection implements ClientConnection {
             clientOutput = new ObjectOutputStream(socket.getOutputStream());
             clientInput = new ObjectInputStream(socket.getInputStream());
         } catch (final IOException e) {
-            // TODO: Make server crash
             e.printStackTrace();
+            System.exit(-1);
         }
 
-    }
-
-    public int requestGameOptions() {
-        return 3;
     }
 
     public void sendFatalError() {
@@ -46,21 +40,13 @@ public class TCPClientConnection implements ClientConnection {
 
     @Override
     public void sendMessage(final Message message) throws IOException {
-        // Serialize the message
-        final ObjectOutputStream serializedMessage = new ObjectOutputStream(clientOutput);
-        serializedMessage.writeObject(message);
-        serializedMessage.close();
-        // And send it to the client
-        clientOutput.flush();
+        clientOutput.writeObject(message);
     }
 
     @Override
     public Message receiveMessage() throws IOException {
         try {
-            final ObjectInputStream deserializedMessage = new ObjectInputStream(clientInput);
-            final Object obj = deserializedMessage.readObject();
-
-            return (Message) obj;
+            return (Message) clientInput.readObject();
         } catch (final ClassNotFoundException e) {
             throw new IOException();
         }

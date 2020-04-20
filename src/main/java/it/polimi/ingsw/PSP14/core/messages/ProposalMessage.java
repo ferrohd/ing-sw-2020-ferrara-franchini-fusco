@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class ProposalMessage<T extends Proposal> implements Message {
+public abstract class ProposalMessage<T extends Proposal> implements Message, ClientExecutableMessage {
     private List<T> proposals;
 
     public ProposalMessage(Collection<T> p) {

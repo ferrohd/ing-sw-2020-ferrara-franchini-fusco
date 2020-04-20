@@ -10,7 +10,6 @@ import java.io.IOException;
  * Exposes the functions for bidirectional communication with a client.
  */
 public interface ClientConnection {
-    int requestGameOptions();
     void sendFatalError();
 
     /**

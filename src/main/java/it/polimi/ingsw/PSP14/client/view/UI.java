@@ -67,4 +67,6 @@ public abstract class UI {
     public abstract void welcome();
 
     public abstract void noticeConnecting(String hostname, int port);
+
+    public abstract int getRoomSize();
 }

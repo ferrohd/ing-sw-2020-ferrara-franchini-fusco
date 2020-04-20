@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP14.client.view;
 
 import java.util.Random;
+import java.util.Scanner;
 
 import it.polimi.ingsw.PSP14.server.model.Point;
 
@@ -8,6 +9,8 @@ public class CLI extends UI {
     private static final String CELL_S = "%d%s",
         HDELIM_S = "---------------",
         VDELIM_S = "|";
+
+    private Scanner in = new Scanner(System.in);
 
     CLIColor getColor() {
         CLIColor[] colorList = CLIColor.values();
@@ -51,6 +54,17 @@ public class CLI extends UI {
     @Override
     public void noticeConnecting(String hostname, int port) {
         System.out.println("Connecting to " + hostname + " at port " + port);
+    }
+
+    @Override
+    public int getRoomSize() {
+        int choice;
+        do {
+            System.out.println("How many players? (2 or 3)");
+            choice = in.nextInt();
+        } while(choice != 2 && choice != 3);
+
+        return choice;
     }
 }
 
