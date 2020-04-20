@@ -42,6 +42,16 @@ public class CLI extends UI {
 
         return towerString + workerString;
     }
+
+    @Override
+    public void welcome() {
+        System.out.println("Welcome to SANTORINI!");
+    }
+
+    @Override
+    public void noticeConnecting(String hostname, int port) {
+        System.out.println("Connecting to " + hostname + " at port " + port);
+    }
 }
 
 enum CLIColor implements Color {

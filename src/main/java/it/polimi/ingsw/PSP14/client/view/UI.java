@@ -63,4 +63,8 @@ public abstract class UI {
     public void drawDomeRemove(Point pos) {
         cache.getBlock(pos).unsetDome();
     }
+
+    public abstract void welcome();
+
+    public abstract void noticeConnecting(String hostname, int port);
 }
