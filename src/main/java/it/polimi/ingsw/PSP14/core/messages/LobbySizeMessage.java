@@ -5,17 +5,20 @@ import it.polimi.ingsw.PSP14.client.view.UI;
 
 import java.io.IOException;
 
-public class RoomSizeMessage implements ClientExecutableMessage {
+/**
+ * Send a client (the first player, in particular) a prompt to specify
+ * the number of players that the lobby will accept, and then send the
+ * answer back to the server.
+ */
+public class LobbySizeMessage implements ClientExecutableMessage {
     @Override
     public boolean execute(UI ui, ServerConnection serverConnection) {
-        int choice = ui.getRoomSize();
-        Message choiceMessage = new ChoiceMessage(choice);
+        int lobbySize = ui.getLobbySize();
         try {
-            serverConnection.sendMessage(choiceMessage);
+            serverConnection.sendMessage(new ChoiceMessage(lobbySize));
         } catch(IOException e) {
             return false;
         }
-
         return true;
     }
 }

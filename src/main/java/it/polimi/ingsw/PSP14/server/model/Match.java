@@ -60,6 +60,10 @@ public class Match {
         return board;
     }
 
+    /**
+     * Retrieve the position of all workers (of all players).
+     * @return an array containing the workers' positions
+     */
     public ArrayList<Point> getWorkerPositions() {
         ArrayList<Point> workerPositions = new ArrayList<>();
         for(Player p : players.values())
@@ -70,6 +74,7 @@ public class Match {
     }
 
     /**
+     * Retrieve a list of the possible moves a player can do.
      * @param player player to move
      * @param worker index of worker to move
      * @return an array of Points to move to

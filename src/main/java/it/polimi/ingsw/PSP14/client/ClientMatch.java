@@ -8,10 +8,20 @@ import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import java.io.IOException;
 import java.net.Socket;
 
+/**
+ * This class handles the basic logic behind a match on the client,
+ * processing commands received from the server, and sending
+ * back responses to it.
+ */
 public class ClientMatch implements Runnable {
     private ServerConnection serverConnection;
     private UI ui;
 
+    /**
+     * Constructor for ClientMatch.
+     * @param serverConnection a connection to send and receive messages.
+     * @param ui a UI to represent the game state
+     */
     public ClientMatch(ServerConnection serverConnection, UI ui) {
         this.serverConnection = serverConnection;
         this.ui = ui;

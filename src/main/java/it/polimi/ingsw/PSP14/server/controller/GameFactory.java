@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
 import it.polimi.ingsw.PSP14.core.messages.Message;
-import it.polimi.ingsw.PSP14.core.messages.RoomSizeMessage;
+import it.polimi.ingsw.PSP14.core.messages.LobbySizeMessage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class GameFactory implements Runnable {
             try {
                 players.add(clientConnectionFactory.getClientConnection());
                 System.out.println("Room leader found.");
-                Message message = new RoomSizeMessage();
+                Message message = new LobbySizeMessage();
                 players.get(0).sendMessage(message);
                 int choice = players.get(0).receiveChoice();
                 System.out.println("Room size is: " + choice + ".");

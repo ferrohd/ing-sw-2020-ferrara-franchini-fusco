@@ -56,12 +56,12 @@ public class CLI extends UI {
     }
 
     @Override
-    public void noticeConnecting(String hostname, int port) {
-        notice("Connecting to " + hostname + " at port " + port + "...");
+    public void notifyConnection(String hostname, int port) {
+        notify("Connecting to " + hostname + " at port " + port + "...");
     }
 
     @Override
-    public int getRoomSize() {
+    public int getLobbySize() {
         String choice;
         do {
             System.out.println("How many players? (2 or 3)");
@@ -72,7 +72,7 @@ public class CLI extends UI {
     }
 
     @Override
-    public void notice(String s) {
+    public void notify(String s) {
         System.out.println(s);
     }
 

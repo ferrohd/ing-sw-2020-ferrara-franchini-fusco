@@ -5,7 +5,12 @@ import it.polimi.ingsw.PSP14.client.view.UI;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 
 import java.util.Collection;
+//TODO: Is this really needed?
 
+/**
+ * This class presents the first player with a list of gods to choose from
+ * (up to the number of players)
+ */
 public class GodSublistProposalMessage extends ProposalMessage<GodProposal> {
     private int nChoices;
 

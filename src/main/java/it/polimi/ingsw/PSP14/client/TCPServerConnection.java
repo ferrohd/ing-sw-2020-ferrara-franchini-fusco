@@ -14,6 +14,10 @@ public class TCPServerConnection implements ServerConnection {
     private ObjectOutputStream serverOutput;
     private ObjectInputStream serverInput;
 
+    /**
+     * Constructor of the connection.
+     * @param socket the socket on the server we need to connect to.
+     */
     public TCPServerConnection(final Socket socket) {
         serverSocket = socket;
         try {
