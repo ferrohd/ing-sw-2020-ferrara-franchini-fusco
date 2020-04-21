@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP14.core;
 
-import it.polimi.ingsw.PSP14.core.actions.*;
+import it.polimi.ingsw.PSP14.server.actions.*;
+import it.polimi.ingsw.PSP14.server.model.Match;
 import org.junit.jupiter.api.Test;
 import java.time.Instant;
 
@@ -13,8 +14,10 @@ public class ActionTest {
         private static final long serialVersionUID = 1L;
 
         public MyAction() {
-            super();
+            super("user");
         }
+
+        public boolean execute(Match match) {return true;}
     }
 
     private final MyAction myAction = new MyAction();

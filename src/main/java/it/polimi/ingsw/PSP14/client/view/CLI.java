@@ -1,13 +1,20 @@
 package it.polimi.ingsw.PSP14.client.view;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
+import java.util.stream.Collectors;
 
+import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.model.Point;
 
 public class CLI extends UI {
     private static final String CELL_S = "%d%s",
         HDELIM_S = "---------------",
         VDELIM_S = "|";
+
+    private Scanner in = new Scanner(System.in);
 
     CLIColor getColor() {
         CLIColor[] colorList = CLIColor.values();
@@ -41,6 +48,74 @@ public class CLI extends UI {
                 " ";
 
         return towerString + workerString;
+    }
+
+    @Override
+    public void welcome() {
+        System.out.println("Welcome to SANTORINI!");
+    }
+
+    @Override
+    public void noticeConnecting(String hostname, int port) {
+        notice("Connecting to " + hostname + " at port " + port + "...");
+    }
+
+    @Override
+    public int getRoomSize() {
+        String choice;
+        do {
+            System.out.println("How many players? (2 or 3)");
+            choice = in.nextLine();
+        } while(!choice.equals("2") && !choice.equals("3"));
+
+        return Integer.parseInt(choice);
+    }
+
+    @Override
+    public void notice(String s) {
+        System.out.println(s);
+    }
+
+    @Override
+    public String askUsername() {
+        System.out.println("Insert username:");
+        return in.nextLine();
+    }
+
+    private int choose(List<String> options) {
+        for(int i = 0; i < options.size(); ++i) {
+            System.out.println(i + ") " + options.get(i));
+        }
+
+        int choice;
+        while(true) {
+            String line = in.nextLine();
+            try {
+                choice = Integer.parseInt(line);
+                if(choice < 0 || choice >= options.size()) throw new NumberFormatException();
+                return choice;
+            } catch (NumberFormatException e) {
+                System.out.println("Please insert a number between 0 and " + (options.size()-1) + ".");
+            }
+        }
+    }
+
+    @Override
+    public int chooseFirstPlayer(List<PlayerProposal> proposals) {
+        System.out.println("Choose the player who goes first:");
+        List<String> names = proposals.stream().map(PlayerProposal::getName).collect(Collectors.toList());
+
+        return choose(names);
+    }
+
+    @Override
+    public int chooseWorker() {
+        System.out.println("Choose the worker to move:");
+        List<String> options = new ArrayList<String>();
+        options.add("0");
+        options.add("1");
+
+        return choose(options);
     }
 }
 

@@ -57,4 +57,9 @@ public class Board {
     public Cell getCell(Point pos) {
         return board[pos.getY()][pos.getX()];
     }
+
+    public static boolean isValidPos(Point pos) {
+        return pos.getX() >= 0 && pos.getX() < 5 &&
+                pos.getY() >= 0 && pos.getY() < 5;
+    }
 }

@@ -22,21 +22,21 @@ public class TCPClientConnectionFactory implements ClientConnectionFactory {
             Socket newConnectionSocket;
             try {
                 newConnectionSocket = serverSocket.accept();
+                System.out.println("New client connected!");
             } catch(IOException e) {
                 continue;
             }
             TCPClientConnection newConnection = new TCPClientConnection(newConnectionSocket);
-            synchronized(clientQueue) {
-                clientQueue.add(newConnection);
+            try {
+                clientQueue.put(newConnection);
+            } catch(InterruptedException e) {
+                e.printStackTrace();
+                System.exit(-1);
             }
         }
     }
 
     public ClientConnection getClientConnection() throws InterruptedException {
-        TCPClientConnection toReturn;
-        synchronized(clientQueue) {
-            toReturn = clientQueue.take();
-        }
-        return toReturn;
+        return clientQueue.take();
     }
 }

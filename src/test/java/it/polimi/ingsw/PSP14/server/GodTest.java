@@ -15,8 +15,6 @@ public class GodTest {
     void factoryShouldNotThrow() {
         assertDoesNotThrow(() -> {
             God testGod = GodControllerFactory.getController("Apollo");
-            testGod.onMovePhase(); // Overridden
-            testGod.onBuildPhase(); // Not overridden
         });
     }
 

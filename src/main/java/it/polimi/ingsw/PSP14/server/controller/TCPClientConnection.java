@@ -1,13 +1,11 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
-import it.polimi.ingsw.PSP14.core.actions.Action;
-import it.polimi.ingsw.PSP14.server.model.Message;
+import it.polimi.ingsw.PSP14.core.messages.ChoiceMessage;
+import it.polimi.ingsw.PSP14.core.messages.Message;
+import it.polimi.ingsw.PSP14.core.messages.StringMessage;
+import it.polimi.ingsw.PSP14.server.actions.Action;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -15,23 +13,19 @@ import java.net.Socket;
  */
 public class TCPClientConnection implements ClientConnection {
     private final Socket clientSocket;
-    private DataOutputStream clientOutput;
-    private DataInputStream clientInput;
+    private ObjectOutputStream clientOutput;
+    private ObjectInputStream clientInput;
 
     public TCPClientConnection(final Socket socket) {
         clientSocket = socket;
         try {
-            clientOutput = new DataOutputStream(socket.getOutputStream());
-            clientInput = new DataInputStream(socket.getInputStream());
+            clientOutput = new ObjectOutputStream(socket.getOutputStream());
+            clientInput = new ObjectInputStream(socket.getInputStream());
         } catch (final IOException e) {
-            // TODO: Make server crash
             e.printStackTrace();
+            System.exit(-1);
         }
 
-    }
-
-    public int requestGameOptions() {
-        return 3;
     }
 
     public void sendFatalError() {
@@ -46,38 +40,31 @@ public class TCPClientConnection implements ClientConnection {
     }
 
     @Override
-    public void sendMessage(final Message message) throws IOException {
-        // Serialize the message
-        final ObjectOutputStream serializedMessage = new ObjectOutputStream(clientOutput);
-        serializedMessage.writeObject(message);
-        serializedMessage.close();
-        // And send it to the client
-        clientOutput.flush();
+    public void sendMessage(Message message) throws IOException {
+        clientOutput.writeObject(message);
     }
 
     @Override
     public Message receiveMessage() throws IOException {
         try {
-            final ObjectInputStream deserializedMessage = new ObjectInputStream(clientInput);
-            final Object obj = deserializedMessage.readObject();
-
-            return (Message) obj;
-        } catch (final ClassNotFoundException e) {
+            Message message = (Message) clientInput.readObject();
+            return message;
+        } catch (ClassNotFoundException e) {
             throw new IOException();
         }
     }
 
     @Override
-    public void sendAction(final Action action) throws IOException {
-        sendMessage(action);
+    public int receiveChoice() throws IOException {
+        ChoiceMessage choice = (ChoiceMessage) receiveMessage();
+
+        return choice.getIndex();
     }
 
     @Override
-    public Action receiveAction() throws IOException {
-        
-        Message msg;
-        while (!((msg = receiveMessage()) instanceof Action));
-       
-        return (Action) msg;
+    public String receiveString() throws IOException {
+        StringMessage string = (StringMessage) receiveMessage();
+
+        return string.getString();
     }
 }

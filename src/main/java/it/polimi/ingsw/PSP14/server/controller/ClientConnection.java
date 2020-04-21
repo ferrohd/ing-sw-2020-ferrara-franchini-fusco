@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
-import it.polimi.ingsw.PSP14.core.actions.Action;
-import it.polimi.ingsw.PSP14.server.model.Message;
+import it.polimi.ingsw.PSP14.core.messages.Message;
+import it.polimi.ingsw.PSP14.server.actions.Action;
 
 import java.io.IOException;
 
@@ -10,7 +10,6 @@ import java.io.IOException;
  * Exposes the functions for bidirectional communication with a client.
  */
 public interface ClientConnection {
-    int requestGameOptions();
     void sendFatalError();
 
     /**
@@ -29,15 +28,7 @@ public interface ClientConnection {
      */
     String getPlayerUsername();
 
-    /**
-     * Send an Action that will be serialized to the client.
-     * @param action the action you want to send
-     */
-    void sendAction(Action action) throws IOException;
+    int receiveChoice() throws IOException;
 
-    /**
-     * Receive an Action that will be deserialized from the client.
-     * @param action the action
-     */
-    Action receiveAction() throws IOException;
+    String receiveString() throws IOException;
 }

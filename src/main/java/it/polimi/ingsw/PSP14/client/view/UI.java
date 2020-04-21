@@ -1,8 +1,10 @@
 package it.polimi.ingsw.PSP14.client.view;
 
+import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.model.Point;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class UI {
@@ -63,4 +65,18 @@ public abstract class UI {
     public void drawDomeRemove(Point pos) {
         cache.getBlock(pos).unsetDome();
     }
+
+    public abstract void welcome();
+
+    public abstract void noticeConnecting(String hostname, int port);
+
+    public abstract int getRoomSize();
+
+    public abstract void notice(String s);
+
+    public abstract String askUsername();
+
+    public abstract int chooseFirstPlayer(List<PlayerProposal> proposals);
+
+    public abstract int chooseWorker();
 }

@@ -1,8 +1,12 @@
 package it.polimi.ingsw.PSP14.server.model;
 
-import it.polimi.ingsw.PSP14.core.actions.Action;
+import it.polimi.ingsw.PSP14.server.actions.Action;
+import it.polimi.ingsw.PSP14.server.actions.BuildAction;
+import it.polimi.ingsw.PSP14.server.actions.MoveAction;
+import it.polimi.ingsw.PSP14.server.model.gods.God;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Model for a single match, server side.
@@ -22,7 +26,7 @@ public class Match {
     public Match(Set<String> usernames) {
         // Init players
         for (String username : usernames) {
-            players.put(username, new Player(username));
+            players.put(username, new Player(username, new God()));
         }
         // Init board
         this.board = new Board();
@@ -38,17 +42,18 @@ public class Match {
         return history;
     }
 
+    public ArrayList<Player> getPlayers() {
+        return new ArrayList<>(players.values());
+    }
+
     /**
      * Retrieve a Player object by username.
      * @param username the username of the Player
      * @return the associated Player
      * @throws PlayerNotFoundException when the player is not found
      */
-    private Player getPlayerByUsername(String username) throws PlayerNotFoundException {
-        Player player = players.get(username);
-        if (player == null)
-            throw new PlayerNotFoundException();
-        else return player;
+    private Player getPlayerByUsername(String username){
+        return players.get(username);
     }
 
     public Board getBoard() {
@@ -68,9 +73,8 @@ public class Match {
      * @param player player to move
      * @param worker index of worker to move
      * @return an array of Points to move to
-     * @throws PlayerNotFoundException if the player given is not playing
      */
-    public ArrayList<Point> getMovements(String player, int worker) throws PlayerNotFoundException {
+    public List<MoveAction> getMovements(String player, int worker) {
         ArrayList<Point> legalPositions = new ArrayList<>();
 
         ArrayList<Point> workerPositions = getWorkerPositions();
@@ -81,16 +85,17 @@ public class Match {
         for(Direction dir: Direction.values()) {
             Point toCheckPos = currentPos.move(dir);
             int toCheckLevel = board.getCell(toCheckPos).getTowerSize();
-            if(!workerPositions.contains(toCheckPos) &&
-                    toCheckLevel <= currentLevel+1 &&
-                    !board.getCell(toCheckPos).getIsCompleted())
+            if(!workerPositions.contains(toCheckPos) && toCheckLevel <= currentLevel+1 &&
+                    !board.getCell(toCheckPos).getIsCompleted() && Board.isValidPos(toCheckPos))
                 legalPositions.add(toCheckPos);
         }
 
         players.values().forEach(p -> p.getGod().addMoves(legalPositions, currPlayer, currPlayer.getWorker(worker), this));
-        players.values().forEach(p -> p.getGod().removeMoves(legalPositions, currPlayer, this));
+        //players.values().forEach(p -> p.getGod().removeMoves(legalPositions, currPlayer, this));
 
-        return legalPositions;
+        List<MoveAction> legalActions = legalPositions.stream().map(p -> new MoveAction(player, currentPos, p)).collect(Collectors.toList());
+
+        return legalActions;
     }
 
     /**
@@ -99,7 +104,7 @@ public class Match {
      * @return an array of Points where building is possible (including dome-building)
      * @throws PlayerNotFoundException if the player given is not playing
      */
-    public ArrayList<Point> getBuildable(String player, int worker) throws PlayerNotFoundException {
+    public List<BuildAction> getBuildable(String player, int worker) throws PlayerNotFoundException {
         ArrayList<Point> buildablePositions = new ArrayList<>();
 
         ArrayList<Point> workerPositions = getWorkerPositions();
@@ -111,6 +116,8 @@ public class Match {
                 buildablePositions.add(toCheckPos);
         }
 
-        return buildablePositions;
+        List<BuildAction> buildActions = buildablePositions.stream().map(p -> new BuildAction(player, p, board.getCell(p).getTowerSize() == 3)).collect(Collectors.toList());
+
+        return buildActions;
     }
 }

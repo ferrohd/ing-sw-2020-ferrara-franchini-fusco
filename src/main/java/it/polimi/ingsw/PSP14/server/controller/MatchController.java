@@ -1,8 +1,12 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
+import it.polimi.ingsw.PSP14.core.messages.*;
+import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
+import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
+import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.model.gods.God;
 import it.polimi.ingsw.PSP14.server.model.gods.GodControllerFactory;
-import it.polimi.ingsw.PSP14.core.actions.*;
+import it.polimi.ingsw.PSP14.server.actions.*;
 import it.polimi.ingsw.PSP14.server.model.GodNotFoundException;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import org.xml.sax.SAXException;
@@ -10,6 +14,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Controller for Match, supports Multi-Threading
@@ -17,10 +22,13 @@ import java.util.*;
 public class MatchController implements Runnable {
     // List of PlayerUsername
     private List<String> players = new ArrayList<>();
+
     // PlayerUsername <-> ClientConnection
     private Map<String, ClientConnection> clients = new HashMap<>();
+
     // PlayerUsername <--> GodController
     private Map<String, God> gods = new HashMap<>();
+
     // Contains data about players, board...
     private Match match;
 
@@ -31,14 +39,23 @@ public class MatchController implements Runnable {
      */
     public MatchController(List<ClientConnection> clientConnections) {
         // Init Connections
-        clientConnections.forEach(connection -> {
-            String username = connection.getPlayerUsername();
-            clients.put(username, connection);
-            players.add(username);
-        });
-
+        try {
+            for (ClientConnection connection : clientConnections)
+                initializeConnection(connection);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
         // Bind Model
         match = new Match(clients.keySet());
+    }
+
+    private void initializeConnection(ClientConnection connection) throws IOException {
+        Message message = new UsernameMessage();
+        connection.sendMessage(message);
+        String username = connection.receiveString();
+        clients.put(username, connection);
+        players.add(username);
     }
 
     /**
@@ -71,9 +88,9 @@ public class MatchController implements Runnable {
                 // First player chooses the gods for the other players
                 firstPlayerSelectsGods(availableGods, selectedGods);
 
-                playersPickOwnGod(selectedGods, players);
+                playersPickOwnGod(selectedGods);
                 // At this point each player should have a unique binding with a god controller.
-            } catch (IOException e) {
+            } catch (IOException | GodNotFoundException e) {
                 e.printStackTrace();
             }
         } // else play a game without gods, or with hardcoded ones?
@@ -81,9 +98,22 @@ public class MatchController implements Runnable {
         /*================ 1.2 PLAYER DECIDES WHO GOES FIRST ==================*/
         // The first player has to choose who goes first, including itself.
 
-        String startingPlayer = players.get(0);
+        try {
+            firstPlayerSelectFirst();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        
+        while(true) {
+            for(String p: players) {
+                try {
+                    turn(p);
+                } catch (Exception e) {
+                    return;
+                }
+            }
+        }
+
 
     }
 
@@ -91,40 +121,59 @@ public class MatchController implements Runnable {
      * Receive each gods Player1 selects and add them to a list.
      * @param availableGods list of the names of the available gods.
      */
-    private void firstPlayerSelectsGods(List<String> availableGods, List<String> selectedGods)
-    throws IOException {
+    private void firstPlayerSelectsGods(List<String> availableGods, List<String> selectedGods) throws IOException {
         // Get the first player who has to choose the gods for the other players.
         ClientConnection firstPlayer = clients.get(players.get(0));
 
+        List<GodProposal> godProposals = availableGods.stream().map(GodProposal::new).collect(Collectors.toList());
+        GodSublistProposalMessage message = new GodSublistProposalMessage(godProposals, players.size());
+
         for (int i = 0; i < players.size(); i++) {
-            PickGodAction res = (PickGodAction) firstPlayer.receiveAction();
-            if (res.msg != null // I have a valid action
-                    && availableGods.contains(res.msg) // The god is in the available ones
-                    && !selectedGods.contains(res.msg) // The god hasn't already been chosen
-            ) {
-                selectedGods.add(res.msg);
-            }
+            int choice = firstPlayer.receiveChoice();
+            selectedGods.add(availableGods.get(choice));
         }
     }
 
     /**
      * Each player select a god starting from any but the first one.
      */
-    public void playersPickOwnGod(List<String> selectedGods,
-                                  List<String> players)
-                                  throws IOException {
+    public void playersPickOwnGod(List<String> selectedGods) throws IOException, GodNotFoundException {
         for (int i = players.size() - 1; i >= 0; i--) {
             ClientConnection player = clients.get(players.get(i));
-            PickGodAction res = (PickGodAction) player.receiveAction();
-            if (res.msg != null && selectedGods.contains(res.msg)) {
-                try {
-                    this.gods.put(players.get(i), GodControllerFactory.getController(res.msg));
-                    selectedGods.remove(res.msg);
-                } catch (GodNotFoundException e) {
-                    // TODO: Pick another god maybe, a random default one?
-                    // Else crash the lobby.
-                }
-            }
+            List<GodProposal> godProposals = selectedGods.stream().map(GodProposal::new).collect(Collectors.toList());
+            GodChoiceProposalMessage message = new GodChoiceProposalMessage(godProposals);
+            player.sendMessage(message);
+            int choice = player.receiveChoice();
+            this.gods.put(players.get(i), GodControllerFactory.getController(selectedGods.get(choice)));
+            selectedGods.remove(choice);
         }
+    }
+
+    private void firstPlayerSelectFirst() throws IOException {
+        ClientConnection player = clients.get(players.get(0));
+        List<PlayerProposal> playerProposals = players.stream().map(PlayerProposal::new).collect(Collectors.toList());
+        FirstPlayerProposalMessage message = new FirstPlayerProposalMessage(playerProposals);
+
+        player.sendMessage(message);
+        int choice = player.receiveChoice();
+
+        Collections.rotate(players, players.size() - choice);
+    }
+
+    private void turn(String player) throws IOException {
+        ClientConnection client = clients.get(player);
+        Message message = new WorkerIndexMessage();
+        client.sendMessage(message);
+
+        int choice = client.receiveChoice();
+
+        List<MoveAction> movements = match.getMovements(player, choice);
+        List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
+        message = new MoveProposalMessage(moveProposals);
+        client.sendMessage(message);
+
+        choice = client.receiveChoice();
+
+        movements.get(choice).execute(match);
     }
 }
