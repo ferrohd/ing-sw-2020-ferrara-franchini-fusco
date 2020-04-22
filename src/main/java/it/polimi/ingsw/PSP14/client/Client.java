@@ -4,10 +4,12 @@ import it.polimi.ingsw.PSP14.client.view.UI;
 import it.polimi.ingsw.PSP14.client.view.UIFactory;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
+/**
+ * This class is the entry point for the client, which handles the instancing of
+ * the match, setting the correct UI (CLI or GUI), connection to the server.
+ */
 public class Client {
     public static void main(String[] args) throws InterruptedException {
         // getting settings
@@ -35,7 +37,7 @@ public class Client {
         int port;
         hostname = settings.get("hostname");
         port = Integer.parseInt(settings.get("port"));
-        ui.noticeConnecting(hostname, port);
+        ui.notifyConnection(hostname, port);
 
         Socket serverSocket = null;
         boolean connected = false;
@@ -43,9 +45,9 @@ public class Client {
             try {
                 serverSocket = new Socket(hostname, port);
                 connected = true;
-                ui.notice("Connected!");
+                ui.notify("Connected!");
             } catch (IOException e) {
-                ui.notice("Could not connect to the server. Retrying...");
+                ui.notify("Could not connect to the server. Retrying...");
             }
         }
         ServerConnection connection = new TCPServerConnection(serverSocket);

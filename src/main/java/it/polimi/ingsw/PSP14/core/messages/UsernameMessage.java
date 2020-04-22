@@ -5,13 +5,16 @@ import it.polimi.ingsw.PSP14.client.view.UI;
 
 import java.io.IOException;
 
+/**
+ * This message purpose is to retrieve a username (string) from a
+ * client and send it back to the server.
+ */
 public class UsernameMessage implements ClientExecutableMessage {
     @Override
     public boolean execute(UI ui, ServerConnection serverConnection) {
         String name = ui.askUsername();
-        Message stringMessage = new StringMessage(name);
         try {
-            serverConnection.sendMessage(stringMessage);
+            serverConnection.sendMessage(new StringMessage(name));
         } catch(IOException e) {
             return false;
         }

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP14.core.proposals;
 
+/**
+ * Proposal containing data about a god.
+ */
 public class GodProposal implements Proposal {
     private String name;
 
