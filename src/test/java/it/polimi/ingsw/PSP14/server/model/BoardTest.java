@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.core;
+package it.polimi.ingsw.PSP14.server.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

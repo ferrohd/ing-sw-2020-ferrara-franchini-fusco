@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.server;
+package it.polimi.ingsw.PSP14.server.model.gods;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;

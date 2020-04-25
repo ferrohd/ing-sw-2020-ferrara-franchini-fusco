@@ -6,6 +6,8 @@ import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.Point;
 import it.polimi.ingsw.PSP14.server.model.TowerSizeException;
 
+import java.util.Objects;
+
 public class BuildAction extends Action implements Proposable {
     private Point point;
     private boolean dome;
@@ -33,5 +35,20 @@ public class BuildAction extends Action implements Proposable {
         }
 
         return true;
+    }
+
+    public boolean equals(BuildAction obj) {
+        return user.equals(obj.user) &&
+                dome == obj.dome &&
+                point.equals(obj.point);
+    }
+
+    @Override
+    public String toString() {
+        return "BuildAction{" +
+                "point=" + point +
+                ", dome=" + dome +
+                ", user='" + user + '\'' +
+                '}';
     }
 }

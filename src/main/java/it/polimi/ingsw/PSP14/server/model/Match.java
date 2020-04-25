@@ -52,8 +52,10 @@ public class Match {
      * @return the associated Player
      * @throws PlayerNotFoundException when the player is not found
      */
-    private Player getPlayerByUsername(String username){
-        return players.get(username);
+    public Player getPlayerByUsername(String username) throws PlayerNotFoundException{
+        Player player = players.get(username);
+        if (player == null) throw new PlayerNotFoundException();
+            return player;
     }
 
     public Board getBoard() {
@@ -74,36 +76,50 @@ public class Match {
     }
 
     /**
-     * Retrieve a list of the possible moves a player can do.
-     * @param player player to move
+     * Check if the target cell contains a worker.
+     * @param position the cell you want to check
+     * @return true if the cell does not contain a worker
+     */
+    public boolean isCellFree(Point position) {
+        for (Point wp : getWorkerPositions()) {
+            if (wp.equals(position))
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * Retrieve a list of the possible move actions a player can do.
+     * @param playerName player to move
      * @param worker index of worker to move
      * @return an array of Points to move to
      */
-    public List<MoveAction> getMovements(String player, int worker) {
-        ArrayList<Point> legalPositions = new ArrayList<>();
+    public List<MoveAction> getMovements(String playerName, int worker) throws PlayerNotFoundException {
+        ArrayList<MoveAction> legalMoves = new ArrayList<>();
 
-        ArrayList<Point> workerPositions = getWorkerPositions();
-        Player currPlayer = getPlayerByUsername(player);
+        Player currPlayer = getPlayerByUsername(playerName);
 
         Point currentPos = currPlayer.getWorker(worker).getPos();
         int currentLevel = board.getCell(currentPos).getTowerSize();
         for(Direction dir: Direction.values()) {
             Point toCheckPos = currentPos.move(dir);
-            int toCheckLevel = board.getCell(toCheckPos).getTowerSize();
-            if(!workerPositions.contains(toCheckPos) && toCheckLevel <= currentLevel+1 &&
-                    !board.getCell(toCheckPos).getIsCompleted() && Board.isValidPos(toCheckPos))
-                legalPositions.add(toCheckPos);
+            if (Board.isValidPos(toCheckPos)
+                    && !board.getCell(toCheckPos).getIsCompleted()
+                    && isCellFree(toCheckPos)) {
+                int toCheckLevel = board.getCell(toCheckPos).getTowerSize();
+                if (toCheckLevel <= currentLevel + 1)
+                    legalMoves.add(new MoveAction(playerName, currentPos, toCheckPos));
+            }
         }
 
-        players.values().forEach(p -> p.getGod().addMoves(legalPositions, currPlayer, currPlayer.getWorker(worker), this));
-        //players.values().forEach(p -> p.getGod().removeMoves(legalPositions, currPlayer, this));
+        players.values().forEach(p -> p.getGod().addMoves(legalMoves, currPlayer, currPlayer.getWorker(worker), this));
+        //players.values().forEach(p -> p.getGod().removeMoves(legalMoves, currPlayer, this));
 
-        List<MoveAction> legalActions = legalPositions.stream().map(p -> new MoveAction(player, currentPos, p)).collect(Collectors.toList());
-
-        return legalActions;
+        return legalMoves;
     }
 
     /**
+     * Retrieve a list of the possible build actions a player can do.
      * @param player player who builds
      * @param worker index of worker who builds
      * @return an array of Points where building is possible (including dome-building)
@@ -117,8 +133,11 @@ public class Match {
         Point currentPos = getPlayerByUsername(player).getWorker(worker).getPos();
         for(Direction dir: Direction.values()) {
             Point toCheckPos = currentPos.move(dir);
-            if(!workerPositions.contains(toCheckPos) && !board.getCell(toCheckPos).getIsCompleted())
+            if (Board.isValidPos(toCheckPos)
+                    && !board.getCell(toCheckPos).getIsCompleted()
+                    && isCellFree(toCheckPos)) {
                 buildablePositions.add(toCheckPos);
+            }
         }
 
         List<BuildAction> buildActions = buildablePositions.stream().map(p -> new BuildAction(player, p, board.getCell(p).getTowerSize() == 3)).collect(Collectors.toList());

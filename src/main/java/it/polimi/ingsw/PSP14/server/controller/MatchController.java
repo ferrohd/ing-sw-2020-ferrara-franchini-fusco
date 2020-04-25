@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP14.core.messages.*;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
+import it.polimi.ingsw.PSP14.server.model.PlayerNotFoundException;
 import it.polimi.ingsw.PSP14.server.model.gods.God;
 import it.polimi.ingsw.PSP14.server.model.gods.GodControllerFactory;
 import it.polimi.ingsw.PSP14.server.actions.*;
@@ -160,7 +161,7 @@ public class MatchController implements Runnable {
         Collections.rotate(players, players.size() - choice);
     }
 
-    private void turn(String player) throws IOException {
+    private void turn(String player) throws IOException, PlayerNotFoundException {
         ClientConnection client = clients.get(player);
         Message message = new WorkerIndexMessage();
         client.sendMessage(message);
