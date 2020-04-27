@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.core;
+package it.polimi.ingsw.PSP14.server.actions;
 
 import it.polimi.ingsw.PSP14.server.actions.*;
 import it.polimi.ingsw.PSP14.server.model.Match;

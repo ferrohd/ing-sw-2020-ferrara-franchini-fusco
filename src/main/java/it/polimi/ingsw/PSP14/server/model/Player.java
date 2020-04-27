@@ -18,10 +18,10 @@ public class Player {
      * @param username username of the player to display in game
      */
     public Player(String username, God god) {
+        if (username == null || username.equals("")) throw new NullPointerException();
         this.username = username;
         this.god = god;
-        // workers[0] = maleWorker;
-        // workers[1] = femaleWorker;
+
         setPlayerColor();
     }
 
@@ -41,6 +41,19 @@ public class Player {
      */
     public void moveWorker(int index, Direction dir) throws InvalidActionException, IndexOutOfBoundsException {
         workers[index].move(dir);
+    }
+
+    /**
+     * Create, or update position, of a worker, by specifying its index
+     * (0 or 1) and a new position.
+     * @param index {0, 1} the index of the worker
+     * @param position the position of the worker
+     */
+    public void setWorker(int index, Point position) {
+        if (workers[index] == null)
+            workers[index] = new Worker(position);
+        else
+            workers[index].setPos(position);
     }
 
     public Worker getWorker(int index) {

@@ -43,4 +43,9 @@ public class Point {
     public int distance(Point p) {
         return Math.abs(x - p.x) + Math.abs(y - p.y);
     }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
 }

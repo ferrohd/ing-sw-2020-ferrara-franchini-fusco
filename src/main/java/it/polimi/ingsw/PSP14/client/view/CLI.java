@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.model.Point;
 
@@ -116,6 +117,12 @@ public class CLI extends UI {
         options.add("1");
 
         return choose(options);
+    }
+
+    @Override
+    public int chooseGod(List<GodProposal> proposals) {
+        // TODO: Implement method
+        return 0;
     }
 }
 
