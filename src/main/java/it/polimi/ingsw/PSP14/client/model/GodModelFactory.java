@@ -22,16 +22,19 @@ public class GodModelFactory {
     /**
      * Constructs a GodModelFactory using a specific file.
      * @param godsFile file containing gods data
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
+     * @throws IOException for errors with opening, reading, or parsing the file
      */
-    public GodModelFactory(String godsFile) throws ParserConfigurationException, IOException, SAXException {
+    public GodModelFactory(String godsFile) throws IOException {
         godMap = new HashMap<>();
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.parse(new File(godsFile));
+        Document doc;
+        try {
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            doc = builder.parse(new File(godsFile));
+        } catch (Exception e) {
+            throw new IOException();
+        }
 
         Element root = (Element) doc.getFirstChild();
         NodeList gods = root.getElementsByTagName("god");

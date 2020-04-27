@@ -53,16 +53,7 @@ public class MatchTest {
 
     @Test
     void getPlayerByUsername() {
-        try {
-            assertEquals("Ada", match.getPlayerByUsername("Ada").getUsername());
-        } catch (PlayerNotFoundException e) {
-            fail();
-        }
-    }
-
-    @Test
-    void getPlayerByUsernameShouldThrow() {
-        assertThrows(PlayerNotFoundException.class, () -> match.getPlayerByUsername(null));
+        assertEquals("Ada", match.getPlayerByUsername("Ada").getUsername());
     }
 
     @Test

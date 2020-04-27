@@ -121,8 +121,42 @@ public class CLI extends UI {
 
     @Override
     public int chooseGod(List<GodProposal> proposals) {
-        // TODO: Implement method
-        return 0;
+        System.out.println("Choose your god:");
+        List<String> godNames = proposals.stream().map(GodProposal::getName).collect(Collectors.toList());
+
+        return choose(godNames);
+    }
+
+    @Override
+    public int chooseAvailableGods(List<GodProposal> gods) {
+        System.out.println("Choose gods for the match:");
+        List<String> godNames = gods.stream().map(GodProposal::getName).collect(Collectors.toList());
+
+        return choose(godNames);
+    }
+
+    @Override
+    public int[] chooseWorkerInitialPosition() {
+        System.out.println("Choose initial position for worker (es. 2 3):");
+        int[] coordinates = new int[2];
+        while(true) {
+            try {
+                String line = in.nextLine();
+                String[] tokens = line.split(" ");
+                coordinates[0] = Integer.parseInt(tokens[0]);
+                coordinates[1] = Integer.parseInt(tokens[1]);
+                if (coordinates[0] >= 0 && coordinates[0] < 5 && coordinates[1] >= 0 && coordinates[1] < 5) {
+                    break;
+                } else {
+                    System.out.println("Coordinates out of range! (between 0 and 4 included)");
+                }
+
+            } catch (Exception e) {
+                System.out.println("Input error!");
+            }
+        }
+
+        return coordinates;
     }
 }
 

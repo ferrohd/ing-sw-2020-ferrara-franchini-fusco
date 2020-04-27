@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.model.PlayerNotFoundException;
+import it.polimi.ingsw.PSP14.server.model.Point;
 import it.polimi.ingsw.PSP14.server.model.gods.God;
 import it.polimi.ingsw.PSP14.server.model.gods.GodControllerFactory;
 import it.polimi.ingsw.PSP14.server.actions.*;
@@ -76,7 +77,7 @@ public class MatchController implements Runnable {
 
         // Populate the available gods list from file
         try {
-            availableGods = GodfileParser.getGodIdList("gods/godlist.xml");
+            availableGods = GodfileParser.getGodIdList("src/main/resources/gods/godlist.xml");
         } catch (ParserConfigurationException | SAXException | IOException e) {
             //TODO: handle exception
             // Ideas: load a hardcoded set of gods?
@@ -101,9 +102,11 @@ public class MatchController implements Runnable {
 
         try {
             firstPlayerSelectFirst();
+            playersPlaceWorkers();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
         while(true) {
             for(String p: players) {
@@ -118,6 +121,21 @@ public class MatchController implements Runnable {
 
     }
 
+    private void playersPlaceWorkers() throws IOException {
+        for(int i = 0; i < 2; ++i) {
+            for (String p : players) {
+                ClientConnection connection = clients.get(p);
+                Message message = new WorkerInitialPositionMessage();
+                connection.sendMessage(message);
+                int[] coord = new int[2];
+                coord[0] = connection.receiveChoice();
+                coord[1] = connection.receiveChoice();
+                Point newPos = new Point(coord[0], coord[1]);
+                match.getPlayerByUsername(p).setWorker(i, newPos);
+            }
+        }
+    }
+
     /**
      * Receive each gods Player1 selects and add them to a list.
      * @param availableGods list of the names of the available gods.
@@ -126,12 +144,14 @@ public class MatchController implements Runnable {
         // Get the first player who has to choose the gods for the other players.
         ClientConnection firstPlayer = clients.get(players.get(0));
 
-        List<GodProposal> godProposals = availableGods.stream().map(GodProposal::new).collect(Collectors.toList());
-        GodSublistProposalMessage message = new GodSublistProposalMessage(godProposals, players.size());
 
         for (int i = 0; i < players.size(); i++) {
+            List<GodProposal> godProposals = availableGods.stream().map(GodProposal::new).collect(Collectors.toList());
+            GodSublistProposalMessage message = new GodSublistProposalMessage(godProposals);
+            firstPlayer.sendMessage(message);
             int choice = firstPlayer.receiveChoice();
             selectedGods.add(availableGods.get(choice));
+            availableGods.remove(choice);
         }
     }
 

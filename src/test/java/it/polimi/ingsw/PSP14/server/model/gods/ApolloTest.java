@@ -30,12 +30,8 @@ public class ApolloTest {
         match = new Match(players);
         moves = new ArrayList<>();
 
-        try {
-            player = match.getPlayerByUsername("Ada");
-            opponent = match.getPlayerByUsername("Bob");
-        } catch (PlayerNotFoundException e) {
-            fail();
-        }
+        player = match.getPlayerByUsername("Ada");
+        opponent = match.getPlayerByUsername("Bob");
         player.setWorker(0, new Point(0,0));
         player.setWorker(1, new Point(0,1));
 
