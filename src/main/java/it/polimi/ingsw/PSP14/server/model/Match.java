@@ -50,12 +50,9 @@ public class Match {
      * Retrieve a Player object by username.
      * @param username the username of the Player
      * @return the associated Player
-     * @throws PlayerNotFoundException when the player is not found
      */
-    public Player getPlayerByUsername(String username) throws PlayerNotFoundException{
-        Player player = players.get(username);
-        if (player == null) throw new PlayerNotFoundException();
-            return player;
+    public Player getPlayerByUsername(String username) {
+        return players.get(username);
     }
 
     public Board getBoard() {

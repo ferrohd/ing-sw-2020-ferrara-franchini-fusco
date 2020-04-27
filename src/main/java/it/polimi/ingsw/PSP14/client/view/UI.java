@@ -142,4 +142,8 @@ public abstract class UI {
      * @return the index of the chosen worker
      */
     public abstract int chooseWorker();
+
+    public abstract int chooseAvailableGods(List<GodProposal> gods);
+
+    public abstract int[] chooseWorkerInitialPosition();
 }

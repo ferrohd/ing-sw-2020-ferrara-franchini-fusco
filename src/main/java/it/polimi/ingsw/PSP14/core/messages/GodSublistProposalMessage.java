@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP14.client.ServerConnection;
 import it.polimi.ingsw.PSP14.client.view.UI;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 
+import java.io.IOException;
 import java.util.Collection;
 //TODO: Is this really needed?
 
@@ -12,19 +13,21 @@ import java.util.Collection;
  * (up to the number of players)
  */
 public class GodSublistProposalMessage extends ProposalMessage<GodProposal> {
-    private int nChoices;
 
-    public GodSublistProposalMessage(Collection<GodProposal> p, int nChoices) {
+    public GodSublistProposalMessage(Collection<GodProposal> p) {
         super(p);
-        this.nChoices = nChoices;
     }
 
     @Override
     public boolean execute(UI ui, ServerConnection serverConnection) {
-        return false;
-    }
-
-    public int getNChoices() {
-        return nChoices;
+        // Retrieve the index of the first player
+        int index = ui.chooseAvailableGods(getProposals());
+        // Send it back to the server
+        try {
+            serverConnection.sendMessage(new ChoiceMessage(index));
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
     }
 }
