@@ -1,3 +1,3 @@
 interface: cli
-hostname: localhost
+hostname: 2.35.98.254
 port: 42069
