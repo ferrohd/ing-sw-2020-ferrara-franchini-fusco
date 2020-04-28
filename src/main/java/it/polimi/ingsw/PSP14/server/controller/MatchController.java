@@ -184,29 +184,39 @@ public class MatchController implements Runnable {
 
     private void turn(String player) throws IOException, PlayerNotFoundException {
         ClientConnection client = clients.get(player);
+
+        int workerIndex = getWorkerIndex(client);
+
+        move(player, client, workerIndex);
+        match.getPlayers().forEach(p -> p.getGod().afterMove(player, workerIndex, client, match));
+        build(player, client, workerIndex);
+
+    }
+
+    public int getWorkerIndex(ClientConnection client) throws IOException {
         Message message = new WorkerIndexMessage();
+        client.sendMessage(message);
+
+        return client.receiveChoice();
+    }
+
+    public void move(String player, ClientConnection client, int workerIndex) throws IOException {
+        List<MoveAction> movements = match.getMovements(player, workerIndex);
+        List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
+        Message message = new MoveProposalMessage(moveProposals);
         client.sendMessage(message);
 
         int choice = client.receiveChoice();
 
-        List<MoveAction> movements = match.getMovements(player, choice);
-        List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
-        message = new MoveProposalMessage(moveProposals);
-        client.sendMessage(message);
-
-        choice = client.receiveChoice();
-
         movements.get(choice).execute(match);
+    }
 
-        message = new WorkerIndexMessage();
-        client.sendMessage(message);
-        choice = client.receiveChoice();
-
-        List<BuildAction> builds = match.getBuildable(player, choice);
+    public void build(String player, ClientConnection client, int workerIndex) throws IOException {
+        List<BuildAction> builds = match.getBuildable(player, workerIndex);
         List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
-        message = new BuildProposalMessage(buildProposals);
+        Message message = new BuildProposalMessage(buildProposals);
         client.sendMessage(message);
-        choice = client.receiveChoice();
+        int choice = client.receiveChoice();
         builds.get(choice).execute(match);
     }
 }

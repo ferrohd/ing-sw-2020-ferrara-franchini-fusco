@@ -91,7 +91,7 @@ public class Match {
      * @param worker index of worker to move
      * @return an array of Points to move to
      */
-    public List<MoveAction> getMovements(String playerName, int worker) throws PlayerNotFoundException {
+    public List<MoveAction> getMovements(String playerName, int worker) {
         ArrayList<MoveAction> legalMoves = new ArrayList<>();
 
         Player currPlayer = getPlayerByUsername(playerName);
@@ -110,7 +110,7 @@ public class Match {
         }
 
         players.values().forEach(p -> p.getGod().addMoves(legalMoves, currPlayer, currPlayer.getWorker(worker), this));
-        //players.values().forEach(p -> p.getGod().removeMoves(legalMoves, currPlayer, this));
+        players.values().forEach(p -> p.getGod().removeMoves(legalMoves, currPlayer, currPlayer.getWorker(worker), this));
 
         return legalMoves;
     }
@@ -120,9 +120,8 @@ public class Match {
      * @param player player who builds
      * @param worker index of worker who builds
      * @return an array of Points where building is possible (including dome-building)
-     * @throws PlayerNotFoundException if the player given is not playing
      */
-    public List<BuildAction> getBuildable(String player, int worker) throws PlayerNotFoundException {
+    public List<BuildAction> getBuildable(String player, int worker) {
         ArrayList<Point> buildablePositions = new ArrayList<>();
 
         ArrayList<Point> workerPositions = getWorkerPositions();
