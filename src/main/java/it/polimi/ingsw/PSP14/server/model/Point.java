@@ -1,9 +1,11 @@
 package it.polimi.ingsw.PSP14.server.model;
 
+import java.io.Serializable;
+
 /**
  * An immutable object containing integer 2D coordinates.
  */
-public class Point {
+public class Point implements Serializable {
     private int x;
     private int y;
 

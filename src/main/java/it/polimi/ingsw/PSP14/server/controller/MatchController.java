@@ -114,6 +114,7 @@ public class MatchController implements Runnable {
                 try {
                     turn(p);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     return;
                 }
             }
