@@ -11,6 +11,8 @@ public class GodControllerFactory {
                 return new Minotaur(owner);
             case "Atlas":
                 return new Atlas(owner);
+            case "Hephaestus":
+                return new Hephaestus(owner);
 
             // TODO: Add the other gods
             default:

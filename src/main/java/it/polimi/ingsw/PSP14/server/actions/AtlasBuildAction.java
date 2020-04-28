@@ -4,6 +4,6 @@ import it.polimi.ingsw.PSP14.server.model.Point;
 
 public class AtlasBuildAction extends BuildAction {
     public AtlasBuildAction(String user, Point point) {
-        super(user, point, true);
+        super(user, point, true, 0);
     }
 }

@@ -137,7 +137,7 @@ public class Match {
             }
         }
 
-        List<BuildAction> buildActions = buildablePositions.stream().map(p -> new BuildAction(player, p, board.getCell(p).getTowerSize() == 3)).collect(Collectors.toList());
+        List<BuildAction> buildActions = buildablePositions.stream().map(p -> new BuildAction(player, p, board.getCell(p).getTowerSize() == 3, 1)).collect(Collectors.toList());
 
         return buildActions;
     }
