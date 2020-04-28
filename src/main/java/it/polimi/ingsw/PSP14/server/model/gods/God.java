@@ -68,4 +68,14 @@ public class God {
      */
     public void afterMove(String player, int workerIndex, ClientConnection client, Match match){
     }
+
+    /**
+     * Implements god effects that activate right after a player has built
+     * @param player current turn's player
+     * @param workerIndex worker that has just built
+     * @param client ClientConnection relative to the current turn's player
+     * @param match current match
+     */
+    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match){
+    }
 }

@@ -182,7 +182,7 @@ public class MatchController implements Runnable {
         Collections.rotate(players, players.size() - choice);
     }
 
-    private void turn(String player) throws IOException, PlayerNotFoundException {
+    private void turn(String player) throws IOException {
         ClientConnection client = clients.get(player);
 
         int workerIndex = getWorkerIndex(client);
@@ -190,7 +190,7 @@ public class MatchController implements Runnable {
         move(player, client, workerIndex);
         match.getPlayers().forEach(p -> p.getGod().afterMove(player, workerIndex, client, match));
         build(player, client, workerIndex);
-
+        match.getPlayers().forEach(p -> p.getGod().afterBuild(player, workerIndex, client, match));
     }
 
     public int getWorkerIndex(ClientConnection client) throws IOException {

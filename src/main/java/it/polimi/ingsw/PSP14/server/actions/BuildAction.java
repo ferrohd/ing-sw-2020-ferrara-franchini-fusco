@@ -24,6 +24,11 @@ public class BuildAction extends Action implements Proposable {
         return new BuildProposal(point, dome, amount);
     }
 
+    public Point getPoint() {
+        return point;
+    }
+
+
     public boolean execute(Match match) {
         Cell cell = match.getBoard().getCell(point);
         if(dome) {
