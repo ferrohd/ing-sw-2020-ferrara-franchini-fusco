@@ -11,10 +11,12 @@ import it.polimi.ingsw.PSP14.server.model.Point;
 public class BuildProposal implements Proposal {
     private Point point;
     private boolean dome;
+    private int amount;
 
-    public BuildProposal(Point point, boolean dome) {
+    public BuildProposal(Point point, boolean dome, int amount) {
         this.point = point;
         this.dome = dome;
+        this.amount = amount;
     }
 
     public Point getPoint() {
@@ -23,5 +25,9 @@ public class BuildProposal implements Proposal {
 
     public boolean hasDome() {
         return dome;
+    }
+
+    public int getAmount() {
+        return amount;
     }
 }

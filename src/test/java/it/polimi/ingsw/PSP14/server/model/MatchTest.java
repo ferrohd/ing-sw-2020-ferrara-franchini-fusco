@@ -29,7 +29,7 @@ public class MatchTest {
     void actionHistoryShouldWork() {
         List<Action> actions = new LinkedList<>();
         actions.add(new MoveAction("Ada", new Point(0,0), new Point(1,1)));
-        actions.add(new BuildAction("Ada", new Point(0,0), false));
+        actions.add(new BuildAction("Ada", new Point(0,0), false, 1));
         actions.add(new MoveAction("Bob", new Point(1,2), new Point(2,2)));
 
         for( Action action : actions) {
@@ -115,8 +115,8 @@ public class MatchTest {
             // I can't find a suitable way to compare two Collections
             // ignoring the order of the elements. Sorting is an option
             // I'm too lazy to do right now.
-            expected.add(new BuildAction("Ada", new Point(1, 1), false));
-            expected.add(new BuildAction("Ada", new Point(1, 0), false));
+            expected.add(new BuildAction("Ada", new Point(1, 1), false, 1));
+            expected.add(new BuildAction("Ada", new Point(1, 0), false, 1));
 
             for (int i = 0; i < expected.size(); i++) {
                 System.out.println(expected.get(i).toString() + " vs \n" + actual.get(i).toString());

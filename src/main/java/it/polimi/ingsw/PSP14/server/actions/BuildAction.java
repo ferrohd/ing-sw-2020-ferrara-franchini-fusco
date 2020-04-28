@@ -11,15 +11,17 @@ import java.util.Objects;
 public class BuildAction extends Action implements Proposable {
     private Point point;
     private boolean dome;
+    private int amount;
 
-    public BuildAction(String user, Point point, boolean dome) {
+    public BuildAction(String user, Point point, boolean dome, int amount) {
         super(user);
         this.point = point;
         this.dome = dome;
+        this.amount = amount;
     }
 
     public BuildProposal getProposal() {
-        return new BuildProposal(point, dome);
+        return new BuildProposal(point, dome, amount);
     }
 
     public boolean execute(Match match) {
@@ -28,7 +30,8 @@ public class BuildAction extends Action implements Proposable {
             cell.setAsCompleted();
         } else {
             try {
-                cell.incrementTowerSize();
+                for(int i = 0; i < amount; ++i)
+                    cell.incrementTowerSize();
             } catch(TowerSizeException e) {
                 return false;
             }
