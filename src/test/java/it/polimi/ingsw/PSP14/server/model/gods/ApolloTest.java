@@ -43,7 +43,7 @@ public class ApolloTest {
     @Test
     void addMovesShouldAddASingleMove() {
 
-        Apollo.getInstance().addMoves(moves, player, worker, match);
+        new Apollo("Ada").addMoves(moves, player, worker, match);
         assertTrue(moves.get(0).equals(new MoveAction("Ada", new Point(0,0), new Point(0, 1))));
         assertEquals(1, moves.size());
     }
@@ -51,7 +51,7 @@ public class ApolloTest {
     @Test
     void addMovesShouldNotAddAnyMoves() {
         player.setWorker(0, new Point(0, 4));
-        Apollo.getInstance().addMoves(moves, player, worker, match);
+        new Apollo("Ada").addMoves(moves, player, worker, match);
         assertEquals(0, moves.size());
     }
 }

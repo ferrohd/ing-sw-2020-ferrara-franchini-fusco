@@ -16,18 +16,15 @@ import java.util.List;
  * the space yours just vacated.
  */
 public class Apollo extends God {
-    private static Apollo ref = new Apollo();
-    private Apollo() { }
-
-    public static Apollo getInstance() {
-        if (ref == null) {
-            ref = new Apollo();
-        }
-        return ref;
+    public Apollo(String owner) {
+        super(owner);
     }
 
     @Override
     public void addMoves(List<MoveAction> moves, Player player, Worker worker, Match match) {
+        if(!player.getUsername().equals(getOwner())) {
+            return;
+        }
         List<Point> workerPos = match.getWorkerPositions();
         workerPos.remove(player.getWorker(0).getPos());
         workerPos.remove(player.getWorker(1).getPos());

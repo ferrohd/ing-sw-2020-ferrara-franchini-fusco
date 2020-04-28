@@ -14,12 +14,12 @@ public class GodTest {
     @Test
     void factoryShouldNotThrow() {
         assertDoesNotThrow(() -> {
-            God testGod = GodControllerFactory.getController("Apollo");
+            God testGod = GodControllerFactory.getController("Apollo", "prova");
         });
     }
 
     @Test
     void factoryShouldThrow() {
-        assertThrows(GodNotFoundException.class, () -> GodControllerFactory.getController("Shiva"));
+        assertThrows(GodNotFoundException.class, () -> GodControllerFactory.getController("Shiva", "prova"));
     }
 }

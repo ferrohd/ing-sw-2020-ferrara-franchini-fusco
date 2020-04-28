@@ -26,7 +26,7 @@ public class Match {
     public Match(Set<String> usernames) {
         // Init players
         for (String username : usernames) {
-            players.put(username, new Player(username, new God()));
+            players.put(username, new Player(username, new God(username)));
         }
         // Init board
         this.board = new Board();
