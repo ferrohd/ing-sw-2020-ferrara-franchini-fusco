@@ -9,6 +9,7 @@ import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.server.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.Match;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class Demeter extends God {
     }
 
     @Override
-    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) {
+    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController) {
         Message message = new YesNoMessage("DEMETER: Do you want to build again?");
         int choice;
         try {

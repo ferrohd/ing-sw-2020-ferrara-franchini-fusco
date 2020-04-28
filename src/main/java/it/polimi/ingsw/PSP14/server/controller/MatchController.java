@@ -188,9 +188,9 @@ public class MatchController implements Runnable {
         int workerIndex = getWorkerIndex(client);
 
         move(player, client, workerIndex);
-        match.getPlayers().forEach(p -> p.getGod().afterMove(player, workerIndex, client, match));
+        match.getPlayers().forEach(p -> p.getGod().afterMove(player, workerIndex, client, match, this));
         build(player, client, workerIndex);
-        match.getPlayers().forEach(p -> p.getGod().afterBuild(player, workerIndex, client, match));
+        match.getPlayers().forEach(p -> p.getGod().afterBuild(player, workerIndex, client, match, this));
     }
 
     public int getWorkerIndex(ClientConnection client) throws IOException {
@@ -218,5 +218,11 @@ public class MatchController implements Runnable {
         client.sendMessage(message);
         int choice = client.receiveChoice();
         builds.get(choice).execute(match);
+    }
+
+    public void end(String winningPlayer) {
+        // TODO: end the game, notify the players
+        System.out.println(winningPlayer + " won!");
+        System.exit(0);
     }
 }

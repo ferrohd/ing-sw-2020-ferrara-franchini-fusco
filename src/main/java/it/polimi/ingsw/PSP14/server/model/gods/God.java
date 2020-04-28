@@ -65,8 +65,9 @@ public class God {
      * @param workerIndex worker that has just moved
      * @param client ClientConnection relative to the current turn's player
      * @param match current match
+     * @param matchController current matchController
      */
-    public void afterMove(String player, int workerIndex, ClientConnection client, Match match){
+    public void afterMove(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController){
     }
 
     /**
@@ -75,7 +76,8 @@ public class God {
      * @param workerIndex worker that has just built
      * @param client ClientConnection relative to the current turn's player
      * @param match current match
+     * @param matchController current matchController
      */
-    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match){
+    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController){
     }
 }
