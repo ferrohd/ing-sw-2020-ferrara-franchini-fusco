@@ -10,7 +10,7 @@ public class UIFactory {
             case "cli":
                 return new CLI();
             case "gui":
-                //return new GUI();
+                return new GUI();
             default:
                 throw new InvalidSettingsException();
         }

@@ -3,6 +3,14 @@ package it.polimi.ingsw.PSP14.client.view;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 import java.util.List;
 
 public class GUI extends UI {
@@ -21,7 +29,7 @@ public class GUI extends UI {
      */
     @Override
     public void welcome() {
-
+        GUIUtils.launch(GUIUtils.class);
     }
 
     /**
@@ -105,5 +113,30 @@ public class GUI extends UI {
     @Override
     public int[] chooseWorkerInitialPosition() {
         return new int[0];
+    }
+}
+
+class GUIUtils extends Application {
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        Button btn = new Button();
+        btn.setText("Say 'Hello World'");
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Hello World!");
+            }
+        });
+
+        StackPane root = new StackPane();
+        root.getChildren().add(btn);
+
+        Scene scene = new Scene(root, 300, 250);
+
+        stage.setTitle("Hello World!");
+        stage.setScene(scene);
+        stage.show();
     }
 }
