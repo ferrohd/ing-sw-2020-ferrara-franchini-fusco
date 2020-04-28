@@ -18,18 +18,15 @@ import java.util.List;
  * 8
  */
 public class Minotaur extends God {
-    private static Minotaur ref = new Minotaur();
-    private Minotaur() { }
-
-    public static Minotaur getInstance() {
-        if (ref == null) {
-            ref = new Minotaur();
-        }
-        return ref;
+    public Minotaur(String owner) {
+        super(owner);
     }
 
     @Override
     public void addMoves(List<MoveAction> moves, Player player, Worker worker, Match match) {
+        if(!player.getUsername().equals(getOwner())) {
+            return;
+        }
         List<Point> workerPos = match.getWorkerPositions();
         workerPos.remove(player.getWorker(0).getPos());
         workerPos.remove(player.getWorker(1).getPos());

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
 import it.polimi.ingsw.PSP14.core.messages.*;
+import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
@@ -165,7 +166,7 @@ public class MatchController implements Runnable {
             GodChoiceProposalMessage message = new GodChoiceProposalMessage(godProposals);
             player.sendMessage(message);
             int choice = player.receiveChoice();
-            this.gods.put(players.get(i), GodControllerFactory.getController(selectedGods.get(choice)));
+            this.gods.put(players.get(i), GodControllerFactory.getController(selectedGods.get(choice), players.get(i)));
             selectedGods.remove(choice);
         }
     }
@@ -196,5 +197,16 @@ public class MatchController implements Runnable {
         choice = client.receiveChoice();
 
         movements.get(choice).execute(match);
+
+        message = new WorkerIndexMessage();
+        client.sendMessage(message);
+        choice = client.receiveChoice();
+
+        List<BuildAction> builds = match.getBuildable(player, choice);
+        List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
+        message = new BuildProposalMessage(buildProposals);
+        client.sendMessage(message);
+        choice = client.receiveChoice();
+        builds.get(choice).execute(match);
     }
 }

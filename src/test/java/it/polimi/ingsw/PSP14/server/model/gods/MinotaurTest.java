@@ -45,7 +45,7 @@ public class MinotaurTest {
     @Test
     void addMovesShouldAddASingleMove() {
 
-        Minotaur.getInstance().addMoves(moves, player, worker, match);
+        new Minotaur("Ada").addMoves(moves, player, worker, match);
         assertTrue(moves.get(0).equals(new MoveAction("Ada", new Point(0,0), new Point(0, 1))));
         System.out.println(moves.get(0).toString());
         assertEquals(1, moves.size());
@@ -55,7 +55,7 @@ public class MinotaurTest {
     void addMovesShouldNotAddAnyMoves() {
         // Player worker has not opponent workers close to it
         player.setWorker(0, new Point(0, 4));
-        Minotaur.getInstance().addMoves(moves, player, worker, match);
+        new Minotaur("Ada").addMoves(moves, player, worker, match);
         assertEquals(0, moves.size());
     }
 
@@ -65,7 +65,7 @@ public class MinotaurTest {
         // It passes, but it shouldn't?
         opponent.setWorker(0, new Point(0, 0));
         player.setWorker(0, new Point(1,0));
-        Minotaur.getInstance().addMoves(moves, player, worker, match);
+        new Minotaur("Ada").addMoves(moves, player, worker, match);
         assertEquals(0, moves.size());
     }
 }

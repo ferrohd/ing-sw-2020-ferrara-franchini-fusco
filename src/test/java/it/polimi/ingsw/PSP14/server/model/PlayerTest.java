@@ -12,14 +12,14 @@ public class PlayerTest {
 
     @BeforeEach
     void setUp() {
-        testPlayer = new Player("Ada", new God());
+        testPlayer = new Player("Ada", new God("Ada"));
         testPlayer.setWorker(0, new Point(0,0));
     }
 
     @Test
     void playerShouldInstantiate() {
         assertDoesNotThrow(() -> {
-            testPlayer = new Player("Ada", new God());
+            testPlayer = new Player("Ada", new God("Ada"));
         });
         assertEquals("Ada", testPlayer.getUsername());
         assertNotEquals(null, testPlayer.getColor());
@@ -28,7 +28,7 @@ public class PlayerTest {
     @Test
     void playerShouldNotInstantiate() {
         assertThrows(NullPointerException.class, () -> {
-            testPlayer = new Player(null, new God());
+            testPlayer = new Player(null, new God("Ada"));
         });
     }
 
