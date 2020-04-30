@@ -114,6 +114,7 @@ public class MatchController implements Runnable {
                 try {
                     turn(p);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     return;
                 }
             }
@@ -182,31 +183,54 @@ public class MatchController implements Runnable {
         Collections.rotate(players, players.size() - choice);
     }
 
-    private void turn(String player) throws IOException, PlayerNotFoundException {
+    private void turn(String player) throws IOException {
         ClientConnection client = clients.get(player);
+
+        match.getPlayers().forEach(p -> p.getGod().beforeTurn(player, client, match, this));
+
+        int workerIndex = getWorkerIndex(client);
+
+        move(player, client, workerIndex);
+        build(player, client, workerIndex);
+    }
+
+    public int getWorkerIndex(ClientConnection client) throws IOException {
         Message message = new WorkerIndexMessage();
+        client.sendMessage(message);
+
+        return client.receiveChoice();
+    }
+
+    public void move(String player, ClientConnection client, int workerIndex) throws IOException {
+        match.getPlayers().forEach(p -> p.getGod().beforeMove(player, workerIndex, client, match, this));
+
+        List<MoveAction> movements = match.getMovements(player, workerIndex);
+        List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
+        Message message = new MoveProposalMessage(moveProposals);
         client.sendMessage(message);
 
         int choice = client.receiveChoice();
 
-        List<MoveAction> movements = match.getMovements(player, choice);
-        List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
-        message = new MoveProposalMessage(moveProposals);
-        client.sendMessage(message);
-
-        choice = client.receiveChoice();
-
         movements.get(choice).execute(match);
 
-        message = new WorkerIndexMessage();
-        client.sendMessage(message);
-        choice = client.receiveChoice();
+        match.getPlayers().forEach(p -> p.getGod().afterMove(player, workerIndex, client, match, this));
+    }
 
-        List<BuildAction> builds = match.getBuildable(player, choice);
+    public void build(String player, ClientConnection client, int workerIndex) throws IOException {
+        List<BuildAction> builds = match.getBuildable(player, workerIndex);
         List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
-        message = new BuildProposalMessage(buildProposals);
+        Message message = new BuildProposalMessage(buildProposals);
         client.sendMessage(message);
-        choice = client.receiveChoice();
+        int choice = client.receiveChoice();
+
         builds.get(choice).execute(match);
+
+        match.getPlayers().forEach(p -> p.getGod().afterBuild(player, workerIndex, client, match, this));
+    }
+
+    public void end(String winningPlayer) {
+        // TODO: end the game, notify the players
+        System.out.println(winningPlayer + " won!");
+        System.exit(0);
     }
 }

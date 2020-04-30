@@ -24,6 +24,7 @@ public class MoveAction extends Action implements Proposable {
             for(int i = 0; i < 2; ++i) {
                 if(p.getWorker(i).getPos().equals(from)) {
                     p.getWorker(i).setPos(to);
+                    match.addActionToHistory(this);
                     return true;
                 }
             }
@@ -31,11 +32,11 @@ public class MoveAction extends Action implements Proposable {
         return false;
     }
 
-    protected Point getFrom() {
+    public Point getFrom() {
         return from;
     }
 
-    protected Point getTo() {
+    public Point getTo() {
         return to;
     }
 
