@@ -70,6 +70,9 @@ public class God {
     public void afterMove(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController){
     }
 
+    public void beforeMove(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController){
+    }
+
     /**
      * Implements god effects that activate right after a player has built
      * @param player current turn's player
@@ -79,5 +82,8 @@ public class God {
      * @param matchController current matchController
      */
     public void afterBuild(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController){
+    }
+
+    public void beforeBuild(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController){
     }
 }
