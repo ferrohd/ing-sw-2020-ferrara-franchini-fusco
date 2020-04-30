@@ -22,6 +22,8 @@ public class Prometheus extends God {
 
     @Override
     public void beforeMove(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController) {
+        if(!player.equals(getOwner())) return;
+
         Message message = new YesNoMessage("PROMETHEUS: do you want to build now?");
         int choice;
         try {
@@ -47,6 +49,8 @@ public class Prometheus extends God {
 
     @Override
     public void removeMoves(List<MoveAction> moves, Player player, Worker worker, Match match) {
+        if(!player.getUsername().equals(getOwner())) return;
+
         if(activated) {
             List<MoveAction> illegalMoves = moves.stream().filter(m -> {
                 return match.getBoard().getTowerSize(m.getFrom()) < match.getBoard().getTowerSize(m.getTo());

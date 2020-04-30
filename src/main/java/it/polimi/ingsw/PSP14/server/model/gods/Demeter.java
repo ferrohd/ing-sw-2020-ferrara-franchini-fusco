@@ -23,6 +23,8 @@ public class Demeter extends God {
 
     @Override
     public void afterBuild(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController) {
+        if(!player.equals(getOwner())) return;
+
         Message message = new YesNoMessage("DEMETER: Do you want to build again?");
         int choice;
         try {

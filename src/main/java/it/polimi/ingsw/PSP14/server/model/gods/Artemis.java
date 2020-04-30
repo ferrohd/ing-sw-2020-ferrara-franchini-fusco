@@ -20,6 +20,8 @@ public class Artemis extends God {
 
     @Override
     public void afterMove(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController) {
+        if(!player.equals(getOwner())) return;
+
         Message message = new YesNoMessage("Do you want to move again?");
         int choice;
         try {

@@ -186,12 +186,12 @@ public class MatchController implements Runnable {
     private void turn(String player) throws IOException {
         ClientConnection client = clients.get(player);
 
+        match.getPlayers().forEach(p -> p.getGod().beforeTurn(player, client, match, this));
+
         int workerIndex = getWorkerIndex(client);
 
         move(player, client, workerIndex);
-        match.getPlayers().forEach(p -> p.getGod().afterMove(player, workerIndex, client, match, this));
         build(player, client, workerIndex);
-        match.getPlayers().forEach(p -> p.getGod().afterBuild(player, workerIndex, client, match, this));
     }
 
     public int getWorkerIndex(ClientConnection client) throws IOException {
@@ -202,6 +202,8 @@ public class MatchController implements Runnable {
     }
 
     public void move(String player, ClientConnection client, int workerIndex) throws IOException {
+        match.getPlayers().forEach(p -> p.getGod().beforeMove(player, workerIndex, client, match, this));
+
         List<MoveAction> movements = match.getMovements(player, workerIndex);
         List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
         Message message = new MoveProposalMessage(moveProposals);
@@ -210,6 +212,8 @@ public class MatchController implements Runnable {
         int choice = client.receiveChoice();
 
         movements.get(choice).execute(match);
+
+        match.getPlayers().forEach(p -> p.getGod().afterMove(player, workerIndex, client, match, this));
     }
 
     public void build(String player, ClientConnection client, int workerIndex) throws IOException {
@@ -218,7 +222,10 @@ public class MatchController implements Runnable {
         Message message = new BuildProposalMessage(buildProposals);
         client.sendMessage(message);
         int choice = client.receiveChoice();
+
         builds.get(choice).execute(match);
+
+        match.getPlayers().forEach(p -> p.getGod().afterBuild(player, workerIndex, client, match, this));
     }
 
     public void end(String winningPlayer) {

@@ -86,4 +86,7 @@ public class God {
 
     public void beforeBuild(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController){
     }
+
+    public void beforeTurn(String player, ClientConnection client, Match match, MatchController matchController){
+    }
 }
