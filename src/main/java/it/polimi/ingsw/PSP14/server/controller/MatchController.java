@@ -192,6 +192,8 @@ public class MatchController implements Runnable {
 
         move(player, client, workerIndex);
         build(player, client, workerIndex);
+
+        match.getPlayers().forEach(p -> p.getGod().afterTurn(player, workerIndex, client, match, this));
     }
 
     public int getWorkerIndex(ClientConnection client) throws IOException {

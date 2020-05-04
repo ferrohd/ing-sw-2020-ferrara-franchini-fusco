@@ -92,4 +92,7 @@ public class God {
 
     public void beforeTurn(String player, ClientConnection client, Match match, MatchController matchController){
     }
+
+    public void afterTurn(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController){
+    }
 }
