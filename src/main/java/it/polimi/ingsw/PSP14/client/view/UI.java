@@ -79,44 +79,37 @@ public abstract class UI {
         _player.unsetWorker(workerId);
     }
 
+
     /**
-     * Move a worker from a position to another
-     * @param oldPos the starting position
-     * @param newPos the final position
+     * Increment the tower height at the specified cell position.
+     * @param position position
      */
-    public void moveWorker(Point startPosition, Point endPosition) {
-        UIPlayer _player = cache.getCell(startPosition).getWorker();
-        unsetWorker(startPosition);
-        uns(endPosition, player);
+    public void incrementCell(UIPoint position) {
+        cache.getCell(position).incrementTowerHeight();
     }
 
     /**
-     * Add a block to the specified cell position.
-     * @param pos position
+     * Decrement the tower height at the specified cell position.
+     * @param position the position
      */
-    public void drawBlockAdd(Point pos) {
-        cache.getBlock(pos).incrementSize();
+    public void decrementCell(UIPoint position) {
+        cache.getCell(position).decrementTowerHeight();
     }
+
     /**
-     * Remove a block from the specified cell position.
-     * @param pos the position
+     * Add a dome (marking a tower as complete) to the specified cell position.
+     * @param position the position
      */
-    public void drawBlockRemove(Point pos) {
-        cache.getBlock(pos).decrementSize();
+    public void setDome(UIPoint position) {
+        cache.getCell(position).setDome(true);
     }
+
     /**
-     * Add a dome (completing a tower) to the specified cell position.
-     * @param pos the position
+     * Remove a dome (un-completing a tower) from the specified cell position.
+     * @param position the position
      */
-    public void drawDomeAdd(Point pos) {
-        cache.getBlock(pos).setDome();
-    }
-    /**
-     * Remove a dome (completing a tower) from the specified cell position.
-     * @param pos the position
-     */
-    public void drawDomeRemove(Point pos) {
-        cache.getBlock(pos).unsetDome();
+    public void unsetDome(UIPoint position) {
+        cache.getCell(position).setDome(false);
     }
 
     /*

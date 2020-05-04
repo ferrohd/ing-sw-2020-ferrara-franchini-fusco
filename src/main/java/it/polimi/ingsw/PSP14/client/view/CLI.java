@@ -3,7 +3,11 @@ package it.polimi.ingsw.PSP14.client.view;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.sun.org.apache.xerces.internal.parsers.IntegratedParserConfiguration;
 import it.polimi.ingsw.PSP14.client.model.UICell;
+import it.polimi.ingsw.PSP14.client.model.UIColor;
+import it.polimi.ingsw.PSP14.client.model.UIPlayer;
+import it.polimi.ingsw.PSP14.client.model.UIPoint;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.model.Point;
@@ -22,15 +26,14 @@ public class CLI extends UI {
      */
     private final Scanner in = new Scanner(System.in);
 
-
-
     private void drawPlayerNames() {
         canvas.addRect(INFO_START_X, BOARD_START_Y, 40, BOARD_HEIGHT);
         canvas.addLine(INFO_START_X, BOARD_START_Y + 2, INFO_START_X + 40, BOARD_START_Y + 2);
         canvas.addText(INFO_START_X + 2, BOARD_START_Y + 1, "Players", CLIColor.RESET);
         int i = 0;
-        for(String player : getCache().getPlayers()) {
-            canvas.addText(INFO_START_X + 2, BOARD_START_Y + 3 + i, (i+1) + ". " + player, (CLIColor) getColorMap().get(player));
+        for(UIPlayer player : cache.getPlayers()) {
+            canvas.addText(INFO_START_X + 2, BOARD_START_Y + 3 + i,
+                    (i+1) + ". " + player.getUsername(), (CLIColor) player.getColor());
             i += 1;
         }
     }
@@ -48,9 +51,9 @@ public class CLI extends UI {
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-                UICell block = getCache().getBlock(new Point(i,j));
-                int playerId = getCache().getPlayers().indexOf(block.getWorker().getPlayer());
-                drawCell(i, j, block.getSize(), block.hasDome(), playerId, block.hasWorker());
+                UICell cell = cache.getCell(new UIPoint(i,j));
+                int playerId = cache.getPlayers().indexOf(cell.getWorker().getPlayer());
+                drawCell(i, j, cell.getTowerHeight(), cell.hasDome(), playerId, cell.hasWorker());
             }
         }
     }
@@ -68,6 +71,13 @@ public class CLI extends UI {
         drawPlayerNames();
         drawBoard();
         canvas.print();
+    }
+
+    @Override
+    public UIColor getColor() {
+        CLIColor[] _colors = CLIColor.values();
+        CLIColor _newColor = _colors[new Random().nextInt(_colors.length)];
+        return _newColor;
     }
 
     @Override

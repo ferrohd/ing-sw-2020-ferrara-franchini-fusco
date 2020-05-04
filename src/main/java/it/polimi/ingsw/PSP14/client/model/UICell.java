@@ -15,8 +15,12 @@ public class UICell {
         return towerHeight;
     }
 
-    public void setTowerHeight(int towerHeight) {
-        this.towerHeight = towerHeight;
+    public void incrementTowerHeight() {
+        this.towerHeight += 1;
+    }
+
+    public void decrementTowerHeight() {
+        this.towerHeight -= 1;
     }
 
     public boolean hasDome() {
@@ -33,6 +37,10 @@ public class UICell {
      */
     public UIWorker getWorker() {
         return worker;
+    }
+
+    public boolean hasWorker() {
+        return worker != null;
     }
 
     public void setWorker(UIWorker worker) {
