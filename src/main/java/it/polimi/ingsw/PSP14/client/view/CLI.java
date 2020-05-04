@@ -1,54 +1,83 @@
 package it.polimi.ingsw.PSP14.client.view;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import com.sun.org.apache.xerces.internal.parsers.IntegratedParserConfiguration;
+import it.polimi.ingsw.PSP14.client.model.UICell;
+import it.polimi.ingsw.PSP14.client.model.UIColor;
+import it.polimi.ingsw.PSP14.client.model.UIPlayer;
+import it.polimi.ingsw.PSP14.client.model.UIPoint;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.model.Point;
 
 public class CLI extends UI {
-    private static final String CELL_S = "%d%s",
-        HDELIM_S = "---------------",
-        VDELIM_S = "|";
+    private static final CLIHelper canvas = new CLIHelper(20, 70);
 
-    private Scanner in = new Scanner(System.in);
+    private final int
+            BOARD_START_X = 1,
+            BOARD_START_Y = 1,
+            BOARD_WIDTH = 25,
+            BOARD_HEIGHT = 10,
+            INFO_START_X = BOARD_START_X + BOARD_WIDTH + 3;
+    /**
+     * The user input. Use it to read what the user types in the console.
+     */
+    private final Scanner in = new Scanner(System.in);
 
-    CLIColor getColor() {
-        CLIColor[] colorList = CLIColor.values();
-        CLIColor toRet;
-        while((toRet = colorList[new Random().nextInt(colorList.length)]) == CLIColor.RESET);
-
-        return toRet;
-    }
-
-    public void update() {
-        StringBuilder sbuf = new StringBuilder();
-        sbuf.append(CLIColor.RESET).append(HDELIM_S).append("\n");
-        for(int j = 0; j < 5; ++j) {
-            sbuf.append(VDELIM_S);
-            for(int i = 0; i < 5; ++i) {
-                sbuf.append(getCellString(new Point(i, j))).append(VDELIM_S);
-            }
-            sbuf.append("\n");
+    private void drawPlayerNames() {
+        canvas.addRect(INFO_START_X, BOARD_START_Y, 40, BOARD_HEIGHT);
+        canvas.addLine(INFO_START_X, BOARD_START_Y + 2, INFO_START_X + 40, BOARD_START_Y + 2);
+        canvas.addText(INFO_START_X + 2, BOARD_START_Y + 1, "Players", CLIColor.RESET);
+        int i = 0;
+        for(UIPlayer player : cache.getPlayers()) {
+            canvas.addText(INFO_START_X + 2, BOARD_START_Y + 3 + i,
+                    (i+1) + ". " + player.getUsername(), (CLIColor) player.getColor());
+            i += 1;
         }
-        sbuf.append(HDELIM_S).append("\n");
-
-        System.out.print(sbuf);
     }
 
-    private String getCellString(Point pos) {
-        String towerString = getCache().getBlock(pos).getHasDome() ?
-                "X" :
-                Integer.toString(getCache().getBlock(pos).getSize());
-        String workerString = getCache().getBlock(pos).hasWorker() ?
-                getColorMap().get(getCache().getBlock(pos).getWorker()) + "W" + CLIColor.RESET :
-                " ";
+    private void drawBoard() {
+        canvas.addRect(BOARD_START_X, BOARD_START_Y, BOARD_WIDTH, BOARD_HEIGHT);
+        for (int i = 0; i <= 4; i++) {
+            int padding = BOARD_START_Y + 2 * i;
+            canvas.addLine(BOARD_START_X, padding , BOARD_START_X + BOARD_WIDTH, padding);
+        }
+        for (int i = 0; i <= 4; i++) {
+            int padding = BOARD_START_X + 5*i;
+            canvas.addLine(padding, BOARD_START_Y, padding, BOARD_START_Y + BOARD_HEIGHT);
+        }
 
-        return towerString + workerString;
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                UICell cell = cache.getCell(new UIPoint(i,j));
+                int playerId = cache.getPlayers().indexOf(cell.getWorker().getPlayer());
+                drawCell(i, j, cell.getTowerHeight(), cell.hasDome(), playerId, cell.hasWorker());
+            }
+        }
+    }
+
+    private void drawCell(int x, int y, int towerHeight, boolean dome, int player, boolean worker) {
+        int paddingLeft= BOARD_START_X + 1 + 5*x;
+        int paddingTop = BOARD_START_Y + 1 + 2*y;
+        canvas.addText(paddingLeft, paddingTop, towerHeight + (dome ? "D" : " "), CLIColor.RESET);
+        canvas.addText(paddingLeft+2, paddingTop, (worker ? player + "W" : "  "), CLIColor.RESET);
+    }
+
+    /* UI Methods */
+    @Override
+    public void update() {
+        drawPlayerNames();
+        drawBoard();
+        canvas.print();
+    }
+
+    @Override
+    public UIColor getColor() {
+        CLIColor[] _colors = CLIColor.values();
+        CLIColor _newColor = _colors[new Random().nextInt(_colors.length)];
+        return _newColor;
     }
 
     @Override
@@ -160,22 +189,3 @@ public class CLI extends UI {
     }
 }
 
-enum CLIColor implements Color {
-    RESET("\033[0m"),
-    RED("\033[0;31m"),
-    GREEN("\033[0;32m"),
-    YELLOW("\033[0;33m"),
-    BLUE("\033[0;34m"),
-    MAGENTA("\033[0;35m"),
-    CYAN("\033[0;36m");
-
-    private String code;
-
-    CLIColor(String code) {
-        this.code = code;
-    }
-
-    public String toString() {
-        return code;
-    }
-}

@@ -3,11 +3,9 @@ package it.polimi.ingsw.PSP14.client.model;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,15 +14,15 @@ import java.util.Map;
 /**
  * Returns GodModel instances found in the godsFile.
  */
-public class GodModelFactory {
-    private Map<String, GodModel> godMap;
+public class GodFactory {
+    private final Map<String, UIGod> godMap;
 
     /**
      * Constructs a GodModelFactory using a specific file.
      * @param godsFile file containing gods data
      * @throws IOException for errors with opening, reading, or parsing the file
      */
-    public GodModelFactory(String godsFile) throws IOException {
+    public GodFactory(String godsFile) throws IOException {
         godMap = new HashMap<>();
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -48,7 +46,7 @@ public class GodModelFactory {
 
             godMap.put(
                     godName,
-                    new GodModelImplementation(godName, godAlias, godAbility, godDescription)
+                    new UIGod(godName, godAlias, godAbility, godDescription)
             );
         }
     }
@@ -58,7 +56,7 @@ public class GodModelFactory {
      * @param godName the name of the god
      * @return the GodModel instance
      */
-    public GodModel getGodModel(String godName) {
+    public UIGod getGod(String godName) {
         return godMap.get(godName);
     }
 }
@@ -66,10 +64,10 @@ public class GodModelFactory {
 /**
  * Implementation of the GodModel, visible only to GodModelFactory.
  */
-class GodModelImplementation implements GodModel {
+class UIGod {
     private final String name, alias, ability, description;
 
-    public GodModelImplementation(String name, String alias, String ability, String description) {
+    public UIGod(String name, String alias, String ability, String description) {
         this.name = name;
         this.alias = alias;
         this.ability = ability;
