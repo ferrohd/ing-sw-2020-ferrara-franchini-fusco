@@ -59,6 +59,9 @@ public class God {
     public void addBuilds(List<BuildAction> builds, Player player, Worker worker, Match match) {
     }
 
+    public void removeBuilds(List<BuildAction> builds, Player player, Worker worker, Match match) {
+    }
+
     /**
      * Implements god effects that activate right after a player has moved
      * @param player current turn's player
