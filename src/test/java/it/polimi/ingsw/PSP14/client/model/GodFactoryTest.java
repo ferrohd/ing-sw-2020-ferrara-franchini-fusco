@@ -2,22 +2,23 @@ package it.polimi.ingsw.PSP14.client.model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
-class GodModelFactoryTest {
+class GodFactoryTest {
 
     @Test
     void getGodModel() {
-        GodModelFactory factory;
+        GodFactory factory;
         try {
-            factory = new GodModelFactory("src/main/resources/gods/godlist.xml");
+            factory = new GodFactory("src/main/resources/gods/godlist.xml");
         } catch(Exception e) {
             e.printStackTrace();
             fail("Exception thrown");
             return;
         }
 
-        GodModel atlas = factory.getGodModel("Atlas");
+        UIGod atlas = factory.getGod("Atlas");
         assertEquals(atlas.getName(), "Atlas");
         assertEquals(atlas.getAlias(), "Titan Shouldering the Heavens");
         assertEquals(atlas.getAbility(), "Your Build");

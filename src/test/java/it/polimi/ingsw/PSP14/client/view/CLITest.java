@@ -17,6 +17,12 @@ class CLITest {
         ui.registerPlayer("ferroHD");
         ui.drawWorkerSet(new Point(0,0), "ferroHD");
         ui.drawWorkerSet(new Point(3,3), "ferroHD");
+        ui.registerPlayer("QUB3X");
+        ui.drawWorkerSet(new Point(1,1), "QUB3X");
+        ui.drawWorkerSet(new Point(3,2), "QUB3X");
+        ui.registerPlayer("Yuzon");
+        ui.drawWorkerSet(new Point(4,4), "Yuzon");
+        ui.drawWorkerSet(new Point(4,2), "Yuzon");
         ui.update();
     }
 }
