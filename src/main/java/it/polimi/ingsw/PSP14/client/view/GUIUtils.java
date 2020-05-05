@@ -22,23 +22,29 @@ public class GUIUtils extends Application {
 
     private static String username;
     private static String ip = null;
-    private static final Text loginstatus = new Text();
+    private static final Text loginStatus = new Text();
+    private static Stage initStage;
+    private static Integer lobbySize;
 
     public static String getUsername() {
         return username;
     }
 
-    public String getIp() {
+    public static String getIp() {
         return ip;
     }
 
-    public void setLoginstatus(String newStatus) {
-        loginstatus.setText(newStatus);
+    public static Integer getLobbySize() {
+        return  lobbySize;
+    }
+
+    public static void setLoginStatus(String newStatus) {
+        loginStatus.setText(newStatus);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
-
+        initStage = stage;
         stage.setTitle("SANTORINI");
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -70,6 +76,13 @@ public class GUIUtils extends Application {
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         // Connect Button
         Button connectBtn = new Button("Connect");
+        connectBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                username = usernameField.getText();
+                ip = ipField.getText();
+            }
+        });
         hbBtn.getChildren().add(connectBtn);
         // Quit button
         Button quitButton = new Button("Quit");
@@ -78,9 +91,54 @@ public class GUIUtils extends Application {
         grid.add(hbBtn, 1, 4);
 
         // Status Text
-        grid.add(loginstatus, 1, 6);
+        grid.add(loginStatus, 1, 6);
 
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static int askLobbySize() {
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
+
+        Scene LobbyScene = new Scene(grid, 600, 500);
+
+        // Lobby Size field
+        Label lobbyLabel = new Label("Lobby Size:");
+        grid.add(lobbyLabel,0,1);
+        TextField lobbyField = new TextField();
+        grid.add(lobbyField, 1, 1);
+        //OK BUTTON
+        HBox hbBtn = new HBox(10);
+        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        Button okButton = new Button("Ok");
+        okButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                lobbySize = Integer.parseInt(lobbyField.getText());
+            }
+        });
+        hbBtn.getChildren().add(okButton);
+        grid.add(hbBtn, 1, 4);
+
+        initStage.setScene(LobbyScene);
+
+        return 0;
+    }
+    public static void notifyAlert(String notifyMessage) {
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
+
+        Scene LobbyScene = new Scene(grid, 600, 500);
+
+        Text welcomeText = new Text(notifyMessage);
+        welcomeText.setFont(Font.font("Tahoma", FontWeight.NORMAL, 10));
+        grid.add(welcomeText, 0,0, 2, 1);
     }
 }

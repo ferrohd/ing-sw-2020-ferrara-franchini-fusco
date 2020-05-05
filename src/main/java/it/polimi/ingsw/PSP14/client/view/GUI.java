@@ -2,9 +2,7 @@ package it.polimi.ingsw.PSP14.client.view;
 
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
-
 import it.polimi.ingsw.PSP14.client.view.GUIUtils;
-
 import java.util.List;
 
 public class GUI extends UI {
@@ -35,7 +33,7 @@ public class GUI extends UI {
      */
     @Override
     public void notifyConnection(String hostname, int port) {
-
+        GUIUtils.setLoginStatus("Connecting with username: " + GUIUtils.getUsername() + " to server: " + GUIUtils.getIp());
     }
 
     /**
@@ -45,7 +43,7 @@ public class GUI extends UI {
      */
     @Override
     public int getLobbySize() {
-        return 0;
+        return GUIUtils.askLobbySize();
     }
 
     /**
