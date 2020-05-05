@@ -25,23 +25,16 @@ public class MoveAction extends Action implements Proposable {
         return new MoveProposal(to);
     }
 
-    public boolean execute(Match match, List<ClientConnection> clients) {
+    @Override
+    public void execute(Match match) {
         for(Player p: match.getPlayers()) {
             for(int i = 0; i < 2; ++i) {
                 if(p.getWorker(i).getPos().equals(from)) {
                     p.getWorker(i).setPos(to);
-                    try {
-                        ClientConnection.sendAll(clients, new WorkerMoveMessage(p.getWorker(i).getPos(), p.getUsername(), i));
-                    } catch(IOException e) {
-                        e.printStackTrace();
-                        System.exit(-1);
-                    }
                     match.addActionToHistory(this);
-                    return true;
                 }
             }
         }
-        return false;
     }
 
     public Point getFrom() {

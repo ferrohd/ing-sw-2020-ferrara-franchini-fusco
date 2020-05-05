@@ -30,5 +30,5 @@ public abstract class Action implements Serializable {
 
     public String getUser() { return user; }
 
-    public abstract boolean execute(Match match, List<ClientConnection> clients);
+    public abstract void execute(Match match);
 }

@@ -51,6 +51,7 @@ public class CLI extends UI {
             for (int j = 0; j < 5; j++) {
                 UICell cell = cache.getCell(new UIPoint(i,j));
                 int playerId = cache.getPlayers().indexOf(cell.getWorker().getPlayer());
+                //int playerId = 0;
                 drawCell(i, j, cell.getTowerHeight(), cell.hasDome(), playerId, cell.hasWorker());
             }
         }

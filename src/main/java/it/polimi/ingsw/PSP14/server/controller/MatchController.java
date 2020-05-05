@@ -1,6 +1,8 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
 import it.polimi.ingsw.PSP14.core.messages.*;
+import it.polimi.ingsw.PSP14.core.messages.updates.PlayerRegisterMessage;
+import it.polimi.ingsw.PSP14.core.messages.updates.WorkerAddMessage;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
@@ -80,6 +82,15 @@ public class MatchController implements Runnable {
         // List of the gods the players choose
         List<String> selectedGods = new ArrayList<>();
 
+        try {
+            for (String p : players)
+                ClientConnection.sendAll(getClientConnections(), new PlayerRegisterMessage(p));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+
+
         // Populate the available gods list from file
         try {
             availableGods = GodfileParser.getGodIdList("src/main/resources/gods/godlist.xml");
@@ -138,6 +149,8 @@ public class MatchController implements Runnable {
                 coord[1] = connection.receiveChoice();
                 Point newPos = new Point(coord[0], coord[1]);
                 match.getPlayerByUsername(p).setWorker(i, newPos);
+                ClientConnection.sendAll(getClientConnections(), new WorkerAddMessage(newPos, p, i));
+                ClientConnection.sendAll(getClientConnections(), new RedrawMessage());
             }
         }
     }

@@ -33,8 +33,8 @@ public class BuildAction extends Action implements Proposable {
         return point;
     }
 
-
-    public boolean execute(Match match, List<ClientConnection> clients) {
+    @Override
+    public void execute(Match match) {
         Cell cell = match.getBoard().getCell(point);
         if(dome) {
             cell.setAsCompleted();
@@ -42,18 +42,11 @@ public class BuildAction extends Action implements Proposable {
             try {
                 for(int i = 0; i < amount; ++i)
                     cell.incrementTowerSize();
-                    try {
-                        ClientConnection.sendAll(clients, new TowerIncrementMessage(point));
-                    } catch(IOException e) {
-                        e.printStackTrace();
-                        System.exit(-1);
-                    }
             } catch(TowerSizeException e) {
-                return false;
+                e.printStackTrace();
+                System.exit(-1);
             }
         }
-
-        return true;
     }
 
     public boolean equals(BuildAction obj) {

@@ -15,30 +15,19 @@ public class MinotaurMoveAction extends MoveAction {
     }
 
     @Override
-    public boolean execute(Match match, List<ClientConnection> clients) {
+    public void execute(Match match) {
         for(Player p: match.getPlayers()) {
             for(int i = 0; i < 2; ++i) {
                 if(p.getWorker(i).getPos().equals(getTo()) &&
                         !p.getUsername().equals(getUser())) {
-                    if(super.execute(match, clients)) {
-                        Point newPos = new Point(
-                                2*getTo().getX() - getFrom().getX(),
-                                2*getTo().getY() - getFrom().getY()
-                        );
-                        p.getWorker(i).setPos(newPos);
-                        try {
-                            ClientConnection.sendAll(clients, new WorkerMoveMessage(p.getWorker(i).getPos(), p.getUsername(), i));
-                        } catch(IOException e) {
-                            e.printStackTrace();
-                            System.exit(-1);
-                        }
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    super.execute(match);
+                    Point newPos = new Point(
+                            2*getTo().getX() - getFrom().getX(),
+                            2*getTo().getY() - getFrom().getY()
+                    );
+                    p.getWorker(i).setPos(newPos);
                 }
             }
         }
-        return false;
     }
 }
