@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP14.server.actions;
 
+import it.polimi.ingsw.PSP14.core.messages.updates.UIUpdateMessage;
 import it.polimi.ingsw.PSP14.core.messages.updates.WorkerMoveMessage;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.model.Match;
@@ -10,6 +11,10 @@ import java.io.IOException;
 import java.util.List;
 
 public class MinotaurMoveAction extends MoveAction {
+    private Point opponentNewPos;
+    private int opponentWorkerIndex;
+    private String opponent;
+
     public MinotaurMoveAction(String user, Point from, Point to) {
         super(user, from, to);
     }
@@ -25,9 +30,21 @@ public class MinotaurMoveAction extends MoveAction {
                             2*getTo().getX() - getFrom().getX(),
                             2*getTo().getY() - getFrom().getY()
                     );
+                    opponentNewPos = newPos;
+                    opponentWorkerIndex = i;
+                    opponent = p.getUsername();
                     p.getWorker(i).setPos(newPos);
                 }
             }
+        }
+    }
+
+    @Override
+    public void updateClients(List<ClientConnection> clients) throws IOException {
+        super.updateClients(clients);
+        UIUpdateMessage message = new WorkerMoveMessage(opponentNewPos, opponent, opponentWorkerIndex);
+        for (ClientConnection client : clients) {
+            client.sendMessage(message);
         }
     }
 }

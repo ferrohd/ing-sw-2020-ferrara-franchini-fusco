@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP14.server.actions;
 
+import it.polimi.ingsw.PSP14.core.messages.updates.UIUpdateMessage;
 import it.polimi.ingsw.PSP14.core.messages.updates.WorkerMoveMessage;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
@@ -14,6 +15,7 @@ import java.util.List;
 public class MoveAction extends Action implements Proposable {
     private Point from;
     private Point to;
+    private int workerId = -1;
 
     public MoveAction(String user, Point from, Point to) {
         super(user);
@@ -30,10 +32,19 @@ public class MoveAction extends Action implements Proposable {
         for(Player p: match.getPlayers()) {
             for(int i = 0; i < 2; ++i) {
                 if(p.getWorker(i).getPos().equals(from)) {
+                    workerId = i;
                     p.getWorker(i).setPos(to);
                     match.addActionToHistory(this);
                 }
             }
+        }
+    }
+
+    @Override
+    public void updateClients(List<ClientConnection> clients) throws IOException {
+        UIUpdateMessage message = new WorkerMoveMessage(to, getUser(), workerId);
+        for (ClientConnection client : clients) {
+            client.sendMessage(message);
         }
     }
 

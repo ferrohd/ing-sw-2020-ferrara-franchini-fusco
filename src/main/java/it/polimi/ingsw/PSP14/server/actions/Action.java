@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP14.server.actions;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
@@ -31,4 +32,6 @@ public abstract class Action implements Serializable {
     public String getUser() { return user; }
 
     public abstract void execute(Match match);
+
+    public abstract void updateClients(List<ClientConnection> clients) throws IOException;
 }

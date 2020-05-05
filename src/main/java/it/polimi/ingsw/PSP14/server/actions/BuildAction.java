@@ -1,6 +1,8 @@
 package it.polimi.ingsw.PSP14.server.actions;
 
+import it.polimi.ingsw.PSP14.core.messages.updates.DomeBuildMessage;
 import it.polimi.ingsw.PSP14.core.messages.updates.TowerIncrementMessage;
+import it.polimi.ingsw.PSP14.core.messages.updates.UIUpdateMessage;
 import it.polimi.ingsw.PSP14.core.messages.updates.WorkerMoveMessage;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
@@ -46,6 +48,22 @@ public class BuildAction extends Action implements Proposable {
                 e.printStackTrace();
                 System.exit(-1);
             }
+        }
+    }
+
+    @Override
+    public void updateClients(List<ClientConnection> clients) throws IOException {
+        UIUpdateMessage message;
+        if(dome) {
+            message = new DomeBuildMessage(point);
+            for (ClientConnection client : clients) {
+                client.sendMessage(message);
+            }
+        } else {
+            message = new TowerIncrementMessage(point);
+            for (ClientConnection client : clients)
+                for(int i = 0; i <amount; ++i)
+                    client.sendMessage(message);
         }
     }
 
