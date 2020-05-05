@@ -79,6 +79,7 @@ public class CLI extends UI {
     private void drawCell(int x, int y, UICell cell) {
         int paddingLeft= BOARD_START_X + 1 + 5 * x;
         int paddingTop = BOARD_START_Y + 1 + 2 * y;
+
         String output = cell.getTowerHeight() +
                 (cell.hasDome() ? "D" : " ") +
                 (cell.hasWorker() ? "W" + cell.getWorker().getPlayer().getNumber() : "  ");

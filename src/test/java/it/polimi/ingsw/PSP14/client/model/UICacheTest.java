@@ -12,7 +12,7 @@ class UICacheTest {
     @BeforeEach
     void setUp() {
         cache = new UICache();
-        cache.addPlayer("Ada", 0,null);
+        cache.addPlayer("Ada",0 , null);
     }
 
     @Test
