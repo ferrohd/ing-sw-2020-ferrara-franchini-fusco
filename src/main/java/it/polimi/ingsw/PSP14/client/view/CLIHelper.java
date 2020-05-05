@@ -1,22 +1,30 @@
 package it.polimi.ingsw.PSP14.client.view;
 
 // D stay for... hmmm...
-class Chad {
-    private final char c;
+class ColorChar {
+    private final char character;
     private final CLIColor color;
 
-    Chad(char c, CLIColor color) {
-        this.c = c;
-        this.color = color;
+    ColorChar(char c, CLIColor color) {
+        this.character = c;
+        this.color = color == CLIColor.RESET
+                ? null
+                : color;
     }
 
     public char getChar() {
-        return c;
+        return character;
     }
+
+    public CLIColor getColor() { return color; }
 
     @Override
     public String toString() {
-        return color.toString() + c;
+        if (color == null)
+            return character + "";
+        else
+            return color.toString() + character + CLIColor.RESET;
+
     }
 }
 
@@ -27,13 +35,13 @@ class Chad {
 public class CLIHelper {
     int height, width;
 
-    Chad[][] canvas;
+    ColorChar[][] canvas;
 
     private void initCanvas() {
-        canvas = new Chad[height][width];
+        canvas = new ColorChar[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                canvas[i][j] = new Chad('x', CLIColor.RESET);
+                canvas[i][j] = new ColorChar('x', null);
             }
         }
     }
@@ -93,12 +101,12 @@ public class CLIHelper {
         if (!(0 <= x1 && x1 <= x2 && x2 <= width &&
             0 <= y1 && y1 <= y2 && y2 <= height)) return;
         // determine direction
-        Chad fill;
+        ColorChar fill;
         if (x1 == x2) {
-            fill = new Chad('║', CLIColor.RESET);
+            fill = new ColorChar('║', null);
         }
         else if (y1 == y2) {
-            fill = new Chad('═', CLIColor.RESET);
+            fill = new ColorChar('═', null);
         }
         else return; // we don't draw diagonal lines
 
@@ -127,7 +135,7 @@ public class CLIHelper {
         for (int i = 0; i < textSize; i++) {
             char c = text.charAt(i);
             if (x+i < width)
-                canvas[y][x+i] = new Chad(c, color);
+                canvas[y][x+i] = new ColorChar(c, color);
         }
     }
 
@@ -139,13 +147,13 @@ public class CLIHelper {
         // Fix coupling between pipe chars
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                canvas[i][j] = new Chad(getSymbol(j, i), CLIColor.RESET);
+                canvas[i][j] = new ColorChar(getSymbol(j, i), canvas[i][j].getColor());
             }
         }
         // Replace X
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (canvas[i][j].getChar() =='x') canvas[i][j] = new Chad( ' ', CLIColor.RESET);
+                if (canvas[i][j].getChar() =='x') canvas[i][j] = new ColorChar( ' ', canvas[i][j].getColor());
             }
         }
     }
@@ -202,10 +210,10 @@ public class CLIHelper {
         refresh();
 
         for (int row = 0; row < height; row++) {
-            Chad[] line = canvas[row];
+            ColorChar[] line = canvas[row];
             StringBuilder sb = new StringBuilder();
             for (int col = 0; col < width; col++) {
-                Chad chad = line[col];
+                ColorChar chad = line[col];
                 sb.append(chad.toString());
             }
             System.out.println(sb.toString());

@@ -46,7 +46,7 @@ public class CLIHelperTest {
     }
 
     @Test void color() {
-        Chad x = new Chad('X', CLIColor.RED);
+        ColorChar x = new ColorChar('X', CLIColor.RED);
         System.out.println(x);
     }
 }

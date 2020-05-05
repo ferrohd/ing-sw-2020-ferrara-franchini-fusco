@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import it.polimi.ingsw.PSP14.client.model.UICell;
 import it.polimi.ingsw.PSP14.client.model.UIColor;
 import it.polimi.ingsw.PSP14.client.model.UIPlayer;
-import it.polimi.ingsw.PSP14.client.model.UIPoint;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 
@@ -50,20 +49,43 @@ public class CLI extends UI {
             canvas.addLine(padding, BOARD_START_Y, padding, BOARD_START_Y + BOARD_HEIGHT);
         }
         // Draw the cell content
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                UICell cell = cache.getCell(new UIPoint(i,j));
-                int playerId = cache.getPlayers().indexOf(cell.getWorker().getPlayer());
-                drawCell(i, j, cell.getTowerHeight(), cell.hasDome(), playerId, cell.hasWorker());
+        for (int y = 0; y < 5; y++) {
+            for (int x = 0; x < 5; x++) {
+                drawCell(x, y, cache.getCell(x,y));
             }
         }
     }
 
-    private void drawCell(int x, int y, int towerHeight, boolean dome, int player, boolean worker) {
-        int paddingLeft= BOARD_START_X + 1 + 5*x;
-        int paddingTop = BOARD_START_Y + 1 + 2*y;
-        canvas.addText(paddingLeft, paddingTop, towerHeight + (dome ? "D" : " "), CLIColor.RESET);
-        canvas.addText(paddingLeft+2, paddingTop, (worker ? player + "W" : "  "), CLIColor.RESET);
+    /**
+     * Draw a cell in 4 chars of space.
+     * The first char will be the height of the
+     * tower, the second char will be a "D" if
+     * the tower has a dome, else it will be " ".
+     * The third char is whether there's a worker
+     * on the cell, marked by "W", else it will
+     * be " ", and the last one is an ID for the
+     * player.
+     * @param x coordinate
+     * @param y coordinate
+     * @param cell The cell
+     */
+    private void drawCell(int x, int y, UICell cell) {
+        int paddingLeft= BOARD_START_X + 1 + 5 * x;
+        int paddingTop = BOARD_START_Y + 1 + 2 * y;
+        StringBuilder output = new StringBuilder();
+        output.append(cell.getTowerHeight());
+        output.append(cell.hasDome() ? "D" : " ");
+        output.append(cell.hasWorker() ? "W" : " ");
+        // TODO: Use a UID
+        output.append("X");
+        canvas.addText(
+                paddingLeft,
+                paddingTop,
+                output.toString(),
+                cell.hasWorker()
+                        ? (CLIColor) cell.getWorker().getPlayer().getColor()
+                        : CLIColor.RED
+        );
     }
 
     /* UI Methods */
@@ -78,6 +100,7 @@ public class CLI extends UI {
     public UIColor getColor() {
         CLIColor[] _colors = CLIColor.values();
         CLIColor _newColor = _colors[new Random().nextInt(_colors.length)];
+//        System.out.println(_newColor.toString().substring(1));
         return _newColor;
     }
 
