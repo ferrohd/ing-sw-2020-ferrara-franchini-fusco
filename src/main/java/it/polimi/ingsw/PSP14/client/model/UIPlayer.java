@@ -16,7 +16,7 @@ public class UIPlayer {
     private final String username;
     private final UIColor color;
     private UIGod god;
-    private Map<Integer, UIWorker> workers;
+    private final Map<Integer, UIWorker> workers;
 
     UIPlayer(String username, UIColor color) {
         this.username = username;
