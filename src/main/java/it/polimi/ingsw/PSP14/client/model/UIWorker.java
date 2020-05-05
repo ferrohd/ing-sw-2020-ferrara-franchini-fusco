@@ -15,7 +15,7 @@ public class UIWorker {
      * @param id the ID of this worker (typically 0 or 1)
      * @param player reference to the owner
      */
-    UIWorker(int id, UIPlayer player) {
+    public UIWorker(int id, UIPlayer player) {
         this.id = id;
         this.player = player;
     }
@@ -25,7 +25,8 @@ public class UIWorker {
      * safely unbinding it from both board and player.
      */
     public void remove() {
-        cell.setWorker(null);
+        if (cell != null)
+            cell.setWorker(null);
         player.removeWorker(this);
     }
 
@@ -42,7 +43,8 @@ public class UIWorker {
     }
 
     public void setCell(UICell cell) {
-        this.cell.unsetWorker();
+        if (this.cell != null)
+            this.cell.unsetWorker();
         this.cell = cell;
     }
 
