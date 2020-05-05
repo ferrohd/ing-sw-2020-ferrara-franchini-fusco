@@ -6,6 +6,7 @@ import it.polimi.ingsw.PSP14.core.messages.MoveProposalMessage;
 import it.polimi.ingsw.PSP14.core.messages.YesNoMessage;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
+import it.polimi.ingsw.PSP14.server.actions.Action;
 import it.polimi.ingsw.PSP14.server.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
@@ -50,7 +51,15 @@ public class Demeter extends God {
                 System.exit(-1);
             }
 
-            builds.get(choice).execute(match, matchController.getClientConnections());
+            Action action = builds.get(choice);
+            action.execute(match);
+            match.addActionToHistory(action);
+            try {
+                action.updateClients(matchController.getClientConnections());
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
         }
     }
 }
