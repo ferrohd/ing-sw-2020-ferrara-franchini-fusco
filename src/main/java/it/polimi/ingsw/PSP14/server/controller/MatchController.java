@@ -53,6 +53,10 @@ public class MatchController implements Runnable {
         match = new Match(clients.keySet());
     }
 
+    public List<ClientConnection> getClientConnections() {
+        return new ArrayList<>(clients.values());
+    }
+
     private void initializeConnection(ClientConnection connection) throws IOException {
         Message message = new UsernameMessage();
         connection.sendMessage(message);
@@ -213,7 +217,7 @@ public class MatchController implements Runnable {
 
         int choice = client.receiveChoice();
 
-        movements.get(choice).execute(match);
+        movements.get(choice).execute(match, new ArrayList<>(clients.values()));
 
         match.getPlayers().forEach(p -> p.getGod().afterMove(player, workerIndex, client, match, this));
     }
@@ -225,7 +229,7 @@ public class MatchController implements Runnable {
         client.sendMessage(message);
         int choice = client.receiveChoice();
 
-        builds.get(choice).execute(match);
+        builds.get(choice).execute(match, new ArrayList<>(clients.values()));
 
         match.getPlayers().forEach(p -> p.getGod().afterBuild(player, workerIndex, client, match, this));
     }

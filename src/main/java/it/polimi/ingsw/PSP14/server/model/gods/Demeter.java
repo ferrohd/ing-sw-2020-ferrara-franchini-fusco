@@ -50,7 +50,7 @@ public class Demeter extends God {
                 System.exit(-1);
             }
 
-            builds.get(choice).execute(match);
+            builds.get(choice).execute(match, matchController.getClientConnections());
         }
     }
 }

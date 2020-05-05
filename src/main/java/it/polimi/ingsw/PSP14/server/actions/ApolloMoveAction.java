@@ -9,6 +9,7 @@ import it.polimi.ingsw.PSP14.server.model.Player;
 import it.polimi.ingsw.PSP14.server.model.Point;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ApolloMoveAction extends MoveAction {
@@ -23,7 +24,7 @@ public class ApolloMoveAction extends MoveAction {
             for(int i = 0; i < 2; ++i) {
                 if(p.getWorker(i).getPos().equals(getTo())) {
                     // moves the worker at "from" to  "to"
-                    if(super.execute(match)) {
+                    if(super.execute(match, clients)) {
                         // moves the worker at "to" to "from"
                         try {
                             p.getWorker(i).setPos(getFrom());
