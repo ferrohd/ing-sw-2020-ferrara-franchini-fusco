@@ -1,6 +1,9 @@
 package it.polimi.ingsw.PSP14.client.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -13,11 +16,12 @@ public class UIPlayer {
     private final String username;
     private final UIColor color;
     private UIGod god;
-    private List<UIWorker> workers;
+    private Map<Integer, UIWorker> workers;
 
     UIPlayer(String username, UIColor color) {
         this.username = username;
         this.color = color;
+        this.workers = new HashMap<>();
     }
 
     public String getUsername() {
@@ -35,7 +39,7 @@ public class UIPlayer {
      */
     public void setGod(String id) {
         try {
-            this.god = (new GodFactory("gods/godlist.xml")).getGod(id);
+            this.god = (new GodFactory("src/main/gods/godlist.xml")).getGod(id);
         } catch (Exception e) {
             System.out.println("ERROR: God or Godfile.xml not found!");
             e.printStackTrace();
@@ -51,7 +55,7 @@ public class UIPlayer {
      * @return a list of workers
      */
     public List<UIWorker> getWorkers() {
-        return workers;
+        return new ArrayList<>(workers.values());
     }
 
     /**
@@ -60,21 +64,17 @@ public class UIPlayer {
      * @return the worker
      */
     public UIWorker getWorker(int id) {
-        return this.workers.stream()
-                .filter(w -> w.getId() == id)
-                .collect(Collectors.toList())
-                .get(0);
+        return workers.get(id);
     }
 
     public void setWorker(UIWorker worker) {
-        this.workers.add(worker);
+        this.workers.put(worker.getId(), worker);
     }
 
     public void unsetWorker(int workerId) {
         UIWorker _worker = getWorker(workerId);
-        if (_worker != null) {
+        if (_worker != null)
             _worker.unsetCell();
-        }
     }
 
     /**
@@ -82,7 +82,7 @@ public class UIPlayer {
      * @param worker the worker
      */
     public void removeWorker(UIWorker worker) {
-        this.workers.remove(worker);
+        this.workers.remove(worker.getId());
     }
 
     /**
@@ -90,8 +90,6 @@ public class UIPlayer {
      * @param withId the id of the worker
      */
     public void removeWorker(int withId) {
-        this.workers = this.workers.stream()
-                .filter(w -> w.getId() != withId)
-                .collect(Collectors.toList());
+        this.workers.remove(withId);
     }
 }
