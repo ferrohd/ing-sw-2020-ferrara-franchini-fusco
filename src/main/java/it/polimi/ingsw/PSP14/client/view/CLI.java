@@ -37,16 +37,19 @@ public class CLI extends UI {
     }
 
     private void drawBoard() {
+        // Draw the outer edge of the board
         canvas.addRect(BOARD_START_X, BOARD_START_Y, BOARD_WIDTH, BOARD_HEIGHT);
+        // Draw the rows separators
         for (int i = 0; i <= 4; i++) {
             int padding = BOARD_START_Y + 2 * i;
             canvas.addLine(BOARD_START_X, padding , BOARD_START_X + BOARD_WIDTH, padding);
         }
+        // Draw the lines separators
         for (int i = 0; i <= 4; i++) {
             int padding = BOARD_START_X + 5*i;
             canvas.addLine(padding, BOARD_START_Y, padding, BOARD_START_Y + BOARD_HEIGHT);
         }
-
+        // Draw the cell content
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 UICell cell = cache.getCell(new UIPoint(i,j));
