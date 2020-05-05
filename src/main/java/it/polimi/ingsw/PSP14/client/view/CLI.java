@@ -3,14 +3,12 @@ package it.polimi.ingsw.PSP14.client.view;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.sun.org.apache.xerces.internal.parsers.IntegratedParserConfiguration;
 import it.polimi.ingsw.PSP14.client.model.UICell;
 import it.polimi.ingsw.PSP14.client.model.UIColor;
 import it.polimi.ingsw.PSP14.client.model.UIPlayer;
 import it.polimi.ingsw.PSP14.client.model.UIPoint;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
-import it.polimi.ingsw.PSP14.server.model.Point;
 
 public class CLI extends UI {
     private static final CLIHelper canvas = new CLIHelper(20, 70);

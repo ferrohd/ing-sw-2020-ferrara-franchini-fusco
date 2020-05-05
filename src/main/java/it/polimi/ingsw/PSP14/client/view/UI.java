@@ -60,6 +60,9 @@ public abstract class UI {
     public void setWorker(UIPoint position, int workerId, String playerUsername) {
         UIPlayer _player = cache.getPlayer(playerUsername);
         UIWorker _worker = _player.getWorker(workerId);
+        if (_worker == null) {
+            _player.setWorker(new UIWorker(workerId, _player));
+        }
         cache.getCell(position).setWorker(_worker);
     }
 
