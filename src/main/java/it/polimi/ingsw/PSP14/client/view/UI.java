@@ -4,7 +4,9 @@ import it.polimi.ingsw.PSP14.client.model.*;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This abstract class has to be implemented by
@@ -21,13 +23,15 @@ public abstract class UI {
      * to whom implements this class.
      */
     protected final UICache cache;
-
+    private final Set<UIColor> assignedColors;
+    private int playerNumber = 1;
     /**
      * Constructor of the UI:
      * It initialize the cache.
      */
     public UI() {
         cache = new UICache();
+        assignedColors = new HashSet<>();
     }
 
     /**
@@ -36,10 +40,15 @@ public abstract class UI {
      *                          register (you get this from the server)
      */
     public void registerPlayer(String newPlayerUsername) {
-        UIColor _newPlayerColor = getColor();
-        // TODO: Prevent duplicate colors
+        UIColor _newPlayerColor = null;
+        // Prevent duplicate colors
+        while (_newPlayerColor == null ||
+                assignedColors.contains(_newPlayerColor)) {
+            _newPlayerColor = getColor();
+        }
+        assignedColors.add(_newPlayerColor);
 
-        cache.addPlayer(newPlayerUsername, _newPlayerColor);
+        cache.addPlayer(newPlayerUsername, playerNumber++, _newPlayerColor);
     }
 
     /**
@@ -63,7 +72,7 @@ public abstract class UI {
         if (_worker == null) {
             _player.setWorker(new UIWorker(workerId, _player));
         }
-        cache.getCell(position).setWorker(_worker);
+        cache.getCell(position).setWorker(_player.getWorker(workerId));
     }
 
     /**
@@ -81,7 +90,6 @@ public abstract class UI {
         UIPlayer _player = cache.getPlayer(playerUsername);
         _player.unsetWorker(workerId);
     }
-
 
     /**
      * Increment the tower height at the specified cell position.

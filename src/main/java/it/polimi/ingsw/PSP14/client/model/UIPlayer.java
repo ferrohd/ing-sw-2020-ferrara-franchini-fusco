@@ -14,13 +14,15 @@ import java.util.stream.Collectors;
  */
 public class UIPlayer {
     private final String username;
+    private final int number;
     private final UIColor color;
     private UIGod god;
     private final Map<Integer, UIWorker> workers;
 
-    UIPlayer(String username, UIColor color) {
+    UIPlayer(String username, int number, UIColor color) {
         this.username = username;
         this.color = color;
+        this.number = number;
         this.workers = new HashMap<>();
     }
 
@@ -32,6 +34,7 @@ public class UIPlayer {
         return color;
     }
 
+    public int getNumber() { return number; }
     /**
      * Set a player god. If a god is not found, it will be <code>null</code>!
      * @param id the name retrieved from the server corresponding

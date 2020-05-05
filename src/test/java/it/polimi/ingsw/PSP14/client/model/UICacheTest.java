@@ -12,7 +12,7 @@ class UICacheTest {
     @BeforeEach
     void setUp() {
         cache = new UICache();
-        cache.addPlayer("Ada", null);
+        cache.addPlayer("Ada", 0,null);
     }
 
     @Test
@@ -27,7 +27,7 @@ class UICacheTest {
 
     @Test
     void addPlayer() {
-        cache.addPlayer("Bob", null);
+        cache.addPlayer("Bob", 1, null);
         assertEquals("Bob", cache.getPlayer("Bob").getUsername());
     }
 

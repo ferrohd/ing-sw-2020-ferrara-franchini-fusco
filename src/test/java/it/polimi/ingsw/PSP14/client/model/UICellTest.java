@@ -56,14 +56,14 @@ class UICellTest {
 
     @Test
     void setWorker() {
-        UIWorker _w = new UIWorker(0, new UIPlayer("Ada", null));
+        UIWorker _w = new UIWorker(0, new UIPlayer("Ada", 0, null));
         cell.setWorker(_w);
         assertEquals(_w, cell.getWorker());
     }
 
     @Test
     void unsetWorker() {
-        UIWorker _w = new UIWorker(0, new UIPlayer("Ada", null));
+        UIWorker _w = new UIWorker(0, new UIPlayer("Ada", 0, null));
         cell.setWorker(_w);
         cell.unsetWorker();
         assertNull(cell.getWorker());

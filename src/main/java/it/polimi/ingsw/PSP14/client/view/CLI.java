@@ -14,7 +14,7 @@ public class CLI extends UI {
 
     private final int
             BOARD_START_X = 1,
-            BOARD_START_Y = 1,
+            BOARD_START_Y = 2,
             BOARD_WIDTH = 25,
             BOARD_HEIGHT = 10,
             INFO_START_X = BOARD_START_X + BOARD_WIDTH + 3;
@@ -30,7 +30,7 @@ public class CLI extends UI {
         int i = 0;
         for(UIPlayer player : cache.getPlayers()) {
             canvas.addText(INFO_START_X + 2, BOARD_START_Y + 3 + i,
-                    (i+1) + ". " + player.getUsername(), (CLIColor) player.getColor());
+                    player.getNumber() + ". " + player.getUsername(), (CLIColor) player.getColor());
             i += 1;
         }
     }
@@ -47,6 +47,13 @@ public class CLI extends UI {
         for (int i = 0; i <= 4; i++) {
             int padding = BOARD_START_X + 5*i;
             canvas.addLine(padding, BOARD_START_Y, padding, BOARD_START_Y + BOARD_HEIGHT);
+        }
+        // Draw numbers
+        for (int i = 0; i < 5; i++) {
+            canvas.addText(3 + i * 5, BOARD_START_Y - 1, i + "", CLIColor.RESET);
+        }
+        for (int i = 0; i < 5; i++) {
+            canvas.addText(0, BOARD_START_Y + 1 + i * 2, i + "", CLIColor.RESET);
         }
         // Draw the cell content
         for (int y = 0; y < 5; y++) {
@@ -72,19 +79,16 @@ public class CLI extends UI {
     private void drawCell(int x, int y, UICell cell) {
         int paddingLeft= BOARD_START_X + 1 + 5 * x;
         int paddingTop = BOARD_START_Y + 1 + 2 * y;
-        StringBuilder output = new StringBuilder();
-        output.append(cell.getTowerHeight());
-        output.append(cell.hasDome() ? "D" : " ");
-        output.append(cell.hasWorker() ? "W" : " ");
-        // TODO: Use a UID
-        output.append("X");
+        String output = cell.getTowerHeight() +
+                (cell.hasDome() ? "D" : " ") +
+                (cell.hasWorker() ? "W" + cell.getWorker().getPlayer().getNumber() : "  ");
         canvas.addText(
                 paddingLeft,
                 paddingTop,
-                output.toString(),
+                output,
                 cell.hasWorker()
                         ? (CLIColor) cell.getWorker().getPlayer().getColor()
-                        : CLIColor.RED
+                        : CLIColor.RESET
         );
     }
 
@@ -99,9 +103,11 @@ public class CLI extends UI {
     @Override
     public UIColor getColor() {
         CLIColor[] _colors = CLIColor.values();
-        CLIColor _newColor = _colors[new Random().nextInt(_colors.length)];
-//        System.out.println(_newColor.toString().substring(1));
-        return _newColor;
+        List<CLIColor> _filteredColors = new ArrayList<>();
+        for (CLIColor _color : _colors) {
+            if (_color != CLIColor.RESET) _filteredColors.add(_color);
+        }
+        return _filteredColors.get(new Random().nextInt(_filteredColors.size()));
     }
 
     @Override

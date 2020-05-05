@@ -1,10 +1,9 @@
 package it.polimi.ingsw.PSP14.client.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.Comparator.comparing;
 
 public class UICache {
     private final Map<String, UIPlayer> players;
@@ -39,8 +38,8 @@ public class UICache {
         return getCell(position.getX(), position.getY());
     }
 
-    public void addPlayer(String username, UIColor color) {
-        this.players.put(username, new UIPlayer(username, color));
+    public void addPlayer(String username, int number, UIColor color) {
+        this.players.put(username, new UIPlayer(username, number, color));
     }
 
     public void removePlayer(String username) {
@@ -52,7 +51,11 @@ public class UICache {
     }
 
     public List<UIPlayer> getPlayers() {
-        return new ArrayList<>(this.players.values());
+        List<UIPlayer> _list = new ArrayList<>(this.players.values());
+        System.out.println(_list);
+        _list.sort(comparing(UIPlayer::getNumber));
+        System.out.println(_list);
+        return _list;
     }
 
     public UIPlayer getPlayer(String username) {

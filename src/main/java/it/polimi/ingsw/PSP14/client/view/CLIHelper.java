@@ -205,7 +205,9 @@ public class CLIHelper {
         return '║';
     }
 
-    // FIXME: Color doesn't work correctly
+    /**
+     * Print the canvas to the standard output
+     */
     public void print() {
         refresh();
 

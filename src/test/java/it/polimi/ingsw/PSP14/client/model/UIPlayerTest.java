@@ -11,7 +11,7 @@ class UIPlayerTest {
 
     @BeforeEach
     void setUp() {
-        player = new UIPlayer("Ada", null);
+        player = new UIPlayer("Ada", 0,null);
     }
 
     @Test
