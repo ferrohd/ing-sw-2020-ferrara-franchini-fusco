@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP14.core.messages.Message;
 import it.polimi.ingsw.PSP14.server.actions.Action;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Generic connection to a client.
@@ -31,4 +32,10 @@ public interface ClientConnection {
     int receiveChoice() throws IOException;
 
     String receiveString() throws IOException;
+
+    static void sendAll(List<ClientConnection> clients, Message message) throws IOException {
+        for(int i = 0; i < clients.size(); ++i) {
+            clients.get(i).sendMessage(message);
+        }
+    }
 }

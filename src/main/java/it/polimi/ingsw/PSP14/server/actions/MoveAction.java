@@ -1,9 +1,15 @@
 package it.polimi.ingsw.PSP14.server.actions;
 
+import it.polimi.ingsw.PSP14.core.messages.updates.WorkerMoveMessage;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
+import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.Player;
 import it.polimi.ingsw.PSP14.server.model.Point;
+
+import java.io.IOError;
+import java.io.IOException;
+import java.util.List;
 
 public class MoveAction extends Action implements Proposable {
     private Point from;
@@ -19,11 +25,17 @@ public class MoveAction extends Action implements Proposable {
         return new MoveProposal(to);
     }
 
-    public boolean execute(Match match) {
+    public boolean execute(Match match, List<ClientConnection> clients) {
         for(Player p: match.getPlayers()) {
             for(int i = 0; i < 2; ++i) {
                 if(p.getWorker(i).getPos().equals(from)) {
                     p.getWorker(i).setPos(to);
+                    try {
+                        ClientConnection.sendAll(clients, new WorkerMoveMessage(p.getWorker(i).getPos(), p.getUsername(), i));
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                        System.exit(-1);
+                    }
                     match.addActionToHistory(this);
                     return true;
                 }

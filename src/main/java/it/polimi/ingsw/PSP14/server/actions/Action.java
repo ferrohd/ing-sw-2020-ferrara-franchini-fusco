@@ -2,7 +2,9 @@ package it.polimi.ingsw.PSP14.server.actions;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 
+import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.model.Match;
 
 /**
@@ -28,5 +30,5 @@ public abstract class Action implements Serializable {
 
     public String getUser() { return user; }
 
-    public abstract boolean execute(Match match);
+    public abstract boolean execute(Match match, List<ClientConnection> clients);
 }
