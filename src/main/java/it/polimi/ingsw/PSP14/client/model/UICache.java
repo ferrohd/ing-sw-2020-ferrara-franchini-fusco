@@ -63,9 +63,7 @@ public class UICache {
 
     public List<UIPlayer> getPlayers() {
         List<UIPlayer> _list = new ArrayList<>(this.players.values());
-        System.out.println(_list);
         _list.sort(comparing(UIPlayer::getNumber));
-        System.out.println(_list);
         return _list;
     }
 

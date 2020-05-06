@@ -2,18 +2,33 @@ package it.polimi.ingsw.PSP14.client.view;
 
 import it.polimi.ingsw.PSP14.client.InvalidSettingsException;
 import it.polimi.ingsw.PSP14.client.model.UIPoint;
+import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
+import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class CLITest {
+    UI ui;
+
+    @BeforeEach
+    void setup() {
+        try {
+            ui = UIFactory.getUI("cli");
+        } catch (InvalidSettingsException e) {
+            return;
+        }
+    }
 
     @Test
     void generalTest() {
-        UI ui;
-        try {
-            ui = UIFactory.getUI("cli");
-        } catch(InvalidSettingsException e) {
-            return;
-        }
+        // THIS SHOULD DRAW A BOARD
+
         ui.registerPlayer("ferroHD");
         ui.setWorker(new UIPoint(0,0), 0,"ferroHD");
         ui.setWorker(new UIPoint(3,3), 1,"ferroHD");
@@ -32,5 +47,102 @@ class CLITest {
         ui.setWorker(new UIPoint(2,0),0, "ferroHD");
 
         ui.update();
+    }
+
+    @Test
+    void welcome() {
+        ui.welcome();
+    }
+
+    @Test
+    void notifyConnection() {
+        ui.notifyConnection("127.0.0.1", 3000);
+    }
+
+    @Test
+    void getLobbySize() {
+        ui.getLobbySize();
+    }
+
+    @Test
+    void testNotify() {
+        ui.notify("This is a short message!");
+    }
+
+    // This will overflow
+    @Test
+    void testNotifySuperLong() {
+        ui.notify("Lorem ipsum dolor sit amet, consectetur adipiscing elit," +
+                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." +
+                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi" +
+                "ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit " +
+                "in voluptate velit esse cillum dolore eu fugiat nulla pariatur.");
+    }
+
+    @Test
+    void askUsername() {
+        ui.askUsername();
+    }
+
+    @Test
+    void chooseFirstPlayer() {
+        List<PlayerProposal> _list = new ArrayList<>();
+        _list.add(new PlayerProposal("ferroHD"));
+        _list.add(new PlayerProposal("QUB3X"));
+        _list.add(new PlayerProposal("Yuzon"));
+
+        ui.chooseFirstPlayer(_list);
+    }
+
+    @Test
+    void chooseWorker() {
+        ui.chooseWorker();
+    }
+
+    @Test
+    void chooseGod() {
+        List<GodProposal> _list = new ArrayList<>();
+        _list.add(new GodProposal("Apollo"));
+        _list.add(new GodProposal("Athena"));
+        _list.add(new GodProposal("Minotaur"));
+
+        ui.chooseGod(_list);
+    }
+
+    @Test
+    void chooseAvailableGods() {
+        List<GodProposal> _list = new ArrayList<>();
+        _list.add(new GodProposal("Apollo"));
+        _list.add(new GodProposal("Artemis"));
+        _list.add(new GodProposal("Athena"));
+        _list.add(new GodProposal("Chronus"));
+        _list.add(new GodProposal("Demeter"));
+        _list.add(new GodProposal("Hephaestus"));
+        _list.add(new GodProposal("Hestia"));
+        _list.add(new GodProposal("Minotaur"));
+        _list.add(new GodProposal("Pan"));
+        _list.add(new GodProposal("Poseidon"));
+        _list.add(new GodProposal("Prometheus"));
+        _list.add(new GodProposal("Triton"));
+        _list.add(new GodProposal("Zeus"));
+
+        ui.chooseAvailableGods(_list);
+    }
+
+    @Test
+    void chooseAvailableFewGods() {
+        List<GodProposal> _list = new ArrayList<>();
+        _list.add(new GodProposal("Apollo"));
+        _list.add(new GodProposal("Artemis"));
+        _list.add(new GodProposal("Athena"));
+        _list.add(new GodProposal("Chronus"));
+        _list.add(new GodProposal("Demeter"));
+
+        ui.chooseAvailableGods(_list);
+    }
+
+    @Test
+    void chooseWorkerInitialPosition() {
+        ui.chooseWorkerInitialPosition();
     }
 }

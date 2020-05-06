@@ -24,7 +24,6 @@ class ColorChar {
             return character + "";
         else
             return color.toString() + character + CLIColor.RESET;
-
     }
 }
 
@@ -73,6 +72,14 @@ public class CLIHelper {
         initCanvas();
     }
 
+    /**
+     * Reset the canvas to an empty state.
+     * <br/>It's good habit to call it straight after
+     * print() in order to prevent glitches.
+     */
+    public void reset() {
+        initCanvas();
+    }
     /**
      * Draw an ASCII rect on the canvas
      * @param x horizontal start position
@@ -209,6 +216,7 @@ public class CLIHelper {
      * Print the canvas to the standard output
      */
     public void print() {
+        clear();
         refresh();
 
         for (int row = 0; row < height; row++) {
@@ -221,6 +229,23 @@ public class CLIHelper {
             System.out.println(sb.toString());
         }
         System.out.print(CLIColor.RESET);
+    }
+
+    /**
+     * Handle the cleaning of the console on windows and other OSs.
+     * @see <a href="https://stackoverflow.com/questions/2979383/java-clear-the-console">Stackoverflow: Clear the console</a>
+     */
+    public static void clear() {
+//        try {
+//            final String os = System.getProperty("os.name");
+//            if (os.contains("Windows")) {
+//                Runtime.getRuntime().exec("cls");
+//            } else {
+//                Runtime.getRuntime().exec("clear");
+//            }
+//        } catch (Exception e) {
+//            // Do nothing, since we're not clearing the console.
+//        }
     }
 }
 
