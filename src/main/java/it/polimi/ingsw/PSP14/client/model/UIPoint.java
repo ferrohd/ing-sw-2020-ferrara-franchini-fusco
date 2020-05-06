@@ -16,10 +16,18 @@ public class UIPoint {
         this.y = y;
     }
 
+    /**
+     * Get the X coordinate of this point.
+     * @return UIPoint.x
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Get the Y coordinate of this point.
+     * @return UIPoint.y
+     */
     public int getY() {
         return y;
     }

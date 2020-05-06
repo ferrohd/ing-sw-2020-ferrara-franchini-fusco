@@ -25,6 +25,7 @@ public abstract class UI {
     protected final UICache cache;
     private final Set<UIColor> assignedColors;
     private int playerNumber = 1;
+
     /**
      * Constructor of the UI:
      * It initialize the cache.
@@ -35,7 +36,7 @@ public abstract class UI {
     }
 
     /**
-     * Add a new player to the match.
+     * Add a new player to the match by providing their username.
      * @param newPlayerUsername the username of the player you want to
      *                          register (you get this from the server)
      */
@@ -52,7 +53,8 @@ public abstract class UI {
     }
 
     /**
-     * Remove a player from the match.
+     * Remove a player from the match. This will remove the player and
+     * all of its workers from this match.
      * @param username the username of the player you want
      *                 to remove
      */
@@ -61,8 +63,14 @@ public abstract class UI {
     }
 
     /**
-     * Set a player's worker in a specific position.
-     * @param position the new position of the worker
+     * Set a player's worker in a target position.
+     * <br/>
+     * If the player does not own a worker with that <code>workerId</code>,
+     * a new worker will be instantiated.
+     * <br/>
+     * You can use this method to perform moves: in that case, call first
+     * {@link #unsetWorker(UIPoint)}.
+     * @param position the target position
      * @param workerId the ID of the player's worker
      * @param playerUsername the owner of the worker
      */
@@ -76,7 +84,9 @@ public abstract class UI {
     }
 
     /**
-     * Remove any worker from a specific position.
+     * Remove a worker from a specific position on the board,
+     * if there's any.<br/>
+     * You want to call this before performing a move.
      * @param position the position of the worker
      */
     public void unsetWorker(UIPoint position) {
@@ -84,7 +94,8 @@ public abstract class UI {
     }
 
     /**
-     * Remove any worker from a specific position.
+     * Remove a worker from a specific position.
+     * @see #unsetWorker(UIPoint)
      */
     public void unsetWorker(int workerId, String playerUsername) {
         UIPlayer _player = cache.getPlayer(playerUsername);
@@ -92,7 +103,7 @@ public abstract class UI {
     }
 
     /**
-     * Increment the tower height at the specified cell position.
+     * Increment the tower height at the specified cell position by 1.
      * @param position position
      */
     public void incrementCell(UIPoint position) {
@@ -100,7 +111,7 @@ public abstract class UI {
     }
 
     /**
-     * Decrement the tower height at the specified cell position.
+     * Decrement the tower height at the specified cell position by 1.
      * @param position the position
      */
     public void decrementCell(UIPoint position) {

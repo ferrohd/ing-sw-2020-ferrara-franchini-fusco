@@ -38,10 +38,21 @@ public class UICache {
         return getCell(position.getX(), position.getY());
     }
 
+    /**
+     * Add a player to the match.
+     * @param username
+     * @param number
+     * @param color
+     */
     public void addPlayer(String username, int number, UIColor color) {
         this.players.put(username, new UIPlayer(username, number, color));
     }
 
+    /**
+     * Remove a player from the match. This will effectively wipe
+     * the player and all of it's workers from the game.
+     * @param username
+     */
     public void removePlayer(String username) {
         UIPlayer _player = getPlayer(username);
         // Remove workers first

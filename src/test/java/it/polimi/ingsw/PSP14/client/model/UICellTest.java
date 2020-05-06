@@ -63,8 +63,10 @@ class UICellTest {
 
     @Test
     void unsetWorker() {
+        assertNull(cell.getWorker());
         UIWorker _w = new UIWorker(0, new UIPlayer("Ada", 0, null));
         cell.setWorker(_w);
+        assertNotNull(cell.getWorker());
         cell.unsetWorker();
         assertNull(cell.getWorker());
     }

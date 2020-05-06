@@ -19,7 +19,7 @@ public class GodTest {
     }
 
     @Test
-    void factoryShouldThrow() {
-        assertThrows(GodNotFoundException.class, () -> GodControllerFactory.getController("Shiva", "prova"));
+    void factoryShouldNotThrowOnMissingGod() {
+        assertDoesNotThrow(() -> GodControllerFactory.getController("Shiva", "prova"));
     }
 }
