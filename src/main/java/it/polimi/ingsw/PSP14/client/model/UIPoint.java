@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP14.client.model;
 
+import it.polimi.ingsw.PSP14.server.model.Point;
+
 /**
  * An immutable object containing integer 2D coordinates.
  */
@@ -14,6 +16,10 @@ public class UIPoint {
     public UIPoint(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public static UIPoint fromPoint(Point p) {
+        return new UIPoint(p.getX(), p.getY());
     }
 
     public int getX() {

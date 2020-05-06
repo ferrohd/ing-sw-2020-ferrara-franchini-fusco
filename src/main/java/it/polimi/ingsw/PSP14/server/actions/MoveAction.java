@@ -1,13 +1,21 @@
 package it.polimi.ingsw.PSP14.server.actions;
 
+import it.polimi.ingsw.PSP14.core.messages.updates.UIUpdateMessage;
+import it.polimi.ingsw.PSP14.core.messages.updates.WorkerMoveMessage;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
+import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.Player;
 import it.polimi.ingsw.PSP14.server.model.Point;
 
+import java.io.IOError;
+import java.io.IOException;
+import java.util.List;
+
 public class MoveAction extends Action implements Proposable {
     private Point from;
     private Point to;
+    private int workerId = -1;
 
     public MoveAction(String user, Point from, Point to) {
         super(user);
@@ -19,17 +27,25 @@ public class MoveAction extends Action implements Proposable {
         return new MoveProposal(to);
     }
 
-    public boolean execute(Match match) {
+    @Override
+    public void execute(Match match) {
         for(Player p: match.getPlayers()) {
             for(int i = 0; i < 2; ++i) {
                 if(p.getWorker(i).getPos().equals(from)) {
+                    workerId = i;
                     p.getWorker(i).setPos(to);
                     match.addActionToHistory(this);
-                    return true;
                 }
             }
         }
-        return false;
+    }
+
+    @Override
+    public void updateClients(List<ClientConnection> clients) throws IOException {
+        UIUpdateMessage message = new WorkerMoveMessage(to, getUser(), workerId);
+        for (ClientConnection client : clients) {
+            client.sendMessage(message);
+        }
     }
 
     public Point getFrom() {

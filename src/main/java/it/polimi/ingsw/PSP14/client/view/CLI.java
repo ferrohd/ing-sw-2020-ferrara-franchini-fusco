@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 import it.polimi.ingsw.PSP14.client.model.UICell;
 import it.polimi.ingsw.PSP14.client.model.UIColor;
 import it.polimi.ingsw.PSP14.client.model.UIPlayer;
+import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
+import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 
 public class CLI extends UI {
@@ -210,6 +212,22 @@ public class CLI extends UI {
         }
 
         return coordinates;
+    }
+
+    @Override
+    public int chooseMove(List<MoveProposal> moves) {
+        System.out.println("Choose your move:");
+        List<String> moveStrings = moves.stream().map(m -> m.getPoint().toString()).collect(Collectors.toList());
+
+        return choose(moveStrings);
+    }
+
+    @Override
+    public int chooseBuild(List<BuildProposal> moves) {
+        System.out.println("Choose your build:");
+        List<String> moveStrings = moves.stream().map(m -> m.getPoint().toString() + (m.hasDome() ? "(dome)" : "")).collect(Collectors.toList());
+
+        return choose(moveStrings);
     }
 }
 

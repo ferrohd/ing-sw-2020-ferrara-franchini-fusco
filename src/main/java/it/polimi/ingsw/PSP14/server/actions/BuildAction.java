@@ -1,11 +1,18 @@
 package it.polimi.ingsw.PSP14.server.actions;
 
+import it.polimi.ingsw.PSP14.core.messages.updates.DomeBuildMessage;
+import it.polimi.ingsw.PSP14.core.messages.updates.TowerIncrementMessage;
+import it.polimi.ingsw.PSP14.core.messages.updates.UIUpdateMessage;
+import it.polimi.ingsw.PSP14.core.messages.updates.WorkerMoveMessage;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
+import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.model.Cell;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.Point;
 import it.polimi.ingsw.PSP14.server.model.TowerSizeException;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class BuildAction extends Action implements Proposable {
@@ -28,8 +35,8 @@ public class BuildAction extends Action implements Proposable {
         return point;
     }
 
-
-    public boolean execute(Match match) {
+    @Override
+    public void execute(Match match) {
         Cell cell = match.getBoard().getCell(point);
         if(dome) {
             cell.setAsCompleted();
@@ -38,11 +45,26 @@ public class BuildAction extends Action implements Proposable {
                 for(int i = 0; i < amount; ++i)
                     cell.incrementTowerSize();
             } catch(TowerSizeException e) {
-                return false;
+                e.printStackTrace();
+                System.exit(-1);
             }
         }
+    }
 
-        return true;
+    @Override
+    public void updateClients(List<ClientConnection> clients) throws IOException {
+        UIUpdateMessage message;
+        if(dome) {
+            message = new DomeBuildMessage(point);
+            for (ClientConnection client : clients) {
+                client.sendMessage(message);
+            }
+        } else {
+            message = new TowerIncrementMessage(point);
+            for (ClientConnection client : clients)
+                for(int i = 0; i <amount; ++i)
+                    client.sendMessage(message);
+        }
     }
 
     public boolean equals(BuildAction obj) {

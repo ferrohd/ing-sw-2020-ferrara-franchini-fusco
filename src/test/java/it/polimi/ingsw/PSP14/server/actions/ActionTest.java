@@ -1,9 +1,13 @@
 package it.polimi.ingsw.PSP14.server.actions;
 
 import it.polimi.ingsw.PSP14.server.actions.*;
+import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 import java.time.Instant;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,7 +21,13 @@ public class ActionTest {
             super("user");
         }
 
-        public boolean execute(Match match) {return true;}
+        @Override
+        public void execute(Match match) {}
+
+        @Override
+        public void updateClients(List<ClientConnection> clients) throws IOException {
+
+        }
     }
 
     private final MyAction myAction = new MyAction();
