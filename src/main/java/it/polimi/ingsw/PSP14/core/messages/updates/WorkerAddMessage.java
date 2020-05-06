@@ -19,6 +19,7 @@ public class WorkerAddMessage implements UIUpdateMessage {
     @Override
     public boolean execute(UI ui, ServerConnection serverConnection) {
         ui.setWorker(UIPoint.fromPoint(pos), workerId, player);
+        ui.update();
 
         return true;
     }

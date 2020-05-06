@@ -1,7 +1,9 @@
 package it.polimi.ingsw.PSP14.client.view;
 
 import it.polimi.ingsw.PSP14.client.model.*;
+import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
+import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 
 import java.util.List;
@@ -63,7 +65,7 @@ public abstract class UI {
         if (_worker == null) {
             _player.setWorker(new UIWorker(workerId, _player));
         }
-        cache.getCell(position).setWorker(_worker);
+        cache.getCell(position).setWorker(_player.getWorker(workerId));
     }
 
     /**
@@ -204,4 +206,8 @@ public abstract class UI {
      * @return A tuple [x,y] of the worker coordinates
      */
     public abstract int[] chooseWorkerInitialPosition();
+
+    public abstract int chooseMove(List<MoveProposal> moves);
+
+    public abstract int chooseBuild(List<BuildProposal> moves);
 }

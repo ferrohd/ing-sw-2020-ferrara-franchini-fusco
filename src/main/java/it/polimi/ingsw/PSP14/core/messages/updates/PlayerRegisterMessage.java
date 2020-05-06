@@ -13,6 +13,7 @@ public class PlayerRegisterMessage implements UIUpdateMessage {
     @Override
     public boolean execute(UI ui, ServerConnection serverConnection) {
         ui.registerPlayer(username);
+        ui.update();
 
         return true;
     }

@@ -15,6 +15,7 @@ public class WorkerRemoveMessage implements UIUpdateMessage {
     @Override
     public boolean execute(UI ui, ServerConnection serverConnection) {
         ui.unsetWorker(UIPoint.fromPoint(pos));
+        ui.update();
 
         return true;
     }

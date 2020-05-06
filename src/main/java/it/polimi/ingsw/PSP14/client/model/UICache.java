@@ -1,15 +1,17 @@
 package it.polimi.ingsw.PSP14.client.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class UICache {
-    private final List<UIPlayer> players;
+    private final Map<String, UIPlayer> players;
     private final UICell[][] board = new UICell[5][5];
 
     public UICache() {
-        players = new ArrayList<>();
+        players = new HashMap<>();
         for(int i = 0; i < 5; ++i) {
             for(int j = 0; j < 5; ++j) {
                 board[i][j] = new UICell();
@@ -38,7 +40,7 @@ public class UICache {
     }
 
     public void addPlayer(String username, UIColor color) {
-        this.players.add(new UIPlayer(username, color));
+        this.players.put(username, new UIPlayer(username, color));
     }
 
     public void removePlayer(String username) {
@@ -46,17 +48,14 @@ public class UICache {
         // Remove workers first
         _player.getWorkers().forEach(UIWorker::remove);
         // Then remove the player
-        this.players.remove(_player);
+        this.players.remove(username);
     }
 
     public List<UIPlayer> getPlayers() {
-        return this.players;
+        return new ArrayList<>(this.players.values());
     }
 
     public UIPlayer getPlayer(String username) {
-        return this.players.stream()
-                .filter(p -> p.getUsername().equals(username))
-                .collect(Collectors.toList())
-                .get(0);
+        return this.players.get(username);
     }
 }

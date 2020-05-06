@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP14.client.ServerConnection;
 import it.polimi.ingsw.PSP14.client.view.UI;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 
+import java.io.IOException;
 import java.util.Collection;
 
 public class MoveProposalMessage extends ProposalMessage<MoveProposal> {
@@ -13,6 +14,15 @@ public class MoveProposalMessage extends ProposalMessage<MoveProposal> {
 
     @Override
     public boolean execute(UI ui, ServerConnection serverConnection) {
-        return false;
+        int choice = ui.chooseMove(getProposals());
+
+        try {
+            serverConnection.sendMessage(new ChoiceMessage(choice));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 }

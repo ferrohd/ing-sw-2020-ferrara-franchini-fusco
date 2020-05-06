@@ -150,7 +150,6 @@ public class MatchController implements Runnable {
                 Point newPos = new Point(coord[0], coord[1]);
                 match.getPlayerByUsername(p).setWorker(i, newPos);
                 ClientConnection.sendAll(getClientConnections(), new WorkerAddMessage(newPos, p, i));
-                ClientConnection.sendAll(getClientConnections(), new RedrawMessage());
             }
         }
     }

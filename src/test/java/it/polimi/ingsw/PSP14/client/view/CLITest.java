@@ -23,6 +23,14 @@ class CLITest {
         ui.registerPlayer("Yuzon");
         ui.setWorker(new UIPoint(4,4), 0,"Yuzon");
         ui.setWorker(new UIPoint(4,2), 1,"Yuzon");
+        ui.incrementCell(new UIPoint(0,0));
+        ui.incrementCell(new UIPoint(0,0));
+        ui.incrementCell(new UIPoint(0,0));
+        ui.incrementCell(new UIPoint(0,1));
+        ui.incrementCell(new UIPoint(1,0));
+        ui.setDome(new UIPoint(1, 1));
+        ui.setWorker(new UIPoint(2,0),0, "ferroHD");
+
         ui.update();
     }
 }

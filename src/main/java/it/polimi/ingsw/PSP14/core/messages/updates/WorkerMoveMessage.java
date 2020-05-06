@@ -20,6 +20,7 @@ public class WorkerMoveMessage implements UIUpdateMessage {
     public boolean execute(UI ui, ServerConnection serverConnection) {
         ui.unsetWorker(workerId, player);
         ui.setWorker(UIPoint.fromPoint(newPos), workerId, player);
+        ui.update();
 
         return true;
     }
