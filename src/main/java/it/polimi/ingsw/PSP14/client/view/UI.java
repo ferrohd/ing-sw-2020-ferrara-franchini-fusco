@@ -1,7 +1,9 @@
 package it.polimi.ingsw.PSP14.client.view;
 
 import it.polimi.ingsw.PSP14.client.model.*;
+import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
+import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 
 import java.util.HashSet;
@@ -223,4 +225,8 @@ public abstract class UI {
      * @return A tuple [x,y] of the worker coordinates
      */
     public abstract int[] chooseWorkerInitialPosition();
+
+    public abstract int chooseMove(List<MoveProposal> moves);
+
+    public abstract int chooseBuild(List<BuildProposal> moves);
 }

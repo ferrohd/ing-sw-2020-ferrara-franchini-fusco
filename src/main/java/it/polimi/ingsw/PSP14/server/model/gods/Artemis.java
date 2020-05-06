@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP14.core.messages.Message;
 import it.polimi.ingsw.PSP14.core.messages.MoveProposalMessage;
 import it.polimi.ingsw.PSP14.core.messages.YesNoMessage;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
+import it.polimi.ingsw.PSP14.server.actions.Action;
 import it.polimi.ingsw.PSP14.server.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.controller.MatchController;
@@ -47,7 +48,15 @@ public class Artemis extends God {
                 System.exit(-1);
             }
 
-            movements.get(choice).execute(match);
+            Action action = movements.get(choice);
+            action.execute(match);
+            match.addActionToHistory(action);
+            try {
+                action.updateClients(matchController.getClientConnections());
+            } catch(IOException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
         }
 
     }

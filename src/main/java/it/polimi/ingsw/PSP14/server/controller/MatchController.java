@@ -1,6 +1,8 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
 import it.polimi.ingsw.PSP14.core.messages.*;
+import it.polimi.ingsw.PSP14.core.messages.updates.PlayerRegisterMessage;
+import it.polimi.ingsw.PSP14.core.messages.updates.WorkerAddMessage;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
@@ -53,6 +55,10 @@ public class MatchController implements Runnable {
         match = new Match(clients.keySet());
     }
 
+    public List<ClientConnection> getClientConnections() {
+        return new ArrayList<>(clients.values());
+    }
+
     private void initializeConnection(ClientConnection connection) throws IOException {
         Message message = new UsernameMessage();
         connection.sendMessage(message);
@@ -76,6 +82,15 @@ public class MatchController implements Runnable {
         // List of the gods the players choose
         List<String> selectedGods = new ArrayList<>();
 
+        try {
+            for (String p : players)
+                ClientConnection.sendAll(getClientConnections(), new PlayerRegisterMessage(p));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+
+
         // Populate the available gods list from file
         try {
             availableGods = GodfileParser.getGodIdList("src/main/resources/gods/godlist.xml");
@@ -93,7 +108,7 @@ public class MatchController implements Runnable {
 
                 playersPickOwnGod(selectedGods);
                 // At this point each player should have a unique binding with a god controller.
-            } catch (IOException | GodNotFoundException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         } // else play a game without gods, or with hardcoded ones?
@@ -134,6 +149,7 @@ public class MatchController implements Runnable {
                 coord[1] = connection.receiveChoice();
                 Point newPos = new Point(coord[0], coord[1]);
                 match.getPlayerByUsername(p).setWorker(i, newPos);
+                ClientConnection.sendAll(getClientConnections(), new WorkerAddMessage(newPos, p, i));
             }
         }
     }
@@ -160,7 +176,7 @@ public class MatchController implements Runnable {
     /**
      * Each player select a god starting from any but the first one.
      */
-    public void playersPickOwnGod(List<String> selectedGods) throws IOException, GodNotFoundException {
+    public void playersPickOwnGod(List<String> selectedGods) throws IOException {
         for (int i = players.size() - 1; i >= 0; i--) {
             ClientConnection player = clients.get(players.get(i));
             List<GodProposal> godProposals = selectedGods.stream().map(GodProposal::new).collect(Collectors.toList());
@@ -213,7 +229,10 @@ public class MatchController implements Runnable {
 
         int choice = client.receiveChoice();
 
-        movements.get(choice).execute(match);
+        Action action = movements.get(choice);
+        action.execute(match);
+        match.addActionToHistory(action);
+        action.updateClients(getClientConnections());
 
         match.getPlayers().forEach(p -> p.getGod().afterMove(player, workerIndex, client, match, this));
     }
@@ -225,7 +244,10 @@ public class MatchController implements Runnable {
         client.sendMessage(message);
         int choice = client.receiveChoice();
 
-        builds.get(choice).execute(match);
+        Action action = builds.get(choice);
+        action.execute(match);
+        match.addActionToHistory(action);
+        action.updateClients(getClientConnections());
 
         match.getPlayers().forEach(p -> p.getGod().afterBuild(player, workerIndex, client, match, this));
     }
