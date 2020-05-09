@@ -6,10 +6,7 @@ import it.polimi.ingsw.PSP14.server.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,8 +23,12 @@ public class ApolloTest {
         players = new HashSet<>();
         players.add("Ada");
         players.add("Bob");
+        Map<String, God> gods = new HashMap<>();
+        for(String s: players) {
+            gods.put(s, new God(s));
+        }
 
-        match = new Match(players);
+        match = new Match(players, gods);
         moves = new ArrayList<>();
 
         player = match.getPlayerByUsername("Ada");

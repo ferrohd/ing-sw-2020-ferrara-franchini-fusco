@@ -3,6 +3,7 @@ package it.polimi.ingsw.PSP14.server.model;
 import it.polimi.ingsw.PSP14.server.actions.Action;
 import it.polimi.ingsw.PSP14.server.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.actions.MoveAction;
+import it.polimi.ingsw.PSP14.server.model.gods.God;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,8 +22,12 @@ public class MatchTest {
         players.add("Ada");
         players.add("Bob");
         players.add("Carl");
+        Map<String, God> gods = new HashMap<>();
+        for(String s: players) {
+            gods.put(s, new God(s));
+        }
 
-        match = new Match(players);
+        match = new Match(players, gods);
     }
 
     @Test

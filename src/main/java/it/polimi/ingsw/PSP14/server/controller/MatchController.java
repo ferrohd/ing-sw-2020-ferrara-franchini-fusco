@@ -25,16 +25,9 @@ import java.util.stream.Collectors;
  * Controller for Match, supports Multi-Threading
  */
 public class MatchController implements Runnable {
-    // List of PlayerUsername
     private List<String> players = new ArrayList<>();
-
-    // PlayerUsername <-> ClientConnection
     private Map<String, ClientConnection> clients = new HashMap<>();
-
-    // PlayerUsername <--> GodController
     private Map<String, God> gods = new HashMap<>();
-
-    // Contains data about players, board...
     private Match match;
 
     /**
@@ -42,29 +35,15 @@ public class MatchController implements Runnable {
      * Implements Runnable interface.
      * @param clientConnections a list of connections to the clients.
      */
-    public MatchController(List<ClientConnection> clientConnections) {
-        // Init Connections
-        try {
-            for (ClientConnection connection : clientConnections)
-                initializeConnection(connection);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
+    public MatchController(List<ClientConnection> clientConnections) throws IOException {
+        for (ClientConnection connection : clientConnections) {
+            clients.put(connection.getUsername(), connection);
+            players.add(connection.getUsername());
         }
-        // Bind Model
-        match = new Match(clients.keySet());
     }
 
     public List<ClientConnection> getClientConnections() {
         return new ArrayList<>(clients.values());
-    }
-
-    private void initializeConnection(ClientConnection connection) throws IOException {
-        Message message = new UsernameMessage();
-        connection.sendMessage(message);
-        String username = connection.receiveString();
-        clients.put(username, connection);
-        players.add(username);
     }
 
     /**
@@ -72,58 +51,35 @@ public class MatchController implements Runnable {
      */
     @Override
     public void run() {
-        setupGame();
+        try {
+            setupGame();
+        } catch(IOException e) {
+            System.out.println("An error has occurred while setting up the game!");
+        }
+        gameLoop();
     }
 
-    private void setupGame() {
-        /*================ 1. GAME SETUP ==================*/
-        // List of the gods that are available to play;
+    private void setupGame() throws IOException {
         List<String> availableGods = null;
-        // List of the gods the players choose
         List<String> selectedGods = new ArrayList<>();
 
-        try {
-            for (String p : players)
-                ClientConnection.sendAll(getClientConnections(), new PlayerRegisterMessage(p));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(-1);
-        }
+        for (String p : players)
+            ClientConnection.sendAll(getClientConnections(), new PlayerRegisterMessage(p));
 
+        availableGods = GodfileParser.getGodIdList("src/main/resources/gods/godlist.xml");
 
-        // Populate the available gods list from file
-        try {
-            availableGods = GodfileParser.getGodIdList("src/main/resources/gods/godlist.xml");
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            //TODO: handle exception
-            // Ideas: load a hardcoded set of gods?
-            // Try loading the class names in package?
-        }
-
-        /*================ 1.1 PLAYERS PICK GODS ==================*/
         if (availableGods != null) {
-            try {
-                // First player chooses the gods for the other players
-                firstPlayerSelectsGods(availableGods, selectedGods);
-
-                playersPickOwnGod(selectedGods);
-                // At this point each player should have a unique binding with a god controller.
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } // else play a game without gods, or with hardcoded ones?
-
-        /*================ 1.2 PLAYER DECIDES WHO GOES FIRST ==================*/
-        // The first player has to choose who goes first, including itself.
-
-        try {
-            firstPlayerSelectFirst();
-            playersPlaceWorkers();
-        } catch (IOException e) {
-            e.printStackTrace();
+            firstPlayerSelectsGods(availableGods, selectedGods);
+            playersPickOwnGod(selectedGods);
         }
 
+        firstPlayerSelectFirst();
 
+        match = new Match(clients.keySet(), gods);
+        playersPlaceWorkers();
+    }
+
+    private void gameLoop() {
         while(true) {
             for(String p: players) {
                 try {
@@ -134,8 +90,6 @@ public class MatchController implements Runnable {
                 }
             }
         }
-
-
     }
 
     private void playersPlaceWorkers() throws IOException {
@@ -183,7 +137,7 @@ public class MatchController implements Runnable {
             GodChoiceProposalMessage message = new GodChoiceProposalMessage(godProposals);
             player.sendMessage(message);
             int choice = player.receiveChoice();
-            this.gods.put(players.get(i), GodControllerFactory.getController(selectedGods.get(choice), players.get(i)));
+            gods.put(players.get(i), GodControllerFactory.getController(selectedGods.get(choice), players.get(i)));
             selectedGods.remove(choice);
         }
     }

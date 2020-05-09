@@ -23,10 +23,10 @@ public class Match {
      * the order of setup doesn't matter.
      * @param usernames a Set of each player's username
      */
-    public Match(Set<String> usernames) {
+    public Match(Collection<String> usernames, Map<String, God> gods) {
         // Init players
         for (String username : usernames) {
-            players.put(username, new Player(username, new God(username)));
+            players.put(username, new Player(username, gods.get(username)));
         }
         // Init board
         this.board = new Board();
