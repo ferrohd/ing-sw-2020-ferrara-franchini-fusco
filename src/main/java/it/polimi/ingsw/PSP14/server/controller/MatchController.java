@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
+import it.polimi.ingsw.PSP14.client.model.GodFactory;
 import it.polimi.ingsw.PSP14.core.messages.*;
 import it.polimi.ingsw.PSP14.core.messages.updates.PlayerRegisterMessage;
 import it.polimi.ingsw.PSP14.core.messages.updates.WorkerAddMessage;
@@ -61,7 +62,8 @@ public class MatchController implements Runnable {
 
     private void setupGame() throws IOException {
         List<String> availableGods = null;
-        List<String> selectedGods = new ArrayList<>();
+        List<String> selectedGods;
+        ClientConnection roomMaster = clients.get(players.get(0));
 
         for (String p : players)
             ClientConnection.sendAll(getClientConnections(), new PlayerRegisterMessage(p));
@@ -69,11 +71,17 @@ public class MatchController implements Runnable {
         availableGods = GodfileParser.getGodIdList("src/main/resources/gods/godlist.xml");
 
         if (availableGods != null) {
-            firstPlayerSelectsGods(availableGods, selectedGods);
-            playersPickOwnGod(selectedGods);
+            selectedGods = roomMaster.selectGameGods(new ArrayList<>(availableGods), players.size());
+            for (int i = players.size() - 1; i >= 0; i--) {
+                ClientConnection player = clients.get(players.get(i));
+                String chosenGod = player.selectGod(selectedGods);
+                gods.put(players.get(i), GodControllerFactory.getController(chosenGod, players.get(i)));
+                selectedGods.remove(chosenGod);
+            }
         }
 
-        firstPlayerSelectFirst();
+        String firstPlayer = roomMaster.selectFirstPlayer(players);
+        Collections.rotate(players, players.size() - players.indexOf(firstPlayer));
 
         match = new Match(clients.keySet(), gods);
         playersPlaceWorkers();
@@ -106,51 +114,6 @@ public class MatchController implements Runnable {
                 ClientConnection.sendAll(getClientConnections(), new WorkerAddMessage(newPos, p, i));
             }
         }
-    }
-
-    /**
-     * Receive each gods Player1 selects and add them to a list.
-     * @param availableGods list of the names of the available gods.
-     */
-    private void firstPlayerSelectsGods(List<String> availableGods, List<String> selectedGods) throws IOException {
-        // Get the first player who has to choose the gods for the other players.
-        ClientConnection firstPlayer = clients.get(players.get(0));
-
-
-        for (int i = 0; i < players.size(); i++) {
-            List<GodProposal> godProposals = availableGods.stream().map(GodProposal::new).collect(Collectors.toList());
-            GodSublistProposalMessage message = new GodSublistProposalMessage(godProposals);
-            firstPlayer.sendMessage(message);
-            int choice = firstPlayer.receiveChoice();
-            selectedGods.add(availableGods.get(choice));
-            availableGods.remove(choice);
-        }
-    }
-
-    /**
-     * Each player select a god starting from any but the first one.
-     */
-    public void playersPickOwnGod(List<String> selectedGods) throws IOException {
-        for (int i = players.size() - 1; i >= 0; i--) {
-            ClientConnection player = clients.get(players.get(i));
-            List<GodProposal> godProposals = selectedGods.stream().map(GodProposal::new).collect(Collectors.toList());
-            GodChoiceProposalMessage message = new GodChoiceProposalMessage(godProposals);
-            player.sendMessage(message);
-            int choice = player.receiveChoice();
-            gods.put(players.get(i), GodControllerFactory.getController(selectedGods.get(choice), players.get(i)));
-            selectedGods.remove(choice);
-        }
-    }
-
-    private void firstPlayerSelectFirst() throws IOException {
-        ClientConnection player = clients.get(players.get(0));
-        List<PlayerProposal> playerProposals = players.stream().map(PlayerProposal::new).collect(Collectors.toList());
-        FirstPlayerProposalMessage message = new FirstPlayerProposalMessage(playerProposals);
-
-        player.sendMessage(message);
-        int choice = player.receiveChoice();
-
-        Collections.rotate(players, players.size() - choice);
     }
 
     private void turn(String player) throws IOException {

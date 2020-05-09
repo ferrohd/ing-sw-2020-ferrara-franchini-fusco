@@ -136,7 +136,13 @@ public class Match {
             }
         }
 
-        List<BuildAction> buildActions = buildablePositions.stream().map(p -> new BuildAction(player, p, board.getCell(p).getTowerSize() == 3, 1)).collect(Collectors.toList());
+        List<BuildAction> buildActions = buildablePositions
+                .stream()
+                .map(p -> new BuildAction(player, p, board.getCell(p).getTowerSize() == 3, 1))
+                .collect(Collectors.toList());
+
+        players.values().forEach(p -> p.getGod().addBuilds(buildActions, players.get(player), players.get(player).getWorker(worker), this));
+        players.values().forEach(p -> p.getGod().removeBuilds(buildActions, players.get(player), players.get(player).getWorker(worker), this));
 
         return buildActions;
     }

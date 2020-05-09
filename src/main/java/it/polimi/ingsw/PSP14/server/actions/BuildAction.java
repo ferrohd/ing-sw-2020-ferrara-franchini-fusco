@@ -72,13 +72,4 @@ public class BuildAction extends Action implements Proposable {
                 dome == obj.dome &&
                 point.equals(obj.point);
     }
-
-    @Override
-    public String toString() {
-        return "BuildAction{" +
-                "point=" + point +
-                ", dome=" + dome +
-                ", user='" + user + '\'' +
-                '}';
-    }
 }
