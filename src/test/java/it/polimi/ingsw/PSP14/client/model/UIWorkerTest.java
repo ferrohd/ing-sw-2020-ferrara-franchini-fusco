@@ -9,7 +9,7 @@ class UIWorkerTest {
 
     UIWorker worker;
     UIPlayer player = new UIPlayer("Ada", 0,null);
-    UICell cell = new UICell();
+    UICell cell = new UICell(1, 1);
 
     @BeforeEach
     void setUp() {
@@ -18,6 +18,8 @@ class UIWorkerTest {
 
     @Test
     void remove() {
+        worker.setCell(cell);
+        cell.setWorker(worker);
         worker.remove();
         assertNull(cell.getWorker());
     }
@@ -39,7 +41,7 @@ class UIWorkerTest {
 
     @Test
     void setCell() {
-        UICell _c1 = new UICell();
+        UICell _c1 = new UICell(0, 0);
         worker.setCell(_c1);
         assertEquals(_c1, worker.getCell());
     }

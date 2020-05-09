@@ -1,6 +1,12 @@
 package it.polimi.ingsw.PSP14.client.view;
 
-// D stay for... hmmm...
+import it.polimi.ingsw.PSP14.client.model.UICache;
+import it.polimi.ingsw.PSP14.client.model.UICell;
+import it.polimi.ingsw.PSP14.client.model.UIPlayer;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 class ColorChar {
     private final char character;
     private final CLIColor color;
@@ -32,15 +38,28 @@ class ColorChar {
  * Command Line Interfaces.
  */
 public class CLIHelper {
-    int height, width;
+    private static final int
+            CANVAS_WIDTH = 70,
+            CANVAS_HEIGHT = 15,
+            BOARD_X = 3,
+            BOARD_Y = 2,
+            BOARD_WIDTH = 25,
+            BOARD_HEIGHT = 10,
+            GAP = 2,
+            PANEL_START = BOARD_X + BOARD_WIDTH + GAP,
+            PANEL_Y = 1,
+            PANEL_WIDTH = CANVAS_WIDTH - BOARD_WIDTH - 10;
 
+
+    int height, width;
+    UICache cache;
     ColorChar[][] canvas;
 
     private void initCanvas() {
         canvas = new ColorChar[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                canvas[i][j] = new ColorChar('x', null);
+                canvas[i][j] = new ColorChar('*', null);
             }
         }
     }
@@ -52,9 +71,10 @@ public class CLIHelper {
      * and layout. If not height and width is specified,
      * assume the default 80x24 on the terminal.
      */
-    CLIHelper() {
-        this.width = 80;
-        this.height = 15;
+    CLIHelper(UICache cache) {
+        this.width = CANVAS_WIDTH;
+        this.height = CANVAS_HEIGHT;
+        this.cache = cache;
         initCanvas();
     }
 
@@ -66,9 +86,10 @@ public class CLIHelper {
      * @param height the height of the window
      * @param width the width of the window
      */
-    CLIHelper(int height, int width) {
+    CLIHelper(int height, int width, UICache cache) {
         this.height = height;
         this.width = width;
+        this.cache = cache;
         initCanvas();
     }
 
@@ -77,9 +98,10 @@ public class CLIHelper {
      * <br/>It's good habit to call it straight after
      * print() in order to prevent glitches.
      */
-    public void reset() {
+    private void reset() {
         initCanvas();
     }
+
     /**
      * Draw an ASCII rect on the canvas
      * @param x horizontal start position
@@ -87,7 +109,7 @@ public class CLIHelper {
      * @param w width
      * @param h height
      */
-    public void addRect(int x, int y, int w, int h) {
+    private void addRect(int x, int y, int w, int h) {
         addLine(x, y, x, y+h);
         addLine(x+w, y, x+w, y+h);
         addLine(x, y, x+w, y);
@@ -103,7 +125,7 @@ public class CLIHelper {
      * @param x2 end x
      * @param y2 end y
      */
-    public void addLine(int x1, int y1, int x2, int y2) {
+    private void addLine(int x1, int y1, int x2, int y2) {
         // return if out of bounds
         if (!(0 <= x1 && x1 <= x2 && x2 <= width &&
             0 <= y1 && y1 <= y2 && y2 <= height)) return;
@@ -120,7 +142,7 @@ public class CLIHelper {
         for (int row = y1; row <= y2; row++) {
             for (int col = x1; col <= x2; col++) {
                 if (row < height && col < width)
-                    if (canvas[row][col].getChar() == 'x')
+                    if (canvas[row][col].getChar() == '*')
                         canvas[row][col] = fill;
             }
         }
@@ -134,7 +156,7 @@ public class CLIHelper {
      * @param text the input text
      * @param color the color of the text (default: RESET)
      */
-    public void addText(int x, int y, String text, CLIColor color) {
+    private void addText(int x, int y, String text, CLIColor color) {
         int textSize = text.length();
         if (!(0 <= x && x <= width &&
                 0 <= y && y <= height)) return;
@@ -160,7 +182,7 @@ public class CLIHelper {
         // Replace X
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (canvas[i][j].getChar() =='x') canvas[i][j] = new ColorChar( ' ', canvas[i][j].getColor());
+                if (canvas[i][j].getChar() =='*') canvas[i][j] = new ColorChar( ' ', canvas[i][j].getColor());
             }
         }
     }
@@ -236,16 +258,157 @@ public class CLIHelper {
      * @see <a href="https://stackoverflow.com/questions/2979383/java-clear-the-console">Stackoverflow: Clear the console</a>
      */
     public static void clear() {
-//        try {
-//            final String os = System.getProperty("os.name");
-//            if (os.contains("Windows")) {
-//                Runtime.getRuntime().exec("cls");
-//            } else {
-//                Runtime.getRuntime().exec("clear");
-//            }
-//        } catch (Exception e) {
-//            // Do nothing, since we're not clearing the console.
-//        }
+        try {
+            final String os = System.getProperty("os.name");
+            if (os.contains("Windows")) {
+                Runtime.getRuntime().exec("cls");
+            } else {
+                Runtime.getRuntime().exec("clear");
+            }
+        } catch (Exception e) {
+            // Do nothing, since we're not clearing the console.
+        }
+    }
+
+    private void drawBoard() {
+        // Draw the outer edge of the board
+        addRect(BOARD_X, BOARD_Y, BOARD_WIDTH, BOARD_HEIGHT);
+        // Draw the rows separators
+        for (int i = 0; i <= 4; i++) {
+            int padding = BOARD_Y + 2 * i;
+            addLine(BOARD_X, padding , BOARD_X + BOARD_WIDTH, padding);
+        }
+        // Draw the lines separators
+        for (int i = 0; i <= 4; i++) {
+            int padding = BOARD_X + 5*i;
+            addLine(padding, BOARD_Y, padding, BOARD_Y + BOARD_HEIGHT);
+        }
+        // Draw numbers
+        for (int i = 0; i < 5; i++) {
+            addText(BOARD_X + 2 + i * 5, BOARD_Y - 1, i + "", CLIColor.RESET);
+        }
+        for (int i = 0; i < 5; i++) {
+            addText(BOARD_X - 2, BOARD_Y + 1 + i * 2, i + "", CLIColor.RESET);
+        }
+        // Draw the cell content
+        for (int y = 0; y < 5; y++) {
+            for (int x = 0; x < 5; x++) {
+                drawCell(x, y, cache.getCell(x,y));
+            }
+        }
+    }
+
+    /**
+     * Draw a cell in 4 chars of space.
+     * The first char will be the height of the
+     * tower, the second char will be a "D" if
+     * the tower has a dome, else it will be " ".
+     * The third char is whether there's a worker
+     * on the cell, marked by "W", else it will
+     * be " ", and the last one is an ID for the
+     * player.
+     * @param x coordinate
+     * @param y coordinate
+     * @param cell The cell
+     */
+    private void drawCell(int x, int y, UICell cell) {
+        int paddingLeft= BOARD_X + 1 + 5 * x;
+        int paddingTop = BOARD_Y + 1 + 2 * y;
+
+        String output = cell.getTowerHeight() +
+                (cell.hasDome() ? "D" : " ") +
+                (cell.hasWorker() ? "W" + cell.getWorker().getPlayer().getNumber() : "  ");
+        addText(
+                paddingLeft,
+                paddingTop,
+                output,
+                cell.hasWorker()
+                        ? (CLIColor) cell.getWorker().getPlayer().getColor()
+                        : CLIColor.RESET
+        );
+    }
+
+    /**
+     * Display a list that splits in two columns if <code>list.size() > height</code>
+     * @param x start
+     * @param y start
+     * @param w width
+     * @param h height
+     * @param list list of choices
+     * @param colors colors associated with the choices - set <code>null</code> if you want standard text
+     */
+    public void drawList(int x, int y, int w, int h, List<String> list, List<CLIColor> colors) {
+        for (int i = 0; i < list.size(); i++) {
+            int _x = i < h ? x : x + w / 2;
+            int _y = i < h ? y + i : y + i - h;
+            addText(_x, _y, (i+1) + ". " + list.get(i), colors != null ? colors.get(i) : CLIColor.RESET);
+        }
+    }
+
+    public void drawBoardAndPlayers() {
+        List<UIPlayer> _players = cache.getPlayers();
+        reset();
+        clear();
+        drawBoard();
+        addText(PANEL_START, PANEL_Y, "PLAYERS:", CLIColor.RESET);
+        drawList(
+                PANEL_START + 1,
+                PANEL_Y + 1,
+                PANEL_WIDTH,
+                3,
+                _players.stream().map(UIPlayer::getUsername).collect(Collectors.toList()),
+                _players.stream().map(p -> (CLIColor) p.getColor()).collect(Collectors.toList())
+        );
+    }
+
+    /**
+     * Draw options on the right side of the map/board.
+     * This will be useful for either workers or actions.
+     * @param choices list of strings representing the entries.
+     */
+    public void drawPanelChoices(String title, List<String> choices) {
+        addText(PANEL_START, PANEL_Y + 5, title, CLIColor.RESET);
+        drawList(
+                PANEL_START + 1,
+                PANEL_Y + 6,
+                PANEL_WIDTH,
+                5,
+                choices,
+                null
+        );
+    }
+
+    /**
+     * Add a text at the top of the screen.
+     * Reset and print included.
+     * @param text the message
+     */
+    public void drawMessageFullscreen(String text) {
+        reset();
+        clear();
+        addRect(0,0,CANVAS_WIDTH-1, 3);
+        addText(2, 1, text, CLIColor.RESET);
+        print();
+        reset();
+    }
+
+    /**
+     * Draw a list with a heading fullscreen.
+     * The entries will have a prefix starting from 1.
+     * @param title Prompt at the top
+     * @param list List of choices (strings).
+     */
+    public void drawListFullscreen(String title, List<String> list) {
+        reset();
+        clear();
+        addText(BOARD_X, BOARD_Y, title, CLIColor.RESET);
+        drawList(BOARD_X, BOARD_Y+1, CANVAS_WIDTH - BOARD_X, BOARD_HEIGHT-1, list, null);
+        print();
+        reset();
+    }
+
+    public void drawMessage(String text) {
+        addText(BOARD_X, BOARD_Y+BOARD_HEIGHT+1, text, CLIColor.YELLOW);
     }
 }
 

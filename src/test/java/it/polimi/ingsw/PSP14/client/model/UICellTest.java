@@ -11,7 +11,13 @@ class UICellTest {
 
     @BeforeEach
     void setupCell() {
-        cell = new UICell();
+        cell = new UICell(0, 0);
+    }
+
+    @Test
+    void getCoordinates() {
+        assertEquals(0, cell.getX());
+        assertEquals(0, cell.getY());
     }
 
     @Test
@@ -58,7 +64,9 @@ class UICellTest {
     void setWorker() {
         UIWorker _w = new UIWorker(0, new UIPlayer("Ada", 0, null));
         cell.setWorker(_w);
+        _w.setCell(cell);
         assertEquals(_w, cell.getWorker());
+        assertEquals(_w.getCell(), cell);
     }
 
     @Test

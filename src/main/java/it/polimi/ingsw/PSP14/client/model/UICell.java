@@ -10,11 +10,14 @@ package it.polimi.ingsw.PSP14.client.model;
  * which may be null if there isn't any worker on it.
  */
 public class UICell {
+    private final int x, y;
     private int towerHeight;
     private boolean dome;
     private UIWorker worker;
 
-    UICell() {
+    UICell(int x, int y) {
+        this.x = x;
+        this.y = y;
         this.towerHeight = 0;
         this.dome = false;
         this.worker = null;
@@ -79,8 +82,6 @@ public class UICell {
      * @param worker a reference to a player's worker.
      */
     public void setWorker(UIWorker worker) {
-        if (this.worker != null)
-            this.worker.unsetCell();
         this.worker = worker;
     }
 
@@ -91,8 +92,14 @@ public class UICell {
      * the piece from the match.
      */
     public void unsetWorker() {
-        if (this.worker != null)
-            this.worker.unsetCell();
         this.worker = null;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

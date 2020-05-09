@@ -103,45 +103,13 @@ public class UIPlayer {
     }
 
     /**
-     * Remove a worker from the board.
-     * <br/>
-     * This is intended to be used temporarily, such as
-     * during a move, where you should unset a worker from its
-     * old position and move it to the next.
-     * <br/>
-     * If you want to <strong>delete</strong> a worker instead, see {@link #removeWorker(UIWorker)}
-     * @param workerId the id of the worker to move
-     */
-    public void unsetWorker(int workerId) {
-        UIWorker _worker = getWorker(workerId);
-        unsetWorker(_worker);
-    }
-
-    /**
-     * Remove a worker from the board.
-     * @see #unsetWorker(int)
-     * @param worker a reference to the worker
-     */
-    public void unsetWorker(UIWorker worker) {
-        if (worker != null)
-            worker.unsetCell();
-    }
-
-    /**
-     * Delete a worker from a player by passing the worker.
-     * @param worker the worker
-     */
-    public void removeWorker(UIWorker worker) {
-        this.workers.remove(worker.getId());
-    }
-
-    /**
      * Delete a worker from a player by using the worker id.
      * This will effectively delete a worker from the entire match.
-     * (Such as when the player loses).
+     * (Such as when the player loses).<br/>
+     * Only a player can remove a worker.
      * @param withId the id of the worker
      */
     public void removeWorker(int withId) {
-        this.workers.remove(withId);
+        workers.remove(withId);
     }
 }

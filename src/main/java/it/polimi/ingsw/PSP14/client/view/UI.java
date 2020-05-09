@@ -79,10 +79,11 @@ public abstract class UI {
     public void setWorker(UIPoint position, int workerId, String playerUsername) {
         UIPlayer _player = cache.getPlayer(playerUsername);
         UIWorker _worker = _player.getWorker(workerId);
+        // Create a new worker if there isn't one
         if (_worker == null) {
-            _player.setWorker(new UIWorker(workerId, _player));
+            _worker = new UIWorker(workerId, _player);
         }
-        cache.getCell(position).setWorker(_player.getWorker(workerId));
+        cache.setWorker(_worker, playerUsername, cache.getCell(position));
     }
 
     /**
@@ -92,7 +93,8 @@ public abstract class UI {
      * @param position the position of the worker
      */
     public void unsetWorker(UIPoint position) {
-        cache.getCell(position).unsetWorker();
+        UIWorker _w = cache.getCell(position).getWorker();
+        cache.unsetWorker(_w);
     }
 
     /**
@@ -101,7 +103,7 @@ public abstract class UI {
      */
     public void unsetWorker(int workerId, String playerUsername) {
         UIPlayer _player = cache.getPlayer(playerUsername);
-        _player.unsetWorker(workerId);
+        cache.unsetWorker(_player.getWorker(workerId));
     }
 
     /**

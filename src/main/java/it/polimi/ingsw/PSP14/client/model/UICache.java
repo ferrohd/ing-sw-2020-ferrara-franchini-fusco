@@ -11,9 +11,9 @@ public class UICache {
 
     public UICache() {
         players = new HashMap<>();
-        for(int i = 0; i < 5; ++i) {
-            for(int j = 0; j < 5; ++j) {
-                board[i][j] = new UICell();
+        for(int y = 0; y < 5; ++y) {
+            for(int x = 0; x < 5; ++x) {
+                board[y][x] = new UICell(x, y);
             }
         }
     }
@@ -40,9 +40,9 @@ public class UICache {
 
     /**
      * Add a player to the match.
-     * @param username
-     * @param number
-     * @param color
+     * @param username username of the player
+     * @param number unique id of the player
+     * @param color unique (not necessarily) color of the player
      */
     public void addPlayer(String username, int number, UIColor color) {
         this.players.put(username, new UIPlayer(username, number, color));
@@ -51,7 +51,7 @@ public class UICache {
     /**
      * Remove a player from the match. This will effectively wipe
      * the player and all of it's workers from the game.
-     * @param username
+     * @param username the username of the player to remove
      */
     public void removePlayer(String username) {
         UIPlayer _player = getPlayer(username);
@@ -69,5 +69,27 @@ public class UICache {
 
     public UIPlayer getPlayer(String username) {
         return this.players.get(username);
+    }
+
+    public void setWorker(UIWorker worker, String player, UICell cell) {
+        if (cell == null) return;
+
+        if (cell.getWorker() != worker) {
+            // Remove the worker on target cell
+            unsetWorker(cell.getWorker());
+        }
+        // Free the new worker
+        unsetWorker(worker);
+        // Set it to target cell
+        getPlayer(player).setWorker(worker);
+        worker.setCell(cell);
+        cell.setWorker(worker);
+    }
+
+    public void unsetWorker(UIWorker worker) {
+        if (worker == null) return;
+        UICell _c = worker.getCell();
+        if (_c != null) _c.unsetWorker(); // remove worker ref from cell
+        worker.unsetCell(); // remove cell ref from worker
     }
 }

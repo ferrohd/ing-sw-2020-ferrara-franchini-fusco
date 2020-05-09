@@ -21,16 +21,6 @@ public class UIWorker {
     }
 
     /**
-     * Removes this worker from the game,
-     * safely unbinding it from both board and player.
-     */
-    public void remove() {
-        if (cell != null)
-            cell.setWorker(null);
-        player.removeWorker(this);
-    }
-
-    /**
      * Get the worker id.
      * @return the worker id
      */
@@ -65,8 +55,6 @@ public class UIWorker {
      * @param cell the target cell
      */
     public void setCell(UICell cell) {
-        if (this.cell != null)
-            this.cell.unsetWorker();
         this.cell = cell;
     }
 
@@ -76,6 +64,11 @@ public class UIWorker {
      * This is useful to perform moves, for example.
      */
     public void unsetCell() {
-        setCell(null);
+        this.cell = null;
+    }
+
+    public void remove() {
+        this.cell.unsetWorker();
+        this.player.removeWorker(id);
     }
 }

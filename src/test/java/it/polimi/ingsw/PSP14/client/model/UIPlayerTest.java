@@ -43,14 +43,6 @@ class UIPlayerTest {
     }
 
     @Test
-    void unsetWorker() {
-        player.setWorker(new UIWorker(0, player));
-        assertNotNull(player.getWorker(0));
-        player.unsetWorker(0);
-        assertNull(player.getWorker(0).getCell());
-    }
-
-    @Test
     void removeWorker() {
         player.setWorker(new UIWorker(0, player));
         assertNotNull(player.getWorker(0));
@@ -63,7 +55,7 @@ class UIPlayerTest {
         UIWorker _w = new UIWorker(0, player);
         player.setWorker(_w);
         assertNotNull(player.getWorker(0));
-        player.removeWorker(_w);
+        player.removeWorker(_w.getId());
         assertNull(player.getWorker(0));
     }
 }
