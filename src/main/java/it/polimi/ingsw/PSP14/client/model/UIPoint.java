@@ -18,14 +18,27 @@ public class UIPoint {
         this.y = y;
     }
 
+    /**
+     * Convert a Point (server) to UIPoint (client).
+     * @param p the Point to convert
+     * @return a UIPoint with the same coordinates
+     */
     public static UIPoint fromPoint(Point p) {
         return new UIPoint(p.getX(), p.getY());
     }
 
+    /**
+     * Get the X coordinate of this point.
+     * @return UIPoint.x
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Get the Y coordinate of this point.
+     * @return UIPoint.y
+     */
     public int getY() {
         return y;
     }

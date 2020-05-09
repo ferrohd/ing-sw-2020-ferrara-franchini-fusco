@@ -6,7 +6,9 @@ import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This abstract class has to be implemented by
@@ -23,6 +25,8 @@ public abstract class UI {
      * to whom implements this class.
      */
     protected final UICache cache;
+    private final Set<UIColor> assignedColors;
+    private int playerNumber = 1;
 
     /**
      * Constructor of the UI:
@@ -30,22 +34,29 @@ public abstract class UI {
      */
     public UI() {
         cache = new UICache();
+        assignedColors = new HashSet<>();
     }
 
     /**
-     * Add a new player to the match.
+     * Add a new player to the match by providing their username.
      * @param newPlayerUsername the username of the player you want to
      *                          register (you get this from the server)
      */
     public void registerPlayer(String newPlayerUsername) {
-        UIColor _newPlayerColor = getColor();
-        // TODO: Prevent duplicate colors
+        UIColor _newPlayerColor = null;
+        // Prevent duplicate colors
+        while (_newPlayerColor == null ||
+                assignedColors.contains(_newPlayerColor)) {
+            _newPlayerColor = getColor();
+        }
+        assignedColors.add(_newPlayerColor);
 
-        cache.addPlayer(newPlayerUsername, _newPlayerColor);
+        cache.addPlayer(newPlayerUsername, playerNumber++, _newPlayerColor);
     }
 
     /**
-     * Remove a player from the match.
+     * Remove a player from the match. This will remove the player and
+     * all of its workers from this match.
      * @param username the username of the player you want
      *                 to remove
      */
@@ -54,39 +65,49 @@ public abstract class UI {
     }
 
     /**
-     * Set a player's worker in a specific position.
-     * @param position the new position of the worker
+     * Set a player's worker in a target position.
+     * <br/>
+     * If the player does not own a worker with that <code>workerId</code>,
+     * a new worker will be instantiated.
+     * <br/>
+     * You can use this method to perform moves: in that case, call first
+     * {@link #unsetWorker(UIPoint)}.
+     * @param position the target position
      * @param workerId the ID of the player's worker
      * @param playerUsername the owner of the worker
      */
     public void setWorker(UIPoint position, int workerId, String playerUsername) {
         UIPlayer _player = cache.getPlayer(playerUsername);
         UIWorker _worker = _player.getWorker(workerId);
+        // Create a new worker if there isn't one
         if (_worker == null) {
-            _player.setWorker(new UIWorker(workerId, _player));
+            _worker = new UIWorker(workerId, _player);
         }
-        cache.getCell(position).setWorker(_player.getWorker(workerId));
+        cache.setWorker(_worker, playerUsername, cache.getCell(position));
     }
 
     /**
-     * Remove any worker from a specific position.
+     * Remove a worker from a specific position on the board,
+     * if there's any.<br/>
+     * You want to call this before performing a move.
      * @param position the position of the worker
      */
     public void unsetWorker(UIPoint position) {
-        cache.getCell(position).unsetWorker();
+        UIWorker _w = cache.getCell(position).getWorker();
+        cache.unsetWorker(_w);
     }
 
     /**
-     * Remove any worker from a specific position.
+     * Remove a worker from a specific position.
+     * @see #unsetWorker(UIPoint)
      */
     public void unsetWorker(int workerId, String playerUsername) {
         UIPlayer _player = cache.getPlayer(playerUsername);
-        _player.unsetWorker(workerId);
+        cache.unsetWorker(_player.getWorker(workerId));
     }
 
-
     /**
-     * Increment the tower height at the specified cell position.
+     * Increment the tower height at the specified cell position by 1.
      * @param position position
      */
     public void incrementCell(UIPoint position) {
@@ -94,7 +115,7 @@ public abstract class UI {
     }
 
     /**
-     * Decrement the tower height at the specified cell position.
+     * Decrement the tower height at the specified cell position by 1.
      * @param position the position
      */
     public void decrementCell(UIPoint position) {
