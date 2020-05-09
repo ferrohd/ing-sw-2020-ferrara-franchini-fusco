@@ -84,6 +84,7 @@ public class MatchController implements Runnable {
         Collections.rotate(players, players.size() - players.indexOf(firstPlayer));
 
         match = new Match(clients.keySet(), gods);
+
         playersPlaceWorkers();
     }
 
@@ -104,14 +105,9 @@ public class MatchController implements Runnable {
         for(int i = 0; i < 2; ++i) {
             for (String p : players) {
                 ClientConnection connection = clients.get(p);
-                Message message = new WorkerInitialPositionMessage();
-                connection.sendMessage(message);
-                int[] coord = new int[2];
-                coord[0] = connection.receiveChoice();
-                coord[1] = connection.receiveChoice();
-                Point newPos = new Point(coord[0], coord[1]);
-                match.getPlayerByUsername(p).setWorker(i, newPos);
-                ClientConnection.sendAll(getClientConnections(), new WorkerAddMessage(newPos, p, i));
+                Point pos = connection.placeWorker();
+                match.getPlayerByUsername(p).setWorker(i, pos);
+                ClientConnection.sendAll(getClientConnections(), new WorkerAddMessage(pos, p, i));
             }
         }
     }
@@ -121,19 +117,12 @@ public class MatchController implements Runnable {
 
         match.getPlayers().forEach(p -> p.getGod().beforeTurn(player, client, match, this));
 
-        int workerIndex = getWorkerIndex(client);
+        int workerIndex = client.getWorkerIndex();
 
         move(player, client, workerIndex);
         build(player, client, workerIndex);
 
         match.getPlayers().forEach(p -> p.getGod().afterTurn(player, workerIndex, client, match, this));
-    }
-
-    public int getWorkerIndex(ClientConnection client) throws IOException {
-        Message message = new WorkerIndexMessage();
-        client.sendMessage(message);
-
-        return client.receiveChoice();
     }
 
     public void move(String player, ClientConnection client, int workerIndex) throws IOException {

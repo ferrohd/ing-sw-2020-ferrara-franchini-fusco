@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP14.core.messages.*;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.actions.Action;
+import it.polimi.ingsw.PSP14.server.model.Point;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,6 +74,23 @@ public abstract class ClientConnection {
         int choice = receiveChoice();
 
         return players.get(choice);
+    }
+
+    public int getWorkerIndex() throws IOException {
+        Message message = new WorkerIndexMessage();
+        sendMessage(message);
+
+        return receiveChoice();
+    }
+
+    public Point placeWorker() throws IOException {
+        Message message = new WorkerInitialPositionMessage();
+        sendMessage(message);
+        int[] coord = new int[2];
+        coord[0] = receiveChoice();
+        coord[1] = receiveChoice();
+
+        return new Point(coord[0], coord[1]);
     }
 
     public abstract int receiveChoice() throws IOException;
