@@ -1,9 +1,5 @@
-package it.polimi.ingsw.PSP14.server.actions;
+package it.polimi.ingsw.PSP14.server.model.actions;
 
-import it.polimi.ingsw.PSP14.core.messages.updates.DomeBuildMessage;
-import it.polimi.ingsw.PSP14.core.messages.updates.TowerIncrementMessage;
-import it.polimi.ingsw.PSP14.core.messages.updates.UIUpdateMessage;
-import it.polimi.ingsw.PSP14.core.messages.updates.WorkerMoveMessage;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.model.Cell;
@@ -13,7 +9,6 @@ import it.polimi.ingsw.PSP14.server.model.TowerSizeException;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 public class BuildAction extends Action implements Proposable {
     private Point point;

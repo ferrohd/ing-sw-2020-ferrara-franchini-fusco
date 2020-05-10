@@ -36,10 +36,9 @@ public class Player {
     /**
      * @param index index of the worker to move
      * @param dir direction of movement
-     * @throws InvalidActionException if movement goes out of the board
      * @throws IndexOutOfBoundsException if the index does not correspond to any worker
      */
-    public void moveWorker(int index, Direction dir) throws InvalidActionException, IndexOutOfBoundsException {
+    public void moveWorker(int index, Direction dir) throws IndexOutOfBoundsException {
         workers[index].move(dir);
     }
 

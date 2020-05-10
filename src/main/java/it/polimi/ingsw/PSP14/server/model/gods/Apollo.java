@@ -1,10 +1,9 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.server.actions.ApolloMoveAction;
-import it.polimi.ingsw.PSP14.server.actions.MoveAction;
+import it.polimi.ingsw.PSP14.server.model.actions.ApolloMoveAction;
+import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.model.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

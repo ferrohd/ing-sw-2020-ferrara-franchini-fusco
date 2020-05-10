@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.server.actions;
+package it.polimi.ingsw.PSP14.server.model.actions;
 
 import it.polimi.ingsw.PSP14.core.proposals.Proposal;
 

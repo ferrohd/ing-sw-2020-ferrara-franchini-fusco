@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.server.actions;
+package it.polimi.ingsw.PSP14.server.model.actions;
 
 import java.io.IOException;
 import java.io.Serializable;

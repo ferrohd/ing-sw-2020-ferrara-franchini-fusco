@@ -3,7 +3,6 @@ package it.polimi.ingsw.PSP14.server.controller;
 import it.polimi.ingsw.PSP14.core.messages.ChoiceMessage;
 import it.polimi.ingsw.PSP14.core.messages.Message;
 import it.polimi.ingsw.PSP14.core.messages.StringMessage;
-import it.polimi.ingsw.PSP14.server.actions.Action;
 
 import java.io.*;
 import java.net.Socket;

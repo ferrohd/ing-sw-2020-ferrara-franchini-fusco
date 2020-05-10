@@ -1,6 +1,5 @@
-package it.polimi.ingsw.PSP14.server.actions;
+package it.polimi.ingsw.PSP14.server.model.actions;
 
-import it.polimi.ingsw.PSP14.server.actions.*;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import org.junit.jupiter.api.Test;

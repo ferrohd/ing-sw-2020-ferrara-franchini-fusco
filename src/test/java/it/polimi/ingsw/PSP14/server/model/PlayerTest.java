@@ -41,10 +41,8 @@ public class PlayerTest {
 
     @Test
     void moveWorker() {
-        try {
-            testPlayer.moveWorker(0, Direction.N);
-            assertTrue(testPlayer.getWorker(0).getPos().equals(new Point(0,1)));
-        } catch (InvalidActionException e) {}
+        testPlayer.moveWorker(0, Direction.N);
+        assertTrue(testPlayer.getWorker(0).getPos().equals(new Point(0,1)));
     }
 
     @Test

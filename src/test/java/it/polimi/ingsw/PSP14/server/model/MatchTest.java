@@ -1,17 +1,5 @@
 package it.polimi.ingsw.PSP14.server.model;
 
-import it.polimi.ingsw.PSP14.server.actions.Action;
-import it.polimi.ingsw.PSP14.server.actions.BuildAction;
-import it.polimi.ingsw.PSP14.server.actions.MoveAction;
-import it.polimi.ingsw.PSP14.server.model.gods.God;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.*;
-
 public class MatchTest {
 /*
     Match match;

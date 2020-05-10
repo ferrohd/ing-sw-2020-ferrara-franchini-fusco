@@ -1,8 +1,8 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
-import it.polimi.ingsw.PSP14.server.actions.AtlasBuildAction;
-import it.polimi.ingsw.PSP14.server.actions.BuildAction;
+import it.polimi.ingsw.PSP14.server.model.actions.AtlasBuildAction;
+import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.model.*;
 
 import java.util.ArrayList;
