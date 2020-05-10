@@ -34,7 +34,6 @@ public class MoveAction extends Action implements Proposable {
                 if(p.getWorker(i).getPos().equals(from)) {
                     workerId = i;
                     p.getWorker(i).setPos(to);
-                    match.addActionToHistory(this);
                 }
             }
         }
@@ -42,9 +41,8 @@ public class MoveAction extends Action implements Proposable {
 
     @Override
     public void updateClients(List<ClientConnection> clients) throws IOException {
-        UIUpdateMessage message = new WorkerMoveMessage(to, getUser(), workerId);
         for (ClientConnection client : clients) {
-            client.sendMessage(message);
+            client.notifyWorkerMove(to, getUser(), workerId);
         }
     }
 

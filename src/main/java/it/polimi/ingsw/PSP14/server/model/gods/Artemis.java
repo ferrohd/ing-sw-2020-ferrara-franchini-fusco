@@ -48,14 +48,7 @@ public class Artemis extends God {
             }
 
             Action action = movements.get(choice);
-            action.execute(match);
-            match.addActionToHistory(action);
-            try {
-                action.updateClients(match.getClientConnections());
-            } catch(IOException e) {
-                e.printStackTrace();
-                System.exit(-1);
-            }
+            match.executeAction(action);
         }
 
     }

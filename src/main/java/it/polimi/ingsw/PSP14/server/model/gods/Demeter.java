@@ -48,8 +48,7 @@ public class Demeter extends God {
             }
 
             Action action = builds.get(choice);
-            action.execute(match);
-            match.addActionToHistory(action);
+            match.executeAction(action);
             try {
                 action.updateClients(match.getClientConnections());
             } catch (IOException e) {

@@ -1,8 +1,7 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
 import it.polimi.ingsw.PSP14.core.messages.*;
-import it.polimi.ingsw.PSP14.core.messages.updates.PlayerRegisterMessage;
-import it.polimi.ingsw.PSP14.core.messages.updates.WorkerAddMessage;
+import it.polimi.ingsw.PSP14.core.messages.updates.*;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.actions.Action;
@@ -102,6 +101,22 @@ public abstract class ClientConnection {
 
     public void registerWorker(Point pos, int workerIndex, String player) throws IOException {
         Message message = new WorkerAddMessage(pos, player, workerIndex);
+        sendMessage(message);
+    }
+
+    public void notifyDome(Point p) throws IOException {
+        Message message = new DomeBuildMessage(p);
+        sendMessage(message);
+    }
+
+    public void notifyBuild(Point p, int amount) throws IOException {
+        Message message = new TowerIncrementMessage(p);
+        for (int i = 0; i < amount; ++i)
+            sendMessage(message);
+    }
+
+    public void notifyWorkerMove(Point p, String user, int workerId) throws IOException {
+        Message message = new WorkerMoveMessage(p, user, workerId);
         sendMessage(message);
     }
 

@@ -42,9 +42,8 @@ public class MinotaurMoveAction extends MoveAction {
     @Override
     public void updateClients(List<ClientConnection> clients) throws IOException {
         super.updateClients(clients);
-        UIUpdateMessage message = new WorkerMoveMessage(opponentNewPos, opponent, opponentWorkerIndex);
         for (ClientConnection client : clients) {
-            client.sendMessage(message);
+            client.notifyWorkerMove(opponentNewPos, opponent, opponentWorkerIndex);
         }
     }
 }

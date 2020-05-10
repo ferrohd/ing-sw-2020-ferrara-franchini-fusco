@@ -116,12 +116,18 @@ public class Match implements Runnable {
         return new ArrayList<>(clients.values());
     }
 
-    public void addActionToHistory(Action action) {
-        history.add(action);
-    }
-
     public List<Action> getHistory() {
         return history;
+    }
+
+    public void executeAction(Action action) {
+        action.execute(this);
+        try {
+            action.updateClients(getClientConnections());
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        history.add(action);
     }
 
     public ArrayList<Player> getPlayers() {
@@ -152,9 +158,7 @@ public class Match implements Runnable {
         int choice = client.receiveChoice();
 
         Action action = movements.get(choice);
-        action.execute(this);
-        addActionToHistory(action);
-        action.updateClients(getClientConnections());
+        executeAction(action);
 
         getPlayers().forEach(p -> p.getGod().afterMove(player, workerIndex, client, this));
     }
@@ -167,8 +171,7 @@ public class Match implements Runnable {
         int choice = client.receiveChoice();
 
         Action action = builds.get(choice);
-        action.execute(this);
-        addActionToHistory(action);
+        executeAction(action);
         action.updateClients(getClientConnections());
 
         getPlayers().forEach(p -> p.getGod().afterBuild(player, workerIndex, client, this));

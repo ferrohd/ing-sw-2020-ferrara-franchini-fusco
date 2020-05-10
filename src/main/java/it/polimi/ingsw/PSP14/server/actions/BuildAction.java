@@ -53,17 +53,12 @@ public class BuildAction extends Action implements Proposable {
 
     @Override
     public void updateClients(List<ClientConnection> clients) throws IOException {
-        UIUpdateMessage message;
-        if(dome) {
-            message = new DomeBuildMessage(point);
-            for (ClientConnection client : clients) {
-                client.sendMessage(message);
+        for(ClientConnection client : clients) {
+            if (dome) {
+                client.notifyDome(point);
+            } else {
+                client.notifyBuild(point, amount);
             }
-        } else {
-            message = new TowerIncrementMessage(point);
-            for (ClientConnection client : clients)
-                for(int i = 0; i <amount; ++i)
-                    client.sendMessage(message);
         }
     }
 
