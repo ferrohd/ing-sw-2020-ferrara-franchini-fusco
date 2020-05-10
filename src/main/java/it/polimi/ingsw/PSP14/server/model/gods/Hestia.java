@@ -4,7 +4,6 @@ import it.polimi.ingsw.PSP14.core.messages.Message;
 import it.polimi.ingsw.PSP14.core.messages.YesNoMessage;
 import it.polimi.ingsw.PSP14.server.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.Player;
 import it.polimi.ingsw.PSP14.server.model.Worker;
@@ -21,7 +20,7 @@ public class Hestia extends God {
     }
 
     @Override
-    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController) {
+    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) {
         if(!player.equals(getOwner())) return;
 
         Message message = new YesNoMessage("HESTIA: Do you want to build again?");
@@ -38,7 +37,7 @@ public class Hestia extends God {
         if(choice == 1) {
             activated = true;
             try {
-                matchController.build(player, client, workerIndex);
+                match.build(player, client, workerIndex);
             } catch(IOException e) {
                 e.printStackTrace();
                 System.exit(-1);

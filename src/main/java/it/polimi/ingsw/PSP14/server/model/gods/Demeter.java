@@ -2,15 +2,11 @@ package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.core.messages.BuildProposalMessage;
 import it.polimi.ingsw.PSP14.core.messages.Message;
-import it.polimi.ingsw.PSP14.core.messages.MoveProposalMessage;
 import it.polimi.ingsw.PSP14.core.messages.YesNoMessage;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
-import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.server.actions.Action;
 import it.polimi.ingsw.PSP14.server.actions.BuildAction;
-import it.polimi.ingsw.PSP14.server.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.Match;
 
 import java.io.IOException;
@@ -23,7 +19,7 @@ public class Demeter extends God {
     }
 
     @Override
-    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController) {
+    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) {
         if(!player.equals(getOwner())) return;
 
         Message message = new YesNoMessage("DEMETER: Do you want to build again?");
@@ -55,7 +51,7 @@ public class Demeter extends God {
             action.execute(match);
             match.addActionToHistory(action);
             try {
-                action.updateClients(matchController.getClientConnections());
+                action.updateClients(match.getClientConnections());
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(-1);

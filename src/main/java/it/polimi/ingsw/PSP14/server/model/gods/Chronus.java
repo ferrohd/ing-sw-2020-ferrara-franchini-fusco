@@ -1,7 +1,6 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.Board;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.Point;
@@ -12,7 +11,7 @@ public class Chronus extends God {
     }
 
     @Override
-    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController) {
+    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) {
         int nComplete = 0;
 
         for(int i = 0; i < 5; ++i) {
@@ -24,6 +23,6 @@ public class Chronus extends God {
         }
 
         if(nComplete >= 5)
-            matchController.end(getOwner());
+            match.end(getOwner());
     }
 }

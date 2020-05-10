@@ -1,10 +1,19 @@
 package it.polimi.ingsw.PSP14.server.model;
 
+import it.polimi.ingsw.PSP14.core.messages.BuildProposalMessage;
+import it.polimi.ingsw.PSP14.core.messages.Message;
+import it.polimi.ingsw.PSP14.core.messages.MoveProposalMessage;
+import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
+import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.server.actions.Action;
 import it.polimi.ingsw.PSP14.server.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.actions.MoveAction;
+import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
+import it.polimi.ingsw.PSP14.server.controller.GodfileParser;
 import it.polimi.ingsw.PSP14.server.model.gods.God;
+import it.polimi.ingsw.PSP14.server.model.gods.GodFactory;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -12,26 +21,99 @@ import java.util.stream.Collectors;
  * Model for a single match, server side.
  * The MatchModel contains references to the clients' connections.
  */
-public class Match {
-    private HashMap<String, Player> players = new HashMap<>();
-    private Board board;
-    private List<Action> history;
+public class Match implements Runnable {
+    private final Board board = new Board();
+    private final List<Action> history = new ArrayList<>();
+
+    private final List<String> users = new ArrayList<>();
+    private final HashMap<String, Player> players = new HashMap<>();
+    private final Map<String, ClientConnection> clients = new HashMap<>();
+    private final Map<String, God> gods = new HashMap<>();
 
     /**
-     * Constructor of MatchModel.
+     * Constructor of Match.
      * Since players don't require any previous data except for username,
      * the order of setup doesn't matter.
-     * @param usernames a Set of each player's username
      */
-    public Match(Collection<String> usernames, Map<String, God> gods) {
-        // Init players
-        for (String username : usernames) {
-            players.put(username, new Player(username, gods.get(username)));
+    public Match(List<ClientConnection> clientConnections) throws IOException {
+        for (ClientConnection connection : clientConnections) {
+            clients.put(connection.getUsername(), connection);
+            users.add(connection.getUsername());
         }
-        // Init board
-        this.board = new Board();
-        // Init history
-        history = new ArrayList<>();
+    }
+
+    /**
+     * Entry point for MatchController logic.
+     */
+    @Override
+    public void run() {
+        try {
+            setupGame();
+        } catch(IOException e) {
+            System.out.println("An error has occurred while setting up the game!");
+        }
+        gameLoop();
+    }
+
+    private void setupGame() throws IOException {
+        List<String> availableGods = null;
+        List<String> selectedGods;
+        ClientConnection roomMaster = clients.get(users.get(0));
+
+        for (ClientConnection c : getClientConnections())
+            for (String p : users)
+                c.registerPlayer(p);
+
+        availableGods = GodfileParser.getGodIdList("src/main/resources/gods/godlist.xml");
+        selectedGods = roomMaster.selectGameGods(new ArrayList<>(availableGods), users.size());
+
+        // roomMaster is last to choose
+        Collections.rotate(users, -1);
+        for (String p : users) {
+            ClientConnection player = clients.get(p);
+            String chosenGod = player.selectGod(selectedGods);
+            gods.put(p, GodFactory.getGod(chosenGod, p));
+            selectedGods.remove(chosenGod);
+        }
+        Collections.rotate(users, 1);
+
+        String firstPlayer = roomMaster.selectFirstPlayer(users);
+        Collections.rotate(users, -users.indexOf(firstPlayer));
+
+        for(String p : users) {
+            players.put(p, new Player(p, gods.get(p)));
+        }
+
+        playersPlaceWorkers();
+    }
+
+    private void gameLoop() {
+        while(true) {
+            for(String p: users) {
+                try {
+                    turn(p);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
+                }
+            }
+        }
+    }
+
+    private void playersPlaceWorkers() throws IOException {
+        for(int i = 0; i < 2; ++i) {
+            for (String p : users) {
+                ClientConnection connection = clients.get(p);
+                Point pos = connection.placeWorker();
+                getPlayerByUsername(p).setWorker(i, pos);
+                for (ClientConnection c : getClientConnections())
+                    c.registerWorker(pos, i, p);
+            }
+        }
+    }
+
+    public List<ClientConnection> getClientConnections() {
+        return new ArrayList<>(clients.values());
     }
 
     public void addActionToHistory(Action action) {
@@ -44,6 +126,58 @@ public class Match {
 
     public ArrayList<Player> getPlayers() {
         return new ArrayList<>(players.values());
+    }
+
+    private void turn(String player) throws IOException {
+        ClientConnection client = clients.get(player);
+
+        getPlayers().forEach(p -> p.getGod().beforeTurn(player, client, this));
+
+        int workerIndex = client.getWorkerIndex();
+
+        move(player, client, workerIndex);
+        build(player, client, workerIndex);
+
+        getPlayers().forEach(p -> p.getGod().afterTurn(player, workerIndex, client, this));
+    }
+
+    public void move(String player, ClientConnection client, int workerIndex) throws IOException {
+        getPlayers().forEach(p -> p.getGod().beforeMove(player, workerIndex, client, this));
+
+        List<MoveAction> movements = getMovements(player, workerIndex);
+        List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
+        Message message = new MoveProposalMessage(moveProposals);
+        client.sendMessage(message);
+
+        int choice = client.receiveChoice();
+
+        Action action = movements.get(choice);
+        action.execute(this);
+        addActionToHistory(action);
+        action.updateClients(getClientConnections());
+
+        getPlayers().forEach(p -> p.getGod().afterMove(player, workerIndex, client, this));
+    }
+
+    public void build(String player, ClientConnection client, int workerIndex) throws IOException {
+        List<BuildAction> builds = getBuildable(player, workerIndex);
+        List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
+        Message message = new BuildProposalMessage(buildProposals);
+        client.sendMessage(message);
+        int choice = client.receiveChoice();
+
+        Action action = builds.get(choice);
+        action.execute(this);
+        addActionToHistory(action);
+        action.updateClients(getClientConnections());
+
+        getPlayers().forEach(p -> p.getGod().afterBuild(player, workerIndex, client, this));
+    }
+
+    public void end(String winningPlayer) {
+        // TODO: end the game, notify the players
+        System.out.println(winningPlayer + " won!");
+        System.exit(0);
     }
 
     /**

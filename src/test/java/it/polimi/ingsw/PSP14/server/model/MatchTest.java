@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
 
 public class MatchTest {
-
+/*
     Match match;
 
     @BeforeEach
@@ -130,10 +130,6 @@ public class MatchTest {
         });
     }
 
-    /**
-     * Return the points of the workers
-     * @return list of worker positions
-     */
     private List setupWorkers() throws PlayerNotFoundException {
         List<Player> p = match.getPlayers();
         List<Point> points = new ArrayList<>();
@@ -152,4 +148,5 @@ public class MatchTest {
 
         return points;
     }
+*/
 }

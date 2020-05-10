@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP14.server.controller;
 
 import it.polimi.ingsw.PSP14.core.messages.Message;
 import it.polimi.ingsw.PSP14.core.messages.LobbySizeMessage;
+import it.polimi.ingsw.PSP14.server.model.Match;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class GameFactory implements Runnable {
 
                 // Starts a new game lobby/match with the players in the arrayList
                 System.out.println("Creating game...");
-                Thread newGame = new Thread(new MatchController(players));
+                Thread newGame = new Thread(new Match(players));
                 System.out.println("Starting game...");
                 newGame.start();
             } catch(InterruptedException | IOException e) {

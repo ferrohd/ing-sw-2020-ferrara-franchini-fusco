@@ -3,13 +3,10 @@ package it.polimi.ingsw.PSP14.server.model.gods;
 import it.polimi.ingsw.PSP14.server.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.Player;
-import it.polimi.ingsw.PSP14.server.model.Point;
 import it.polimi.ingsw.PSP14.server.model.Worker;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,12 +65,11 @@ public class God {
      * @param workerIndex worker that has just moved
      * @param client ClientConnection relative to the current turn's player
      * @param match current match
-     * @param matchController current matchController
      */
-    public void afterMove(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController){
+    public void afterMove(String player, int workerIndex, ClientConnection client, Match match){
     }
 
-    public void beforeMove(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController){
+    public void beforeMove(String player, int workerIndex, ClientConnection client, Match match){
     }
 
     /**
@@ -82,17 +78,16 @@ public class God {
      * @param workerIndex worker that has just built
      * @param client ClientConnection relative to the current turn's player
      * @param match current match
-     * @param matchController current matchController
      */
-    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController){
+    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match){
     }
 
-    public void beforeBuild(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController){
+    public void beforeBuild(String player, int workerIndex, ClientConnection client, Match match){
     }
 
-    public void beforeTurn(String player, ClientConnection client, Match match, MatchController matchController){
+    public void beforeTurn(String player, ClientConnection client, Match match){
     }
 
-    public void afterTurn(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController){
+    public void afterTurn(String player, int workerIndex, ClientConnection client, Match match){
     }
 }

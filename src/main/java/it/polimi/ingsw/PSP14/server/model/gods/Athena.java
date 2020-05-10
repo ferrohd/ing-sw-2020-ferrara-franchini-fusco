@@ -2,7 +2,6 @@ package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.Player;
 import it.polimi.ingsw.PSP14.server.model.Worker;
@@ -18,14 +17,14 @@ public class Athena extends God {
     }
 
     @Override
-    public void beforeTurn(String player, ClientConnection client, Match match, MatchController matchController) {
+    public void beforeTurn(String player, ClientConnection client, Match match) {
         if(!player.equals(getOwner())) return;
 
         activated = false;
     }
 
     @Override
-    public void afterMove(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController) {
+    public void afterMove(String player, int workerIndex, ClientConnection client, Match match) {
         if(!player.equals(getOwner())) return;
 
         MoveAction lastAction = (MoveAction) match.getHistory().get(match.getHistory().size() - 1);

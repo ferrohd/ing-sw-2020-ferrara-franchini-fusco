@@ -4,7 +4,6 @@ import it.polimi.ingsw.PSP14.core.messages.Message;
 import it.polimi.ingsw.PSP14.core.messages.YesNoMessage;
 import it.polimi.ingsw.PSP14.server.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.Player;
 import it.polimi.ingsw.PSP14.server.model.Worker;
@@ -21,7 +20,7 @@ public class Prometheus extends God {
     }
 
     @Override
-    public void beforeMove(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController) {
+    public void beforeMove(String player, int workerIndex, ClientConnection client, Match match) {
         if(!player.equals(getOwner())) return;
 
         Message message = new YesNoMessage("PROMETHEUS: do you want to build now?");
@@ -38,7 +37,7 @@ public class Prometheus extends God {
         if (choice == 1) {
             activated = true;
             try {
-                matchController.build(player, client, workerIndex);
+                match.build(player, client, workerIndex);
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(-1);

@@ -3,7 +3,6 @@ package it.polimi.ingsw.PSP14.server.model.gods;
 import it.polimi.ingsw.PSP14.core.messages.Message;
 import it.polimi.ingsw.PSP14.core.messages.YesNoMessage;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.Match;
 
 import java.io.IOException;
@@ -14,7 +13,7 @@ public class Poseidon extends God {
     }
 
     @Override
-    public void afterTurn(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController) {
+    public void afterTurn(String player, int workerIndex, ClientConnection client, Match match) {
         if(!player.equals(getOwner())) return;
 
         int otherWorker = workerIndex == 1 ? 0 : 1;
@@ -35,7 +34,7 @@ public class Poseidon extends God {
                 if(choice == 0) break;
 
                 try {
-                    matchController.build(player, client, otherWorker);
+                    match.build(player, client, otherWorker);
                 } catch(IOException e) {
                     e.printStackTrace();
                     System.exit(-1);
