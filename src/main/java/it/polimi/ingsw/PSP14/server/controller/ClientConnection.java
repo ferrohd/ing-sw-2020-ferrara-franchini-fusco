@@ -1,6 +1,8 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
 import it.polimi.ingsw.PSP14.core.messages.*;
+import it.polimi.ingsw.PSP14.core.messages.updates.PlayerRegisterMessage;
+import it.polimi.ingsw.PSP14.core.messages.updates.WorkerAddMessage;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.actions.Action;
@@ -91,6 +93,16 @@ public abstract class ClientConnection {
         coord[1] = receiveChoice();
 
         return new Point(coord[0], coord[1]);
+    }
+
+    public void registerPlayer(String p) throws IOException {
+        Message message = new PlayerRegisterMessage(p);
+        sendMessage(message);
+    }
+
+    public void registerWorker(Point pos, int workerIndex, String player) throws IOException {
+        Message message = new WorkerAddMessage(pos, player, workerIndex);
+        sendMessage(message);
     }
 
     public abstract int receiveChoice() throws IOException;

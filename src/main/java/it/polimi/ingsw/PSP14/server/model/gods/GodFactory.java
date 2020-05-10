@@ -1,9 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.server.model.GodNotFoundException;
-
-public class GodControllerFactory {
-    public static God getController(String name, String owner) {
+public class GodFactory {
+    public static God getGod(String name, String owner) {
         switch (name) {
             case "Apollo":
                 return new Apollo(owner);

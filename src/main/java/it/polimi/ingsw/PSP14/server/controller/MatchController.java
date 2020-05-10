@@ -1,23 +1,16 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
-import it.polimi.ingsw.PSP14.client.model.GodFactory;
 import it.polimi.ingsw.PSP14.core.messages.*;
 import it.polimi.ingsw.PSP14.core.messages.updates.PlayerRegisterMessage;
 import it.polimi.ingsw.PSP14.core.messages.updates.WorkerAddMessage;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
-import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
-import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
-import it.polimi.ingsw.PSP14.server.model.PlayerNotFoundException;
 import it.polimi.ingsw.PSP14.server.model.Point;
 import it.polimi.ingsw.PSP14.server.model.gods.God;
-import it.polimi.ingsw.PSP14.server.model.gods.GodControllerFactory;
+import it.polimi.ingsw.PSP14.server.model.gods.GodFactory;
 import it.polimi.ingsw.PSP14.server.actions.*;
-import it.polimi.ingsw.PSP14.server.model.GodNotFoundException;
 import it.polimi.ingsw.PSP14.server.model.Match;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -65,23 +58,25 @@ public class MatchController implements Runnable {
         List<String> selectedGods;
         ClientConnection roomMaster = clients.get(players.get(0));
 
-        for (String p : players)
-            ClientConnection.sendAll(getClientConnections(), new PlayerRegisterMessage(p));
+        for (ClientConnection c : getClientConnections())
+            for (String p : players)
+                c.registerPlayer(p);
 
         availableGods = GodfileParser.getGodIdList("src/main/resources/gods/godlist.xml");
+        selectedGods = roomMaster.selectGameGods(new ArrayList<>(availableGods), players.size());
 
-        if (availableGods != null) {
-            selectedGods = roomMaster.selectGameGods(new ArrayList<>(availableGods), players.size());
-            for (int i = players.size() - 1; i >= 0; i--) {
-                ClientConnection player = clients.get(players.get(i));
-                String chosenGod = player.selectGod(selectedGods);
-                gods.put(players.get(i), GodControllerFactory.getController(chosenGod, players.get(i)));
-                selectedGods.remove(chosenGod);
-            }
+        // roomMaster is last to choose
+        Collections.rotate(players, -1);
+        for (String p : players) {
+            ClientConnection player = clients.get(p);
+            String chosenGod = player.selectGod(selectedGods);
+            gods.put(p, GodFactory.getGod(chosenGod, p));
+            selectedGods.remove(chosenGod);
         }
+        Collections.rotate(players, 1);
 
         String firstPlayer = roomMaster.selectFirstPlayer(players);
-        Collections.rotate(players, players.size() - players.indexOf(firstPlayer));
+        Collections.rotate(players, -players.indexOf(firstPlayer));
 
         match = new Match(clients.keySet(), gods);
 
@@ -107,7 +102,8 @@ public class MatchController implements Runnable {
                 ClientConnection connection = clients.get(p);
                 Point pos = connection.placeWorker();
                 match.getPlayerByUsername(p).setWorker(i, pos);
-                ClientConnection.sendAll(getClientConnections(), new WorkerAddMessage(pos, p, i));
+                for (ClientConnection c : getClientConnections())
+                    c.registerWorker(pos, i, p);
             }
         }
     }
