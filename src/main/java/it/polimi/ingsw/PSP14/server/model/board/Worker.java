@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.server.model;
+package it.polimi.ingsw.PSP14.server.model.board;
 
 /**
  * Model for a worker

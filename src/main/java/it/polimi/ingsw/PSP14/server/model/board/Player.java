@@ -1,6 +1,4 @@
-package it.polimi.ingsw.PSP14.server.model;
-
-import java.util.Random;
+package it.polimi.ingsw.PSP14.server.model.board;
 
 import it.polimi.ingsw.PSP14.server.model.gods.God;
 

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP14.server.model;
 
+import it.polimi.ingsw.PSP14.server.model.board.Direction;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
+import it.polimi.ingsw.PSP14.server.model.board.Worker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.core.proposals;
 
-import it.polimi.ingsw.PSP14.server.model.Point;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 /**
  * Proposal containing data about a Build action,

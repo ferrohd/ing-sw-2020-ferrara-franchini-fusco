@@ -10,6 +10,10 @@ import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.controller.GodfileParser;
+import it.polimi.ingsw.PSP14.server.model.board.Board;
+import it.polimi.ingsw.PSP14.server.model.board.Direction;
+import it.polimi.ingsw.PSP14.server.model.board.Player;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 import it.polimi.ingsw.PSP14.server.model.gods.God;
 import it.polimi.ingsw.PSP14.server.model.gods.GodFactory;
 
@@ -26,6 +30,7 @@ public class Match implements Runnable {
     private final List<Action> history = new ArrayList<>();
 
     private final List<String> users = new ArrayList<>();
+    private final List<ClientConnection> clientConnections = new ArrayList<>();
     private final HashMap<String, Player> players = new HashMap<>();
     private final Map<String, ClientConnection> clients = new HashMap<>();
     private final Map<String, God> gods = new HashMap<>();
@@ -36,10 +41,7 @@ public class Match implements Runnable {
      * the order of setup doesn't matter.
      */
     public Match(List<ClientConnection> clientConnections) throws IOException {
-        for (ClientConnection connection : clientConnections) {
-            clients.put(connection.getUsername(), connection);
-            users.add(connection.getUsername());
-        }
+        this.clientConnections.addAll(clientConnections);
     }
 
     /**
@@ -52,19 +54,25 @@ public class Match implements Runnable {
         } catch(IOException e) {
             System.out.println("An error has occurred while setting up the game!");
         }
+
         gameLoop();
     }
 
     private void setupGame() throws IOException {
         List<String> availableGods = null;
         List<String> selectedGods;
-        ClientConnection roomMaster = clients.get(users.get(0));
+
+        for (ClientConnection connection : clientConnections) {
+            clients.put(connection.getUsername(), connection);
+            users.add(connection.getUsername());
+        }
 
         for (ClientConnection c : getClientConnections())
             for (String p : users)
                 c.registerPlayer(p);
 
         availableGods = GodfileParser.getGodIdList("src/main/resources/gods/godlist.xml");
+        ClientConnection roomMaster = clients.get(users.get(0));
         selectedGods = roomMaster.selectGameGods(new ArrayList<>(availableGods), users.size());
 
         // roomMaster is last to choose

@@ -57,7 +57,13 @@ public class GameFactory implements Runnable {
                 System.out.println("Starting game...");
                 newGame.start();
             } catch(InterruptedException | IOException e) {
-                e.printStackTrace();
+                System.out.println("Error occurred during room setup. All clients in the room will be disconnected.");
+                for(ClientConnection c : players)
+                    try {
+                        c.close();
+                    } catch (IOException exc) {
+                        System.out.println("Error occurred closing a client connection.");
+                    }
             }
         }
     }

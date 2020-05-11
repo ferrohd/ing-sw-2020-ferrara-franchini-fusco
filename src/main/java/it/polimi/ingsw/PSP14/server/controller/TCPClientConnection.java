@@ -47,4 +47,10 @@ public class TCPClientConnection extends ClientConnection {
 
         return string.getString();
     }
+
+    @Override
+    public void close() throws IOException {
+        clientOutput.close();
+        clientInput.close();
+    }
 }

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.PSP14.server.model;
 
-import it.polimi.ingsw.PSP14.server.model.Player;
+import it.polimi.ingsw.PSP14.server.model.board.Direction;
+import it.polimi.ingsw.PSP14.server.model.board.Player;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 import it.polimi.ingsw.PSP14.server.model.gods.God;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +24,6 @@ public class PlayerTest {
             testPlayer = new Player("Ada", new God("Ada"));
         });
         assertEquals("Ada", testPlayer.getUsername());
-        assertNotEquals(null, testPlayer.getColor());
     }
 
     @Test

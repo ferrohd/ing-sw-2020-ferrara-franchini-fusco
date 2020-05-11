@@ -5,7 +5,7 @@ import it.polimi.ingsw.PSP14.client.model.UIPoint;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
-import it.polimi.ingsw.PSP14.server.model.Point;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

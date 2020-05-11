@@ -4,7 +4,7 @@ import it.polimi.ingsw.PSP14.core.messages.*;
 import it.polimi.ingsw.PSP14.core.messages.updates.*;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
-import it.polimi.ingsw.PSP14.server.model.Point;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -123,9 +123,5 @@ public abstract class ClientConnection {
 
     public abstract String receiveString() throws IOException;
 
-    public static void sendAll(List<ClientConnection> clients, Message message) throws IOException {
-        for(int i = 0; i < clients.size(); ++i) {
-            clients.get(i).sendMessage(message);
-        }
-    }
+    public abstract void close() throws IOException;
 }
