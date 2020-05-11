@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.core.messages.updates;
 
-import it.polimi.ingsw.PSP14.client.ServerConnection;
+import it.polimi.ingsw.PSP14.client.controller.ServerConnection;
 import it.polimi.ingsw.PSP14.client.view.UI;
 
 public class PlayerRegisterMessage implements UIUpdateMessage {
