@@ -21,19 +21,22 @@ public class GodfileParser {
      * https://en.wikipedia.org/wiki/Memoization
      * @param godsFile The path of the XML file where gods are declared.
      * @return An ArrayList containing the names of the available gods to play.
-     * @throws ParserConfigurationException If there's an error with the parser
      * @throws IOException If there's an error reading the godlist file
-     * @throws SAXException If there's an error parsing the XML
      */
-    public static ArrayList<String> getGodIdList(String godsFile) throws ParserConfigurationException, IOException, SAXException {
+    public static ArrayList<String> getGodIdList(String godsFile) throws IOException {
         // If godIdList isn't set OR the file to parse has changed
         if ( godIdList.isEmpty() || !godsFile.equals(lastGodFile) ) {
             // Initialise the list
             godIdList = new ArrayList<>();
             // Parse the XML and generate a new godIdList.
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new File(godsFile));
+            Document doc;
+            try {
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                doc = builder.parse(new File(godsFile));
+            } catch (ParserConfigurationException | SAXException e) {
+                throw new IOException();
+            }
 
             Element root = (Element) doc.getFirstChild();
             NodeList gods = root.getElementsByTagName("god");

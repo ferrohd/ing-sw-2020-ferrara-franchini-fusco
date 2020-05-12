@@ -1,9 +1,9 @@
 package it.polimi.ingsw.PSP14.core.messages.updates;
 
-import it.polimi.ingsw.PSP14.client.ServerConnection;
+import it.polimi.ingsw.PSP14.client.controller.ServerConnection;
 import it.polimi.ingsw.PSP14.client.model.UIPoint;
 import it.polimi.ingsw.PSP14.client.view.UI;
-import it.polimi.ingsw.PSP14.server.model.Point;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 public class WorkerMoveMessage implements UIUpdateMessage {
     private Point newPos;

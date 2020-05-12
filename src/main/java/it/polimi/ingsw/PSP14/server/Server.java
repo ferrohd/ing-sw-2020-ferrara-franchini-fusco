@@ -1,4 +1,8 @@
-package it.polimi.ingsw.PSP14.server.controller;
+package it.polimi.ingsw.PSP14.server;
+
+import it.polimi.ingsw.PSP14.server.controller.ClientConnectionFactory;
+import it.polimi.ingsw.PSP14.server.controller.GameFactory;
+import it.polimi.ingsw.PSP14.server.controller.TCPClientConnectionFactory;
 
 import java.io.IOException;
 

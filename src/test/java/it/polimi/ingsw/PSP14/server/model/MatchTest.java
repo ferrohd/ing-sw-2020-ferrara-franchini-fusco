@@ -1,18 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model;
 
-import it.polimi.ingsw.PSP14.server.actions.Action;
-import it.polimi.ingsw.PSP14.server.actions.BuildAction;
-import it.polimi.ingsw.PSP14.server.actions.MoveAction;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.*;
-
 public class MatchTest {
-
+/*
     Match match;
 
     @BeforeEach
@@ -21,8 +10,12 @@ public class MatchTest {
         players.add("Ada");
         players.add("Bob");
         players.add("Carl");
+        Map<String, God> gods = new HashMap<>();
+        for(String s: players) {
+            gods.put(s, new God(s));
+        }
 
-        match = new Match(players);
+        match = new Match(players, gods);
     }
 
     @Test
@@ -125,10 +118,6 @@ public class MatchTest {
         });
     }
 
-    /**
-     * Return the points of the workers
-     * @return list of worker positions
-     */
     private List setupWorkers() throws PlayerNotFoundException {
         List<Player> p = match.getPlayers();
         List<Point> points = new ArrayList<>();
@@ -147,4 +136,5 @@ public class MatchTest {
 
         return points;
     }
+*/
 }

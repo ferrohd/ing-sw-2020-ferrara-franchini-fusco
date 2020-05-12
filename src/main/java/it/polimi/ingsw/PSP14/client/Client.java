@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP14.client;
 
+import it.polimi.ingsw.PSP14.client.controller.*;
 import it.polimi.ingsw.PSP14.client.view.UI;
 import it.polimi.ingsw.PSP14.client.view.UIFactory;
 
