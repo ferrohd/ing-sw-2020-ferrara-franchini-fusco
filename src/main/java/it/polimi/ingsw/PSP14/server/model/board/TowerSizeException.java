@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.server.model;
+package it.polimi.ingsw.PSP14.server.model.board;
 
 /**
  * Exception thrown when you can't increase a tower size.

@@ -1,9 +1,8 @@
 package it.polimi.ingsw.PSP14.server.model;
 
-import it.polimi.ingsw.PSP14.server.model.Direction;
-import it.polimi.ingsw.PSP14.server.model.InvalidActionException;
-import it.polimi.ingsw.PSP14.server.model.Point;
-import it.polimi.ingsw.PSP14.server.model.Worker;
+import it.polimi.ingsw.PSP14.server.model.board.Direction;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
+import it.polimi.ingsw.PSP14.server.model.board.Worker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

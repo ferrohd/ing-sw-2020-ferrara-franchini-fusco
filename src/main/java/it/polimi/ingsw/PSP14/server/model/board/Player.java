@@ -1,9 +1,12 @@
-package it.polimi.ingsw.PSP14.server.model;
+package it.polimi.ingsw.PSP14.server.model.board;
 
-import java.awt.Color;
-import java.util.Random;
-
+import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.model.gods.God;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Model for a player in the game.
@@ -12,35 +15,28 @@ public class Player {
     private String username;
     private God god;
     private Worker[] workers = new Worker[2];
-    private Color color;
+    private List<ClientConnection> clients = new ArrayList<>();
 
     /**
      * @param username username of the player to display in game
      */
-    public Player(String username, God god) {
+    public Player(String username, God god, List<ClientConnection> clients) throws IOException {
         if (username == null || username.equals("")) throw new NullPointerException();
         this.username = username;
         this.god = god;
+        this.clients.addAll(clients);
 
-        setPlayerColor();
-    }
-
-    /**
-     *  Set the player color to a random one
-     */
-    private void setPlayerColor() {
-        Random ran = new Random();
-        color = new Color(ran.nextFloat(), ran.nextFloat(), ran.nextFloat());
+        for(ClientConnection c : clients) c.registerPlayer(username);
     }
 
     /**
      * @param index index of the worker to move
      * @param dir direction of movement
-     * @throws InvalidActionException if movement goes out of the board
      * @throws IndexOutOfBoundsException if the index does not correspond to any worker
      */
-    public void moveWorker(int index, Direction dir) throws InvalidActionException, IndexOutOfBoundsException {
+    public void moveWorker(int index, Direction dir) throws IndexOutOfBoundsException, IOException {
         workers[index].move(dir);
+        for(ClientConnection c : clients) c.notifyWorkerMove(workers[index].getPos(), username, index);
     }
 
     /**
@@ -49,15 +45,18 @@ public class Player {
      * @param index {0, 1} the index of the worker
      * @param position the position of the worker
      */
-    public void setWorker(int index, Point position) {
-        if (workers[index] == null)
+    public void setWorker(int index, Point position) throws IOException {
+        if (workers[index] == null) {
             workers[index] = new Worker(position);
-        else
+            for(ClientConnection c : clients) c.registerWorker(position, index, username);
+        } else {
             workers[index].setPos(position);
+            for(ClientConnection c : clients) c.notifyWorkerMove(position, username, index);
+        }
     }
 
-    public Worker getWorker(int index) {
-        return workers[index];
+    public Point getWorkerPos(int index) {
+        return workers[index].getPos();
     }
 
     /**
@@ -66,11 +65,6 @@ public class Player {
     public String getUsername() {
         return username;
     }
-
-    /**
-     * @return the color
-     */
-    public Color getColor() { return color;}
 
     public God getGod() {
         return god;

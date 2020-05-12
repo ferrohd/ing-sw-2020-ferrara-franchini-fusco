@@ -26,10 +26,10 @@ public class TCPClientConnectionFactory implements ClientConnectionFactory {
             } catch(IOException e) {
                 continue;
             }
-            TCPClientConnection newConnection = new TCPClientConnection(newConnectionSocket);
             try {
+                TCPClientConnection newConnection = new TCPClientConnection(newConnectionSocket);
                 clientQueue.put(newConnection);
-            } catch(InterruptedException e) {
+            } catch(InterruptedException | IOException e) {
                 e.printStackTrace();
                 System.exit(-1);
             }

@@ -1,10 +1,23 @@
 package it.polimi.ingsw.PSP14.server.model;
 
-import it.polimi.ingsw.PSP14.server.actions.Action;
-import it.polimi.ingsw.PSP14.server.actions.BuildAction;
-import it.polimi.ingsw.PSP14.server.actions.MoveAction;
+import it.polimi.ingsw.PSP14.core.messages.BuildProposalMessage;
+import it.polimi.ingsw.PSP14.core.messages.Message;
+import it.polimi.ingsw.PSP14.core.messages.MoveProposalMessage;
+import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
+import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
+import it.polimi.ingsw.PSP14.server.model.actions.Action;
+import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
+import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
+import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
+import it.polimi.ingsw.PSP14.server.controller.GodfileParser;
+import it.polimi.ingsw.PSP14.server.model.board.Board;
+import it.polimi.ingsw.PSP14.server.model.board.Direction;
+import it.polimi.ingsw.PSP14.server.model.board.Player;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 import it.polimi.ingsw.PSP14.server.model.gods.God;
+import it.polimi.ingsw.PSP14.server.model.gods.GodFactory;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -12,38 +25,162 @@ import java.util.stream.Collectors;
  * Model for a single match, server side.
  * The MatchModel contains references to the clients' connections.
  */
-public class Match {
-    private HashMap<String, Player> players = new HashMap<>();
-    private Board board;
-    private List<Action> history;
+public class Match implements Runnable {
+    private final Board board;
+    private final List<Action> history = new ArrayList<>();
+
+    private final List<String> users = new ArrayList<>();
+    private final List<ClientConnection> clientConnections = new ArrayList<>();
+    private final HashMap<String, Player> players = new HashMap<>();
+    private final Map<String, ClientConnection> clients = new HashMap<>();
+    private final Map<String, God> gods = new HashMap<>();
 
     /**
-     * Constructor of MatchModel.
+     * Constructor of Match.
      * Since players don't require any previous data except for username,
      * the order of setup doesn't matter.
-     * @param usernames a Set of each player's username
      */
-    public Match(Set<String> usernames) {
-        // Init players
-        for (String username : usernames) {
-            players.put(username, new Player(username, new God(username)));
-        }
-        // Init board
-        this.board = new Board();
-        // Init history
-        history = new ArrayList<>();
+    public Match(List<ClientConnection> clientConnections) throws IOException {
+        this.clientConnections.addAll(clientConnections);
+        board = new Board(clientConnections);
     }
 
-    public void addActionToHistory(Action action) {
-        history.add(action);
+    /**
+     * Entry point for MatchController logic.
+     */
+    @Override
+    public void run() {
+        try {
+            setupGame();
+        } catch(IOException e) {
+            System.out.println("An error has occurred while setting up the game!");
+        }
+
+        gameLoop();
+    }
+
+    private void setupGame() throws IOException {
+        List<String> availableGods = null;
+        List<String> selectedGods;
+
+        for (ClientConnection connection : clientConnections) {
+            clients.put(connection.getUsername(), connection);
+            users.add(connection.getUsername());
+        }
+
+
+        availableGods = GodfileParser.getGodIdList("src/main/resources/gods/godlist.xml");
+        ClientConnection roomMaster = clients.get(users.get(0));
+        selectedGods = roomMaster.selectGameGods(new ArrayList<>(availableGods), users.size());
+
+        // roomMaster is last to choose
+        Collections.rotate(users, -1);
+        for (String p : users) {
+            ClientConnection player = clients.get(p);
+            String chosenGod = player.selectGod(selectedGods);
+            gods.put(p, GodFactory.getGod(chosenGod, p));
+            selectedGods.remove(chosenGod);
+        }
+        Collections.rotate(users, 1);
+
+        String firstPlayer = roomMaster.selectFirstPlayer(users);
+        Collections.rotate(users, -users.indexOf(firstPlayer));
+
+        for(String p : users) {
+            players.put(p, new Player(p, gods.get(p), clientConnections));
+        }
+
+        playersPlaceWorkers();
+    }
+
+    private void gameLoop() {
+        while(true) {
+            for(String p: users) {
+                try {
+                    turn(p);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
+                }
+            }
+        }
+    }
+
+    private void playersPlaceWorkers() throws IOException {
+        for(int i = 0; i < 2; ++i) {
+            for (String p : users) {
+                ClientConnection connection = clients.get(p);
+                Point pos = connection.placeWorker();
+                getPlayerByUsername(p).setWorker(i, pos);
+                for (ClientConnection c : getClientConnections())
+                    c.registerWorker(pos, i, p);
+            }
+        }
+    }
+
+    public List<ClientConnection> getClientConnections() {
+        return new ArrayList<>(clients.values());
     }
 
     public List<Action> getHistory() {
         return history;
     }
 
+    public void executeAction(Action action) throws IOException {
+        action.execute(this);
+        history.add(action);
+    }
+
     public ArrayList<Player> getPlayers() {
         return new ArrayList<>(players.values());
+    }
+
+    private void turn(String player) throws IOException {
+        ClientConnection client = clients.get(player);
+
+        getPlayers().forEach(p -> p.getGod().beforeTurn(player, client, this));
+
+        int workerIndex = client.getWorkerIndex();
+
+        move(player, client, workerIndex);
+        build(player, client, workerIndex);
+
+        getPlayers().forEach(p -> p.getGod().afterTurn(player, workerIndex, client, this));
+    }
+
+    public void move(String player, ClientConnection client, int workerIndex) throws IOException {
+        getPlayers().forEach(p -> p.getGod().beforeMove(player, workerIndex, client, this));
+
+        List<MoveAction> movements = getMovements(player, workerIndex);
+        List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
+        Message message = new MoveProposalMessage(moveProposals);
+        client.sendMessage(message);
+
+        int choice = client.receiveChoice();
+
+        Action action = movements.get(choice);
+        executeAction(action);
+
+        getPlayers().forEach(p -> p.getGod().afterMove(player, workerIndex, client, this));
+    }
+
+    public void build(String player, ClientConnection client, int workerIndex) throws IOException {
+        List<BuildAction> builds = getBuildable(player, workerIndex);
+        List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
+        Message message = new BuildProposalMessage(buildProposals);
+        client.sendMessage(message);
+        int choice = client.receiveChoice();
+
+        Action action = builds.get(choice);
+        executeAction(action);
+
+        getPlayers().forEach(p -> p.getGod().afterBuild(player, workerIndex, client, this));
+    }
+
+    public void end(String winningPlayer) {
+        // TODO: end the game, notify the players
+        System.out.println(winningPlayer + " won!");
+        System.exit(0);
     }
 
     /**
@@ -67,7 +204,7 @@ public class Match {
         ArrayList<Point> workerPositions = new ArrayList<>();
         for(Player p : players.values())
             for(int i = 0; i < 2; ++i)
-                workerPositions.add(p.getWorker(i).getPos());
+                workerPositions.add(p.getWorkerPos(i));
 
         return workerPositions;
     }
@@ -96,21 +233,21 @@ public class Match {
 
         Player currPlayer = getPlayerByUsername(playerName);
 
-        Point currentPos = currPlayer.getWorker(worker).getPos();
-        int currentLevel = board.getCell(currentPos).getTowerSize();
+        Point currentPos = currPlayer.getWorkerPos(worker);
+        int currentLevel = board.getTowerSize(currentPos);;
         for(Direction dir: Direction.values()) {
             Point toCheckPos = currentPos.move(dir);
             if (Board.isValidPos(toCheckPos)
-                    && !board.getCell(toCheckPos).getIsCompleted()
+                    && !board.getIsCompleted(toCheckPos)
                     && isCellFree(toCheckPos)) {
-                int toCheckLevel = board.getCell(toCheckPos).getTowerSize();
+                int toCheckLevel = board.getTowerSize(toCheckPos);
                 if (toCheckLevel <= currentLevel + 1)
                     legalMoves.add(new MoveAction(playerName, currentPos, toCheckPos));
             }
         }
 
-        players.values().forEach(p -> p.getGod().addMoves(legalMoves, currPlayer, currPlayer.getWorker(worker), this));
-        players.values().forEach(p -> p.getGod().removeMoves(legalMoves, currPlayer, currPlayer.getWorker(worker), this));
+        players.values().forEach(p -> p.getGod().addMoves(legalMoves, currPlayer, worker, this));
+        players.values().forEach(p -> p.getGod().removeMoves(legalMoves, currPlayer, worker, this));
 
         return legalMoves;
     }
@@ -126,17 +263,23 @@ public class Match {
 
         ArrayList<Point> workerPositions = getWorkerPositions();
 
-        Point currentPos = getPlayerByUsername(player).getWorker(worker).getPos();
+        Point currentPos = getPlayerByUsername(player).getWorkerPos(worker);
         for(Direction dir: Direction.values()) {
             Point toCheckPos = currentPos.move(dir);
             if (Board.isValidPos(toCheckPos)
-                    && !board.getCell(toCheckPos).getIsCompleted()
+                    && !board.getIsCompleted(toCheckPos)
                     && isCellFree(toCheckPos)) {
                 buildablePositions.add(toCheckPos);
             }
         }
 
-        List<BuildAction> buildActions = buildablePositions.stream().map(p -> new BuildAction(player, p, board.getCell(p).getTowerSize() == 3, 1)).collect(Collectors.toList());
+        List<BuildAction> buildActions = buildablePositions
+                .stream()
+                .map(p -> new BuildAction(player, p, board.getTowerSize(p) == 3, 1))
+                .collect(Collectors.toList());
+
+        players.values().forEach(p -> p.getGod().addBuilds(buildActions, players.get(player), worker, this));
+        players.values().forEach(p -> p.getGod().removeBuilds(buildActions, players.get(player), worker, this));
 
         return buildActions;
     }

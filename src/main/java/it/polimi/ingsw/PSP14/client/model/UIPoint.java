@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.client.model;
 
-import it.polimi.ingsw.PSP14.server.model.Point;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 /**
  * An immutable object containing integer 2D coordinates.

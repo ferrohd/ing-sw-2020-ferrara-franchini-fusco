@@ -1,13 +1,12 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
-import it.polimi.ingsw.PSP14.server.actions.AtlasBuildAction;
-import it.polimi.ingsw.PSP14.server.actions.BuildAction;
-import it.polimi.ingsw.PSP14.server.actions.HephaestusBuildAction;
+import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
+import it.polimi.ingsw.PSP14.server.model.actions.HephaestusBuildAction;
 import it.polimi.ingsw.PSP14.server.model.Match;
-import it.polimi.ingsw.PSP14.server.model.Player;
-import it.polimi.ingsw.PSP14.server.model.Point;
-import it.polimi.ingsw.PSP14.server.model.Worker;
+import it.polimi.ingsw.PSP14.server.model.board.Player;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
+import it.polimi.ingsw.PSP14.server.model.board.Worker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,7 @@ public class Hephaestus extends God {
     }
 
     @Override
-    public void addBuilds(List<BuildAction> builds, Player player, Worker worker, Match match) {
+    public void addBuilds(List<BuildAction> builds, Player player, int workerIndex, Match match) {
         if(!player.getUsername().equals(getOwner())) {
             return;
         }

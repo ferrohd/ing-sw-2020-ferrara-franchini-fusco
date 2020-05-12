@@ -4,10 +4,9 @@ import it.polimi.ingsw.PSP14.core.messages.Message;
 import it.polimi.ingsw.PSP14.core.messages.MoveProposalMessage;
 import it.polimi.ingsw.PSP14.core.messages.YesNoMessage;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
-import it.polimi.ingsw.PSP14.server.actions.Action;
-import it.polimi.ingsw.PSP14.server.actions.MoveAction;
+import it.polimi.ingsw.PSP14.server.model.actions.Action;
+import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.Match;
 
 import java.io.IOException;
@@ -20,7 +19,7 @@ public class Artemis extends God {
     }
 
     @Override
-    public void afterMove(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController) {
+    public void afterMove(String player, int workerIndex, ClientConnection client, Match match) {
         if(!player.equals(getOwner())) return;
 
         Message message = new YesNoMessage("ARTEMIS: Do you want to move again?");
@@ -43,20 +42,14 @@ public class Artemis extends God {
             try {
                 client.sendMessage(message);
                 choice = client.receiveChoice();
+                // TODO handle this better
+                Action action = movements.get(choice);
+                match.executeAction(action);
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(-1);
             }
 
-            Action action = movements.get(choice);
-            action.execute(match);
-            match.addActionToHistory(action);
-            try {
-                action.updateClients(matchController.getClientConnections());
-            } catch(IOException e) {
-                e.printStackTrace();
-                System.exit(-1);
-            }
         }
 
     }

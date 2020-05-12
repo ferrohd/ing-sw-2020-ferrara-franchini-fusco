@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.core.proposals;
 
-import it.polimi.ingsw.PSP14.server.model.Point;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 /**
  * Proposal representing a possible move.

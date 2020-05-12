@@ -2,9 +2,8 @@ package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.core.messages.Message;
 import it.polimi.ingsw.PSP14.core.messages.YesNoMessage;
-import it.polimi.ingsw.PSP14.server.actions.MoveAction;
+import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.Match;
 
 import java.io.IOException;
@@ -15,7 +14,7 @@ public class Triton extends God {
     }
 
     @Override
-    public void afterMove(String player, int workerIndex, ClientConnection client, Match match, MatchController matchController) {
+    public void afterMove(String player, int workerIndex, ClientConnection client, Match match) {
         if(!player.equals(getOwner())) return;
 
         MoveAction lastMove = (MoveAction) match.getHistory().get(match.getHistory().size() - 1);
@@ -36,7 +35,7 @@ public class Triton extends God {
 
             if(choice == 1) {
                 try {
-                    matchController.move(player, client, workerIndex);
+                    match.move(player, client, workerIndex);
                 } catch(IOException e) {
                     e.printStackTrace();
                     System.exit(-1);

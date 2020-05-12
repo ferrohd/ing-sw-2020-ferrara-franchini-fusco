@@ -1,17 +1,14 @@
 package it.polimi.ingsw.PSP14.client.view;
 
-import it.polimi.ingsw.PSP14.client.InvalidSettingsException;
+import it.polimi.ingsw.PSP14.client.controller.InvalidSettingsException;
 import it.polimi.ingsw.PSP14.client.model.UIPoint;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
-import it.polimi.ingsw.PSP14.server.model.Point;
-import org.junit.jupiter.api.BeforeAll;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 

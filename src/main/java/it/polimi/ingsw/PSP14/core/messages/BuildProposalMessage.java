@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.core.messages;
 
-import it.polimi.ingsw.PSP14.client.ServerConnection;
+import it.polimi.ingsw.PSP14.client.controller.ServerConnection;
 import it.polimi.ingsw.PSP14.client.view.UI;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 

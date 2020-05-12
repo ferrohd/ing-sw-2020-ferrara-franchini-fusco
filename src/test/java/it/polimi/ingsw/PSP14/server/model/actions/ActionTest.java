@@ -1,6 +1,5 @@
-package it.polimi.ingsw.PSP14.server.actions;
+package it.polimi.ingsw.PSP14.server.model.actions;
 
-import it.polimi.ingsw.PSP14.server.actions.*;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import org.junit.jupiter.api.Test;
@@ -23,11 +22,6 @@ public class ActionTest {
 
         @Override
         public void execute(Match match) {}
-
-        @Override
-        public void updateClients(List<ClientConnection> clients) throws IOException {
-
-        }
     }
 
     private final MyAction myAction = new MyAction();
