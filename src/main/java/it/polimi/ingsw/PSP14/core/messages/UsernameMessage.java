@@ -11,7 +11,7 @@ import java.io.IOException;
  */
 public class UsernameMessage implements ClientExecutableMessage {
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) {
+    public boolean execute(UI ui, ServerConnection serverConnection) throws InterruptedException {
         String name = ui.askUsername();
         try {
             serverConnection.sendMessage(new StringMessage(name));

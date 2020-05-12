@@ -38,7 +38,11 @@ public class ClientMatch implements Runnable {
                 System.exit(-1);
             }
 
-            inMessage.execute(ui, serverConnection);
+            try {
+                inMessage.execute(ui, serverConnection);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

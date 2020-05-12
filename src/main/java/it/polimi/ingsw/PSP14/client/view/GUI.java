@@ -10,7 +10,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class GUI extends UI {
 
-    private final BlockingQueue<String> reqQueue = GUIQueues.getReq();
+    private final BlockingQueue<Object> reqQueue = GUIQueues.getReq();
     private final BlockingQueue<Object> resQueue = GUIQueues.getRes();
 
     String ip, username;
@@ -30,6 +30,7 @@ public class GUI extends UI {
      */
     @Override
     public void welcome() throws InterruptedException {
+        reqQueue.add("welcome");
         GUIUtils.launch(GUIUtils.class);
         this.ip = (String) this.resQueue.take();
         this.username = (String) this.resQueue.take();
@@ -74,8 +75,9 @@ public class GUI extends UI {
      * @return the chosen username
      */
     @Override
-    public String askUsername() {
-        return GUIUtils.getUsername();
+    public String askUsername() throws InterruptedException {
+        reqQueue.add("username");
+        return (String) resQueue.take();
     }
 
     /**
@@ -86,6 +88,8 @@ public class GUI extends UI {
      */
     @Override
     public int chooseGod(List<GodProposal> proposals) {
+        reqQueue.add("chooseGod");
+        reqQueue.add(proposals);
         return 0;
     }
 
@@ -97,6 +101,8 @@ public class GUI extends UI {
      */
     @Override
     public int chooseFirstPlayer(List<PlayerProposal> proposals) {
+        reqQueue.add("chooseFirstPlayer");
+        reqQueue.add(proposals);
         return 0;
     }
 
@@ -112,6 +118,8 @@ public class GUI extends UI {
 
     @Override
     public int chooseAvailableGods(List<GodProposal> gods) {
+        reqQueue.add("chooseAvailableGods");
+        reqQueue.add(gods);
         return 0;
     }
 

@@ -122,7 +122,7 @@ public abstract class UI {
      * Prompt the player to provide a username
      * @return the chosen username
      */
-    public abstract String askUsername();
+    public abstract String askUsername() throws InterruptedException;
 
     /**
      * Prompt the player to select a god from the list of available gods.

@@ -16,5 +16,5 @@ public interface ClientExecutableMessage extends Message {
      * @param serverConnection a way to send/receive messages to/from the server
      * @return false if execution fails, true if succeeds.
      */
-    public boolean execute(UI ui, ServerConnection serverConnection);
+    public boolean execute(UI ui, ServerConnection serverConnection) throws InterruptedException;
 }
