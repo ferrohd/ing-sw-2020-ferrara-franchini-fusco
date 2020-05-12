@@ -15,9 +15,7 @@ public class YesNoMessage implements ClientExecutableMessage {
     @Override
     public boolean execute(UI ui, ServerConnection serverConnection) {
         ui.notify(question);
-        // TODO: actual implementation, for now always returns yes as an answer
-
-        Message message = new ChoiceMessage(1);
+        Message message = new ChoiceMessage(ui.chooseYesNo(question));
         try {
             serverConnection.sendMessage(message);
         } catch(IOException e) {

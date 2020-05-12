@@ -47,7 +47,7 @@ public abstract class UI {
         // Prevent duplicate colors
         while (_newPlayerColor == null ||
                 assignedColors.contains(_newPlayerColor)) {
-            _newPlayerColor = getColor();
+            _newPlayerColor = getColor(playerNumber);
         }
         assignedColors.add(_newPlayerColor);
 
@@ -151,23 +151,16 @@ public abstract class UI {
     public abstract void update();
 
     /**
-     * Generate a random UIColor
+     * Get a color depending on the player unique id.
+     * @param playerNumber an int between <code>1</code> and <code>3</code>
      * @return a color
      */
-    public abstract UIColor getColor();
+    public abstract UIColor getColor(int playerNumber);
 
     /**
      * Display a greeting to the player.
      */
     public abstract void welcome();
-
-    /**
-     * Display on the UI that a player is trying to connect to a server
-     *
-     * @param hostname the address of the server
-     * @param port     the port of the server
-     */
-    public abstract void notifyConnection(String hostname, int port);
 
     /**
      * Ask the player for how many players should participate in a match.
@@ -228,7 +221,27 @@ public abstract class UI {
      */
     public abstract int[] chooseWorkerInitialPosition();
 
+
+    /**
+     * Ask a player for the destination of their next move.
+     * @param moves a list of possible moves to choose from
+     * @return the Index of the chosen move
+     */
     public abstract int chooseMove(List<MoveProposal> moves);
 
+    /**
+     * Ask a player for the destination of their next build action,
+     * where the next tower block will be built if possible.
+     * @param moves a list of options to choose from
+     * @return the Index of the chosen option
+     */
     public abstract int chooseBuild(List<BuildProposal> moves);
+
+    /**
+     * Ask the player if they want to perform a certain action.
+     * This handles only the confirm (positive or negative).
+     * @param message the text to display
+     * @return 0 = no, 1 = yes
+     */
+    public abstract int chooseYesNo(String message);
 }

@@ -38,7 +38,7 @@ public class Client {
         int port;
         hostname = settings.get("hostname");
         port = Integer.parseInt(settings.get("port"));
-        ui.notifyConnection(hostname, port);
+        ui.notify("Connecting to " + hostname +":" + port + "...");
 
         Socket serverSocket = null;
         boolean connected = false;

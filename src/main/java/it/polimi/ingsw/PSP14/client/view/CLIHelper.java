@@ -40,7 +40,7 @@ class ColorChar {
 public class CLIHelper {
     private static final int
             CANVAS_WIDTH = 70,
-            CANVAS_HEIGHT = 15,
+            CANVAS_HEIGHT = 13,
             BOARD_X = 3,
             BOARD_Y = 2,
             BOARD_WIDTH = 25,
@@ -70,6 +70,7 @@ public class CLIHelper {
      * later on, allowing a greater control on shapes
      * and layout. If not height and width is specified,
      * assume the default 80x24 on the terminal.
+     * @param cache ref to the local UICache
      */
     CLIHelper(UICache cache) {
         this.width = CANVAS_WIDTH;
@@ -84,11 +85,11 @@ public class CLIHelper {
      * later on, allowing a greater control on shapes
      * and layout.
      * @param height the height of the window
-     * @param width the width of the window
+     * @param cache ref to the local UICache
      */
-    CLIHelper(int height, int width, UICache cache) {
+    CLIHelper(int height, UICache cache) {
         this.height = height;
-        this.width = width;
+        this.width = CANVAS_WIDTH;
         this.cache = cache;
         initCanvas();
     }
@@ -284,11 +285,13 @@ public class CLIHelper {
             addLine(padding, BOARD_Y, padding, BOARD_Y + BOARD_HEIGHT);
         }
         // Draw numbers
+        // draw X
         for (int i = 0; i < 5; i++) {
             addText(BOARD_X + 2 + i * 5, BOARD_Y - 1, i + "", CLIColor.RESET);
         }
+        // draw Y
         for (int i = 0; i < 5; i++) {
-            addText(BOARD_X - 2, BOARD_Y + 1 + i * 2, i + "", CLIColor.RESET);
+            addText(BOARD_X - 2, BOARD_Y + 1 + i * 2, (char)('A' + i) + "", CLIColor.RESET);
         }
         // Draw the cell content
         for (int y = 0; y < 5; y++) {
