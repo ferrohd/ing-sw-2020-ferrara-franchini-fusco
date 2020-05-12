@@ -2,10 +2,7 @@ package it.polimi.ingsw.PSP14.server.controller;
 
 import it.polimi.ingsw.PSP14.core.messages.*;
 import it.polimi.ingsw.PSP14.core.messages.updates.*;
-import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
-import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
-import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
-import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
+import it.polimi.ingsw.PSP14.core.proposals.*;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 import java.io.IOException;
@@ -115,19 +112,43 @@ public abstract class ClientConnection {
         sendMessage(message);
     }
 
-    public void sendBuildProposals(List<BuildProposal> proposals) throws IOException {
-        Message message = new BuildProposalMessage(proposals);
+    private int askProposalMessage(ProposalMessage<? extends Proposal> message, int size) throws IOException {
         sendMessage(message);
+        int choice = receiveChoice();
+        while(choice < 0 || choice >= size) {
+            sendNotification("Out of range!");
+            sendMessage(message);
+            choice = receiveChoice();
+        }
+
+        return choice;
     }
 
-    public void sendMoveProposals(List<MoveProposal> proposals) throws IOException {
-        Message message = new MoveProposalMessage(proposals);
-        sendMessage(message);
+    public int askBuild(List<BuildProposal> proposals) throws IOException {
+        return askProposalMessage(new BuildProposalMessage(proposals), proposals.size());
+    }
+
+    public int askMove(List<MoveProposal> proposals) throws IOException {
+        return askProposalMessage(new MoveProposalMessage(proposals), proposals.size());
     }
 
     public void sendNotification(String s) throws IOException {
         Message message = new NotificationMessage(s);
         sendMessage(message);
+    }
+
+    public boolean askQuestion(String s) throws IOException {
+        Message message = new YesNoMessage(s);
+        sendMessage(message);
+
+        int choice = receiveChoice();
+        while(choice != 0 && choice != 1) {
+            sendNotification("Error!");
+            sendMessage(message);
+            choice = receiveChoice();
+        }
+
+        return choice == 1;
     }
 
     public abstract int receiveChoice() throws IOException;

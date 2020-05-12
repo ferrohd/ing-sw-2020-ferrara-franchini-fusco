@@ -1,8 +1,5 @@
 package it.polimi.ingsw.PSP14.server.model;
 
-import it.polimi.ingsw.PSP14.core.messages.BuildProposalMessage;
-import it.polimi.ingsw.PSP14.core.messages.Message;
-import it.polimi.ingsw.PSP14.core.messages.MoveProposalMessage;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.server.model.actions.Action;
@@ -147,54 +144,45 @@ public class Match implements Runnable {
     private void turn(String player) throws IOException {
         ClientConnection client = clients.get(player);
 
-        getPlayers().forEach(p -> p.getGod().beforeTurn(player, client, this));
+        for(Player p : getPlayers())
+            p.getGod().beforeTurn(player, client, this);
 
         int workerIndex = client.getWorkerIndex();
 
         move(player, client, workerIndex);
         build(player, client, workerIndex);
 
-        getPlayers().forEach(p -> p.getGod().afterTurn(player, workerIndex, client, this));
+        for(Player p: getPlayers())
+            p.getGod().afterTurn(player, workerIndex, client, this);
     }
 
     public void move(String player, ClientConnection client, int workerIndex) throws IOException {
-        getPlayers().forEach(p -> p.getGod().beforeMove(player, workerIndex, client, this));
+        for(Player p : getPlayers())
+            p.getGod().beforeMove(player, workerIndex, client, this);
 
         List<MoveAction> movements = getMovements(player, workerIndex);
         List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
 
-        client.sendMoveProposals(moveProposals);
-        int choice = client.receiveChoice();
-        while (choice < 0 || choice >= moveProposals.size()) {
-            client.sendNotification("Index out of range!");
-            client.sendMoveProposals(moveProposals);
-            choice = client.receiveChoice();
-        }
-
+        int choice = client.askMove(moveProposals);
 
         Action action = movements.get(choice);
         executeAction(action);
 
-        getPlayers().forEach(p -> p.getGod().afterMove(player, workerIndex, client, this));
+        for(Player p : getPlayers())
+            p.getGod().afterMove(player, workerIndex, client, this);
     }
 
     public void build(String player, ClientConnection client, int workerIndex) throws IOException {
         List<BuildAction> builds = getBuildable(player, workerIndex);
         List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
 
-        client.sendBuildProposals(buildProposals);
-        int choice = client.receiveChoice();
-        while (choice < 0 || choice >= buildProposals.size()) {
-            client.sendNotification("Index out of range!");
-            client.sendBuildProposals(buildProposals);
-            choice = client.receiveChoice();
-        }
+        int choice = client.askBuild(buildProposals);
 
         Action action = builds.get(choice);
         executeAction(action);
 
-
-        getPlayers().forEach(p -> p.getGod().afterBuild(player, workerIndex, client, this));
+        for(Player p : getPlayers())
+            p.getGod().afterBuild(player, workerIndex, client, this);
     }
 
     public void end(String winningPlayer) {
@@ -266,8 +254,19 @@ public class Match implements Runnable {
             }
         }
 
-        players.values().forEach(p -> p.getGod().addMoves(legalMoves, currPlayer, worker, this));
-        players.values().forEach(p -> p.getGod().removeMoves(legalMoves, currPlayer, worker, this));
+        for(Player p : getPlayers())
+            try {
+                p.getGod().addMoves(legalMoves, currPlayer, worker, this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        for(Player p : getPlayers())
+            try {
+                p.getGod().removeMoves(legalMoves, currPlayer, worker, this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         return legalMoves;
     }
@@ -298,8 +297,19 @@ public class Match implements Runnable {
                 .map(p -> new BuildAction(player, p, board.getTowerSize(p) == 3, 1))
                 .collect(Collectors.toList());
 
-        players.values().forEach(p -> p.getGod().addBuilds(buildActions, players.get(player), worker, this));
-        players.values().forEach(p -> p.getGod().removeBuilds(buildActions, players.get(player), worker, this));
+        for(Player p : getPlayers())
+            try {
+                p.getGod().addBuilds(buildActions, players.get(player), worker, this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        for(Player p : getPlayers())
+            try {
+                p.getGod().removeBuilds(buildActions, players.get(player), worker, this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         return buildActions;
     }

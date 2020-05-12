@@ -5,8 +5,8 @@ import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
-import it.polimi.ingsw.PSP14.server.model.board.Worker;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -26,37 +26,37 @@ public class God {
     /**
      * Implements god effects that add additional move possibilities, by adding MoveActions to the current list of
      * possible MoveActions
+     * @param worker moving worker
      * @param moves moves already calculated
      * @param player moving player
-     * @param worker moving worker
      * @param match current match
      */
-    public void addMoves(List<MoveAction> moves, Player player, int workerIndex, Match match) {
+    public void addMoves(List<MoveAction> moves, Player player, int workerIndex, Match match) throws IOException {
     }
 
     /**
      * Implements god effects that limit the possibility of movement, by removing MoveActions from the current list of
      * possible MoveActions
+     * @param worker moving worker
      * @param moves moves already calculated
      * @param player moving player
-     * @param worker moving worker
      * @param match current match
      */
-    public void removeMoves(List<MoveAction> moves, Player player, int workerIndex, Match match) {
+    public void removeMoves(List<MoveAction> moves, Player player, int workerIndex, Match match) throws IOException {
     }
 
     /**
      * Implements god effects that add additional build possibilities, by adding BuildActions to the current list of
      * possible BuildActions
+     * @param worker building worker
      * @param builds builds already calculated
      * @param player building player
-     * @param worker building worker
      * @param match current match
      */
-    public void addBuilds(List<BuildAction> builds, Player player, int workerIndex, Match match) {
+    public void addBuilds(List<BuildAction> builds, Player player, int workerIndex, Match match) throws IOException {
     }
 
-    public void removeBuilds(List<BuildAction> builds, Player player, int workerIndex, Match match) {
+    public void removeBuilds(List<BuildAction> builds, Player player, int workerIndex, Match match) throws IOException {
     }
 
     /**
@@ -66,10 +66,10 @@ public class God {
      * @param client ClientConnection relative to the current turn's player
      * @param match current match
      */
-    public void afterMove(String player, int workerIndex, ClientConnection client, Match match){
+    public void afterMove(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
     }
 
-    public void beforeMove(String player, int workerIndex, ClientConnection client, Match match){
+    public void beforeMove(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
     }
 
     /**
@@ -79,15 +79,15 @@ public class God {
      * @param client ClientConnection relative to the current turn's player
      * @param match current match
      */
-    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match){
+    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
     }
 
-    public void beforeBuild(String player, int workerIndex, ClientConnection client, Match match){
+    public void beforeBuild(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
     }
 
-    public void beforeTurn(String player, ClientConnection client, Match match){
+    public void beforeTurn(String player, ClientConnection client, Match match) throws IOException {
     }
 
-    public void afterTurn(String player, int workerIndex, ClientConnection client, Match match){
+    public void afterTurn(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
     }
 }

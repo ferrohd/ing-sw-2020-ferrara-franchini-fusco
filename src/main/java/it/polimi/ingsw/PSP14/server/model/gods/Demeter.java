@@ -19,7 +19,7 @@ public class Demeter extends God {
     }
 
     @Override
-    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) {
+    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
         if(!player.equals(getOwner())) return;
 
         Message message = new YesNoMessage("DEMETER: Do you want to build again?");
@@ -39,16 +39,12 @@ public class Demeter extends God {
             builds = builds.stream().filter(m -> !m.getPoint().equals(lastBuild.getPoint())).collect(Collectors.toList());
             List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
             message = new BuildProposalMessage(buildProposals);
-            try {
-                client.sendMessage(message);
-                choice = client.receiveChoice();
-                // TODO handle this better
-                Action action = builds.get(choice);
-                match.executeAction(action);
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.exit(-1);
-            }
+
+            client.sendMessage(message);
+            choice = client.receiveChoice();
+            // TODO handle this better
+            Action action = builds.get(choice);
+            match.executeAction(action);
 
         }
     }

@@ -6,7 +6,6 @@ import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
-import it.polimi.ingsw.PSP14.server.model.board.Worker;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,7 +19,7 @@ public class Hestia extends God {
     }
 
     @Override
-    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) {
+    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
         if(!player.equals(getOwner())) return;
 
         Message message = new YesNoMessage("HESTIA: Do you want to build again?");
@@ -46,7 +45,7 @@ public class Hestia extends God {
     }
 
     @Override
-    public void removeBuilds(List<BuildAction> builds, Player player, int workerIndex, Match match) {
+    public void removeBuilds(List<BuildAction> builds, Player player, int workerIndex, Match match) throws IOException {
         if(!activated || !player.getUsername().equals(getOwner())) return;
 
         activated = false;

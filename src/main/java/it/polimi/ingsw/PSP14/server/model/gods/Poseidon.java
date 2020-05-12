@@ -13,7 +13,7 @@ public class Poseidon extends God {
     }
 
     @Override
-    public void afterTurn(String player, int workerIndex, ClientConnection client, Match match) {
+    public void afterTurn(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
         if(!player.equals(getOwner())) return;
 
         int otherWorker = workerIndex == 1 ? 0 : 1;
