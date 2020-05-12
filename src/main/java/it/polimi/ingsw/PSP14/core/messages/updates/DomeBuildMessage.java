@@ -5,6 +5,8 @@ import it.polimi.ingsw.PSP14.client.model.UIPoint;
 import it.polimi.ingsw.PSP14.client.view.UI;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 
+import java.io.IOException;
+
 public class DomeBuildMessage implements UIUpdateMessage {
     private Point pos;
 
@@ -13,10 +15,8 @@ public class DomeBuildMessage implements UIUpdateMessage {
     }
 
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) {
+    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
         ui.setDome(UIPoint.fromPoint(pos));
         ui.update();
-
-        return true;
     }
 }

@@ -7,16 +7,9 @@ import java.io.IOException;
 
 public class WorkerInitialPositionMessage implements ClientExecutableMessage {
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) {
-        // Retrieve the index of the first player
+    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
         int[] coordinates = ui.chooseWorkerInitialPosition();
-        // Send it back to the server
-        try {
-            serverConnection.sendMessage(new ChoiceMessage(coordinates[0]));
-            serverConnection.sendMessage(new ChoiceMessage(coordinates[1]));
-        } catch (IOException e) {
-            return false;
-        }
-        return true;
+        serverConnection.sendMessage(new ChoiceMessage(coordinates[0]));
+        serverConnection.sendMessage(new ChoiceMessage(coordinates[1]));
     }
 }

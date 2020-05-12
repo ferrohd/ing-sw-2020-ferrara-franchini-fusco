@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.model.*;
 import it.polimi.ingsw.PSP14.server.model.board.*;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class Minotaur extends God {
     }
 
     @Override
-    public void addMoves(List<MoveAction> moves, Player player, int workerIndex, Match match) {
+    public void addMoves(List<MoveAction> moves, Player player, int workerIndex, Match match) throws IOException {
         if(!player.getUsername().equals(getOwner())) {
             return;
         }

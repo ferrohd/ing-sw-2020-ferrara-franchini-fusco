@@ -13,16 +13,8 @@ public class MoveProposalMessage extends ProposalMessage<MoveProposal> {
     }
 
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) {
+    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
         int choice = ui.chooseMove(getProposals());
-
-        try {
-            serverConnection.sendMessage(new ChoiceMessage(choice));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        return true;
+        serverConnection.sendMessage(new ChoiceMessage(choice));
     }
 }

@@ -5,13 +5,15 @@ import it.polimi.ingsw.PSP14.server.model.board.Board;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 
+import java.io.IOException;
+
 public class Chronus extends God {
     public Chronus(String owner) {
         super(owner);
     }
 
     @Override
-    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) {
+    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
         int nComplete = 0;
 
         for(int i = 0; i < 5; ++i) {
