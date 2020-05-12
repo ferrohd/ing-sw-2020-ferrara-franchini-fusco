@@ -14,6 +14,5 @@ public class UsernameMessage implements ClientExecutableMessage {
     public void execute(UI ui, ServerConnection serverConnection) throws IOException {
         String name = ui.askUsername();
         serverConnection.sendMessage(new StringMessage(name));
-
     }
 }

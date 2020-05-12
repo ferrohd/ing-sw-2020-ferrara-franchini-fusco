@@ -65,6 +65,11 @@ public class Match implements Runnable {
 
         for (ClientConnection connection : clientConnections) {
             clients.put(connection.getUsername(), connection);
+            String username = connection.getUsername();
+            while(users.contains(username)) {
+                connection.sendNotification("Name already chosen!");
+                username = connection.getUsername();
+            }
             users.add(connection.getUsername());
         }
 
@@ -111,6 +116,10 @@ public class Match implements Runnable {
             for (String p : users) {
                 ClientConnection connection = clients.get(p);
                 Point pos = connection.placeWorker();
+                while(getWorkerPositions().contains(pos)) {
+                    connection.sendNotification("Cell busy!");
+                    pos = connection.placeWorker();
+                }
                 getPlayerByUsername(p).setWorker(i, pos);
                 for (ClientConnection c : getClientConnections())
                     c.registerWorker(pos, i, p);
@@ -119,7 +128,7 @@ public class Match implements Runnable {
     }
 
     public List<ClientConnection> getClientConnections() {
-        return new ArrayList<>(clients.values());
+        return clientConnections;
     }
 
     public List<Action> getHistory() {
@@ -153,13 +162,14 @@ public class Match implements Runnable {
 
         List<MoveAction> movements = getMovements(player, workerIndex);
         List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
-        Message message = new MoveProposalMessage(moveProposals);
 
-        int choice;
-        do {
-            client.sendMessage(message);
+        client.sendMoveProposals(moveProposals);
+        int choice = client.receiveChoice();
+        while (choice < 0 || choice >= moveProposals.size()) {
+            client.sendNotification("Index out of range!");
+            client.sendMoveProposals(moveProposals);
             choice = client.receiveChoice();
-        } while (choice < 0 || choice >= moveProposals.size());
+        }
 
 
         Action action = movements.get(choice);
@@ -171,13 +181,14 @@ public class Match implements Runnable {
     public void build(String player, ClientConnection client, int workerIndex) throws IOException {
         List<BuildAction> builds = getBuildable(player, workerIndex);
         List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
-        Message message = new BuildProposalMessage(buildProposals);
 
-        int choice;
-        do {
-            client.sendMessage(message);
+        client.sendBuildProposals(buildProposals);
+        int choice = client.receiveChoice();
+        while (choice < 0 || choice >= buildProposals.size()) {
+            client.sendNotification("Index out of range!");
+            client.sendBuildProposals(buildProposals);
             choice = client.receiveChoice();
-        } while (choice < 0 || choice >= buildProposals.size());
+        }
 
         Action action = builds.get(choice);
         executeAction(action);

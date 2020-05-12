@@ -2,7 +2,9 @@ package it.polimi.ingsw.PSP14.server.controller;
 
 import it.polimi.ingsw.PSP14.core.messages.*;
 import it.polimi.ingsw.PSP14.core.messages.updates.*;
+import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
+import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 
@@ -16,8 +18,6 @@ import java.util.stream.Collectors;
  * Exposes the functions for bidirectional communication with a client.
  */
 public abstract class ClientConnection {
-    private String username = null;
-
     /**
      * Serialize and send a message to the client.
      */
@@ -33,13 +33,9 @@ public abstract class ClientConnection {
      * @return the player username
      */
     public String getUsername() throws IOException {
-        if (username == null) {
-            Message message = new UsernameMessage();
-            sendMessage(message);
-            username = receiveString();
-        }
-
-        return username;
+        Message message = new UsernameMessage();
+        sendMessage(message);
+        return receiveString();
     }
 
     public List<String> selectGameGods(List<String> availableGods, int n) throws IOException {
@@ -116,6 +112,21 @@ public abstract class ClientConnection {
 
     public void notifyWorkerMove(Point p, String user, int workerId) throws IOException {
         Message message = new WorkerMoveMessage(p, user, workerId);
+        sendMessage(message);
+    }
+
+    public void sendBuildProposals(List<BuildProposal> proposals) throws IOException {
+        Message message = new BuildProposalMessage(proposals);
+        sendMessage(message);
+    }
+
+    public void sendMoveProposals(List<MoveProposal> proposals) throws IOException {
+        Message message = new MoveProposalMessage(proposals);
+        sendMessage(message);
+    }
+
+    public void sendNotification(String s) throws IOException {
+        Message message = new NotificationMessage(s);
         sendMessage(message);
     }
 
