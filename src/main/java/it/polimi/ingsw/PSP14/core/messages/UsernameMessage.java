@@ -11,14 +11,9 @@ import java.io.IOException;
  */
 public class UsernameMessage implements ClientExecutableMessage {
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) {
+    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
         String name = ui.askUsername();
-        try {
-            serverConnection.sendMessage(new StringMessage(name));
-        } catch(IOException e) {
-            return false;
-        }
+        serverConnection.sendMessage(new StringMessage(name));
 
-        return true;
     }
 }

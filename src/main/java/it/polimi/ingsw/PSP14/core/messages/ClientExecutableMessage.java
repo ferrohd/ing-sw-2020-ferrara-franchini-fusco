@@ -3,6 +3,8 @@ package it.polimi.ingsw.PSP14.core.messages;
 import it.polimi.ingsw.PSP14.client.controller.ServerConnection;
 import it.polimi.ingsw.PSP14.client.view.UI;
 
+import java.io.IOException;
+
 /**
  * A message send from the server that contains executable instructions.
  * This corresponds more-or-less to a client-side implementation of a
@@ -16,5 +18,5 @@ public interface ClientExecutableMessage extends Message {
      * @param serverConnection a way to send/receive messages to/from the server
      * @return false if execution fails, true if succeeds.
      */
-    public boolean execute(UI ui, ServerConnection serverConnection);
+    public void execute(UI ui, ServerConnection serverConnection) throws IOException;
 }

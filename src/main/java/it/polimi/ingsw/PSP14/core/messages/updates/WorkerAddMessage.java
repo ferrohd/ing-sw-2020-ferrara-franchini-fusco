@@ -5,6 +5,8 @@ import it.polimi.ingsw.PSP14.client.model.UIPoint;
 import it.polimi.ingsw.PSP14.client.view.UI;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 
+import java.io.IOException;
+
 public class WorkerAddMessage implements UIUpdateMessage {
     private Point pos;
     private String player;
@@ -17,10 +19,8 @@ public class WorkerAddMessage implements UIUpdateMessage {
     }
 
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) {
+    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
         ui.setWorker(UIPoint.fromPoint(pos), workerId, player);
         ui.update();
-
-        return true;
     }
 }

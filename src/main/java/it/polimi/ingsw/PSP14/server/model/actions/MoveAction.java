@@ -31,6 +31,9 @@ public class MoveAction extends Action implements Proposable {
                 if(p.getWorkerPos(i).equals(from)) {
                     workerId = i;
                     p.setWorker(i, to);
+                    if(match.getBoard().getTowerSize(to) == 3 && match.getBoard().getTowerSize(from) < 3) {
+                        match.end(getUser());
+                    }
                 }
             }
         }

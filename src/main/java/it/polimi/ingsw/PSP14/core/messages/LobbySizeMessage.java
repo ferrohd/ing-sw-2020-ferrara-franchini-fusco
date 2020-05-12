@@ -12,13 +12,8 @@ import java.io.IOException;
  */
 public class LobbySizeMessage implements ClientExecutableMessage {
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) {
+    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
         int lobbySize = ui.getLobbySize();
-        try {
-            serverConnection.sendMessage(new ChoiceMessage(lobbySize));
-        } catch(IOException e) {
-            return false;
-        }
-        return true;
+        serverConnection.sendMessage(new ChoiceMessage(lobbySize));
     }
 }

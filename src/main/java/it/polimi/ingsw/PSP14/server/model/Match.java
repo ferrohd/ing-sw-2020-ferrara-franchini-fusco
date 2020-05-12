@@ -154,9 +154,13 @@ public class Match implements Runnable {
         List<MoveAction> movements = getMovements(player, workerIndex);
         List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
         Message message = new MoveProposalMessage(moveProposals);
-        client.sendMessage(message);
 
-        int choice = client.receiveChoice();
+        int choice;
+        do {
+            client.sendMessage(message);
+            choice = client.receiveChoice();
+        } while (choice < 0 || choice >= moveProposals.size());
+
 
         Action action = movements.get(choice);
         executeAction(action);
@@ -168,11 +172,16 @@ public class Match implements Runnable {
         List<BuildAction> builds = getBuildable(player, workerIndex);
         List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
         Message message = new BuildProposalMessage(buildProposals);
-        client.sendMessage(message);
-        int choice = client.receiveChoice();
+
+        int choice;
+        do {
+            client.sendMessage(message);
+            choice = client.receiveChoice();
+        } while (choice < 0 || choice >= buildProposals.size());
 
         Action action = builds.get(choice);
         executeAction(action);
+
 
         getPlayers().forEach(p -> p.getGod().afterBuild(player, workerIndex, client, this));
     }
