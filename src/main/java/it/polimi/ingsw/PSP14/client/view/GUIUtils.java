@@ -11,14 +11,21 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
+
+import it.polimi.ingsw.PSP14.client.view.GUIQueues;
+
 
 public class GUIUtils extends Application {
+
+    static final BlockingQueue<String> reqQueue = GUIQueues.getReq();
+    static final BlockingQueue<Object> resQueue = GUIQueues.getRes();
 
     private static String username;
     private static String ip = null;
@@ -43,9 +50,15 @@ public class GUIUtils extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
-        initStage = stage;
-        stage.setTitle("SANTORINI");
+    public void start(Stage primaryStage) throws Exception {
+        initStage = primaryStage;
+        while(true) {
+            welcome();
+        }
+    }--
+
+    public void welcome() throws Exception {
+        initStage.setTitle("SANTORINI");
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
@@ -79,8 +92,8 @@ public class GUIUtils extends Application {
         connectBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                username = usernameField.getText();
                 ip = ipField.getText();
+                username = usernameField.getText();
             }
         });
         hbBtn.getChildren().add(connectBtn);
@@ -93,11 +106,11 @@ public class GUIUtils extends Application {
         // Status Text
         grid.add(loginStatus, 1, 6);
 
-        stage.setScene(scene);
-        stage.show();
+        initStage.setScene(scene);
+        initStage.show();
     }
 
-    public static int askLobbySize() {
+    public static void askLobbySize() {
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
@@ -118,15 +131,13 @@ public class GUIUtils extends Application {
         okButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                lobbySize = Integer.parseInt(lobbyField.getText());
+                resQueue.add(Integer.parseInt(lobbyField.getText()));
             }
         });
         hbBtn.getChildren().add(okButton);
         grid.add(hbBtn, 1, 4);
 
         initStage.setScene(LobbyScene);
-
-        return 0;
     }
     public static void notifyAlert(String notifyMessage) {
         GridPane grid = new GridPane();
@@ -141,4 +152,5 @@ public class GUIUtils extends Application {
         welcomeText.setFont(Font.font("Tahoma", FontWeight.NORMAL, 10));
         grid.add(welcomeText, 0,0, 2, 1);
     }
+
 }

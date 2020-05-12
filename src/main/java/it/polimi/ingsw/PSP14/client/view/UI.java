@@ -97,7 +97,7 @@ public abstract class UI {
     /**
      * Display a greeting to the player.
      */
-    public abstract void welcome();
+    public abstract void welcome() throws InterruptedException;
 
     /**
      * Display on the UI that a player is trying to connect to a server
@@ -110,7 +110,7 @@ public abstract class UI {
      * Ask the player for how many players should participate in a match.
      * @return the size of the lobby
      */
-    public abstract int getLobbySize();
+    public abstract int getLobbySize() throws InterruptedException;
 
     /**
      * Display a notification to the player.

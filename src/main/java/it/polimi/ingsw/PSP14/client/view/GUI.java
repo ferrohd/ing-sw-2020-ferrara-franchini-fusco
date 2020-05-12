@@ -3,9 +3,17 @@ package it.polimi.ingsw.PSP14.client.view;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.client.view.GUIUtils;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 
 public class GUI extends UI {
+
+    private final BlockingQueue<String> reqQueue = GUIQueues.getReq();
+    private final BlockingQueue<Object> resQueue = GUIQueues.getRes();
+
+    String ip, username;
 
     @Override
     public void update() {
@@ -21,8 +29,10 @@ public class GUI extends UI {
      * Display a greeting to the player.
      */
     @Override
-    public void welcome() {
+    public void welcome() throws InterruptedException {
         GUIUtils.launch(GUIUtils.class);
+        this.ip = (String) this.resQueue.take();
+        this.username = (String) this.resQueue.take();
     }
 
     /**
@@ -33,7 +43,7 @@ public class GUI extends UI {
      */
     @Override
     public void notifyConnection(String hostname, int port) {
-        GUIUtils.setLoginStatus("Connecting with username: " + GUIUtils.getUsername() + " to server: " + GUIUtils.getIp());
+        notify("Connecting to " + hostname + " at port " + port + "...");
     }
 
     /**
@@ -42,8 +52,9 @@ public class GUI extends UI {
      * @return the size of the lobby
      */
     @Override
-    public int getLobbySize() {
-        return GUIUtils.askLobbySize();
+    public int getLobbySize() throws InterruptedException {
+        reqQueue.add("lobbySize");
+        return (int) resQueue.take();
     }
 
     /**
@@ -53,7 +64,8 @@ public class GUI extends UI {
      */
     @Override
     public void notify(String s) {
-
+        reqQueue.add("notify");
+        reqQueue.add(s);
     }
 
     /**
