@@ -22,28 +22,17 @@ public class Demeter extends God {
     public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
         if(!player.equals(getOwner())) return;
 
-        Message message = new YesNoMessage("DEMETER: Do you want to build again?");
-        int choice;
-        try {
-            client.sendMessage(message);
-            choice = client.receiveChoice();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(-1);
-            return;
-        }
+        boolean choice = client.askQuestion("DEMETER: Do you want to build again?");
 
-        if(choice == 1) {
+        if(choice) {
             List<BuildAction> builds = match.getBuildable(player, workerIndex);
             BuildAction lastBuild = (BuildAction) match.getHistory().get(match.getHistory().size() - 1);
             builds = builds.stream().filter(m -> !m.getPoint().equals(lastBuild.getPoint())).collect(Collectors.toList());
             List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
-            message = new BuildProposalMessage(buildProposals);
 
-            client.sendMessage(message);
-            choice = client.receiveChoice();
+            int buildChoice = client.askBuild(buildProposals);
             // TODO handle this better
-            Action action = builds.get(choice);
+            Action action = builds.get(buildChoice);
             match.executeAction(action);
 
         }

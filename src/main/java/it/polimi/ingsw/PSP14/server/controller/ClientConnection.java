@@ -18,12 +18,12 @@ public abstract class ClientConnection {
     /**
      * Serialize and send a message to the client.
      */
-    public abstract void sendMessage(Message message) throws IOException;
+    protected abstract void sendMessage(Message message) throws IOException;
 
     /**
      * Receive a message from the client.
      */
-    public abstract Message receiveMessage() throws IOException;
+    protected abstract Message receiveMessage() throws IOException;
 
     /**
      * A request to the client to provide the name that the player has chosen.
@@ -132,6 +132,20 @@ public abstract class ClientConnection {
         return askProposalMessage(new MoveProposalMessage(proposals), proposals.size());
     }
 
+    public int askLobbySize() throws IOException {
+        Message message = new LobbySizeMessage();
+        sendMessage(message);
+        int choice = receiveChoice();
+
+        while(choice != 2 && choice != 3) {
+            sendNotification("Error!");
+            sendMessage(message);
+            choice = receiveChoice();
+        }
+
+        return choice;
+    }
+
     public void sendNotification(String s) throws IOException {
         Message message = new NotificationMessage(s);
         sendMessage(message);
@@ -151,9 +165,9 @@ public abstract class ClientConnection {
         return choice == 1;
     }
 
-    public abstract int receiveChoice() throws IOException;
+    protected abstract int receiveChoice() throws IOException;
 
-    public abstract String receiveString() throws IOException;
+    protected abstract String receiveString() throws IOException;
 
     public abstract void close() throws IOException;
 }
