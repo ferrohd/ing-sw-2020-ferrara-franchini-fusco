@@ -3,6 +3,8 @@ package it.polimi.ingsw.PSP14.core.messages.updates;
 import it.polimi.ingsw.PSP14.client.controller.ServerConnection;
 import it.polimi.ingsw.PSP14.client.view.UI;
 
+import java.io.IOException;
+
 public class PlayerRegisterMessage implements UIUpdateMessage {
     private String username;
 
@@ -11,10 +13,8 @@ public class PlayerRegisterMessage implements UIUpdateMessage {
     }
 
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) {
+    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
         ui.registerPlayer(username);
         ui.update();
-
-        return true;
     }
 }

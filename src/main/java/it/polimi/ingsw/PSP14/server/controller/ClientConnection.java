@@ -2,8 +2,7 @@ package it.polimi.ingsw.PSP14.server.controller;
 
 import it.polimi.ingsw.PSP14.core.messages.*;
 import it.polimi.ingsw.PSP14.core.messages.updates.*;
-import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
-import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
+import it.polimi.ingsw.PSP14.core.proposals.*;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 import java.io.IOException;
@@ -16,30 +15,24 @@ import java.util.stream.Collectors;
  * Exposes the functions for bidirectional communication with a client.
  */
 public abstract class ClientConnection {
-    private String username = null;
-
     /**
      * Serialize and send a message to the client.
      */
-    public abstract void sendMessage(Message message) throws IOException;
+    protected abstract void sendMessage(Message message) throws IOException;
 
     /**
      * Receive a message from the client.
      */
-    public abstract Message receiveMessage() throws IOException;
+    protected abstract Message receiveMessage() throws IOException;
 
     /**
      * A request to the client to provide the name that the player has chosen.
      * @return the player username
      */
     public String getUsername() throws IOException {
-        if (username == null) {
-            Message message = new UsernameMessage();
-            sendMessage(message);
-            username = receiveString();
-        }
-
-        return username;
+        Message message = new UsernameMessage();
+        sendMessage(message);
+        return receiveString();
     }
 
     public List<String> selectGameGods(List<String> availableGods, int n) throws IOException {
@@ -119,9 +112,62 @@ public abstract class ClientConnection {
         sendMessage(message);
     }
 
-    public abstract int receiveChoice() throws IOException;
+    private int askProposalMessage(ProposalMessage<? extends Proposal> message, int size) throws IOException {
+        sendMessage(message);
+        int choice = receiveChoice();
+        while(choice < 0 || choice >= size) {
+            sendNotification("Out of range!");
+            sendMessage(message);
+            choice = receiveChoice();
+        }
 
-    public abstract String receiveString() throws IOException;
+        return choice;
+    }
+
+    public int askBuild(List<BuildProposal> proposals) throws IOException {
+        return askProposalMessage(new BuildProposalMessage(proposals), proposals.size());
+    }
+
+    public int askMove(List<MoveProposal> proposals) throws IOException {
+        return askProposalMessage(new MoveProposalMessage(proposals), proposals.size());
+    }
+
+    public int askLobbySize() throws IOException {
+        Message message = new LobbySizeMessage();
+        sendMessage(message);
+        int choice = receiveChoice();
+
+        while(choice != 2 && choice != 3) {
+            sendNotification("Error!");
+            sendMessage(message);
+            choice = receiveChoice();
+        }
+
+        return choice;
+    }
+
+    public void sendNotification(String s) throws IOException {
+        Message message = new NotificationMessage(s);
+        sendMessage(message);
+    }
+
+    public boolean askQuestion(String s) throws IOException {
+        Message message = new YesNoMessage(s);
+        sendMessage(message);
+
+        int choice = receiveChoice();
+        while(choice != 0 && choice != 1) {
+            sendNotification("Error!");
+            sendMessage(message);
+            choice = receiveChoice();
+        }
+
+        return choice == 1;
+    }
+
+    protected abstract int receiveChoice() throws IOException;
+
+    protected abstract String receiveString() throws IOException;
 
     public abstract void close() throws IOException;
 }

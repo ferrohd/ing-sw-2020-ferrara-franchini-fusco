@@ -5,13 +5,16 @@ import it.polimi.ingsw.PSP14.client.view.UI;
 
 import java.io.IOException;
 
-/**
- * This class purpose is to retrieve a
- */
-public class WorkerIndexMessage implements ClientExecutableMessage {
+public class GameEndMessage implements ClientExecutableMessage {
+    private String winner;
+
+    public GameEndMessage(String winner) {
+        this.winner = winner;
+    }
+
     @Override
     public void execute(UI ui, ServerConnection serverConnection) throws IOException {
-        int index = ui.chooseWorker();
-        serverConnection.sendMessage(new ChoiceMessage(index));
+        ui.notify(winner + " wins!");
+        System.exit(0);
     }
 }

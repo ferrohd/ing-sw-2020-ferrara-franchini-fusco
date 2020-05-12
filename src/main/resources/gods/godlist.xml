@@ -24,6 +24,12 @@
         <description>Your Worker may build a dome at any level.</description>
     </god>
     <god>
+        <name>Chronus</name>
+        <alias>God of Time</alias>
+        <ability>Wind Condition</ability>
+        <description>You also win when there are at least five Complete Towers on the board.</description>
+    </god>
+    <god>
         <name>Demeter</name>
         <alias>Goddess of the Harvest</alias>
         <ability>Your Build</ability>
@@ -34,6 +40,12 @@
         <alias>God of Blacksmiths</alias>
         <ability>Your Build</ability>
         <description>Your Worker may build one additional block (not dome) on top of your first block.</description>
+    </god>
+    <god>
+        <name>Hestia</name>
+        <alias>Goddess of Hearth and Home</alias>
+        <ability>Your Build</ability>
+        <description>Your Worker may build one additional time, but this cannot be on a perimeter space.</description>
     </god>
     <god>
         <name>Minotaur</name>
@@ -48,16 +60,22 @@
         <description>You also win if your Worker moves down two or more levels.</description>
     </god>
     <god>
+        <name>Poseidon</name>
+        <alias>God of the Sea</alias>
+        <ability>End of Your Turn</ability>
+        <description>If your unmoved Worker is on the ground level, it may build up to three times.</description>
+    </god>
+    <god>
         <name>Prometheus</name>
         <alias>Titan Benefactor of Mankind</alias>
         <ability>Your Turn</ability>
         <description>If your Worker does not move up, it may build both before and after moving.</description>
     </god>
     <god>
-        <name>Chronus</name>
-        <alias>God of Time</alias>
-        <ability>Wind Condition</ability>
-        <description>You also win when there are at least five Complete Towers on the board.</description>
+        <name>Triton</name>
+        <alias>God of the Waves</alias>
+        <ability>Your Move</ability>
+        <description>Each time your Worker moves into a perimeter space, it may immediately move again.</description>
     </god>
     <god>
         <name>Zeus</name>

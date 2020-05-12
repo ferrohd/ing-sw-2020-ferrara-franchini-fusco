@@ -19,37 +19,21 @@ public class Artemis extends God {
     }
 
     @Override
-    public void afterMove(String player, int workerIndex, ClientConnection client, Match match) {
+    public void afterMove(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
         if(!player.equals(getOwner())) return;
 
-        Message message = new YesNoMessage("ARTEMIS: Do you want to move again?");
-        int choice;
-        try {
-            client.sendMessage(message);
-            choice = client.receiveChoice();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(-1);
-            return;
-        }
+        boolean choice = client.askQuestion("ARTEMIS: Do you want to move again?");
 
-        if(choice == 1) {
+        if(choice) {
             List<MoveAction> movements = match.getMovements(player, workerIndex);
             MoveAction lastMove = (MoveAction) match.getHistory().get(match.getHistory().size() - 1);
             movements = movements.stream().filter(m -> !m.getTo().equals(lastMove.getFrom())).collect(Collectors.toList());
             List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
-            message = new MoveProposalMessage(moveProposals);
-            try {
-                client.sendMessage(message);
-                choice = client.receiveChoice();
-                // TODO handle this better
-                Action action = movements.get(choice);
-                match.executeAction(action);
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.exit(-1);
-            }
 
+            int moveChoice = client.askMove(moveProposals);
+            // TODO handle this better
+            Action action = movements.get(moveChoice);
+            match.executeAction(action);
         }
 
     }

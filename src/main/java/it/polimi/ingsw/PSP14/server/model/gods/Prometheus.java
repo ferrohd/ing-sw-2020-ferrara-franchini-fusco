@@ -1,12 +1,9 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.core.messages.Message;
-import it.polimi.ingsw.PSP14.core.messages.YesNoMessage;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
-import it.polimi.ingsw.PSP14.server.model.board.Worker;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,40 +17,25 @@ public class Prometheus extends God {
     }
 
     @Override
-    public void beforeMove(String player, int workerIndex, ClientConnection client, Match match) {
+    public void beforeMove(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
         if(!player.equals(getOwner())) return;
 
-        Message message = new YesNoMessage("PROMETHEUS: do you want to build now?");
-        int choice;
-        try {
-            client.sendMessage(message);
-            choice = client.receiveChoice();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(-1);
-            return;
-        }
+        boolean choice = client.askQuestion("PROMETHEUS: do you want to build now?");
 
-        if (choice == 1) {
+        if (choice) {
             activated = true;
-            try {
-                match.build(player, client, workerIndex);
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.exit(-1);
-                return;
-            }
+            match.build(player, client, workerIndex);
         }
     }
 
     @Override
-    public void removeMoves(List<MoveAction> moves, Player player, int workerIndex, Match match) {
+    public void removeMoves(List<MoveAction> moves, Player player, int workerIndex, Match match) throws IOException {
         if(!player.getUsername().equals(getOwner())) return;
 
         if(activated) {
-            List<MoveAction> illegalMoves = moves.stream().filter(m -> {
-                return match.getBoard().getTowerSize(m.getFrom()) < match.getBoard().getTowerSize(m.getTo());
-            }).collect(Collectors.toList());
+            List<MoveAction> illegalMoves = moves.stream()
+                    .filter(m -> match.getBoard().getTowerSize(m.getFrom()) < match.getBoard().getTowerSize(m.getTo()))
+                    .collect(Collectors.toList());
 
             moves.removeAll(illegalMoves);
 
