@@ -12,14 +12,17 @@ import it.polimi.ingsw.PSP14.server.model.board.Board;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import it.polimi.ingsw.PSP14.server.model.board.TowerSizeException;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class BoardTest {
 
-    private Board board = new Board();
+    private Board board = new Board(new ArrayList<>());
 
 
     @BeforeEach
     void reset() {
-        board = new Board();
+        board = new Board(new ArrayList<>());
     }
 
     @Test
@@ -40,7 +43,7 @@ public class BoardTest {
             board.incrementTowerSize(new Point(1, 2));
             board.incrementTowerSize(new Point(1, 2));
             board.incrementTowerSize(new Point(1, 2));
-        } catch (TowerSizeException e) {
+        } catch (TowerSizeException | IOException e) {
             e.printStackTrace();
         }
         assertEquals(3, board.getTowerSize(new Point(1, 2)));
@@ -64,7 +67,7 @@ public class BoardTest {
     }
 
     @Test
-    void setAsCompletedShouldCompleteTower() {
+    void setAsCompletedShouldCompleteTower() throws IOException {
         board.setAsCompleted(new Point(3, 3));
         assertTrue(board.getIsCompleted(new Point(3, 3)));
     }
@@ -85,13 +88,6 @@ public class BoardTest {
     void getIsCompletedShouldThrowIndexOutOfBoundsException() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
             board.getIsCompleted(new Point(6, 6));
-        });
-    }
-
-    @Test
-    void getCellShouldThrow() {
-        assertThrows(IndexOutOfBoundsException.class, () -> {
-            board.getCell(new Point(6, 6));
         });
     }
 }

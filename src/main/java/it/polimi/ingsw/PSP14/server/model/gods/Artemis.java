@@ -42,13 +42,14 @@ public class Artemis extends God {
             try {
                 client.sendMessage(message);
                 choice = client.receiveChoice();
+                // TODO handle this better
+                Action action = movements.get(choice);
+                match.executeAction(action);
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(-1);
             }
 
-            Action action = movements.get(choice);
-            match.executeAction(action);
         }
 
     }

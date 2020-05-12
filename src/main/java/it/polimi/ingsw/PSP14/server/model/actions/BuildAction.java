@@ -31,28 +31,16 @@ public class BuildAction extends Action implements Proposable {
     }
 
     @Override
-    public void execute(Match match) {
-        Cell cell = match.getBoard().getCell(point);
+    public void execute(Match match) throws IOException {
         if(dome) {
-            cell.setAsCompleted();
+            match.getBoard().setAsCompleted(point);
         } else {
             try {
                 for(int i = 0; i < amount; ++i)
-                    cell.incrementTowerSize();
+                    match.getBoard().incrementTowerSize(point);
             } catch(TowerSizeException e) {
                 e.printStackTrace();
                 System.exit(-1);
-            }
-        }
-    }
-
-    @Override
-    public void updateClients(List<ClientConnection> clients) throws IOException {
-        for(ClientConnection client : clients) {
-            if (dome) {
-                client.notifyDome(point);
-            } else {
-                client.notifyBuild(point, amount);
             }
         }
     }

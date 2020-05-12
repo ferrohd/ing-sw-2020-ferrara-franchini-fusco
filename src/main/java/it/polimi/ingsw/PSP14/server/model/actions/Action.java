@@ -31,7 +31,5 @@ public abstract class Action implements Serializable {
 
     public String getUser() { return user; }
 
-    public abstract void execute(Match match);
-
-    public abstract void updateClients(List<ClientConnection> clients) throws IOException;
+    public abstract void execute(Match match) throws IOException;
 }

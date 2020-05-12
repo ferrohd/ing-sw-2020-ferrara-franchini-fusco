@@ -46,7 +46,7 @@ public class Hestia extends God {
     }
 
     @Override
-    public void removeBuilds(List<BuildAction> builds, Player player, Worker worker, Match match) {
+    public void removeBuilds(List<BuildAction> builds, Player player, int workerIndex, Match match) {
         if(!activated || !player.getUsername().equals(getOwner())) return;
 
         activated = false;

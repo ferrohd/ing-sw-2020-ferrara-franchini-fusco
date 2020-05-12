@@ -31,7 +31,7 @@ public class God {
      * @param worker moving worker
      * @param match current match
      */
-    public void addMoves(List<MoveAction> moves, Player player, Worker worker, Match match) {
+    public void addMoves(List<MoveAction> moves, Player player, int workerIndex, Match match) {
     }
 
     /**
@@ -42,7 +42,7 @@ public class God {
      * @param worker moving worker
      * @param match current match
      */
-    public void removeMoves(List<MoveAction> moves, Player player, Worker worker, Match match) {
+    public void removeMoves(List<MoveAction> moves, Player player, int workerIndex, Match match) {
     }
 
     /**
@@ -53,10 +53,10 @@ public class God {
      * @param worker building worker
      * @param match current match
      */
-    public void addBuilds(List<BuildAction> builds, Player player, Worker worker, Match match) {
+    public void addBuilds(List<BuildAction> builds, Player player, int workerIndex, Match match) {
     }
 
-    public void removeBuilds(List<BuildAction> builds, Player player, Worker worker, Match match) {
+    public void removeBuilds(List<BuildAction> builds, Player player, int workerIndex, Match match) {
     }
 
     /**

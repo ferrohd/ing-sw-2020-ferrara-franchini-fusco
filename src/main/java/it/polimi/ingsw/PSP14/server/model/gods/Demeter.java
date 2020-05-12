@@ -42,19 +42,14 @@ public class Demeter extends God {
             try {
                 client.sendMessage(message);
                 choice = client.receiveChoice();
+                // TODO handle this better
+                Action action = builds.get(choice);
+                match.executeAction(action);
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(-1);
             }
 
-            Action action = builds.get(choice);
-            match.executeAction(action);
-            try {
-                action.updateClients(match.getClientConnections());
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.exit(-1);
-            }
         }
     }
 }

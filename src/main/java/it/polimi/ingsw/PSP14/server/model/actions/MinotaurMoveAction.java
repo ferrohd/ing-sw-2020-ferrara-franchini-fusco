@@ -18,10 +18,10 @@ public class MinotaurMoveAction extends MoveAction {
     }
 
     @Override
-    public void execute(Match match) {
+    public void execute(Match match) throws IOException {
         for(Player p: match.getPlayers()) {
             for(int i = 0; i < 2; ++i) {
-                if(p.getWorker(i).getPos().equals(getTo()) &&
+                if(p.getWorkerPos(i).equals(getTo()) &&
                         !p.getUsername().equals(getUser())) {
                     super.execute(match);
                     Point newPos = new Point(
@@ -31,17 +31,9 @@ public class MinotaurMoveAction extends MoveAction {
                     opponentNewPos = newPos;
                     opponentWorkerIndex = i;
                     opponent = p.getUsername();
-                    p.getWorker(i).setPos(newPos);
+                    p.setWorker(i, newPos);
                 }
             }
-        }
-    }
-
-    @Override
-    public void updateClients(List<ClientConnection> clients) throws IOException {
-        super.updateClients(clients);
-        for (ClientConnection client : clients) {
-            client.notifyWorkerMove(opponentNewPos, opponent, opponentWorkerIndex);
         }
     }
 }

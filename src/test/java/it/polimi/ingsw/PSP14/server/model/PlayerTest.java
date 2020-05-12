@@ -7,21 +7,24 @@ import it.polimi.ingsw.PSP14.server.model.gods.God;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {
     Player testPlayer;
 
     @BeforeEach
-    void setUp() {
-        testPlayer = new Player("Ada", new God("Ada"));
-        testPlayer.setWorker(0, new Point(0,0));
+    void setUp() throws IOException {
+            testPlayer = new Player("Ada", new God("Ada"), new ArrayList<>());
+            testPlayer.setWorker(0, new Point(0, 0));
     }
 
     @Test
     void playerShouldInstantiate() {
         assertDoesNotThrow(() -> {
-            testPlayer = new Player("Ada", new God("Ada"));
+            testPlayer = new Player("Ada", new God("Ada"), new ArrayList<>());
         });
         assertEquals("Ada", testPlayer.getUsername());
     }
@@ -29,7 +32,7 @@ public class PlayerTest {
     @Test
     void playerShouldNotInstantiate() {
         assertThrows(NullPointerException.class, () -> {
-            testPlayer = new Player(null, new God("Ada"));
+            testPlayer = new Player(null, new God("Ada"), new ArrayList<>());
         });
     }
 
@@ -41,14 +44,14 @@ public class PlayerTest {
 //    }
 
     @Test
-    void moveWorker() {
+    void moveWorker() throws IOException {
         testPlayer.moveWorker(0, Direction.N);
-        assertTrue(testPlayer.getWorker(0).getPos().equals(new Point(0,1)));
+        assertTrue(testPlayer.getWorkerPos(0).equals(new Point(0,1)));
     }
 
     @Test
     void getWorker() {
-        assertTrue(testPlayer.getWorker(0).getPos().equals(new Point(0,0)));
+        assertTrue(testPlayer.getWorkerPos(0).equals(new Point(0,0)));
     }
 
     @Test

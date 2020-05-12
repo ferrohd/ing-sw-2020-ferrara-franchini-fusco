@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * The MatchModel contains references to the clients' connections.
  */
 public class Match implements Runnable {
-    private final Board board = new Board();
+    private final Board board;
     private final List<Action> history = new ArrayList<>();
 
     private final List<String> users = new ArrayList<>();
@@ -42,6 +42,7 @@ public class Match implements Runnable {
      */
     public Match(List<ClientConnection> clientConnections) throws IOException {
         this.clientConnections.addAll(clientConnections);
+        board = new Board(clientConnections);
     }
 
     /**
@@ -67,9 +68,6 @@ public class Match implements Runnable {
             users.add(connection.getUsername());
         }
 
-        for (ClientConnection c : getClientConnections())
-            for (String p : users)
-                c.registerPlayer(p);
 
         availableGods = GodfileParser.getGodIdList("src/main/resources/gods/godlist.xml");
         ClientConnection roomMaster = clients.get(users.get(0));
@@ -89,7 +87,7 @@ public class Match implements Runnable {
         Collections.rotate(users, -users.indexOf(firstPlayer));
 
         for(String p : users) {
-            players.put(p, new Player(p, gods.get(p)));
+            players.put(p, new Player(p, gods.get(p), clientConnections));
         }
 
         playersPlaceWorkers();
@@ -128,13 +126,8 @@ public class Match implements Runnable {
         return history;
     }
 
-    public void executeAction(Action action) {
+    public void executeAction(Action action) throws IOException {
         action.execute(this);
-        try {
-            action.updateClients(getClientConnections());
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
         history.add(action);
     }
 
@@ -180,7 +173,6 @@ public class Match implements Runnable {
 
         Action action = builds.get(choice);
         executeAction(action);
-        action.updateClients(getClientConnections());
 
         getPlayers().forEach(p -> p.getGod().afterBuild(player, workerIndex, client, this));
     }
@@ -212,7 +204,7 @@ public class Match implements Runnable {
         ArrayList<Point> workerPositions = new ArrayList<>();
         for(Player p : players.values())
             for(int i = 0; i < 2; ++i)
-                workerPositions.add(p.getWorker(i).getPos());
+                workerPositions.add(p.getWorkerPos(i));
 
         return workerPositions;
     }
@@ -241,21 +233,21 @@ public class Match implements Runnable {
 
         Player currPlayer = getPlayerByUsername(playerName);
 
-        Point currentPos = currPlayer.getWorker(worker).getPos();
-        int currentLevel = board.getCell(currentPos).getTowerSize();
+        Point currentPos = currPlayer.getWorkerPos(worker);
+        int currentLevel = board.getTowerSize(currentPos);;
         for(Direction dir: Direction.values()) {
             Point toCheckPos = currentPos.move(dir);
             if (Board.isValidPos(toCheckPos)
-                    && !board.getCell(toCheckPos).getIsCompleted()
+                    && !board.getIsCompleted(toCheckPos)
                     && isCellFree(toCheckPos)) {
-                int toCheckLevel = board.getCell(toCheckPos).getTowerSize();
+                int toCheckLevel = board.getTowerSize(toCheckPos);
                 if (toCheckLevel <= currentLevel + 1)
                     legalMoves.add(new MoveAction(playerName, currentPos, toCheckPos));
             }
         }
 
-        players.values().forEach(p -> p.getGod().addMoves(legalMoves, currPlayer, currPlayer.getWorker(worker), this));
-        players.values().forEach(p -> p.getGod().removeMoves(legalMoves, currPlayer, currPlayer.getWorker(worker), this));
+        players.values().forEach(p -> p.getGod().addMoves(legalMoves, currPlayer, worker, this));
+        players.values().forEach(p -> p.getGod().removeMoves(legalMoves, currPlayer, worker, this));
 
         return legalMoves;
     }
@@ -271,11 +263,11 @@ public class Match implements Runnable {
 
         ArrayList<Point> workerPositions = getWorkerPositions();
 
-        Point currentPos = getPlayerByUsername(player).getWorker(worker).getPos();
+        Point currentPos = getPlayerByUsername(player).getWorkerPos(worker);
         for(Direction dir: Direction.values()) {
             Point toCheckPos = currentPos.move(dir);
             if (Board.isValidPos(toCheckPos)
-                    && !board.getCell(toCheckPos).getIsCompleted()
+                    && !board.getIsCompleted(toCheckPos)
                     && isCellFree(toCheckPos)) {
                 buildablePositions.add(toCheckPos);
             }
@@ -283,11 +275,11 @@ public class Match implements Runnable {
 
         List<BuildAction> buildActions = buildablePositions
                 .stream()
-                .map(p -> new BuildAction(player, p, board.getCell(p).getTowerSize() == 3, 1))
+                .map(p -> new BuildAction(player, p, board.getTowerSize(p) == 3, 1))
                 .collect(Collectors.toList());
 
-        players.values().forEach(p -> p.getGod().addBuilds(buildActions, players.get(player), players.get(player).getWorker(worker), this));
-        players.values().forEach(p -> p.getGod().removeBuilds(buildActions, players.get(player), players.get(player).getWorker(worker), this));
+        players.values().forEach(p -> p.getGod().addBuilds(buildActions, players.get(player), worker, this));
+        players.values().forEach(p -> p.getGod().removeBuilds(buildActions, players.get(player), worker, this));
 
         return buildActions;
     }

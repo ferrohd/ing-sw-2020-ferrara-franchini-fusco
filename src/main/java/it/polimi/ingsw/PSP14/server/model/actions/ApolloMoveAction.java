@@ -18,27 +18,19 @@ public class ApolloMoveAction extends MoveAction {
     }
 
     @Override
-    public void execute(Match match) {
+    public void execute(Match match) throws IOException {
         // finds the worker at the "to" position
         for(Player p: match.getPlayers()) {
             for(int i = 0; i < 2; ++i) {
-                if(p.getWorker(i).getPos().equals(getTo())) {
+                if(p.getWorkerPos(i).equals(getTo())) {
                     // moves the worker at "from" to  "to"
                     super.execute(match);
                     opponentNewPos = getFrom();
                     opponentWorkerIndex = i;
                     opponent = p.getUsername();
-                    p.getWorker(i).setPos(getFrom());
+                    p.setWorker(i, getFrom());
                 }
             }
-        }
-    }
-
-    @Override
-    public void updateClients(List<ClientConnection> clients) throws IOException {
-        super.updateClients(clients);
-        for (ClientConnection client : clients) {
-            client.notifyWorkerMove(opponentNewPos, opponent, opponentWorkerIndex);
         }
     }
 }

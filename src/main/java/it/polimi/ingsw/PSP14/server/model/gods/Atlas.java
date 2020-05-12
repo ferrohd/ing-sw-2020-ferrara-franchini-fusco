@@ -16,7 +16,7 @@ public class Atlas extends God {
     }
 
     @Override
-    public void addBuilds(List<BuildAction> builds, Player player, Worker worker, Match match) {
+    public void addBuilds(List<BuildAction> builds, Player player, int workerIndex, Match match) {
         if(!player.getUsername().equals(getOwner())) {
             return;
         }

@@ -47,7 +47,7 @@ public class Prometheus extends God {
     }
 
     @Override
-    public void removeMoves(List<MoveAction> moves, Player player, Worker worker, Match match) {
+    public void removeMoves(List<MoveAction> moves, Player player, int workerIndex, Match match) {
         if(!player.getUsername().equals(getOwner())) return;
 
         if(activated) {

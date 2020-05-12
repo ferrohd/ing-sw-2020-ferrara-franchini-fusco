@@ -25,21 +25,14 @@ public class MoveAction extends Action implements Proposable {
     }
 
     @Override
-    public void execute(Match match) {
+    public void execute(Match match) throws IOException {
         for(Player p: match.getPlayers()) {
             for(int i = 0; i < 2; ++i) {
-                if(p.getWorker(i).getPos().equals(from)) {
+                if(p.getWorkerPos(i).equals(from)) {
                     workerId = i;
-                    p.getWorker(i).setPos(to);
+                    p.setWorker(i, to);
                 }
             }
-        }
-    }
-
-    @Override
-    public void updateClients(List<ClientConnection> clients) throws IOException {
-        for (ClientConnection client : clients) {
-            client.notifyWorkerMove(to, getUser(), workerId);
         }
     }
 

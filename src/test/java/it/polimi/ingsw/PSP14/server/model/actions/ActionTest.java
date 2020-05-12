@@ -22,11 +22,6 @@ public class ActionTest {
 
         @Override
         public void execute(Match match) {}
-
-        @Override
-        public void updateClients(List<ClientConnection> clients) throws IOException {
-
-        }
     }
 
     private final MyAction myAction = new MyAction();
