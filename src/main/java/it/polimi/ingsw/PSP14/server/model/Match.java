@@ -57,17 +57,17 @@ public class Match implements Runnable {
     }
 
     private void setupGame() throws IOException {
-        List<String> availableGods = null;
+        List<String> availableGods;
         List<String> selectedGods;
 
         for (ClientConnection connection : clientConnections) {
-            clients.put(connection.getUsername(), connection);
             String username = connection.getUsername();
             while(users.contains(username)) {
                 connection.sendNotification("Name already chosen!");
                 username = connection.getUsername();
             }
-            users.add(connection.getUsername());
+            clients.put(username, connection);
+            users.add(username);
         }
 
 
@@ -109,17 +109,20 @@ public class Match implements Runnable {
     }
 
     private void playersPlaceWorkers() throws IOException {
+        List<Point> busyPositions = new ArrayList<>();
+
         for(int i = 0; i < 2; ++i) {
             for (String p : users) {
                 ClientConnection connection = clients.get(p);
                 Point pos = connection.placeWorker();
-                while(getWorkerPositions().contains(pos)) {
+                while(busyPositions.contains(pos)) {
                     connection.sendNotification("Cell busy!");
                     pos = connection.placeWorker();
                 }
                 getPlayerByUsername(p).setWorker(i, pos);
                 for (ClientConnection c : getClientConnections())
                     c.registerWorker(pos, i, p);
+                busyPositions.add(pos);
             }
         }
     }
