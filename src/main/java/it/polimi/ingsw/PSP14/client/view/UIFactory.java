@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.client.view;
 
-import it.polimi.ingsw.PSP14.client.InvalidSettingsException;
+import it.polimi.ingsw.PSP14.client.controller.InvalidSettingsException;
 
 public class UIFactory {
     private UIFactory() {}

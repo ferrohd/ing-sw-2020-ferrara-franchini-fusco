@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.client;
+package it.polimi.ingsw.PSP14.client.controller;
 
 public class InvalidSettingsException extends Exception {
     // DO NOT TOUCH!

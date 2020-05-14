@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.client.view;
+package it.polimi.ingsw.PSP14.client.controller;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -18,9 +18,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
 
-import it.polimi.ingsw.PSP14.client.view.GUIQueues;
+import it.polimi.ingsw.PSP14.client.controller.GUIQueues;
 
 
 public class GUIUtils extends Application {
@@ -56,6 +55,7 @@ public class GUIUtils extends Application {
     public void start(Stage primaryStage) throws Exception {
         initStage = primaryStage;
         initStage();
+        // FIXME: This will stuck the window in an infinite loop
         while(true) {
             req = (String) reqQueue.take();
             if (req.equals("welcome")) {

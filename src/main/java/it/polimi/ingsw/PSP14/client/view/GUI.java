@@ -1,10 +1,10 @@
 package it.polimi.ingsw.PSP14.client.view;
 
+import it.polimi.ingsw.PSP14.client.controller.GUIQueues;
+import it.polimi.ingsw.PSP14.client.controller.GUIUtils;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
-import it.polimi.ingsw.PSP14.client.view.GUIUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 

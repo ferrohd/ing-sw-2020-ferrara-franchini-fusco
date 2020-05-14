@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.client.view;
+package it.polimi.ingsw.PSP14.client.controller;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
