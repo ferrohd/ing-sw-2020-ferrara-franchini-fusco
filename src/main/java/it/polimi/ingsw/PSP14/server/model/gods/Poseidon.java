@@ -20,7 +20,7 @@ public class Poseidon extends God {
 
         if(match.getBoard().getTowerSize(match.getPlayerByUsername(player).getWorkerPos(otherWorker)) == 0) {
             for(int i = 0; i < 3; ++i) {
-                boolean choice = client.askQuestion("POSEIDON: Do you want to build with your unmoved worker?");
+                boolean choice = client.askQuestion("POSEIDON: Why don't you let the other guy build as well?");
 
                 if(!choice) break;
 

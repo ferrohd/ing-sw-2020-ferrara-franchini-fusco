@@ -22,7 +22,7 @@ public class Artemis extends God {
     public void afterMove(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
         if(!player.equals(getOwner())) return;
 
-        boolean choice = client.askQuestion("ARTEMIS: Do you want to move again?");
+        boolean choice = client.askQuestion("ARTEMIS: Do you want get closer to the prey?");
 
         if(choice) {
             List<MoveAction> movements = match.getMovements(player, workerIndex);

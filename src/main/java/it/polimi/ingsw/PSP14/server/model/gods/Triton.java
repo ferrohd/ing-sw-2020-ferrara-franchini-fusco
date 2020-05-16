@@ -20,7 +20,7 @@ public class Triton extends God {
         if(lastMove.getTo().getX() == 0 || lastMove.getTo().getX() == 4 ||
                 lastMove.getTo().getY() == 0 || lastMove.getTo().getY() == 4) {
 
-            boolean choice = client.askQuestion("TRITON: Do you want to move again?");
+            boolean choice = client.askQuestion("TRITON: Hey! How about riding another wave?");
 
             if(choice) {
                 match.move(player, client, workerIndex);

@@ -22,7 +22,7 @@ public class Hestia extends God {
     public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
         if(!player.equals(getOwner())) return;
 
-        boolean choice = client.askQuestion("HESTIA: Do you want to build again?");
+        boolean choice = client.askQuestion("HESTIA: Do you want to build again, my dear?");
 
         if(choice) {
             activated = true;

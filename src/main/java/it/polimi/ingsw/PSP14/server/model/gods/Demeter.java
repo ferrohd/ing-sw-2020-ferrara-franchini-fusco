@@ -22,7 +22,7 @@ public class Demeter extends God {
     public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
         if(!player.equals(getOwner())) return;
 
-        boolean choice = client.askQuestion("DEMETER: Do you want to build again?");
+        boolean choice = client.askQuestion("DEMETER: By my blessing, will you build again?");
 
         if(choice) {
             List<BuildAction> builds = match.getBuildable(player, workerIndex);
