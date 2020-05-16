@@ -135,6 +135,8 @@ public class Match implements Runnable {
         return history;
     }
 
+    public Action getLastAction() { return history.get(history.size()-1); }
+
     public void executeAction(Action action) throws IOException {
         action.execute(this);
         history.add(action);

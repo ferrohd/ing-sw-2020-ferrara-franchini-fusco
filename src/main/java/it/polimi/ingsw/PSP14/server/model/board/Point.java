@@ -1,13 +1,15 @@
 package it.polimi.ingsw.PSP14.server.model.board;
 
+import it.polimi.ingsw.PSP14.client.model.UIPoint;
+
 import java.io.Serializable;
 
 /**
  * An immutable object containing integer 2D coordinates.
  */
 public class Point implements Serializable {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     /**
      * @param x the x coordinate of the point
@@ -25,6 +27,8 @@ public class Point implements Serializable {
     public int getY() {
         return y;
     }
+
+    public UIPoint getUIPoint() { return new UIPoint(x, y); }
 
     /**
      * Compare two points and return a boolean whether they are equals or not.

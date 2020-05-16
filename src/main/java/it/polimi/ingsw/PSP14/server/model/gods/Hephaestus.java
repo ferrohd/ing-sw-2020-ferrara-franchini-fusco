@@ -1,15 +1,10 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
+import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
-import it.polimi.ingsw.PSP14.server.model.actions.HephaestusBuildAction;
 import it.polimi.ingsw.PSP14.server.model.Match;
-import it.polimi.ingsw.PSP14.server.model.board.Player;
-import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Hephaestus extends God {
     public Hephaestus(String owner) {
@@ -17,22 +12,17 @@ public class Hephaestus extends God {
     }
 
     @Override
-    public void addBuilds(List<BuildAction> builds, Player player, int workerIndex, Match match) throws IOException {
-        if(!player.getUsername().equals(getOwner())) {
-            return;
-        }
+    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
+        if(!player.equals(getOwner())) return;
 
-        ArrayList<BuildAction> newBuilds = new ArrayList<>();
+        BuildAction lastBuild = (BuildAction) match.getLastAction();
 
-        for(BuildAction b: builds) {
-            BuildProposal proposal = b.getProposal();
-            Point p = proposal.getPoint();
-            if(!proposal.hasDome() && match.getBoard().getTowerSize(p) < 3) {
-                BuildAction newBuild = new HephaestusBuildAction(player.getUsername(), proposal.getPoint());
-                newBuilds.add(newBuild);
+        if(!match.getBoard().getIsCompleted(lastBuild.getPoint()) && match.getBoard().getTowerSize(lastBuild.getPoint()) < 3) {
+            boolean choice = client.askQuestion("HEPHAESTUS: Build on build will ya?");
+
+            if(choice) {
+                match.executeAction(new BuildAction(player, lastBuild.getPoint(), false, 1));
             }
         }
-
-        builds.addAll(newBuilds);
     }
 }
