@@ -58,11 +58,6 @@ class CLITest {
     }
 
     @Test
-    void notifyConnection() {
-        ui.notifyConnection("127.0.0.1", 3000);
-    }
-
-    @Test
     void getLobbySize() {
         ui.getLobbySize();
     }
@@ -95,12 +90,6 @@ class CLITest {
         _list.add(new PlayerProposal("Yuzon"));
 
         ui.chooseFirstPlayer(_list);
-    }
-
-    @Test
-    void chooseWorker() {
-        System.out.println();
-        ui.chooseWorker();
     }
 
     @Test
@@ -146,6 +135,12 @@ class CLITest {
     }
 
     @Test
+    void chooseWorker() {
+        System.out.println();
+        ui.chooseWorker();
+    }
+
+    @Test
     void chooseWorkerInitialPosition() {
         ui.chooseWorkerInitialPosition();
     }
@@ -163,5 +158,10 @@ class CLITest {
         _l.add(new MoveProposal(new Point(1,1)));
         _l.add(new MoveProposal(new Point(0,1)));
         ui.chooseMove(_l);
+    }
+
+    @Test
+    void chooseYesNo() {
+        ui.chooseYesNo("Will you marry me?");
     }
 }

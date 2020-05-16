@@ -102,4 +102,6 @@ public class UICell {
     public int getY() {
         return y;
     }
+
+    public UIPoint getUIPoint() { return new UIPoint(x, y); }
 }
