@@ -191,7 +191,7 @@ public class Match implements Runnable {
             p.getGod().afterBuild(player, workerIndex, client, this);
     }
 
-    public void end(String winningPlayer) {
+    public void end(String winningPlayer) throws IOException {
         for(ClientConnection c : clientConnections)
             c.endGame(winningPlayer);
         System.out.println("Game ended, closing...");

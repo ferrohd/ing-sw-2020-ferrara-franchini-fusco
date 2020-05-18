@@ -55,6 +55,11 @@ public abstract class ClientConnection {
         GodChoiceProposalMessage message = new GodChoiceProposalMessage(godProposals);
         sendMessage(message);
         int choice = receiveChoice();
+        while(choice < 0 || choice >= godProposals.size()) {
+            sendNotification("Out of range!");
+            sendMessage(message);
+            choice = receiveChoice();
+        }
 
         return gods.get(choice);
     }
@@ -65,6 +70,11 @@ public abstract class ClientConnection {
 
         sendMessage(message);
         int choice = receiveChoice();
+        while(choice < 0 || choice >= playerProposals.size()) {
+            sendNotification("Out of range!");
+            sendMessage(message);
+            choice = receiveChoice();
+        }
 
         return players.get(choice);
     }
