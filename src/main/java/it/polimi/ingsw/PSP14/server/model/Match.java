@@ -57,6 +57,15 @@ public class Match implements Runnable {
         gameLoop();
     }
 
+    /**
+     * Helper function to setup the game. Does the following things:
+     * - gets usernames from players
+     * - asks the room leader to choose the gods of the game
+     * - asks each player to choose their god
+     * - asks the room leader to choose the game leader
+     * - asks each player to place their worker (twice)
+     * @throws IOException
+     */
     private void setupGame() throws IOException {
         List<String> availableGods;
         List<String> selectedGods;
@@ -96,13 +105,22 @@ public class Match implements Runnable {
         playersPlaceWorkers();
     }
 
+    /**
+     * Main gameloop function.
+     *
+     * Consists of an infinite loop that plays the turn indefinitely until either a connection error occurs
+     * or a end game event is detected.
+     */
     private void gameLoop() {
         while(true) {
             for(String p: users) {
                 try {
                     turn(p);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (EndGameException e) {
+                    System.out.println("Game is over. Terminating...");
+                    return;
+                } catch (IOException e) {
+                    System.out.println("IOException detected. Terminating...");
                     return;
                 }
             }
@@ -195,7 +213,7 @@ public class Match implements Runnable {
         for(ClientConnection c : clientConnections)
             c.endGame(winningPlayer);
         System.out.println("Game ended, closing...");
-        System.exit(0);
+        throw new EndGameException();
     }
 
     /**
