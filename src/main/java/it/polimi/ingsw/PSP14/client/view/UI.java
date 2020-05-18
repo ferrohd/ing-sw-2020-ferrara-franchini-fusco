@@ -174,7 +174,7 @@ public abstract class UI {
      *
      * @param s the content of the notification
      */
-    public abstract void notify(String s);
+    public abstract void showNotification(String s);
 
     /**
      * Prompt the player to provide a username

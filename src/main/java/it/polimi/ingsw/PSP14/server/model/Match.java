@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP14.server.model;
 
+import it.polimi.ingsw.PSP14.client.Client;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.server.model.actions.Action;
@@ -191,8 +192,9 @@ public class Match implements Runnable {
     }
 
     public void end(String winningPlayer) {
-        // TODO: end the game, notify the players
-        System.out.println(winningPlayer + " won!");
+        for(ClientConnection c : clientConnections)
+            c.endGame(winningPlayer);
+        System.out.println("Game ended, closing...");
         System.exit(0);
     }
 

@@ -64,13 +64,13 @@ class CLITest {
 
     @Test
     void testNotify() {
-        ui.notify("This is a short message!");
+        ui.showNotification("This is a short message!");
     }
 
     // This will overflow
     @Test
     void testNotifySuperLong() {
-        ui.notify("Lorem ipsum dolor sit amet, consectetur adipiscing elit," +
+        ui.showNotification("Lorem ipsum dolor sit amet, consectetur adipiscing elit," +
                 "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." +
                 "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi" +
                 "ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit " +

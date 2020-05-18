@@ -94,7 +94,7 @@ public class CLI extends UI {
     }
 
     @Override
-    public void notify(String text) {
+    public void showNotification(String text) {
         drawMessage(text);
     }
 
