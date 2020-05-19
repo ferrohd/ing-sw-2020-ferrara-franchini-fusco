@@ -94,7 +94,7 @@ public class CLI extends UI {
     }
 
     @Override
-    public void notify(String text) {
+    public void showNotification(String text) {
         drawMessage(text);
     }
 
@@ -173,11 +173,12 @@ public class CLI extends UI {
     }
 
     @Override
-    public int chooseWorker() {
+    public int chooseWorker(List<Integer> choosable) {
         // Get this player name and get his worker details
         List<UIWorker> _pw = cache.getPlayer(this.playerUsername).getWorkers();
         List<UIPoint> workersPosition = _pw.stream().map(w -> w.getCell().getUIPoint()).collect(Collectors.toList());
         List<String> _workers = _pw.stream()
+                .filter(w -> choosable.contains(w.getId()))
                 .map(w -> "#" + w.getId() + " - (X: " + w.getCell().getX() + ", Y: " + (char)(w.getCell().getY()+'A') +")")
                 .collect(Collectors.toList());
 

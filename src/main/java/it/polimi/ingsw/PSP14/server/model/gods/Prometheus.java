@@ -20,7 +20,7 @@ public class Prometheus extends God {
     public void beforeMove(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
         if(!player.equals(getOwner())) return;
 
-        boolean choice = client.askQuestion("PROMETHEUS: do you want to build now?");
+        boolean choice = client.askQuestion("PROMETHEUS: Do not move up and build twice. Art thou willing to accept my deal?");
 
         if (choice) {
             activated = true;

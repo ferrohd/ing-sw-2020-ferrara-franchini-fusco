@@ -5,14 +5,12 @@ import it.polimi.ingsw.PSP14.client.view.UI;
 
 import java.io.IOException;
 
-public class NotificationMessage implements ClientExecutableMessage {
-    private String content;
+public class EndGameMessage implements ClientExecutableMessage {
+    private String winner;
 
-    public NotificationMessage(String content) {
-        this.content = content;
-    }
-
+    @Override
     public void execute(UI ui, ServerConnection serverConnection) throws IOException {
-        ui.showNotification(content);
+        ui.showNotification(winner + " won!");
+        throw new IOException();
     }
 }

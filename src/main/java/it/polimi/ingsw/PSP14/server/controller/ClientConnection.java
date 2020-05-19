@@ -55,6 +55,11 @@ public abstract class ClientConnection {
         GodChoiceProposalMessage message = new GodChoiceProposalMessage(godProposals);
         sendMessage(message);
         int choice = receiveChoice();
+        while(choice < 0 || choice >= godProposals.size()) {
+            sendNotification("Out of range!");
+            sendMessage(message);
+            choice = receiveChoice();
+        }
 
         return gods.get(choice);
     }
@@ -65,15 +70,26 @@ public abstract class ClientConnection {
 
         sendMessage(message);
         int choice = receiveChoice();
+        while(choice < 0 || choice >= playerProposals.size()) {
+            sendNotification("Out of range!");
+            sendMessage(message);
+            choice = receiveChoice();
+        }
 
         return players.get(choice);
     }
 
-    public int getWorkerIndex() throws IOException {
-        Message message = new WorkerIndexMessage();
+    public int getWorkerIndex(List<Integer> choosable) throws IOException {
+        Message message = new WorkerIndexMessage(choosable);
         sendMessage(message);
+        int workerIndex = receiveChoice();
+        while(workerIndex != 0 && workerIndex != 1) {
+            sendNotification("Out of Range!");
+            sendMessage(message);
+            workerIndex = receiveChoice();
+        }
 
-        return receiveChoice();
+        return workerIndex;
     }
 
     public Point placeWorker() throws IOException {
@@ -82,23 +98,26 @@ public abstract class ClientConnection {
         int[] coord = new int[2];
         coord[0] = receiveChoice();
         coord[1] = receiveChoice();
+        while(coord[0] < 0 || coord[0] >= 5 || coord[1] < 0 || coord[1] >= 5) {
+            sendNotification("Out of range!");
+            sendMessage(message);
+            coord[0] = receiveChoice();
+            coord[1] = receiveChoice();
+        }
 
         return new Point(coord[0], coord[1]);
     }
 
     public void registerPlayer(String p) throws IOException {
-        Message message = new PlayerRegisterMessage(p);
-        sendMessage(message);
+        sendMessage(new PlayerRegisterMessage(p));
     }
 
     public void registerWorker(Point pos, int workerIndex, String player) throws IOException {
-        Message message = new WorkerAddMessage(pos, player, workerIndex);
-        sendMessage(message);
+        sendMessage(new WorkerAddMessage(pos, player, workerIndex));
     }
 
     public void notifyDome(Point p) throws IOException {
-        Message message = new DomeBuildMessage(p);
-        sendMessage(message);
+        sendMessage(new DomeBuildMessage(p));
     }
 
     public void notifyBuild(Point p, int amount) throws IOException {
@@ -108,8 +127,11 @@ public abstract class ClientConnection {
     }
 
     public void notifyWorkerMove(Point p, String user, int workerId) throws IOException {
-        Message message = new WorkerMoveMessage(p, user, workerId);
-        sendMessage(message);
+        sendMessage(new WorkerMoveMessage(p, user, workerId));
+    }
+
+    public void notifyUnregisterPlayer(String player) throws IOException {
+        sendMessage(new UnregisterPlayerMessage(player));
     }
 
     private int askProposalMessage(ProposalMessage<? extends Proposal> message, int size) throws IOException {
@@ -147,8 +169,7 @@ public abstract class ClientConnection {
     }
 
     public void sendNotification(String s) throws IOException {
-        Message message = new NotificationMessage(s);
-        sendMessage(message);
+        sendMessage(new NotificationMessage(s));
     }
 
     public boolean askQuestion(String s) throws IOException {
@@ -163,6 +184,10 @@ public abstract class ClientConnection {
         }
 
         return choice == 1;
+    }
+
+    public void endGame(String winner) throws IOException {
+        sendMessage(new GameEndMessage(winner));
     }
 
     protected abstract int receiveChoice() throws IOException;

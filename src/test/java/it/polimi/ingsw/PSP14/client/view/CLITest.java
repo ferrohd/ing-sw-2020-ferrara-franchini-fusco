@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -64,13 +65,13 @@ class CLITest {
 
     @Test
     void testNotify() {
-        ui.notify("This is a short message!");
+        ui.showNotification("This is a short message!");
     }
 
     // This will overflow
     @Test
     void testNotifySuperLong() {
-        ui.notify("Lorem ipsum dolor sit amet, consectetur adipiscing elit," +
+        ui.showNotification("Lorem ipsum dolor sit amet, consectetur adipiscing elit," +
                 "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." +
                 "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi" +
                 "ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit " +
@@ -137,7 +138,7 @@ class CLITest {
     @Test
     void chooseWorker() {
         System.out.println();
-        ui.chooseWorker();
+        ui.chooseWorker(new ArrayList<>(Arrays.asList(0, 1)));
     }
 
     @Test

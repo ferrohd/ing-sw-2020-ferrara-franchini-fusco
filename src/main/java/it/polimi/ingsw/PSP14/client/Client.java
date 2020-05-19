@@ -38,7 +38,7 @@ public class Client {
         int port;
         hostname = settings.get("hostname");
         port = Integer.parseInt(settings.get("port"));
-        ui.notify("Connecting to " + hostname +":" + port + "...");
+        ui.showNotification("Connecting to " + hostname +":" + port + "...");
 
         Socket serverSocket = null;
         boolean connected = false;
@@ -46,9 +46,9 @@ public class Client {
             try {
                 serverSocket = new Socket(hostname, port);
                 connected = true;
-                ui.notify("Connected!");
+                ui.showNotification("Connected!");
             } catch (IOException e) {
-                ui.notify("Could not connect to the server. Retrying...");
+                ui.showNotification("Could not connect to the server. Retrying...");
             }
         }
         ServerConnection connection = new TCPServerConnection(serverSocket);

@@ -14,14 +14,8 @@ public class YesNoMessage implements ClientExecutableMessage {
 
     @Override
     public void execute(UI ui, ServerConnection serverConnection) throws IOException {
-        ui.notify(question);
+        ui.showNotification(question);
         Message message = new ChoiceMessage(ui.chooseYesNo(question));
-        try {
-            serverConnection.sendMessage(message);
-        } catch(IOException e) {
-            return false;
-        }
-
-        return true;
+        serverConnection.sendMessage(message);
     }
 }

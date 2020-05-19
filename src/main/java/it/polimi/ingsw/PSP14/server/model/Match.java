@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP14.server.model;
 
+import it.polimi.ingsw.PSP14.client.Client;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.server.model.actions.Action;
@@ -56,6 +57,15 @@ public class Match implements Runnable {
         gameLoop();
     }
 
+    /**
+     * Helper function to setup the game. Does the following things:
+     * - gets usernames from players
+     * - asks the room leader to choose the gods of the game
+     * - asks each player to choose their god
+     * - asks the room leader to choose the game leader
+     * - asks each player to place their worker (twice)
+     * @throws IOException
+     */
     private void setupGame() throws IOException {
         List<String> availableGods;
         List<String> selectedGods;
@@ -95,19 +105,32 @@ public class Match implements Runnable {
         playersPlaceWorkers();
     }
 
+    /**
+     * Main gameloop function.
+     *
+     * Consists of an infinite loop that plays the turn indefinitely until either a connection error occurs
+     * or a end game event is detected.
+     */
     private void gameLoop() {
         while(true) {
             for(String p: users) {
                 try {
                     turn(p);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (EndGameException e) {
+                    System.out.println("Game is over. Terminating...");
+                    return;
+                } catch (IOException e) {
+                    System.out.println("IOException detected. Terminating...");
                     return;
                 }
             }
         }
     }
 
+    /**
+     * Helper function of setupGame. Asks all players to place their workers
+     * @throws IOException a connection error occurs
+     */
     private void playersPlaceWorkers() throws IOException {
         List<Point> busyPositions = new ArrayList<>();
 
@@ -128,13 +151,23 @@ public class Match implements Runnable {
     }
 
     public List<ClientConnection> getClientConnections() {
-        return clientConnections;
+        return new ArrayList<>(clientConnections);
     }
 
     public List<Action> getHistory() {
-        return history;
+        return new ArrayList<>(history);
     }
 
+    /**
+     * @return the last action executed
+     */
+    public Action getLastAction() { return history.get(history.size()-1); }
+
+    /**
+     * Executes an action on the Match and adds it to the history upon completion
+     * @param action the action to execute
+     * @throws IOException if a connection error occurs
+     */
     public void executeAction(Action action) throws IOException {
         action.execute(this);
         history.add(action);
@@ -144,13 +177,27 @@ public class Match implements Runnable {
         return new ArrayList<>(players.values());
     }
 
+    /**
+     * Main game logic functions. Executes the following:
+     * - calls the beforeTurn effects of all gods
+     * - asks the player for the worker to move and build
+     * - executes the move and build phases
+     * - calls the afterTurn effects of all gods
+     * @param player the player of the turn
+     * @throws IOException if a connection error occurs
+     */
     private void turn(String player) throws IOException {
         ClientConnection client = clients.get(player);
 
         for(Player p : getPlayers())
             p.getGod().beforeTurn(player, client, this);
 
-        int workerIndex = client.getWorkerIndex();
+        List<Integer> movableWorkers = getMovableWorkers(player);
+        if(movableWorkers.size() == 0) {
+            lose(player);
+            return;
+        }
+        int workerIndex = client.getWorkerIndex(movableWorkers);
 
         move(player, client, workerIndex);
         build(player, client, workerIndex);
@@ -159,6 +206,28 @@ public class Match implements Runnable {
             p.getGod().afterTurn(player, workerIndex, client, this);
     }
 
+    private List<Integer> getMovableWorkers(String player) {
+        List<Integer> workerIndexes = new ArrayList<>();
+        for(int i = 0; i < 2; ++i) {
+            if(getMovements(player, i).size() > 0) {
+                workerIndexes.add(i);
+            }
+        }
+
+        return workerIndexes;
+    }
+
+    /**
+     * Function that implements all logic relative to the move phase. In order:
+     * - gets all valid move actions
+     * - gets the choice from the client
+     * - executes the chosen action
+     * - calls the afterMove effects of all gods
+     * @param player the moving player
+     * @param client the client relative to the moving player
+     * @param workerIndex the index of the moving worker
+     * @throws IOException if a connection error occurs
+     */
     public void move(String player, ClientConnection client, int workerIndex) throws IOException {
         for(Player p : getPlayers())
             p.getGod().beforeMove(player, workerIndex, client, this);
@@ -175,6 +244,17 @@ public class Match implements Runnable {
             p.getGod().afterMove(player, workerIndex, client, this);
     }
 
+    /**
+     * Function that implements all logic relative to the build phase. In order:
+     * - gets all valid build actions
+     * - gets the choice from the client
+     * - executes the chosen action
+     * - calls the afterBuild effects of all gods
+     * @param player the building player
+     * @param client the client relative to the building player
+     * @param workerIndex the index of the building worker
+     * @throws IOException if a connection error occurs
+     */
     public void build(String player, ClientConnection client, int workerIndex) throws IOException {
         List<BuildAction> builds = getBuildable(player, workerIndex);
         List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
@@ -188,10 +268,25 @@ public class Match implements Runnable {
             p.getGod().afterBuild(player, workerIndex, client, this);
     }
 
-    public void end(String winningPlayer) {
-        // TODO: end the game, notify the players
-        System.out.println(winningPlayer + " won!");
-        System.exit(0);
+    /**
+     * Ends the game by throwing an EndGameException.
+     * @param winningPlayer the name of the winning player
+     * @throws EndGameException always, to notify the turn function and terminate the Match thread
+     * @throws IOException if a connection error occurs
+     */
+    public void end(String winningPlayer) throws EndGameException, IOException {
+        for(ClientConnection c : clientConnections)
+            c.endGame(winningPlayer);
+        System.out.println("Game ended, closing...");
+        throw new EndGameException();
+    }
+
+    public void lose(String losingPlayer) throws IOException {
+        for(ClientConnection c : clientConnections)
+            c.sendNotification(losingPlayer + " lost");
+        users.remove(losingPlayer);
+        players.get(losingPlayer).clear();
+        players.remove(losingPlayer);
     }
 
     /**
