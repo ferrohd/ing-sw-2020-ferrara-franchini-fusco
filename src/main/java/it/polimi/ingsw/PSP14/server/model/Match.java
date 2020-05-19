@@ -287,6 +287,7 @@ public class Match implements Runnable {
         users.remove(losingPlayer);
         players.get(losingPlayer).clear();
         players.remove(losingPlayer);
+        if(users.size() == 1) end(users.get(0));
     }
 
     /**
