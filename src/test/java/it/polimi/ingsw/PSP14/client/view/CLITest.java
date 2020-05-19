@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -137,7 +138,7 @@ class CLITest {
     @Test
     void chooseWorker() {
         System.out.println();
-        ui.chooseWorker();
+        ui.chooseWorker(new ArrayList<>(Arrays.asList(0, 1)));
     }
 
     @Test

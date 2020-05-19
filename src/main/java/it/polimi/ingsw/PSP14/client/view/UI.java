@@ -203,7 +203,7 @@ public abstract class UI {
      *
      * @return the index of the chosen worker
      */
-    public abstract int chooseWorker();
+    public abstract int chooseWorker(List<Integer> choosable);
 
     /**
      * Ask the (hosting) player to choose a god that will be added to a pool

@@ -79,8 +79,8 @@ public abstract class ClientConnection {
         return players.get(choice);
     }
 
-    public int getWorkerIndex() throws IOException {
-        Message message = new WorkerIndexMessage();
+    public int getWorkerIndex(List<Integer> choosable) throws IOException {
+        Message message = new WorkerIndexMessage(choosable);
         sendMessage(message);
         int workerIndex = receiveChoice();
         while(workerIndex != 0 && workerIndex != 1) {

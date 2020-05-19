@@ -197,7 +197,7 @@ public class Match implements Runnable {
             lose(player);
             return;
         }
-        int workerIndex = client.getWorkerIndex();
+        int workerIndex = client.getWorkerIndex(movableWorkers);
 
         move(player, client, workerIndex);
         build(player, client, workerIndex);
