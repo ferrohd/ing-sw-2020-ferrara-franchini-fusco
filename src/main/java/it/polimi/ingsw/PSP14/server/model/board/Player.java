@@ -55,6 +55,10 @@ public class Player {
         }
     }
 
+    public void clear() throws IOException {
+        for(ClientConnection c : clients) c.notifyUnregisterPlayer(username);
+    }
+
     public Point getWorkerPos(int index) {
         return workers[index].getPos();
     }

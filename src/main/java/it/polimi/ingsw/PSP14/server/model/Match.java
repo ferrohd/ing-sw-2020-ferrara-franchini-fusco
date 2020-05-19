@@ -192,6 +192,11 @@ public class Match implements Runnable {
         for(Player p : getPlayers())
             p.getGod().beforeTurn(player, client, this);
 
+        List<Integer> movableWorkers = getMovableWorkers(player);
+        if(movableWorkers.size() == 0) {
+            lose(player);
+            return;
+        }
         int workerIndex = client.getWorkerIndex();
 
         move(player, client, workerIndex);
@@ -199,6 +204,17 @@ public class Match implements Runnable {
 
         for(Player p: getPlayers())
             p.getGod().afterTurn(player, workerIndex, client, this);
+    }
+
+    private List<Integer> getMovableWorkers(String player) {
+        List<Integer> workerIndexes = new ArrayList<>();
+        for(int i = 0; i < 2; ++i) {
+            if(getMovements(player, i).size() > 0) {
+                workerIndexes.add(i);
+            }
+        }
+
+        return workerIndexes;
     }
 
     /**
@@ -256,12 +272,21 @@ public class Match implements Runnable {
      * Ends the game by throwing an EndGameException.
      * @param winningPlayer the name of the winning player
      * @throws EndGameException always, to notify the turn function and terminate the Match thread
+     * @throws IOException if a connection error occurs
      */
-    public void end(String winningPlayer) throws EndGameException {
+    public void end(String winningPlayer) throws EndGameException, IOException {
         for(ClientConnection c : clientConnections)
             c.endGame(winningPlayer);
         System.out.println("Game ended, closing...");
         throw new EndGameException();
+    }
+
+    public void lose(String losingPlayer) throws IOException {
+        for(ClientConnection c : clientConnections)
+            c.sendNotification(losingPlayer + " lost");
+        users.remove(losingPlayer);
+        players.get(losingPlayer).clear();
+        players.remove(losingPlayer);
     }
 
     /**

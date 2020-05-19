@@ -130,6 +130,10 @@ public abstract class ClientConnection {
         sendMessage(new WorkerMoveMessage(p, user, workerId));
     }
 
+    public void notifyUnregisterPlayer(String player) throws IOException {
+        sendMessage(new UnregisterPlayerMessage(player));
+    }
+
     private int askProposalMessage(ProposalMessage<? extends Proposal> message, int size) throws IOException {
         sendMessage(message);
         int choice = receiveChoice();
