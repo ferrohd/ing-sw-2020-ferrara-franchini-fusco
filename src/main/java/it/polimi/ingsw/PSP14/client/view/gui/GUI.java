@@ -1,19 +1,15 @@
-package it.polimi.ingsw.PSP14.client.view;
+package it.polimi.ingsw.PSP14.client.view.gui;
 
+import it.polimi.ingsw.PSP14.client.model.Color;
+import it.polimi.ingsw.PSP14.client.view.UI;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
-import it.polimi.ingsw.PSP14.client.view.GUIUtils;
+import javafx.application.Platform;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
 
 public class GUI extends UI {
 
-    private final BlockingQueue<Object> reqQueue = GUIQueues.getReq();
-    private final BlockingQueue<Object> resQueue = GUIQueues.getRes();
-
-    String ip, username;
 
     @Override
     public void update() {
@@ -30,10 +26,10 @@ public class GUI extends UI {
      */
     @Override
     public void welcome() throws InterruptedException {
-        reqQueue.add("welcome");
-        GUIUtils.launch(GUIUtils.class);
-        this.ip = (String) this.resQueue.take();
-        this.username = (String) this.resQueue.take();
+        new Thread(() -> GUIMain.launch(GUIMain.class)).start();
+        GUIMain.getQueue().take();
+        Platform.runLater(new GUIUsernameScene());
+        System.out.println((String) GUIMain.getQueue().take());
     }
 
     /**
@@ -54,8 +50,8 @@ public class GUI extends UI {
      */
     @Override
     public int getLobbySize() throws InterruptedException {
-        reqQueue.add("lobbySize");
-        return (int) resQueue.take();
+        GUIMain.getQueue().add("lobbySize");
+        return (int) GUIMain.getQueue().take();
     }
 
     /**
@@ -65,8 +61,7 @@ public class GUI extends UI {
      */
     @Override
     public void notify(String s) {
-        reqQueue.add("notify");
-        reqQueue.add(s);
+
     }
 
     /**
@@ -76,8 +71,8 @@ public class GUI extends UI {
      */
     @Override
     public String askUsername() throws InterruptedException {
-        reqQueue.add("username");
-        return (String) resQueue.take();
+        Platform.runLater(new GUIUsernameScene());
+        return (String) GUIMain.getQueue().take();
     }
 
     /**
@@ -88,8 +83,8 @@ public class GUI extends UI {
      */
     @Override
     public int chooseGod(List<GodProposal> proposals) {
-        reqQueue.add("chooseGod");
-        reqQueue.add(proposals);
+        GUIMain.getQueue().add("chooseGod");
+        GUIMain.getQueue().add(proposals);
         return 0;
     }
 
@@ -101,8 +96,8 @@ public class GUI extends UI {
      */
     @Override
     public int chooseFirstPlayer(List<PlayerProposal> proposals) {
-        reqQueue.add("chooseFirstPlayer");
-        reqQueue.add(proposals);
+        GUIMain.getQueue().add("chooseFirstPlayer");
+        GUIMain.getQueue().add(proposals);
         return 0;
     }
 
@@ -118,8 +113,8 @@ public class GUI extends UI {
 
     @Override
     public int chooseAvailableGods(List<GodProposal> gods) {
-        reqQueue.add("chooseAvailableGods");
-        reqQueue.add(gods);
+        GUIMain.getQueue().add("chooseAvailableGods");
+        GUIMain.getQueue().add(gods);
         return 0;
     }
 

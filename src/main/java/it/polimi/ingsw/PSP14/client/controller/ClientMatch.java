@@ -1,12 +1,9 @@
-package it.polimi.ingsw.PSP14.client;
+package it.polimi.ingsw.PSP14.client.controller;
 
 import it.polimi.ingsw.PSP14.client.view.UI;
 import it.polimi.ingsw.PSP14.core.messages.ClientExecutableMessage;
-import it.polimi.ingsw.PSP14.core.messages.Message;
-import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 
 import java.io.IOException;
-import java.net.Socket;
 
 /**
  * This class handles the basic logic behind a match on the client,

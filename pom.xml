@@ -27,7 +27,6 @@
                     <mainClass>HelloFX</mainClass>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
     <dependencies>

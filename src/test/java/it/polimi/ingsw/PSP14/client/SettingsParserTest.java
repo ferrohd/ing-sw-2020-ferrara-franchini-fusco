@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP14.client;
 
+import it.polimi.ingsw.PSP14.client.controller.SettingsParser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP14.client.view;
 
+import it.polimi.ingsw.PSP14.client.model.Color;
+import it.polimi.ingsw.PSP14.client.model.UICache;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.model.Point;
@@ -21,7 +23,8 @@ public abstract class UI {
     protected Map<String, Color> getColorMap() { return colorMap; }
 
     public abstract void update();
-    abstract Color getColor();
+
+    public abstract Color getColor();
 
     /**
      * @param newPlayer new player to be registered in the view
