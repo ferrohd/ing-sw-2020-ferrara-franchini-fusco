@@ -28,8 +28,8 @@ public class GUI extends UI {
     public void welcome() throws InterruptedException {
         new Thread(() -> GUIMain.launch(GUIMain.class)).start();
         GUIMain.getQueue().take();
-        Platform.runLater(new GUIUsernameScene());
-        System.out.println((String) GUIMain.getQueue().take());
+//        Platform.runLater(new GUIWelcomeScene());
+        Platform.runLater(new GUILobbyScene());
     }
 
     /**
