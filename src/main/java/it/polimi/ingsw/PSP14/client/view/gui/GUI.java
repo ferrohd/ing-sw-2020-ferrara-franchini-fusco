@@ -17,7 +17,7 @@ public class GUI extends UI {
     }
 
     @Override
-    Color getColor() {
+    public Color getColor() {
         return null;
     }
 
