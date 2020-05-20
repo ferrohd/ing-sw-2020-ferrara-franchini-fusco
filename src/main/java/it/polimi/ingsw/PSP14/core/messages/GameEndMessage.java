@@ -13,8 +13,9 @@ public class GameEndMessage implements ClientExecutableMessage {
     }
 
     @Override
-    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
+    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException {
         ui.showNotification(winner + " wins!");
         System.exit(0);
+        return false;
     }
 }

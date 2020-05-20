@@ -15,8 +15,9 @@ public class TowerIncrementMessage implements UIUpdateMessage {
     }
 
     @Override
-    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
+    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException {
         ui.incrementCell(UIPoint.fromPoint(pos));
         ui.update();
+        return false;
     }
 }

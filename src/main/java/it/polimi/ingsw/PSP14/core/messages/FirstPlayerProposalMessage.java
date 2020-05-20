@@ -18,8 +18,9 @@ public class FirstPlayerProposalMessage extends ProposalMessage<PlayerProposal> 
     }
 
     @Override
-    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
+    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException {
         int index = ui.chooseFirstPlayer(getProposals());
         serverConnection.sendMessage(new ChoiceMessage(index));
+        return false;
     }
 }

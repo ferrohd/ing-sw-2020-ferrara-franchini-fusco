@@ -160,14 +160,14 @@ public abstract class UI {
     /**
      * Display a greeting to the player.
      */
-    public abstract void welcome();
+    public abstract void welcome() throws InterruptedException;
 
     /**
      * Ask the player for how many players should participate in a match.
      *
      * @return the size of the lobby
      */
-    public abstract int getLobbySize();
+    public abstract int getLobbySize() throws InterruptedException;
 
     /**
      * Display a notification to the player.
@@ -181,7 +181,7 @@ public abstract class UI {
      *
      * @return the chosen username
      */
-    public abstract String askUsername();
+    public abstract String askUsername() throws InterruptedException;
 
     /**
      * Prompt the player to select a god from the list of available gods.
