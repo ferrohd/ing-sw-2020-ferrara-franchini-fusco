@@ -19,8 +19,9 @@ public class GodSublistProposalMessage extends ProposalMessage<GodProposal> {
     }
 
     @Override
-    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
+    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException {
         int index = ui.chooseAvailableGods(getProposals());
         serverConnection.sendMessage(new ChoiceMessage(index));
+        return false;
     }
 }
