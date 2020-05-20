@@ -132,20 +132,20 @@ public class Match implements Runnable {
      * @throws IOException a connection error occurs
      */
     private void playersPlaceWorkers() throws IOException {
-        List<Point> busyPositions = new ArrayList<>();
+        List<String> busyPositions = new ArrayList<>();
 
         for(int i = 0; i < 2; ++i) {
             for (String p : users) {
                 ClientConnection connection = clients.get(p);
                 Point pos = connection.placeWorker();
-                while(busyPositions.contains(pos)) {
+                while(busyPositions.contains(pos.toString())) {
                     connection.sendNotification("Cell busy!");
                     pos = connection.placeWorker();
                 }
                 getPlayerByUsername(p).setWorker(i, pos);
                 for (ClientConnection c : getClientConnections())
                     c.registerWorker(pos, i, p);
-                busyPositions.add(pos);
+                busyPositions.add(pos.toString());
             }
         }
     }
