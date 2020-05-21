@@ -1,7 +1,9 @@
-package it.polimi.ingsw.PSP14.client.view;
+package it.polimi.ingsw.PSP14.client.view.cli;
 
 import it.polimi.ingsw.PSP14.client.controller.InvalidSettingsException;
 import it.polimi.ingsw.PSP14.client.model.UIPoint;
+import it.polimi.ingsw.PSP14.client.view.UI;
+import it.polimi.ingsw.PSP14.client.view.UIFactory;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class CLITest {
     UI ui;
@@ -55,12 +57,12 @@ class CLITest {
 
     @Test
     void welcome() {
-        ui.welcome();
+        assertDoesNotThrow(() -> ui.welcome());
     }
 
     @Test
     void getLobbySize() {
-        ui.getLobbySize();
+        assertDoesNotThrow(() -> ui.getLobbySize());
     }
 
     @Test
@@ -80,7 +82,7 @@ class CLITest {
 
     @Test
     void askUsername() {
-        ui.askUsername();
+        assertDoesNotThrow(() -> ui.askUsername());
     }
 
     @Test

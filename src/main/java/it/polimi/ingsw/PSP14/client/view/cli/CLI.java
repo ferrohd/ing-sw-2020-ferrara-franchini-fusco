@@ -1,14 +1,16 @@
-package it.polimi.ingsw.PSP14.client.view;
+package it.polimi.ingsw.PSP14.client.view.cli;
 
 import it.polimi.ingsw.PSP14.client.model.UIColor;
 import it.polimi.ingsw.PSP14.client.model.UIPoint;
 import it.polimi.ingsw.PSP14.client.model.UIWorker;
+import it.polimi.ingsw.PSP14.client.view.UI;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -16,9 +18,16 @@ import java.util.stream.Collectors;
 public class CLI extends UI {
 
     private final CLIHelper ctx = new CLIHelper(cache);
-
     private String playerUsername;
     private final Scanner in = new Scanner(System.in);
+
+
+    public UIColor getColor() {
+        CLIColor[] colorList = CLIColor.values();
+        CLIColor toRet;
+        while((toRet = colorList[new Random().nextInt(colorList.length)]) == CLIColor.RESET);
+        return toRet;
+    }
 
     private int parseInteger(Consumer<String> callback, int maxValue) {
         String _input;
