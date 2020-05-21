@@ -256,6 +256,9 @@ public class Match implements Runnable {
      * @throws IOException if a connection error occurs
      */
     public void build(String player, ClientConnection client, int workerIndex) throws IOException {
+        for(Player p : getPlayers())
+            p.getGod().beforeBuild(player, workerIndex, client, this);
+
         List<BuildAction> builds = getBuildable(player, workerIndex);
         List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
 

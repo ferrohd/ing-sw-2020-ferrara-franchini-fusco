@@ -28,7 +28,7 @@ public class Athena extends God {
         if(!player.equals(getOwner())) return;
 
         MoveAction lastAction = (MoveAction) match.getHistory().get(match.getHistory().size() - 1);
-        if(match.getBoard().getTowerSize(lastAction.getFrom()) < match.getBoard().getTowerSize(lastAction.getFrom())) {
+        if(match.getBoard().getTowerSize(lastAction.getFrom()) < match.getBoard().getTowerSize(lastAction.getTo())) {
             activated = true;
         }
     }
@@ -39,7 +39,7 @@ public class Athena extends God {
 
         if(activated) {
             List<MoveAction> illegalMoves = moves.stream().filter(m ->
-                match.getBoard().getTowerSize(m.getFrom()) < match.getBoard().getTowerSize(m.getFrom())
+                match.getBoard().getTowerSize(m.getFrom()) < match.getBoard().getTowerSize(m.getTo())
             ).collect(Collectors.toList());
 
             moves.removeAll(illegalMoves);
