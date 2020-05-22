@@ -26,7 +26,7 @@ public class Artemis extends God {
 
         if(choice) {
             List<MoveAction> movements = match.getMovements(player, workerIndex);
-            MoveAction lastMove = (MoveAction) match.getHistory().get(match.getHistory().size() - 1);
+            MoveAction lastMove = (MoveAction) match.getLastAction();
             movements = movements.stream().filter(m -> !m.getTo().equals(lastMove.getFrom())).collect(Collectors.toList());
             List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
 

@@ -27,16 +27,15 @@ public class Apollo extends God {
             return;
         }
         Player playing = match.getPlayerByUsername(player);
-        List<Point> workerPos = match.getWorkerPositions();
-        workerPos.remove(playing.getWorkerPos(0));
-        workerPos.remove(playing.getWorkerPos(1));
+        Point worker0 = playing.getWorkerPos(0);
+        Point worker1 = playing.getWorkerPos(1);
 
         Point currPos = playing.getWorkerPos(workerIndex);
         int currentLevel = match.getBoard().getTowerSize(currPos);
 
         for(Direction dir: Direction.values()) {
             Point newPos = currPos.move(dir);
-            if (Board.isValidPos(newPos)) {
+            if (Board.isValidPos(newPos) && !newPos.equals(worker0) && !newPos.equals(worker1)) {
                 int newLevel = match.getBoard().getTowerSize(newPos);
                 if (!match.isCellFree(newPos) && newLevel <= currentLevel + 1 &&
                         !match.getBoard().getIsCompleted(newPos)) {
