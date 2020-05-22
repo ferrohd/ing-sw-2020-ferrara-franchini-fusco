@@ -28,10 +28,9 @@ public class Minotaur extends God {
         if(!player.equals(getOwner())) {
             return;
         }
-        List<Point> workerPos = match.getWorkerPositions();
         Player playing = match.getPlayerByUsername(player);
-        workerPos.remove(playing.getWorkerPos(0));
-        workerPos.remove(playing.getWorkerPos(1));
+        Point worker0 = playing.getWorkerPos(0),
+                worker1 = playing.getWorkerPos(1);
 
         Point currPos = playing.getWorkerPos(workerIndex);
         int currentLevel = match.getBoard().getTowerSize(currPos);
@@ -39,10 +38,10 @@ public class Minotaur extends God {
         for(Direction dir: Direction.values()) {
             Point newPos = currPos.move(dir),
                     minotaurPos = newPos.move(dir);
-            if(Board.isValidPos(minotaurPos)) {
+            if(Board.isValidPos(minotaurPos) && !newPos.equals(worker0) && !newPos.equals(worker1)) {
                 int newLevel = match.getBoard().getTowerSize(newPos);
-                if (!match.isCellFree(newPos) && newLevel <= currentLevel + 1 &&
-                        !match.getBoard().getIsCompleted(newPos))
+                if (!match.isCellFree(newPos) && match.isCellFree(minotaurPos) && newLevel <= currentLevel + 1 &&
+                        !match.getBoard().getIsCompleted(newPos) && !match.getBoard().getIsCompleted(minotaurPos))
                     moves.add(new MinotaurMoveAction(player, currPos, newPos));
             }
         }
