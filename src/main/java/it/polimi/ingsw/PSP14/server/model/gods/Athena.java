@@ -27,15 +27,15 @@ public class Athena extends God {
     public void afterMove(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
         if(!player.equals(getOwner())) return;
 
-        MoveAction lastAction = (MoveAction) match.getHistory().get(match.getHistory().size() - 1);
+        MoveAction lastAction = (MoveAction) match.getLastAction();
         if(match.getBoard().getTowerSize(lastAction.getFrom()) < match.getBoard().getTowerSize(lastAction.getTo())) {
             activated = true;
         }
     }
 
     @Override
-    public void removeMoves(List<MoveAction> moves, Player player, int workerIndex, Match match) throws IOException {
-        if(player.getUsername().equals(getOwner())) return;
+    public void removeMoves(List<MoveAction> moves, String player, int workerIndex, Match match) throws IOException {
+        if(player.equals(getOwner())) return;
 
         if(activated) {
             List<MoveAction> illegalMoves = moves.stream().filter(m ->

@@ -24,6 +24,10 @@ public class Board {
         this.clients.addAll(clients);
     }
 
+    public Board() {
+        this(new ArrayList<>());
+    }
+
     /**
      * @param x the x coordinate of the cell
      * @param y the y coordinate of the cell

@@ -177,6 +177,16 @@ public class Match implements Runnable {
         return new ArrayList<>(players.values());
     }
 
+    private void applyBeforeTurnEffects(String player, ClientConnection client) throws IOException {
+        for(Player p : getPlayers())
+            p.getGod().beforeTurn(player, client, this);
+    }
+
+    private void applyAfterTurnEffects(String player, int workerIndex, ClientConnection client) throws IOException {
+        for(Player p : getPlayers())
+            p.getGod().afterTurn(player, workerIndex, client, this);
+    }
+
     /**
      * Main game logic functions. Executes the following:
      * - calls the beforeTurn effects of all gods
@@ -189,8 +199,7 @@ public class Match implements Runnable {
     private void turn(String player) throws IOException {
         ClientConnection client = clients.get(player);
 
-        for(Player p : getPlayers())
-            p.getGod().beforeTurn(player, client, this);
+        applyBeforeTurnEffects(player, client);
 
         List<Integer> movableWorkers = getMovableWorkers(player);
         if(movableWorkers.size() == 0) {
@@ -202,8 +211,7 @@ public class Match implements Runnable {
         move(player, client, workerIndex);
         build(player, client, workerIndex);
 
-        for(Player p: getPlayers())
-            p.getGod().afterTurn(player, workerIndex, client, this);
+        applyAfterTurnEffects(player, workerIndex, client);
     }
 
     private List<Integer> getMovableWorkers(String player) {
@@ -358,14 +366,14 @@ public class Match implements Runnable {
 
         for(Player p : getPlayers())
             try {
-                p.getGod().addMoves(legalMoves, currPlayer, worker, this);
+                p.getGod().addMoves(legalMoves, playerName, worker, this);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
         for(Player p : getPlayers())
             try {
-                p.getGod().removeMoves(legalMoves, currPlayer, worker, this);
+                p.getGod().removeMoves(legalMoves, playerName, worker, this);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -381,8 +389,6 @@ public class Match implements Runnable {
      */
     public List<BuildAction> getBuildable(String player, int worker) {
         ArrayList<Point> buildablePositions = new ArrayList<>();
-
-        ArrayList<Point> workerPositions = getWorkerPositions();
 
         Point currentPos = getPlayerByUsername(player).getWorkerPos(worker);
         for(Direction dir: Direction.values()) {
@@ -401,14 +407,14 @@ public class Match implements Runnable {
 
         for(Player p : getPlayers())
             try {
-                p.getGod().addBuilds(buildActions, players.get(player), worker, this);
+                p.getGod().addBuilds(buildActions, player, worker, this);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
         for(Player p : getPlayers())
             try {
-                p.getGod().removeBuilds(buildActions, players.get(player), worker, this);
+                p.getGod().removeBuilds(buildActions, player, worker, this);
             } catch (IOException e) {
                 e.printStackTrace();
             }

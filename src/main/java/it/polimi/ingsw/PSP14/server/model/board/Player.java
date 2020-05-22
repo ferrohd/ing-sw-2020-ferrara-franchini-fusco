@@ -29,6 +29,14 @@ public class Player {
         for(ClientConnection c : clients) c.registerPlayer(username);
     }
 
+    public Player(String username, God god) throws IOException {
+        this(username, god, new ArrayList<>());
+    }
+
+    public Player(String username) throws IOException {
+        this(username, new God(username));
+    }
+
     /**
      * @param index index of the worker to move
      * @param dir direction of movement
