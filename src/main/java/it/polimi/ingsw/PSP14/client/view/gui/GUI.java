@@ -35,6 +35,7 @@ public class GUI extends UI {
     public void welcome() throws InterruptedException {
         new Thread(() -> GUIMain.launch(GUIMain.class)).start();
         GUIMain.getQueue().take();
+
 //        Platform.runLater(new GUIWelcomeScene());
         Platform.runLater(new GUIGameScene());
     }
@@ -46,8 +47,8 @@ public class GUI extends UI {
      */
     @Override
     public int getLobbySize() throws InterruptedException {
-        GUIMain.getQueue().add("lobbySize");
-        return (int) GUIMain.getQueue().take();
+        Platform.runLater(new GUILobbySizeScene());
+        return  (int) GUIMain.getQueue().take();
     }
 
     /**
