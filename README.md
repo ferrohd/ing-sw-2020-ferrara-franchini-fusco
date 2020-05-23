@@ -1,5 +1,7 @@
 ing-sw-2020-ferrara-franchini-fusco
 ===================================
+[![forthebadge](https://forthebadge.com/images/badges/designed-in-ms-paint.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/powered-by-electricity.svg)](https://forthebadge.com)
 > Repository della Prova Finale di Ingengeria del Software
 
 
