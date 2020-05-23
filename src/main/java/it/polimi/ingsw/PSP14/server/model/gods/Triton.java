@@ -15,7 +15,7 @@ public class Triton extends God {
     public void afterMove(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
         if(!player.equals(getOwner())) return;
 
-        MoveAction lastMove = (MoveAction) match.getHistory().get(match.getHistory().size() - 1);
+        MoveAction lastMove = (MoveAction) match.getLastAction();
 
         if(lastMove.getTo().getX() == 0 || lastMove.getTo().getX() == 4 ||
                 lastMove.getTo().getY() == 0 || lastMove.getTo().getY() == 4) {
