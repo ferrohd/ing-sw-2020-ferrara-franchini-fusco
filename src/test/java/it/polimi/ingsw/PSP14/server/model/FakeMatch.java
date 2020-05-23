@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class FakeMatch extends Match {
+    public boolean flag;
+
     public FakeMatch() throws IOException {
         super(new ArrayList<>());
+        flag = false;
     }
 }
