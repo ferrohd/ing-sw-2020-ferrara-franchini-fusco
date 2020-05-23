@@ -5,6 +5,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
@@ -15,8 +16,6 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
-import java.util.Random;
-
 import static com.sun.javafx.util.Utils.clamp;
 
 public class GUIGameScene implements Runnable {
@@ -25,7 +24,7 @@ public class GUIGameScene implements Runnable {
     private static final int VIEWPORT_Y = 600;
     private final double CAMERA_ANGLE_MIN = -20;
     private final double CAMERA_ANGLE_MAX = -90;
-    private final double MOUSE_SPEED = 0.75;
+    private final double MOUSE_SPEED = 0.2;
     private final double ZOOM_MIN = -20;
     private final double ZOOM_MAX = -60;
     private final double ZOOM_TIME = 200;
@@ -35,34 +34,41 @@ public class GUIGameScene implements Runnable {
     private Translate zoom = null;
 
     SimpleBooleanProperty isDragging = new SimpleBooleanProperty(false);
-    SimpleDoubleProperty startMouseX = new SimpleDoubleProperty(VIEWPORT_X * 0.5);
-    SimpleDoubleProperty startMouseY = new SimpleDoubleProperty(VIEWPORT_Y * 0.5);
+    SimpleDoubleProperty lastMouseX = new SimpleDoubleProperty(VIEWPORT_X * 0.5);
+    SimpleDoubleProperty lastMouseY = new SimpleDoubleProperty(VIEWPORT_Y * 0.5);
 
     public void setIsDragging(boolean isDragging) {
         this.isDragging.set(isDragging);
     }
 
-    public void setStartMouseX(double startMouseX) {
-        this.startMouseX.set(startMouseX);
+    public void setLastMouseX(double lastMouseX) {
+        this.lastMouseX.set(lastMouseX);
     }
 
-    public void setStartMouseY(double startMouseY) {
-        this.startMouseY.set(startMouseY);
+    public void setLastMouseY(double lastMouseY) {
+        this.lastMouseY.set(lastMouseY);
     }
 
     @Override
     public void run() {
+        // Re-enable resize
+        GUIMain.getStage().setResizable(true);
 
-        ActorManager actors = new ActorManager(VIEWPORT_X, VIEWPORT_Y);
+        // Setup actors
+        ActorManager actors = new ActorManager();
 
+        // Add background and light
         AmbientLight ambientLight = new AmbientLight();
         ambientLight.setColor(Color.LIGHTYELLOW);
-        Group root = new Group(
+
+        Group root = new Group();
+        root.getChildren().addAll(
                 actors.getActorById("sea"),
                 actors.getActorById("board"),
                 actors.getActorById("cliff"),
                 actors.getActorById("outerWall"),
-                actors.getActorById("innerWall"));
+                actors.getActorById("innerWall")
+        );
         root.getChildren().addAll(actors.getAllWorkers());
         root.getChildren().addAll(actors.getAllBlocks());
         root.getChildren().add(ambientLight);
@@ -96,12 +102,10 @@ public class GUIGameScene implements Runnable {
                 // If I'm not yet dragging
                 if (!isDragging.get()) {
                     setIsDragging(true);
-                    setStartMouseX(ev.getSceneX());
-                    setStartMouseY(ev.getSceneY());
                 } else {
                     // If I'm dragging
-                    double deltaMouseX = (ev.getSceneX() - startMouseX.get()) / VIEWPORT_X * MOUSE_SPEED;
-                    double deltaMouseY = (ev.getSceneY() - startMouseY.get()) / VIEWPORT_Y * MOUSE_SPEED;
+                    double deltaMouseX = (ev.getSceneX() - lastMouseX.get()) * MOUSE_SPEED;
+                    double deltaMouseY = (ev.getSceneY() - lastMouseY.get()) * MOUSE_SPEED;
 
                     double newXAngle= clamp(CAMERA_ANGLE_MAX,xRotate.getAngle() - deltaMouseY, CAMERA_ANGLE_MIN);
                     double newYAngle= yRotate.getAngle() + deltaMouseX;
@@ -110,6 +114,8 @@ public class GUIGameScene implements Runnable {
                     xRotate.setAngle(newXAngle);
                     yRotate.setAngle(newYAngle);
                 }
+                setLastMouseX(ev.getSceneX());
+                setLastMouseY(ev.getSceneY());
             } else {
                 setIsDragging(false);
             }
@@ -137,9 +143,11 @@ public class GUIGameScene implements Runnable {
         scene.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             PickResult res = event.getPickResult();
             Node node = res.getIntersectedNode();
+            Point3D p = res.getIntersectedPoint();
+
             if (node != null) {
                 // Do stuff
-                actors.moveWorker(0, 0, new Random().nextInt(4), 0, new Random().nextInt(4));
+
             }
         });
 
