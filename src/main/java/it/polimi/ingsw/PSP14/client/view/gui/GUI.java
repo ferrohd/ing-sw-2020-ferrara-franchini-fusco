@@ -36,7 +36,7 @@ public class GUI extends UI {
         new Thread(() -> GUIMain.launch(GUIMain.class)).start();
         GUIMain.getQueue().take();
 //        Platform.runLater(new GUIWelcomeScene());
-        Platform.runLater(new GUILobbyScene());
+        Platform.runLater(new GUIGameScene());
     }
 
     /**
