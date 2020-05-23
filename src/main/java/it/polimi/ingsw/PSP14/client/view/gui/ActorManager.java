@@ -50,8 +50,6 @@ public class ActorManager {
 
         setupScenery();
         setupWorkers();
-
-        
     }
 
     /**
@@ -214,15 +212,13 @@ public class ActorManager {
      * Move a worker with a cool animation.
      * @param playerNumber the number of the worker's player (0, 1, 2)
      * @param workerNumber the number of the worker (0 or 1)
-     * @param x target coordinate
-     * @param y target coordinate
-     * @param z target coordinate
+     * @param position the target position
      */
     public void moveWorker(int playerNumber, int workerNumber, Point3D position) {
         Node worker = actors.get("worker" + playerNumber + "" + workerNumber);
         if (worker != null) {
             double _x = position.getX();
-            double _y = position.getY();
+            double _y = _getWorkerHeight(worker);
             double _z = position.getZ();
 
             Timeline moveWorkerTimeline = new Timeline(
@@ -244,8 +240,14 @@ public class ActorManager {
         }
     }
 
-    private double _getWorkerHeight(int y) {
-        switch (y) {
+    private double _getWorkerHeight(Node worker) {
+        int numOfBlocks = 0;
+        UIPoint workerPos = getModelCoordinates(worker);
+        for (int i = 0; i < 4; i++) {
+            Node block = actors.get("block" + workerPos.getX() + "" + workerPos.getY() + "" + i);
+            if (block != null) numOfBlocks += 1;
+        }
+        switch (numOfBlocks) {
             case 0:
                 return WORKER_Y_1;
             case 1:
@@ -265,6 +267,14 @@ public class ActorManager {
         double y = -(v.getZ() - 6) / 12 * 5;
 
         return new UIPoint((int) x, (int) y);
+    }
+
+    public static UIPoint getModelCoordinates(Node n) {
+        return getModelCoordinates(new Point3D(
+                n.getTranslateX(),
+                n.getTranslateY(),
+                n.getTranslateZ()
+        ));
     }
 
     public static Point3D getSceneCoordinates(UIPoint v) {
