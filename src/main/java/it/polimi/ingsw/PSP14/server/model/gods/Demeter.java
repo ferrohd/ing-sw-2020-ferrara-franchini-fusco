@@ -26,7 +26,7 @@ public class Demeter extends God {
 
         if(choice) {
             List<BuildAction> builds = match.getBuildable(player, workerIndex);
-            BuildAction lastBuild = (BuildAction) match.getHistory().get(match.getHistory().size() - 1);
+            BuildAction lastBuild = (BuildAction) match.getLastAction();
             builds = builds.stream().filter(m -> !m.getPoint().equals(lastBuild.getPoint())).collect(Collectors.toList());
             List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
 

@@ -13,7 +13,9 @@ public class Pan extends God {
 
     @Override
     public void afterMove(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
-        MoveAction lastMove = (MoveAction) match.getHistory().get(match.getHistory().size() - 1);
+        if(!player.equals(getOwner())) return;
+
+        MoveAction lastMove = (MoveAction) match.getLastAction();
         int levelFrom = match.getBoard().getTowerSize(lastMove.getFrom());
         int levelTo = match.getBoard().getTowerSize(lastMove.getTo());
 
