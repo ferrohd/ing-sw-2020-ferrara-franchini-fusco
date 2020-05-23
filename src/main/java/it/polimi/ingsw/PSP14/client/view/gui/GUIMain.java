@@ -18,6 +18,10 @@ public class GUIMain extends Application {
         return initStage;
     }
 
+    /**
+     * Entry point of JavaFX
+     * @param primaryStage First Window created by JavaFX
+     */
     @Override
     public void start(Stage primaryStage) {
         initStage = primaryStage;

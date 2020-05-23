@@ -6,11 +6,12 @@ import javafx.scene.Scene;
 
 import java.io.IOException;
 
-public class GUILobbyScene implements Runnable {
+public class GUILobbySizeScene implements Runnable{
+
     @Override
     public void run() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/scenes/Lobby.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/scenes/LobbySize.fxml"));
 
             Scene scene = new Scene(root);
 
