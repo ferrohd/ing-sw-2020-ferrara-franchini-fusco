@@ -28,18 +28,12 @@ public class ClientMatch implements Runnable {
     public void run() {
         // Execute every new message that the client receives
         while(true) {
-            ClientExecutableMessage inMessage = null;
             try {
-                inMessage = (ClientExecutableMessage) serverConnection.receiveMessage();
-            } catch (IOException e) {
-                System.out.println("Connection lost. Closing...");
-                System.exit(-1);
-            }
-
-            try {
+                ClientExecutableMessage inMessage  = (ClientExecutableMessage) serverConnection.receiveMessage();
                 inMessage.execute(ui, serverConnection);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (IOException | InterruptedException e) {
+                System.out.println("Connection lost. Closing...");
+                return;
             }
         }
     }

@@ -188,7 +188,7 @@ public class CLI extends UI {
         List<UIPoint> workersPosition = _pw.stream().map(w -> w.getCell().getUIPoint()).collect(Collectors.toList());
         List<String> _workers = _pw.stream()
                 .filter(w -> choosable.contains(w.getId()))
-                .map(w -> "#" + w.getId() + " - (X: " + w.getCell().getX() + ", Y: " + (char)(w.getCell().getY()+'A') +")")
+                .map(w -> "[" + (char)(w.getCell().getY()+'A') + " " + w.getCell().getX() + "]")
                 .collect(Collectors.toList());
 
         ctx.drawBoardAndPlayers();
@@ -203,7 +203,9 @@ public class CLI extends UI {
 
     @Override
     public int chooseMove(List<MoveProposal> moves) {
-        List<String> moveStrings = moves.stream().map(m -> m.getPoint().toString()).collect(Collectors.toList());
+        List<String> moveStrings = moves.stream()
+                .map(m -> "[" + (char)(m.getPoint().getY() +'A') + " " + m.getPoint().getX() + "]")
+                .collect(Collectors.toList());
         List<UIPoint> validMoves = moves.stream().map(m -> m.getPoint().getUIPoint()).collect(Collectors.toList());
 
         ctx.drawBoardAndPlayers();
@@ -218,7 +220,9 @@ public class CLI extends UI {
 
     @Override
     public int chooseBuild(List<BuildProposal> moves) {
-        List<String> buildStrings = moves.stream().map(m -> m.getPoint().toString() + (m.hasDome() ? "(dome)" : "")).collect(Collectors.toList());
+        List<String> buildStrings = moves.stream()
+                .map(m -> "[" + (char)(m.getPoint().getY() +'A') + " " + m.getPoint().getX() + "]" + (m.hasDome() ? " (dome)" : ""))
+                .collect(Collectors.toList());
         List<UIPoint> buildPositions = moves.stream().map(m -> m.getPoint().getUIPoint()).collect(Collectors.toList());
 
         ctx.drawBoardAndPlayers();

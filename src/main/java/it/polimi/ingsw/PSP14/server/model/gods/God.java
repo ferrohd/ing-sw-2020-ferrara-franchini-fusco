@@ -31,7 +31,7 @@ public class God {
      * @param player moving player
      * @param match current match
      */
-    public void addMoves(List<MoveAction> moves, Player player, int workerIndex, Match match) throws IOException {
+    public void addMoves(List<MoveAction> moves, String player, int workerIndex, Match match) throws IOException {
     }
 
     /**
@@ -42,7 +42,7 @@ public class God {
      * @param player moving player
      * @param match current match
      */
-    public void removeMoves(List<MoveAction> moves, Player player, int workerIndex, Match match) throws IOException {
+    public void removeMoves(List<MoveAction> moves, String player, int workerIndex, Match match) throws IOException {
     }
 
     /**
@@ -53,10 +53,10 @@ public class God {
      * @param player building player
      * @param match current match
      */
-    public void addBuilds(List<BuildAction> builds, Player player, int workerIndex, Match match) throws IOException {
+    public void addBuilds(List<BuildAction> builds, String player, int workerIndex, Match match) throws IOException {
     }
 
-    public void removeBuilds(List<BuildAction> builds, Player player, int workerIndex, Match match) throws IOException {
+    public void removeBuilds(List<BuildAction> builds, String player, int workerIndex, Match match) throws IOException {
     }
 
     /**

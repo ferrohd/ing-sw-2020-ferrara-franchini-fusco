@@ -14,11 +14,12 @@ public class Zeus extends God {
     }
 
     @Override
-    public void addBuilds(List<BuildAction> builds, Player player, int workerIndex, Match match) throws IOException {
-        if(!player.getUsername().equals(getOwner())) return;
+    public void addBuilds(List<BuildAction> builds, String player, int workerIndex, Match match) throws IOException {
+        if(!player.equals(getOwner())) return;
 
-        Point curr = player.getWorkerPos(workerIndex);
+        Player playing = match.getPlayerByUsername(player);
+        Point curr = playing.getWorkerPos(workerIndex);
         if(match.getBoard().getTowerSize(curr) < 3 && !match.getBoard().getIsCompleted(curr))
-            builds.add(new BuildAction(player.getUsername(), curr, false, 1));
+            builds.add(new BuildAction(player, curr, false, 1));
     }
 }
