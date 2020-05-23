@@ -4,83 +4,97 @@
         <alias>God of Music</alias>
         <ability>Your move</ability>
         <description>Your Worker may move into an opponent Worker' space by forcing their Worker to the space yours just vacated.</description>
+        <max>3</max>
     </god>
     <god>
         <name>Artemis</name>
         <alias>Goddess of The Hunt</alias>
         <ability>Your move</ability>
         <description>Your Worker may move one additional time, but not back to its initial space.</description>
+        <max>3</max>
     </god>
     <god>
         <name>Athena</name>
         <alias>Goddess of Wisdom</alias>
         <ability>Opponent's Turn</ability>
         <description>If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.</description>
+        <max>3</max>
     </god>
     <god>
         <name>Atlas</name>
         <alias>Titan Shouldering the Heavens</alias>
         <ability>Your Build</ability>
         <description>Your Worker may build a dome at any level.</description>
+        <max>3</max>
     </god>
     <god>
         <name>Chronus</name>
         <alias>God of Time</alias>
         <ability>Wind Condition</ability>
         <description>You also win when there are at least five Complete Towers on the board.</description>
+        <max>2</max>
     </god>
     <god>
         <name>Demeter</name>
         <alias>Goddess of the Harvest</alias>
         <ability>Your Build</ability>
         <description>Your Worker may build one additional time, but not on the same space.</description>
+        <max>3</max>
     </god>
     <god>
         <name>Hephaestus</name>
         <alias>God of Blacksmiths</alias>
         <ability>Your Build</ability>
         <description>Your Worker may build one additional block (not dome) on top of your first block.</description>
+        <max>3</max>
     </god>
     <god>
         <name>Hestia</name>
         <alias>Goddess of Hearth and Home</alias>
         <ability>Your Build</ability>
         <description>Your Worker may build one additional time, but this cannot be on a perimeter space.</description>
+        <max>3</max>
     </god>
     <god>
         <name>Minotaur</name>
         <alias>Bull-headed Monster</alias>
         <ability>Your move</ability>
         <description>Your Worker may move into an opponent Worker' space, if their Worker can be forced one space straight backwards to an unoccupied space at any level.</description>
+        <max>3</max>
     </god>
     <god>
         <name>Pan</name>
         <alias>God of the Wild</alias>
         <ability>Wind Condition</ability>
         <description>You also win if your Worker moves down two or more levels.</description>
+        <max>3</max>
     </god>
     <god>
         <name>Poseidon</name>
         <alias>God of the Sea</alias>
         <ability>End of Your Turn</ability>
         <description>If your unmoved Worker is on the ground level, it may build up to three times.</description>
+        <max>3</max>
     </god>
     <god>
         <name>Prometheus</name>
         <alias>Titan Benefactor of Mankind</alias>
         <ability>Your Turn</ability>
         <description>If your Worker does not move up, it may build both before and after moving.</description>
+        <max>3</max>
     </god>
     <god>
         <name>Triton</name>
         <alias>God of the Waves</alias>
         <ability>Your Move</ability>
         <description>Each time your Worker moves into a perimeter space, it may immediately move again.</description>
+        <max>3</max>
     </god>
     <god>
         <name>Zeus</name>
         <alias>God of The Sky</alias>
         <ability>Your Build</ability>
         <description>Your Worker may build a block under itself.</description>
+        <max>3</max>
     </god>
 </godlist>

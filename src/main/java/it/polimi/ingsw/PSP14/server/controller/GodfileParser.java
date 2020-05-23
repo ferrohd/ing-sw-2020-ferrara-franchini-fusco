@@ -23,7 +23,7 @@ public class GodfileParser {
      * @return An ArrayList containing the names of the available gods to play.
      * @throws IOException If there's an error reading the godlist file
      */
-    public static ArrayList<String> getGodIdList(String godsFile) throws IOException {
+    public static ArrayList<String> getGodIdList(String godsFile, int gamesize) throws IOException {
         // If godIdList isn't set OR the file to parse has changed
         if ( godIdList.isEmpty() || !godsFile.equals(lastGodFile) ) {
             // Initialise the list
@@ -44,8 +44,9 @@ public class GodfileParser {
             for (int i = 0; i < gods.getLength(); ++i) {
                 Element element = (Element) gods.item(i);
                 String godName = element.getElementsByTagName("name").item(0).getTextContent();
-
-                godIdList.add(godName);
+                int max = Integer.parseInt(element.getElementsByTagName("max").item(0).getTextContent());
+                if(max >= gamesize)
+                    godIdList.add(godName);
             }
         }
 

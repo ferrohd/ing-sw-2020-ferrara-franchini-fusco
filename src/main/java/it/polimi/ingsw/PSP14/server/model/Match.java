@@ -52,6 +52,7 @@ public class Match implements Runnable {
             setupGame();
         } catch(IOException e) {
             System.out.println("An error has occurred while setting up the game!");
+            return;
         }
 
         gameLoop();
@@ -81,7 +82,7 @@ public class Match implements Runnable {
         }
 
 
-        availableGods = GodfileParser.getGodIdList("src/main/resources/gods/godlist.xml");
+        availableGods = GodfileParser.getGodIdList("src/main/resources/gods/godlist.xml", users.size());
         ClientConnection roomMaster = clients.get(users.get(0));
         selectedGods = roomMaster.selectGameGods(new ArrayList<>(availableGods), users.size());
 
@@ -352,7 +353,7 @@ public class Match implements Runnable {
         Player currPlayer = getPlayerByUsername(playerName);
 
         Point currentPos = currPlayer.getWorkerPos(worker);
-        int currentLevel = board.getTowerSize(currentPos);;
+        int currentLevel = board.getTowerSize(currentPos);
         for(Direction dir: Direction.values()) {
             Point toCheckPos = currentPos.move(dir);
             if (Board.isValidPos(toCheckPos)
