@@ -3,7 +3,6 @@ package it.polimi.ingsw.PSP14.client.view.gui;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import it.polimi.ingsw.PSP14.client.model.UIPoint;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
-import it.polimi.ingsw.PSP14.server.model.board.Worker;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -141,11 +140,11 @@ public class ActorManager {
     }
 
     /**
-     * Return a collection of nodes representing all the building components
+     * Return a list of nodes representing all the building components
      * in the game.
      * @return a collection of nodes
      */
-    public Collection<Node> getAllBlocks() {
+    public List<Node> getAllBlocks() {
         List<String> _keys = actors.keySet().stream().filter(k -> k.startsWith("block")).collect(Collectors.toList());
         List<Node> _blocks = new ArrayList<>();
         for (String key : _keys) {
@@ -214,35 +213,45 @@ public class ActorManager {
      * @param workerNumber the number of the worker (0 or 1)
      * @param position the target position
      */
-    public void moveWorker(int playerNumber, int workerNumber, Point3D position) {
+    public void moveWorker(int playerNumber, int workerNumber, Point position) {
         Node worker = actors.get("worker" + playerNumber + "" + workerNumber);
         if (worker != null) {
-            double _x = position.getX();
-            double _y = _getWorkerHeight(worker);
-            double _z = position.getZ();
-
-            Timeline moveWorkerTimeline = new Timeline(
-                    new KeyFrame(
-                            Duration.seconds(0),
-                            new KeyValue(worker.scaleXProperty(), worker.getTranslateX()),
-                            new KeyValue(worker.scaleYProperty(), worker.getTranslateY()),
-                            new KeyValue(worker.scaleZProperty(), worker.getTranslateZ())
+            Point3D finalPosition = getSceneCoordinates(position).add(0, getHeight(position), 0),
+                    diff = finalPosition.subtract(getSceneCoordinates(worker));
+            Timeline xTimeline = new Timeline(
+                        new KeyFrame(
+                            Duration.millis(diff.getX() != 0 ? 250 : 0),
+                            new KeyValue(worker.translateXProperty(), finalPosition.getX())
+                        )
                     ),
-                    new KeyFrame(
-                            Duration.millis(500),
-                            new KeyValue(worker.translateXProperty(), _x),
-                            new KeyValue(worker.translateYProperty(), _y),
-                            new KeyValue(worker.translateZProperty(), _z)
-                    )
-            );
-            moveWorkerTimeline.setCycleCount(1);
-            moveWorkerTimeline.play();
+                    yTimeline = new Timeline(
+                        new KeyFrame(
+                            Duration.millis(diff.getY() != 0 ? 250 : 0),
+                            new KeyValue(worker.translateYProperty(), finalPosition.getY())
+                        )
+                    ),
+                    zTimeline = new Timeline(
+                        new KeyFrame(
+                            Duration.millis(diff.getZ() != 0 ? 250 : 0),
+                            new KeyValue(worker.translateZProperty(), finalPosition.getZ())
+                        )
+                    );
+            xTimeline.setCycleCount(1);
+            yTimeline.setCycleCount(1);
+            zTimeline.setCycleCount(1);
+            xTimeline.setOnFinished(event -> zTimeline.play());
+            if(diff.getY() < 0) {
+                yTimeline.setOnFinished(event -> xTimeline.play());
+                yTimeline.play();
+            } else {
+                zTimeline.setOnFinished(event -> yTimeline.play());
+                xTimeline.play();
+            }
         }
     }
 
-    private double _getWorkerHeight(Node worker) {
+    private double getHeight(Point workerPos) {
         int numOfBlocks = 0;
-        UIPoint workerPos = getModelCoordinates(worker);
         for (int i = 0; i < 4; i++) {
             Node block = actors.get("block" + workerPos.getX() + "" + workerPos.getY() + "" + i);
             if (block != null) numOfBlocks += 1;
@@ -261,27 +270,40 @@ public class ActorManager {
         }
     }
 
-    public static UIPoint getModelCoordinates(Point3D v) {
+    /**
+     * Transforms coordinates in 3D space to 2D-space integer coordinates on the board
+     * @param v the Point3D
+     * @return the coordinates with respect to the board
+     */
+    public static Point getBoardCoordinates(Point3D v) {
         // It just works, don't touch it LMAO
         double x = (v.getX() + 6) / 12 * 5;
         double y = -(v.getZ() - 6) / 12 * 5;
 
-        return new UIPoint((int) x, (int) y);
+        return new Point((int) x, (int) y);
     }
 
-    public static UIPoint getModelCoordinates(Node n) {
-        return getModelCoordinates(new Point3D(
+    public static Point getBoardCoordinates(Node n) {
+        return getBoardCoordinates(new Point3D(
                 n.getTranslateX(),
                 n.getTranslateY(),
                 n.getTranslateZ()
         ));
     }
 
-    public static Point3D getSceneCoordinates(UIPoint v) {
+    public static Point3D getSceneCoordinates(Point v) {
         double x = 2.5 * (v.getX() - 2);
         double z = -2.5 * (v.getY() - 2);
 
         return new Point3D(x,0, z);
+    }
+
+    public static Point3D getSceneCoordinates(Node n) {
+        return new Point3D(
+                n.getTranslateX(),
+                n.getTranslateY(),
+                n.getTranslateZ()
+        );
     }
 }
 

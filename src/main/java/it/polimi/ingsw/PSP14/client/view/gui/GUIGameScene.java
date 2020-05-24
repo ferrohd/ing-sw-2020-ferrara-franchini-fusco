@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP14.client.view.gui;
 
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -15,6 +16,10 @@ import javafx.scene.paint.Paint;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
 
 import static com.sun.javafx.util.Utils.clamp;
 
@@ -147,7 +152,7 @@ public class GUIGameScene implements Runnable {
 
             if (node != null) {
                 // Do stuff
-
+                actors.moveWorker(0, 0, new Point(new Random().nextInt(5), new Random().nextInt(5)));
             }
         });
 
