@@ -17,21 +17,21 @@ import java.util.List;
 
 public class GUI implements UI {
     private ArrayList<String> players = new ArrayList<>();
+    private GUIGameScene gameScene = new GUIGameScene();
 
     @Override
-    public void registerPlayer(String newPlayerUsername) {
-        players.add(newPlayerUsername);
+    public void registerPlayer(String player) {
+        players.add(player);
     }
 
     @Override
     public void unregisterPlayer(String username) {
-        players.remove(username);
     }
 
     @Override
     public void setWorker(Point position, int workerId, String playerUsername) {
         Platform.runLater(() ->
-                GUIMain.getActorManager().addWorker(position, workerId, players.indexOf(playerUsername))
+                gameScene.getModel().addWorker(position, workerId, players.indexOf(playerUsername))
         );
     }
 
@@ -48,14 +48,14 @@ public class GUI implements UI {
     @Override
     public void moveWorker(Point newPosition, int workerId, String playerUsername) {
         Platform.runLater(() ->
-                GUIMain.getActorManager().moveWorker(players.indexOf(playerUsername), workerId, newPosition)
+                gameScene.getModel().moveWorker(players.indexOf(playerUsername), workerId, newPosition)
         );
     }
 
     @Override
     public void incrementCell(Point position) {
         Platform.runLater(() ->
-                GUIMain.getActorManager().incrementCell(position)
+                gameScene.getModel().incrementCell(position)
         );
     }
 
@@ -89,12 +89,16 @@ public class GUI implements UI {
         new Thread(() -> GUIMain.launch(GUIMain.class)).start();
         GUIMain.getQueue().take();
 
-//        Platform.runLater(new GUIWelcomeScene());
-        Platform.runLater(new GUIGameScene());
+        startGameScene();
+    }
+
+    private void startGameScene() {
+        Platform.runLater(gameScene);
 
         incrementCell(new Point(0, 0));
         players.add("pippo");
         players.add("pluto");
+        incrementCell(new Point(0, 0));
         setWorker(new Point(0, 0), 0, "pippo");
         setWorker(new Point(1, 0), 1, "pippo");
     }

@@ -19,13 +19,6 @@ public class GUIMain extends Application {
         return initStage;
     }
 
-    private static ActorManager actorManager = new ActorManager();
-    public static ActorManager getActorManager() { return actorManager; }
-
-    private static Group root = null;
-    public static Group getRoot() { return root; }
-    public static void setRoot(Group root) { GUIMain.root = root; }
-
     /**
      * Entry point of JavaFX
      * @param primaryStage First Window created by JavaFX

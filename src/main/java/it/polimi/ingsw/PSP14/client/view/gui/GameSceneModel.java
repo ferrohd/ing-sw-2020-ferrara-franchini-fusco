@@ -6,6 +6,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.geometry.Point3D;
+import javafx.scene.AmbientLight;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -20,8 +22,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ActorManager {
-
+public class GameSceneModel {
     private static final double WALLS_X = 8.65;
     private static final double WALLS_SCALE = 1;
     private static final double WALLS_Y = 3.5;
@@ -41,10 +42,28 @@ public class ActorManager {
 
     // Contains all actors, accessible with an ID
     private final Map<String, Node> actors = new HashMap<>();
+    private final Group root = new Group();
 
-    public ActorManager() {
-
+    public GameSceneModel() {
         setupScenery();
+    }
+
+    public Group getRoot() { return root; }
+
+    /**
+     * Init the scenery (sea, board, cliff, all the cosmetic stuff).
+     */
+    public void setupScenery() {
+        addActor("sea", "/assets/Sea.obj", "/assets/Sea.png", new Point3D(0, 3, 0), 1);
+        addActor("cliff", "/assets/Cliff.obj", "/assets/Cliff_v001.png", new Point3D(-0.1, 1.4, 0), 7.9);
+        addActor("board", "/assets/Board.obj", "/assets/Cliff_v001.png", new Point3D(0, 0, 0), 1);
+        addActor("outerWall", "/assets/OuterWall.obj", "/assets/Cliff_v001.png", new Point3D(WALLS_X, WALLS_Y, WALLS_Z), WALLS_SCALE);
+        addActor("innerWall", "/assets/InnerWalls.obj", "/assets/Cliff_v001.png", new Point3D(WALLS_X, WALLS_Y, WALLS_Z), WALLS_SCALE);
+
+        AmbientLight ambientLight = new AmbientLight();
+        ambientLight.setColor(Color.LIGHTYELLOW);
+        actors.put("light", ambientLight);
+        root.getChildren().add(ambientLight);
     }
 
     /**
@@ -87,22 +106,12 @@ public class ActorManager {
         meshView.setScaleZ(scale);
 
         actors.put(id, meshView);
+        root.getChildren().add(meshView);
         return meshView;
     }
 
     public Node getActorById(String id) {
         return actors.get(id);
-    }
-
-    /**
-     * Init the scenery (sea, board, cliff, all the cosmetic stuff).
-     */
-    public void setupScenery() {
-        addActor("sea", "/assets/Sea.obj", "/assets/Sea.png", new Point3D(0, 3, 0), 1);
-        addActor("cliff", "/assets/Cliff.obj", "/assets/Cliff_v001.png", new Point3D(-0.1, 1.4, 0), 7.9);
-        addActor("board", "/assets/Board.obj", "/assets/Cliff_v001.png", new Point3D(0, 0, 0), 1);
-        addActor("outerWall", "/assets/OuterWall.obj", "/assets/Cliff_v001.png", new Point3D(WALLS_X, WALLS_Y, WALLS_Z), WALLS_SCALE);
-        addActor("innerWall", "/assets/InnerWalls.obj", "/assets/Cliff_v001.png", new Point3D(WALLS_X, WALLS_Y, WALLS_Z), WALLS_SCALE);
     }
 
     public static String getWorkerActorId(int player, int workerId) {
@@ -299,7 +308,7 @@ public class ActorManager {
 
     private void addToActorsAndRegister(String id, Node node) {
         actors.put(id, node);
-        GUIMain.getRoot().getChildren().add(node);
+        root.getChildren().add(node);
     }
 
     public void incrementCell(Point position) {

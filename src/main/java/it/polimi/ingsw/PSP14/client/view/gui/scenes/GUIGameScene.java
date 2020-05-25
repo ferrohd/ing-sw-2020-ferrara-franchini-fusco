@@ -1,8 +1,7 @@
 package it.polimi.ingsw.PSP14.client.view.gui.scenes;
 
-import it.polimi.ingsw.PSP14.client.view.gui.ActorManager;
+import it.polimi.ingsw.PSP14.client.view.gui.GameSceneModel;
 import it.polimi.ingsw.PSP14.client.view.gui.GUIMain;
-import it.polimi.ingsw.PSP14.server.model.board.Point;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -18,10 +17,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
 
 import static com.sun.javafx.util.Utils.clamp;
 
@@ -44,6 +39,8 @@ public class GUIGameScene implements Runnable {
     SimpleDoubleProperty lastMouseX = new SimpleDoubleProperty(VIEWPORT_X * 0.5);
     SimpleDoubleProperty lastMouseY = new SimpleDoubleProperty(VIEWPORT_Y * 0.5);
 
+    private GameSceneModel model;
+
     public void setIsDragging(boolean isDragging) {
         this.isDragging.set(isDragging);
     }
@@ -58,31 +55,13 @@ public class GUIGameScene implements Runnable {
 
     @Override
     public void run() {
+        model = new GameSceneModel();
+
         // Re-enable resize
         GUIMain.getStage().setResizable(true);
 
-        // Setup actors
-        ActorManager actors = GUIMain.getActorManager();
-
-        // Add background and light
-        AmbientLight ambientLight = new AmbientLight();
-        ambientLight.setColor(Color.LIGHTYELLOW);
-
-        Group root = new Group();
-        GUIMain.setRoot(root);
-        root.getChildren().addAll(
-                actors.getActorById("sea"),
-                actors.getActorById("board"),
-                actors.getActorById("cliff"),
-                actors.getActorById("outerWall"),
-                actors.getActorById("innerWall")
-        );
-        root.getChildren().addAll(actors.getAllWorkers());
-        root.getChildren().addAll(actors.getAllBlocks());
-        root.getChildren().add(ambientLight);
-
         // Create a scene object
-        scene = new Scene(root, VIEWPORT_X, VIEWPORT_Y, true);
+        scene = new Scene(model.getRoot(), VIEWPORT_X, VIEWPORT_Y, true);
         scene.setFill(Paint.valueOf("#f4d7ad"));
 
         // Create a camera with its transforms.
@@ -163,4 +142,6 @@ public class GUIGameScene implements Runnable {
         GUIMain.getStage().setScene(scene);
         GUIMain.getStage().show();
     }
+
+    public GameSceneModel getModel() { return model; }
 }
