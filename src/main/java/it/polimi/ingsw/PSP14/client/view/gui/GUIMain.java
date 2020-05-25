@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP14.client.view.gui;
 
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.stage.Stage;
 
 import java.util.concurrent.BlockingQueue;
@@ -17,6 +18,13 @@ public class GUIMain extends Application {
     public static Stage getStage() {
         return initStage;
     }
+
+    private static ActorManager actorManager = new ActorManager();
+    public static ActorManager getActorManager() { return actorManager; }
+
+    private static Group root = null;
+    public static Group getRoot() { return root; }
+    public static void setRoot(Group root) { GUIMain.root = root; }
 
     /**
      * Entry point of JavaFX

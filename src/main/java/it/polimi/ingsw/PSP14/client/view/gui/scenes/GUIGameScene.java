@@ -1,5 +1,7 @@
-package it.polimi.ingsw.PSP14.client.view.gui;
+package it.polimi.ingsw.PSP14.client.view.gui.scenes;
 
+import it.polimi.ingsw.PSP14.client.view.gui.ActorManager;
+import it.polimi.ingsw.PSP14.client.view.gui.GUIMain;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -60,13 +62,14 @@ public class GUIGameScene implements Runnable {
         GUIMain.getStage().setResizable(true);
 
         // Setup actors
-        ActorManager actors = new ActorManager();
+        ActorManager actors = GUIMain.getActorManager();
 
         // Add background and light
         AmbientLight ambientLight = new AmbientLight();
         ambientLight.setColor(Color.LIGHTYELLOW);
 
         Group root = new Group();
+        GUIMain.setRoot(root);
         root.getChildren().addAll(
                 actors.getActorById("sea"),
                 actors.getActorById("board"),
@@ -152,7 +155,8 @@ public class GUIGameScene implements Runnable {
 
             if (node != null) {
                 // Do stuff
-                actors.moveWorker(0, 0, new Point(new Random().nextInt(5), new Random().nextInt(5)));
+                //actors.moveWorker(0, 0, new Point(new Random().nextInt(5), new Random().nextInt(5)));
+                //root.getChildren().add(actors.getActorById("block000"));
             }
         });
 

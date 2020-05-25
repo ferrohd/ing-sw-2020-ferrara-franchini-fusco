@@ -1,16 +1,69 @@
 package it.polimi.ingsw.PSP14.client.view.gui;
 
-import it.polimi.ingsw.PSP14.client.model.UIColor;
+import it.polimi.ingsw.PSP14.client.view.cli.UIColor;
 import it.polimi.ingsw.PSP14.client.view.UI;
+import it.polimi.ingsw.PSP14.client.view.gui.scenes.GUIGameScene;
+import it.polimi.ingsw.PSP14.client.view.gui.scenes.GUILobbySizeScene;
+import it.polimi.ingsw.PSP14.client.view.gui.scenes.GUIUsernameScene;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 import javafx.application.Platform;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class GUI extends UI {
+public class GUI implements UI {
+    private ArrayList<String> players = new ArrayList<>();
+
+    @Override
+    public void registerPlayer(String newPlayerUsername) {
+        players.add(newPlayerUsername);
+    }
+
+    @Override
+    public void unregisterPlayer(String username) {
+        players.remove(username);
+    }
+
+    @Override
+    public void setWorker(Point position, int workerId, String playerUsername) {
+        Platform.runLater(() ->
+                GUIMain.getActorManager().addWorker(position, workerId, players.indexOf(playerUsername))
+        );
+    }
+
+    @Override
+    public void unsetWorker(Point position) {
+
+    }
+
+    @Override
+    public void unsetWorker(int workerId, String playerUsername) {
+
+    }
+
+    @Override
+    public void moveWorker(Point newPosition, int workerId, String playerUsername) {
+        Platform.runLater(() ->
+                GUIMain.getActorManager().moveWorker(players.indexOf(playerUsername), workerId, newPosition)
+        );
+    }
+
+    @Override
+    public void incrementCell(Point position) {
+        Platform.runLater(() ->
+                GUIMain.getActorManager().incrementCell(position)
+        );
+    }
+
+    @Override
+    public void setDome(Point position) {
+
+    }
+
     @Override
     public void update() {
 
@@ -38,6 +91,12 @@ public class GUI extends UI {
 
 //        Platform.runLater(new GUIWelcomeScene());
         Platform.runLater(new GUIGameScene());
+
+        incrementCell(new Point(0, 0));
+        players.add("pippo");
+        players.add("pluto");
+        setWorker(new Point(0, 0), 0, "pippo");
+        setWorker(new Point(1, 0), 1, "pippo");
     }
 
     /**

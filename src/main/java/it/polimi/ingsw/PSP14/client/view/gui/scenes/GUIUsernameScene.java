@@ -1,17 +1,17 @@
-package it.polimi.ingsw.PSP14.client.view.gui;
+package it.polimi.ingsw.PSP14.client.view.gui.scenes;
 
+import it.polimi.ingsw.PSP14.client.view.gui.GUIMain;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import java.io.IOException;
 
-public class GUILobbySizeScene implements Runnable{
-
+public class GUIUsernameScene implements Runnable {
     @Override
     public void run() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/scenes/LobbySize.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/scenes/Username.fxml"));
 
             Scene scene = new Scene(root);
 

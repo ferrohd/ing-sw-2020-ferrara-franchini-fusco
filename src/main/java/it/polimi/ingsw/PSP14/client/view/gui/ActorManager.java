@@ -1,7 +1,6 @@
 package it.polimi.ingsw.PSP14.client.view.gui;
 
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
-import it.polimi.ingsw.PSP14.client.model.UIPoint;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -42,13 +41,10 @@ public class ActorManager {
 
     // Contains all actors, accessible with an ID
     private final Map<String, Node> actors = new HashMap<>();
-    // Contains all players' workers
-    private final Map<Node, int[]> workers = new HashMap<>();
 
     public ActorManager() {
 
         setupScenery();
-        setupWorkers();
     }
 
     /**
@@ -109,18 +105,19 @@ public class ActorManager {
         addActor("innerWall", "/assets/InnerWalls.obj", "/assets/Cliff_v001.png", new Point3D(WALLS_X, WALLS_Y, WALLS_Z), WALLS_SCALE);
     }
 
-    /**
-     * Init workers for all players. Unused workers are hidden from the board.
-     * A worker ID is referenced as worker + playerNumber + workerNumber
-     */
-    public void setupWorkers() {
-        for (int playerId = 0; playerId <= 2; playerId++) {
-            for (int workerId = 0; workerId <= 1; workerId++) {
-                Node _worker = ActorFactory.getWorker(playerId, workerId);
-                workers.put(_worker, new int[]{playerId, workerId});
-                actors.put("worker"+playerId+""+workerId, _worker);
-            }
-        }
+    public static String getWorkerActorId(int player, int workerId) {
+        return "worker" + player + workerId;
+    }
+
+    public void addWorker(Point point, int workerId, int playerId) {
+        Node worker = ActorFactory.getWorker(playerId, workerId);
+        Point3D target = getSceneWorkerCoordinates(point);
+        setNodeToPoint3D(worker, target);
+        addToActorsAndRegister(getWorkerActorId(playerId, workerId), worker);
+    }
+
+    public Node getWorker(int player, int worker) {
+        return actors.get(getWorkerActorId(player, worker));
     }
 
     /**
@@ -214,9 +211,9 @@ public class ActorManager {
      * @param position the target position
      */
     public void moveWorker(int playerNumber, int workerNumber, Point position) {
-        Node worker = actors.get("worker" + playerNumber + "" + workerNumber);
+        Node worker = actors.get(getWorkerActorId(playerNumber, workerNumber));
         if (worker != null) {
-            Point3D finalPosition = getSceneCoordinates(position).add(0, getHeight(position), 0),
+            Point3D finalPosition = getSceneCoordinates(position).add(0, getWorkerHeight(position), 0),
                     diff = finalPosition.subtract(getSceneCoordinates(worker));
             Timeline xTimeline = new Timeline(
                         new KeyFrame(
@@ -250,13 +247,18 @@ public class ActorManager {
         }
     }
 
-    private double getHeight(Point workerPos) {
+    private int getTowerSize(Point position) {
         int numOfBlocks = 0;
         for (int i = 0; i < 4; i++) {
-            Node block = actors.get("block" + workerPos.getX() + "" + workerPos.getY() + "" + i);
+            Node block = actors.get(getBlockId(position, i));
             if (block != null) numOfBlocks += 1;
         }
-        switch (numOfBlocks) {
+
+        return numOfBlocks;
+    }
+
+    private double getWorkerHeight(Point workerPos) {
+        switch (getTowerSize(workerPos)) {
             case 0:
                 return WORKER_Y_1;
             case 1:
@@ -268,6 +270,45 @@ public class ActorManager {
             default:
                 return 5;
         }
+    }
+
+    private double getNewTowerHeight(Point towerPos) {
+        switch (getTowerSize(towerPos)) {
+            case 0:
+                return BLOCK_Y_1;
+            case 1:
+                return BLOCK_Y_2;
+            case 2:
+                return BLOCK_Y_3;
+            case 3:
+                return BLOCK_Y_4;
+            default:
+                return 5;
+        }
+    }
+
+    private void setNodeToPoint3D(Node node, Point3D point) {
+        node.setTranslateX(point.getX());
+        node.setTranslateY(point.getY());
+        node.setTranslateZ(point.getZ());
+    }
+
+    public static String getBlockId(Point position, int height) {
+        return "block" + position.getX() + position.getY() + height;
+    }
+
+    private void addToActorsAndRegister(String id, Node node) {
+        actors.put(id, node);
+        GUIMain.getRoot().getChildren().add(node);
+    }
+
+    public void incrementCell(Point position) {
+        int height = getTowerSize(position);
+        Node node = ActorFactory.getBlock(height);
+        Point3D target = getSceneTowerCoordinates(position);
+        setNodeToPoint3D(node, target);
+        showBlock(node);
+        addToActorsAndRegister(getBlockId(position, height), node);
     }
 
     /**
@@ -296,6 +337,14 @@ public class ActorManager {
         double z = -2.5 * (v.getY() - 2);
 
         return new Point3D(x,0, z);
+    }
+
+    public Point3D getSceneWorkerCoordinates(Point point) {
+        return getSceneCoordinates(point).add(0, getWorkerHeight(point), 0);
+    }
+
+    public Point3D getSceneTowerCoordinates(Point point) {
+        return getSceneCoordinates(point).add(0, getNewTowerHeight(point), 0);
     }
 
     public static Point3D getSceneCoordinates(Node n) {
@@ -365,19 +414,19 @@ class ActorFactory {
     public static Node getBlock(int height) {
         MeshView block = new MeshView();
         switch (height) {
-            case 1:
+            case 0:
                 block.setMesh(BLOCK_1_MESH);
                 block.setMaterial(BLOCK_1_MAT);
                 break;
-            case 2:
+            case 1:
                 block.setMesh(BLOCK_2_MESH);
                 block.setMaterial(BLOCK_2_MAT);
                 break;
-            case 3:
+            case 2:
                 block.setMesh(BLOCK_3_MESH);
                 block.setMaterial(BLOCK_3_MAT);
                 break;
-            case 4:
+            case 3:
                 block.setMesh(DOME_MESH);
                 block.setMaterial(DOME_MAT);
             default:

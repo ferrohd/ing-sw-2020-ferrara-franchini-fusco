@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP14.client.model;
 
+import it.polimi.ingsw.PSP14.client.view.cli.UICache;
+import it.polimi.ingsw.PSP14.client.view.cli.UIWorker;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +20,7 @@ class UICacheTest {
 
     @Test
     void getCellWithPoint() {
-        assertEquals(0, cache.getCell(new UIPoint(0,0)).getTowerHeight());
+        assertEquals(0, cache.getCell(new Point(0,0)).getTowerHeight());
     }
 
     @Test

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.client.model;
+package it.polimi.ingsw.PSP14.client.view.cli;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -58,35 +58,5 @@ public class GodFactory {
      */
     public UIGod getGod(String godName) {
         return godMap.get(godName);
-    }
-}
-
-/**
- * Implementation of the GodModel, visible only to GodModelFactory.
- */
-class UIGod {
-    private final String name, alias, ability, description;
-
-    public UIGod(String name, String alias, String ability, String description) {
-        this.name = name;
-        this.alias = alias;
-        this.ability = ability;
-        this.description = description;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getAlias() {
-        return alias;
-    }
-
-    public String getAbility() {
-        return ability;
-    }
-
-    public String getDescription() {
-        return description;
     }
 }
