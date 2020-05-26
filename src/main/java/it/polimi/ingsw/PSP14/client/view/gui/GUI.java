@@ -26,6 +26,8 @@ public class GUI implements UI {
 
     @Override
     public void unregisterPlayer(String username) {
+        unsetWorker(0, username);
+        unsetWorker(1, username);
     }
 
     @Override
@@ -35,14 +37,10 @@ public class GUI implements UI {
         );
     }
 
-    @Override
-    public void unsetWorker(Point position) {
-
-    }
-
-    @Override
-    public void unsetWorker(int workerId, String playerUsername) {
-
+    private void unsetWorker(int workerId, String playerUsername) {
+        Platform.runLater(() ->
+                gameScene.getModel().removeWorker(workerId, players.indexOf(playerUsername))
+        );
     }
 
     @Override
@@ -61,7 +59,9 @@ public class GUI implements UI {
 
     @Override
     public void setDome(Point position) {
-
+        Platform.runLater(() ->
+                gameScene.getModel().putDome(position)
+        );
     }
 
     @Override
@@ -99,6 +99,9 @@ public class GUI implements UI {
         players.add("pippo");
         players.add("pluto");
         incrementCell(new Point(0, 0));
+        setDome(new Point(3, 3));
+        for (int i = 0; i < 3; ++i)
+            incrementCell(new Point(2, 3));
         setWorker(new Point(0, 0), 0, "pippo");
         setWorker(new Point(1, 0), 1, "pippo");
     }

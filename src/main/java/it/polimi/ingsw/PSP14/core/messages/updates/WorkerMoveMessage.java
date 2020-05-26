@@ -19,8 +19,7 @@ public class WorkerMoveMessage implements UIUpdateMessage {
 
     @Override
     public boolean execute(UI ui, ServerConnection serverConnection) throws IOException {
-        ui.unsetWorker(workerId, player);
-        ui.setWorker(newPos, workerId, player);
+        ui.moveWorker(newPos, workerId, player);
         ui.update();
         return false;
     }

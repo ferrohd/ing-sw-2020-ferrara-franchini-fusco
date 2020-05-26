@@ -49,14 +49,7 @@ public class CLI implements UI {
         cache.setWorker(_worker, playerUsername, cache.getCell(position));
     }
 
-    @Override
-    public void unsetWorker(Point position) {
-        UIWorker _w = cache.getCell(position).getWorker();
-        cache.unsetWorker(_w);
-    }
-
-    @Override
-    public void unsetWorker(int workerId, String playerUsername) {
+    private void unsetWorker(int workerId, String playerUsername) {
         UIPlayer _player = cache.getPlayer(playerUsername);
         cache.unsetWorker(_player.getWorker(workerId));
     }

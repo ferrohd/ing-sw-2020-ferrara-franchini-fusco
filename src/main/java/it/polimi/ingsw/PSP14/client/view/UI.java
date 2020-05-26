@@ -47,20 +47,6 @@ public interface UI {
      */
     void setWorker(Point position, int workerId, String playerUsername);
 
-    /**
-     * Remove a worker from a specific position on the board,
-     * if there's any.<br/>
-     * You want to call this before performing a move.
-     * @param position the position of the worker
-     */
-    void unsetWorker(Point position);
-
-    /**
-     * Remove a worker from a specific position.
-     * @see #unsetWorker(Point)
-     */
-    void unsetWorker(int workerId, String playerUsername);
-
     void moveWorker(Point newPosition, int workerId, String playerUsername);
 
     /**
