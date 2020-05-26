@@ -16,13 +16,22 @@ import java.util.Map;
  */
 public class GodFactory {
     private final Map<String, UIGod> godMap;
+    private static GodFactory instance = null;
+
+    public static GodFactory getInstance() throws IOException {
+        if(instance == null) {
+            instance = new GodFactory("src/main/resources/gods/godlist.xml");
+        }
+
+        return instance;
+    }
 
     /**
      * Constructs a GodModelFactory using a specific file.
      * @param godsFile file containing gods data
      * @throws IOException for errors with opening, reading, or parsing the file
      */
-    public GodFactory(String godsFile) throws IOException {
+    private GodFactory(String godsFile) throws IOException {
         godMap = new HashMap<>();
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

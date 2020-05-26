@@ -61,7 +61,7 @@ public class UIPlayer {
      */
     public void setGod(String id) {
         try {
-            this.god = (new GodFactory("src/main/resources/gods/godlist.xml")).getGod(id);
+            this.god = GodFactory.getInstance().getGod(id);
         } catch (Exception e) {
             System.out.println("ERROR: God or Godfile.xml not found!");
             e.printStackTrace();
