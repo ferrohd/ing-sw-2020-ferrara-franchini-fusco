@@ -29,8 +29,8 @@ public class Prometheus extends God {
     }
 
     @Override
-    public void removeMoves(List<MoveAction> moves, Player player, int workerIndex, Match match) throws IOException {
-        if(!player.getUsername().equals(getOwner())) return;
+    public void removeMoves(List<MoveAction> moves, String player, int workerIndex, Match match) throws IOException {
+        if(!player.equals(getOwner())) return;
 
         if(activated) {
             List<MoveAction> illegalMoves = moves.stream()
