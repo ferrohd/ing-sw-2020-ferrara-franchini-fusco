@@ -19,7 +19,6 @@ import javafx.scene.shape.MeshView;
 import javafx.util.Duration;
 
 import java.net.URL;
-import java.sql.Time;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -388,7 +387,7 @@ public class GameSceneModel {
      * @param position the position of the tower.
      */
     public void incrementCell(Point position) {
-        towerBuildHelper(position, getTowerHeight(position));
+        setTower(position, getTowerHeight(position));
         updateWorkers();
         updateSelectables();
     }
@@ -422,7 +421,7 @@ public class GameSceneModel {
      */
     public void putDome(Point position) {
         while(getTowerHeight(position) <= 3)
-            towerBuildHelper(position, getTowerHeight(position));
+            setTower(position, getTowerHeight(position));
     }
 
     /**
@@ -430,7 +429,7 @@ public class GameSceneModel {
      * @param position the model position of the tower
      * @param height the height of the tower
      */
-    private void towerBuildHelper(Point position, int height) {
+    private void setTower(Point position, int height) {
         Node tower = ActorFactory.getBlock(height);
         Point3D target = getSceneTowerCoordinates(position);
         // Fix padding
@@ -471,9 +470,9 @@ public class GameSceneModel {
      * Render a list of points (choices) as selectables.
      * @param positions a list of points
      */
-    public void displayAllSelectables(List<Point> positions) {
+    public void addAllSelectables(List<Point> positions) {
         for (int i = 0; i < positions.size(); i++) {
-            addSelectable(i, positions.get(i));
+            if (positions.get(i) != null) addSelectable(i, positions.get(i));
         }
     }
 

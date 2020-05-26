@@ -142,7 +142,7 @@ public interface UI {
      *
      * @return A tuple [x,y] of the worker coordinates
      */
-    int[] chooseWorkerInitialPosition() throws InterruptedException;
+    int[] chooseWorkerInitialPosition();
 
 
     /**
@@ -166,5 +166,5 @@ public interface UI {
      * @param message the text to display
      * @return 0 = no, 1 = yes
      */
-    int chooseYesNo(String message) throws InterruptedException;
+    int chooseYesNo(String message);
 }

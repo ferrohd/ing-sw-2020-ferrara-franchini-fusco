@@ -14,11 +14,12 @@ import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class GUI implements UI {
-    private ArrayList<String> players = new ArrayList<>();
-    private GUIGameScene gameScene = new GUIGameScene();
+    private String currentPlayerId;
+    private final ArrayList<String> players = new ArrayList<>();
+    private final GUIGameScene gameScene = new GUIGameScene();
 
     @Override
     public void registerPlayer(String player) {
@@ -110,6 +111,7 @@ public class GUI implements UI {
                 for (int i = 0; i < 3; ++i)
                     incrementCell(new Point(2, 3));
                 setWorker(new Point(0, 0), 0, "pippo");
+                setWorker(new Point(4, 4), 0, "pluto");
                 setWorker(new Point(1, 0), 1, "pippo");
                 Thread.sleep(3000);
                 moveWorker(new Point(0, 1), 0, "pippo");
@@ -153,7 +155,8 @@ public class GUI implements UI {
     @Override
     public String askUsername() throws InterruptedException {
         Platform.runLater(new GUIUsernameScene());
-        return (String) GUIMain.getQueue().take();
+        currentPlayerId = (String) GUIMain.getQueue().take();
+        return currentPlayerId;
     }
 
     /**
@@ -186,8 +189,12 @@ public class GUI implements UI {
      */
     @Override
     public int chooseWorker(List<Integer> choices) throws InterruptedException {
+        gameScene.setIsSelectingWorker(true);
+        gameScene.setPlayerId(players.indexOf(currentPlayerId));
 
-        return (int) GUIMain.getQueue().take();
+        int ret = (int) GUIMain.getQueue().take();
+        gameScene.setIsSelectingWorker(false);
+        return ret;
     }
 
     @Override
@@ -196,7 +203,8 @@ public class GUI implements UI {
     }
 
     @Override
-    public int[] chooseWorkerInitialPosition()  throws InterruptedException {
+    public int[] chooseWorkerInitialPosition() {
+        // TODO: Handle selection of starting cell
         return new int[0];
     }
 
@@ -208,7 +216,14 @@ public class GUI implements UI {
      */
     @Override
     public int chooseMove(List<MoveProposal> moves) throws InterruptedException {
-        return 0;
+        gameScene.setIsSelectingCell(true);
+        List<Point> points = moves.stream().map(MoveProposal::getPoint).collect(Collectors.toList());
+        gameScene.getModel().addAllSelectables(points);
+
+        int ret = (int) GUIMain.getQueue().take();
+        gameScene.setIsSelectingCell(false);
+
+        return ret;
     }
 
     /**
@@ -220,7 +235,14 @@ public class GUI implements UI {
      */
     @Override
     public int chooseBuild(List<BuildProposal> moves) throws InterruptedException {
-        return 0;
+        gameScene.setIsSelectingCell(true);
+        List<Point> points = moves.stream().map(BuildProposal::getPoint).collect(Collectors.toList());
+        gameScene.getModel().addAllSelectables(points);
+
+        int ret = (int) GUIMain.getQueue().take();
+        gameScene.setIsSelectingCell(false);
+
+        return ret;
     }
 
     /**
@@ -231,7 +253,7 @@ public class GUI implements UI {
      * @return 0 = no, 1 = yes
      */
     @Override
-    public int chooseYesNo(String message) throws InterruptedException {
+    public int chooseYesNo(String message) {
         return 0;
     }
 }

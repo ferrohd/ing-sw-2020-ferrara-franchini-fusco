@@ -7,12 +7,12 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.geometry.Point3D;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
@@ -38,8 +38,9 @@ public class GUIGameScene implements Runnable {
     SimpleBooleanProperty isDragging = new SimpleBooleanProperty(false);
     SimpleDoubleProperty lastMouseX = new SimpleDoubleProperty(VIEWPORT_X * 0.5);
     SimpleDoubleProperty lastMouseY = new SimpleDoubleProperty(VIEWPORT_Y * 0.5);
-
-    private GameSceneModel model;
+    SimpleBooleanProperty isSelectingCell = new SimpleBooleanProperty(false);
+    SimpleBooleanProperty isSelectingWorker = new SimpleBooleanProperty(false);
+    SimpleIntegerProperty playerId = new SimpleIntegerProperty(0);
 
     public void setIsDragging(boolean isDragging) {
         this.isDragging.set(isDragging);
@@ -52,6 +53,20 @@ public class GUIGameScene implements Runnable {
     public void setLastMouseY(double lastMouseY) {
         this.lastMouseY.set(lastMouseY);
     }
+
+    public void setIsSelectingCell(boolean isSelectingCell) {
+        this.isSelectingCell.set(isSelectingCell);
+    }
+
+    public void setIsSelectingWorker(boolean isSelectingWorker) {
+        this.isSelectingWorker.set(isSelectingWorker);
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId.set(playerId);
+    }
+
+    private GameSceneModel model;
 
     @Override
     public void run() {
@@ -130,11 +145,30 @@ public class GUIGameScene implements Runnable {
         scene.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             PickResult res = event.getPickResult();
             Node node = res.getIntersectedNode();
-            if (node != null) {
-                // Do stuff
-                //actors.moveWorker(0, 0, new Point(new Random().nextInt(5), new Random().nextInt(5)));
-                //root.getChildren().add(actors.getActorById("block000"));
-                System.out.println(node.getId());
+            // Stop doing stuff if I clicked on nothing
+            if (node == null) return;
+
+            // If I should handle picking cells
+            if (isSelectingCell.get()) {
+                if (node.getId().startsWith("sel")) {
+                    // The player clicked on a BIG FAT YELLOW RECT
+                    // TODO: Make clicking on workers work
+                    int selectableId = Integer.parseInt(String.valueOf(node.getId().charAt(3)));
+                    System.out.println(selectableId);
+                    GUIMain.getQueue().add(selectableId);
+                }
+            }
+            // Handle selection of a worker
+            if (isSelectingWorker.get()) {
+                if (node.getId().startsWith("worker")) {
+                    int selectedPlayerId = Integer.parseInt(String.valueOf(node.getId().charAt(6)));
+                    int workerId = Integer.parseInt(String.valueOf(node.getId().charAt(7)));
+                    // A player can only select their own worker
+                    if (selectedPlayerId == playerId.get()) {
+                        System.out.println("Player " + playerId.get() + " (you) selected worker #" + workerId);
+                        GUIMain.getQueue().add(workerId);
+                    }
+                }
             }
         });
 

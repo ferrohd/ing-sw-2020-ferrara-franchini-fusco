@@ -105,7 +105,7 @@ class CLITest {
     }
 
     @Test
-    void chooseAvailableGods() {
+    void chooseAvailableGods() throws InterruptedException {
         List<GodProposal> _list = new ArrayList<>();
         _list.add(new GodProposal("Apollo"));
         _list.add(new GodProposal("Artemis"));
@@ -125,7 +125,7 @@ class CLITest {
     }
 
     @Test
-    void chooseAvailableFewGods() {
+    void chooseAvailableFewGods() throws InterruptedException {
         List<GodProposal> _list = new ArrayList<>();
         _list.add(new GodProposal("Apollo"));
         _list.add(new GodProposal("Artemis"));
@@ -137,7 +137,7 @@ class CLITest {
     }
 
     @Test
-    void chooseWorker() {
+    void chooseWorker() throws InterruptedException {
         System.out.println();
         ui.chooseWorker(new ArrayList<>(Arrays.asList(0, 1)));
     }
@@ -148,7 +148,7 @@ class CLITest {
     }
 
     @Test
-    void chooseMoves() {
+    void chooseMoves() throws InterruptedException {
         List<MoveProposal> _l = new ArrayList<>();
         _l.add(new MoveProposal(new Point(0,0)));
         _l.add(new MoveProposal(new Point(1,1)));
