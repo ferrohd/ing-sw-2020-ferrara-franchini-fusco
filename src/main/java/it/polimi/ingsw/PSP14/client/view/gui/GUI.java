@@ -2,10 +2,7 @@ package it.polimi.ingsw.PSP14.client.view.gui;
 
 import it.polimi.ingsw.PSP14.client.view.cli.UIColor;
 import it.polimi.ingsw.PSP14.client.view.UI;
-import it.polimi.ingsw.PSP14.client.view.gui.scenes.GUIGameScene;
-import it.polimi.ingsw.PSP14.client.view.gui.scenes.GUILobbySizeScene;
-import it.polimi.ingsw.PSP14.client.view.gui.scenes.GUIUsernameScene;
-import it.polimi.ingsw.PSP14.client.view.gui.scenes.GUIWelcomeScene;
+import it.polimi.ingsw.PSP14.client.view.gui.scenes.*;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
@@ -121,7 +118,7 @@ public class GUI implements UI {
                 incrementCell(new Point(4, 1));
                 Thread.sleep(1000);
                 moveWorker(new Point(0, 0), 0, "pippo");
-            } catch(InterruptedException e) {}
+            } catch(InterruptedException ignored) {}
         }).start();
     }
 
@@ -143,7 +140,7 @@ public class GUI implements UI {
      */
     @Override
     public void showNotification(String s) {
-
+        Platform.runLater(new ToastScene(s));
     }
 
     /**
