@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP14.client.view.cli;
 
-import it.polimi.ingsw.PSP14.client.model.UICache;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,8 @@
-package it.polimi.ingsw.PSP14.client.model;
+package it.polimi.ingsw.PSP14.client.view.cli;
+
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.Comparator.comparing;
 
@@ -34,7 +35,7 @@ public class UICache {
      *                 of the cell.
      * @return the cell at x,y coordinates
      */
-    public UICell getCell(UIPoint position) {
+    public UICell getCell(Point position) {
         return getCell(position.getX(), position.getY());
     }
 

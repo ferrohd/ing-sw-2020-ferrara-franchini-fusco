@@ -1,16 +1,70 @@
 package it.polimi.ingsw.PSP14.client.view.gui;
 
-import it.polimi.ingsw.PSP14.client.model.UIColor;
+import it.polimi.ingsw.PSP14.client.view.cli.UIColor;
 import it.polimi.ingsw.PSP14.client.view.UI;
+import it.polimi.ingsw.PSP14.client.view.gui.scenes.GUIGameScene;
+import it.polimi.ingsw.PSP14.client.view.gui.scenes.GUILobbySizeScene;
+import it.polimi.ingsw.PSP14.client.view.gui.scenes.GUIUsernameScene;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 import javafx.application.Platform;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-public class GUI extends UI {
+public class GUI implements UI {
+    private ArrayList<String> players = new ArrayList<>();
+    private GUIGameScene gameScene = new GUIGameScene();
+
+    @Override
+    public void registerPlayer(String player) {
+        players.add(player);
+    }
+
+    @Override
+    public void unregisterPlayer(String username) {
+        unsetWorker(0, username);
+        unsetWorker(1, username);
+    }
+
+    @Override
+    public void setWorker(Point position, int workerId, String playerUsername) {
+        Platform.runLater(() ->
+                gameScene.getModel().addWorker(position, workerId, players.indexOf(playerUsername))
+        );
+    }
+
+    private void unsetWorker(int workerId, String playerUsername) {
+        Platform.runLater(() ->
+                gameScene.getModel().removeWorker(workerId, players.indexOf(playerUsername))
+        );
+    }
+
+    @Override
+    public void moveWorker(Point newPosition, int workerId, String playerUsername) {
+        Platform.runLater(() ->
+                gameScene.getModel().moveWorker(players.indexOf(playerUsername), workerId, newPosition)
+        );
+    }
+
+    @Override
+    public void incrementCell(Point position) {
+        Platform.runLater(() ->
+                gameScene.getModel().incrementCell(position)
+        );
+    }
+
+    @Override
+    public void setDome(Point position) {
+        Platform.runLater(() ->
+                gameScene.getModel().putDome(position)
+        );
+    }
+
     @Override
     public void update() {
 
@@ -35,8 +89,39 @@ public class GUI extends UI {
     public void welcome() throws InterruptedException {
         new Thread(() -> GUIMain.launch(GUIMain.class)).start();
         GUIMain.getQueue().take();
-//        Platform.runLater(new GUIWelcomeScene());
-        Platform.runLater(new GUILobbyScene());
+
+        startGameScene();
+    }
+
+    private void startGameScene() {
+        Platform.runLater(gameScene);
+
+        showDemo();
+    }
+
+    private void showDemo() {
+        new Thread(() -> {
+            try {
+                incrementCell(new Point(0, 0));
+                players.add("pippo");
+                players.add("pluto");
+                incrementCell(new Point(0, 0));
+                setDome(new Point(3, 3));
+                for (int i = 0; i < 3; ++i)
+                    incrementCell(new Point(2, 3));
+                setWorker(new Point(0, 0), 0, "pippo");
+                setWorker(new Point(1, 0), 1, "pippo");
+                Thread.sleep(3000);
+                moveWorker(new Point(0, 1), 0, "pippo");
+                Thread.sleep(1500);
+                incrementCell(new Point(4, 1));
+                moveWorker(new Point(4, 1), 1, "pippo");
+                Thread.sleep(2000);
+                incrementCell(new Point(4, 1));
+                Thread.sleep(1000);
+                moveWorker(new Point(0, 0), 0, "pippo");
+            } catch(InterruptedException e) {}
+        }).start();
     }
 
     /**
@@ -46,8 +131,8 @@ public class GUI extends UI {
      */
     @Override
     public int getLobbySize() throws InterruptedException {
-        GUIMain.getQueue().add("lobbySize");
-        return (int) GUIMain.getQueue().take();
+        Platform.runLater(new GUILobbySizeScene());
+        return  (int) GUIMain.getQueue().take();
     }
 
     /**
