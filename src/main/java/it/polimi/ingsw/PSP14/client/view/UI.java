@@ -7,6 +7,7 @@ import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -126,7 +127,7 @@ public interface UI {
      *
      * @return the index of the chosen worker
      */
-    int chooseWorker(List<Integer> choosable);
+    int chooseWorker(List<Integer> choosable) throws IOException;
 
     /**
      * Ask the (hosting) player to choose a god that will be added to a pool
@@ -150,7 +151,7 @@ public interface UI {
      * @param moves a list of possible moves to choose from
      * @return the Index of the chosen move
      */
-    int chooseMove(List<MoveProposal> moves);
+    int chooseMove(List<MoveProposal> moves) throws IOException;
 
     /**
      * Ask a player for the destination of their next build action,
@@ -158,7 +159,7 @@ public interface UI {
      * @param moves a list of options to choose from
      * @return the Index of the chosen option
      */
-    int chooseBuild(List<BuildProposal> moves);
+    int chooseBuild(List<BuildProposal> moves) throws IOException;
 
     /**
      * Ask the player if they want to perform a certain action.
