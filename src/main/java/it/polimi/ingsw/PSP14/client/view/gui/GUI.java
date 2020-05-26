@@ -164,8 +164,6 @@ public class GUI implements UI {
      */
     @Override
     public int chooseGod(List<GodProposal> proposals) {
-        GUIMain.getQueue().add("chooseGod");
-        GUIMain.getQueue().add(proposals);
         return 0;
     }
 
@@ -177,8 +175,6 @@ public class GUI implements UI {
      */
     @Override
     public int chooseFirstPlayer(List<PlayerProposal> proposals) {
-        GUIMain.getQueue().add("chooseFirstPlayer");
-        GUIMain.getQueue().add(proposals);
         return 0;
     }
 
@@ -189,19 +185,18 @@ public class GUI implements UI {
      * @return the index of the chosen worker
      */
     @Override
-    public int chooseWorker(List<Integer> choices) {
+    public int chooseWorker(List<Integer> choices) throws InterruptedException {
+
+        return (int) GUIMain.getQueue().take();
+    }
+
+    @Override
+    public int chooseAvailableGods(List<GodProposal> gods) throws InterruptedException {
         return 0;
     }
 
     @Override
-    public int chooseAvailableGods(List<GodProposal> gods) {
-        GUIMain.getQueue().add("chooseAvailableGods");
-        GUIMain.getQueue().add(gods);
-        return 0;
-    }
-
-    @Override
-    public int[] chooseWorkerInitialPosition() {
+    public int[] chooseWorkerInitialPosition()  throws InterruptedException {
         return new int[0];
     }
 
@@ -212,7 +207,7 @@ public class GUI implements UI {
      * @return the Index of the chosen move
      */
     @Override
-    public int chooseMove(List<MoveProposal> moves) {
+    public int chooseMove(List<MoveProposal> moves) throws InterruptedException {
         return 0;
     }
 
@@ -224,7 +219,7 @@ public class GUI implements UI {
      * @return the Index of the chosen option
      */
     @Override
-    public int chooseBuild(List<BuildProposal> moves) {
+    public int chooseBuild(List<BuildProposal> moves) throws InterruptedException {
         return 0;
     }
 
@@ -236,7 +231,7 @@ public class GUI implements UI {
      * @return 0 = no, 1 = yes
      */
     @Override
-    public int chooseYesNo(String message) {
+    public int chooseYesNo(String message) throws InterruptedException {
         return 0;
     }
 }

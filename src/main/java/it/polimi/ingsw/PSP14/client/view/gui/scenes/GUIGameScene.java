@@ -130,12 +130,11 @@ public class GUIGameScene implements Runnable {
         scene.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             PickResult res = event.getPickResult();
             Node node = res.getIntersectedNode();
-            Point3D p = res.getIntersectedPoint();
-
             if (node != null) {
                 // Do stuff
                 //actors.moveWorker(0, 0, new Point(new Random().nextInt(5), new Random().nextInt(5)));
                 //root.getChildren().add(actors.getActorById("block000"));
+                System.out.println(node.getId());
             }
         });
 
