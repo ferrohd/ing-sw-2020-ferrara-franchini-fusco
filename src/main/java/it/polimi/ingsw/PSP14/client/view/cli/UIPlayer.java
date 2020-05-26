@@ -1,10 +1,9 @@
-package it.polimi.ingsw.PSP14.client.model;
+package it.polimi.ingsw.PSP14.client.view.cli;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Class containing all the details that are useful client-side to
@@ -26,7 +25,7 @@ public class UIPlayer {
      * @param number a unique number to distinguish the player
      * @param color a unique UIColor to highlight the player's belongings.
      */
-    UIPlayer(String username, int number, UIColor color) {
+    public UIPlayer(String username, int number, UIColor color) {
         this.username = username;
         this.color = color;
         this.number = number;

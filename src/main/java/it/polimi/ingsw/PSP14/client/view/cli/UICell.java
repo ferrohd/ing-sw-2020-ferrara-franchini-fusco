@@ -1,4 +1,6 @@
-package it.polimi.ingsw.PSP14.client.model;
+package it.polimi.ingsw.PSP14.client.view.cli;
+
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 /**
  * A class that represent a cell on the board.
@@ -15,7 +17,7 @@ public class UICell {
     private boolean dome;
     private UIWorker worker;
 
-    UICell(int x, int y) {
+    public UICell(int x, int y) {
         this.x = x;
         this.y = y;
         this.towerHeight = 0;
@@ -103,5 +105,5 @@ public class UICell {
         return y;
     }
 
-    public UIPoint getUIPoint() { return new UIPoint(x, y); }
+    public Point getPoint() { return new Point(x, y); }
 }

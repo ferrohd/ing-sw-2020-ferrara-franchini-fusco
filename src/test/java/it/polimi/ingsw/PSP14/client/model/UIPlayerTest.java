@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP14.client.model;
 
+import it.polimi.ingsw.PSP14.client.view.cli.UIPlayer;
+import it.polimi.ingsw.PSP14.client.view.cli.UIWorker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

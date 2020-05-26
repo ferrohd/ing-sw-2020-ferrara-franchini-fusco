@@ -1,7 +1,6 @@
 package it.polimi.ingsw.PSP14.client.view.cli;
 
 import it.polimi.ingsw.PSP14.client.controller.InvalidSettingsException;
-import it.polimi.ingsw.PSP14.client.model.UIPoint;
 import it.polimi.ingsw.PSP14.client.view.UI;
 import it.polimi.ingsw.PSP14.client.view.UIFactory;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
@@ -25,21 +24,21 @@ class CLITest {
         try {
             ui = UIFactory.getUI("cli");
             ui.registerPlayer("ferroHD");
-            ui.setWorker(new UIPoint(0,0), 0,"ferroHD");
-            ui.setWorker(new UIPoint(3,3), 1,"ferroHD");
+            ui.setWorker(new Point(0,0), 0,"ferroHD");
+            ui.setWorker(new Point(3,3), 1,"ferroHD");
             ui.registerPlayer("QUB3X");
-            ui.setWorker(new UIPoint(1,1), 0, "QUB3X");
-            ui.setWorker(new UIPoint(3,2), 1, "QUB3X");
+            ui.setWorker(new Point(1,1), 0, "QUB3X");
+            ui.setWorker(new Point(3,2), 1, "QUB3X");
             ui.registerPlayer("Yuzon");
-            ui.setWorker(new UIPoint(4,4), 0,"Yuzon");
-            ui.setWorker(new UIPoint(4,2), 1,"Yuzon");
-            ui.incrementCell(new UIPoint(0,0));
-            ui.incrementCell(new UIPoint(0,0));
-            ui.incrementCell(new UIPoint(0,0));
-            ui.incrementCell(new UIPoint(0,1));
-            ui.incrementCell(new UIPoint(1,0));
-            ui.setDome(new UIPoint(1, 1));
-            ui.setWorker(new UIPoint(2,0),0, "ferroHD");
+            ui.setWorker(new Point(4,4), 0,"Yuzon");
+            ui.setWorker(new Point(4,2), 1,"Yuzon");
+            ui.incrementCell(new Point(0,0));
+            ui.incrementCell(new Point(0,0));
+            ui.incrementCell(new Point(0,0));
+            ui.incrementCell(new Point(0,1));
+            ui.incrementCell(new Point(1,0));
+            ui.setDome(new Point(1, 1));
+            ui.setWorker(new Point(2,0),0, "ferroHD");
             // DEBUG
             ((CLI) ui).debug_setPlayerUsername("ferroHD");
         } catch (InvalidSettingsException ignored) {

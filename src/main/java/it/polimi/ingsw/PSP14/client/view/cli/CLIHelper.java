@@ -1,9 +1,5 @@
 package it.polimi.ingsw.PSP14.client.view.cli;
 
-import it.polimi.ingsw.PSP14.client.model.UICache;
-import it.polimi.ingsw.PSP14.client.model.UICell;
-import it.polimi.ingsw.PSP14.client.model.UIPlayer;
-
 import java.util.List;
 import java.util.stream.Collectors;
 

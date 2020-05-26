@@ -1,26 +1,74 @@
 package it.polimi.ingsw.PSP14.client.view.cli;
 
-import it.polimi.ingsw.PSP14.client.model.UIColor;
-import it.polimi.ingsw.PSP14.client.model.UIPoint;
-import it.polimi.ingsw.PSP14.client.model.UIWorker;
 import it.polimi.ingsw.PSP14.client.view.UI;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class CLI extends UI {
+public class CLI implements UI {
 
+    private final UICache cache = new UICache();
+    private final Set<UIColor> assignedColors = new HashSet<>();
+    private int playerNumber = 1;
     private final CLIHelper ctx = new CLIHelper(cache);
     private String playerUsername;
     private final Scanner in = new Scanner(System.in);
 
+    @Override
+    public void registerPlayer(String newPlayerUsername) {
+        UIColor _newPlayerColor = null;
+        // Prevent duplicate colors
+        while (_newPlayerColor == null ||
+                assignedColors.contains(_newPlayerColor)) {
+            _newPlayerColor = getColor(playerNumber);
+        }
+        assignedColors.add(_newPlayerColor);
+
+        cache.addPlayer(newPlayerUsername, playerNumber++, _newPlayerColor);
+    }
+
+    @Override
+    public void unregisterPlayer(String username) {
+        cache.removePlayer(username);
+    }
+
+    @Override
+    public void setWorker(Point position, int workerId, String playerUsername) {
+        UIPlayer _player = cache.getPlayer(playerUsername);
+        UIWorker _worker = _player.getWorker(workerId);
+        // Create a new worker if there isn't one
+        if (_worker == null) {
+            _worker = new UIWorker(workerId, _player);
+        }
+        cache.setWorker(_worker, playerUsername, cache.getCell(position));
+    }
+
+    private void unsetWorker(int workerId, String playerUsername) {
+        UIPlayer _player = cache.getPlayer(playerUsername);
+        cache.unsetWorker(_player.getWorker(workerId));
+    }
+
+    @Override
+    public void moveWorker(Point newPosition, int workerId, String playerUsername) {
+        unsetWorker(workerId, playerUsername);
+        setWorker(newPosition, workerId, playerUsername);
+    }
+
+    @Override
+    public void incrementCell(Point position) {
+        cache.getCell(position).incrementTowerHeight();
+    }
+
+    @Override
+    public void setDome(Point position) {
+        cache.getCell(position).setDome(true);
+    }
 
     public UIColor getColor() {
         CLIColor[] colorList = CLIColor.values();
@@ -45,7 +93,7 @@ public class CLI extends UI {
         return _i - 1;
     }
 
-    private int parseCoordinates(Consumer<String> callback, List<UIPoint> validCoordinates) {
+    private int parseCoordinates(Consumer<String> callback, List<Point> validCoordinates) {
         String _input;
         do {
             callback.accept("");
@@ -55,7 +103,7 @@ public class CLI extends UI {
         int _x = _coords[1].charAt(0) - '0';
         int _y = _coords[0].toLowerCase().charAt(0) - 'a';
         for (int i = 0; i < validCoordinates.size(); i++) {
-            UIPoint coord = validCoordinates.get(i);
+            Point coord = validCoordinates.get(i);
             if (coord.getX() == _x && coord.getY() == _y) return i;
         }
         // ask server to send again the command
@@ -185,7 +233,7 @@ public class CLI extends UI {
     public int chooseWorker(List<Integer> choosable) {
         // Get this player name and get his worker details
         List<UIWorker> _pw = cache.getPlayer(this.playerUsername).getWorkers();
-        List<UIPoint> workersPosition = _pw.stream().map(w -> w.getCell().getUIPoint()).collect(Collectors.toList());
+        List<Point> workersPosition = _pw.stream().map(w -> w.getCell().getPoint()).collect(Collectors.toList());
         List<String> _workers = _pw.stream()
                 .filter(w -> choosable.contains(w.getId()))
                 .map(w -> "[" + (char)(w.getCell().getY()+'A') + " " + w.getCell().getX() + "]")
@@ -206,7 +254,7 @@ public class CLI extends UI {
         List<String> moveStrings = moves.stream()
                 .map(m -> "[" + (char)(m.getPoint().getY() +'A') + " " + m.getPoint().getX() + "]")
                 .collect(Collectors.toList());
-        List<UIPoint> validMoves = moves.stream().map(m -> m.getPoint().getUIPoint()).collect(Collectors.toList());
+        List<Point> validMoves = moves.stream().map(m -> m.getPoint()).collect(Collectors.toList());
 
         ctx.drawBoardAndPlayers();
         ctx.drawPanelChoices("MOVES", moveStrings);
@@ -223,7 +271,7 @@ public class CLI extends UI {
         List<String> buildStrings = moves.stream()
                 .map(m -> "[" + (char)(m.getPoint().getY() +'A') + " " + m.getPoint().getX() + "]" + (m.hasDome() ? " (dome)" : ""))
                 .collect(Collectors.toList());
-        List<UIPoint> buildPositions = moves.stream().map(m -> m.getPoint().getUIPoint()).collect(Collectors.toList());
+        List<Point> buildPositions = moves.stream().map(m -> m.getPoint()).collect(Collectors.toList());
 
         ctx.drawBoardAndPlayers();
         ctx.drawPanelChoices("BUILDING OPTIONS", buildStrings);

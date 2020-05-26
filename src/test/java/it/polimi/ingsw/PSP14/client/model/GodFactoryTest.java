@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP14.client.model;
 
+import it.polimi.ingsw.PSP14.client.view.cli.GodFactory;
+import it.polimi.ingsw.PSP14.client.view.cli.UIGod;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

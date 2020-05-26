@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.client.model;
+package it.polimi.ingsw.PSP14.client.view.cli;
 
 /**
  * Represent a Worker and all of its binding to

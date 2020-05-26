@@ -1,7 +1,5 @@
 package it.polimi.ingsw.PSP14.server.model.board;
 
-import it.polimi.ingsw.PSP14.client.model.UIPoint;
-
 import java.io.Serializable;
 
 /**
@@ -27,8 +25,6 @@ public class Point implements Serializable {
     public int getY() {
         return y;
     }
-
-    public UIPoint getUIPoint() { return new UIPoint(x, y); }
 
     /**
      * Compare two points and return a boolean whether they are equals or not.

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.PSP14.client.view.cli;
 
-import it.polimi.ingsw.PSP14.client.model.UIColor;
-
 enum CLIColor implements UIColor {
     RESET("\033[0m"),
     RED("\033[0;31m"),

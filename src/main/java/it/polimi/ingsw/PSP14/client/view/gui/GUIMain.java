@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP14.client.view.gui;
 
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.stage.Stage;
 
 import java.util.concurrent.BlockingQueue;
@@ -18,6 +19,10 @@ public class GUIMain extends Application {
         return initStage;
     }
 
+    /**
+     * Entry point of JavaFX
+     * @param primaryStage First Window created by JavaFX
+     */
     @Override
     public void start(Stage primaryStage) {
         initStage = primaryStage;

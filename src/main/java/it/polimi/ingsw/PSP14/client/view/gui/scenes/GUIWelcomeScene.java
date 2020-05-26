@@ -1,5 +1,6 @@
-package it.polimi.ingsw.PSP14.client.view.gui;
+package it.polimi.ingsw.PSP14.client.view.gui.scenes;
 
+import it.polimi.ingsw.PSP14.client.view.gui.GUIMain;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
