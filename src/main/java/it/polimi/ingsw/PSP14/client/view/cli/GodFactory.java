@@ -8,7 +8,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -68,4 +70,5 @@ public class GodFactory {
     public UIGod getGod(String godName) {
         return godMap.get(godName);
     }
+    public Map<String, UIGod> getGodsMap() { return godMap; }
 }
