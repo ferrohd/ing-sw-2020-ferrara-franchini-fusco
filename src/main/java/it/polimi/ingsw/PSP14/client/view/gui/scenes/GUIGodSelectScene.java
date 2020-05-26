@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class GUIGodSelectScene implements Runnable {
@@ -30,11 +31,14 @@ public class GUIGodSelectScene implements Runnable {
 
             Scene scene = new Scene(root);
 
+            String basepath = "file:src/main/resources/images/gods/icons/";
+
             GridPane godgrid = (GridPane) scene.lookup("#godgrid");
             List<Node> icons = godgrid.getChildren();
             for(int i = 0; i < gods.size(); ++i) {
                 ImageView img = (ImageView) icons.get(i);
-                img.setImage(new Image("/C:/Users/luigi/IdeaProjects/ing-sw-2020-ferrara-franchini-fusco/src/main/resources/images/gods/icons/" + gods.get(i) + ".png"));
+                String path = basepath + gods.get(i) + ".png";
+                img.setImage(new Image(path));
             }
 
             GUIMain.getStage().setScene(scene);
