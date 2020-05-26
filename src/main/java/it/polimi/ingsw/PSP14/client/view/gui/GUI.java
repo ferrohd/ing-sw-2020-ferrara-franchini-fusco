@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP14.client.view.UI;
 import it.polimi.ingsw.PSP14.client.view.gui.scenes.GUIGameScene;
 import it.polimi.ingsw.PSP14.client.view.gui.scenes.GUILobbySizeScene;
 import it.polimi.ingsw.PSP14.client.view.gui.scenes.GUIUsernameScene;
+import it.polimi.ingsw.PSP14.client.view.gui.scenes.GUIWelcomeScene;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
@@ -90,7 +91,7 @@ public class GUI implements UI {
         new Thread(() -> GUIMain.launch(GUIMain.class)).start();
         GUIMain.getQueue().take();
 
-        startGameScene();
+        Platform.runLater(new GUIWelcomeScene());
     }
 
     private void startGameScene() {

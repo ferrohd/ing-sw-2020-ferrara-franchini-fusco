@@ -10,6 +10,7 @@ import it.polimi.ingsw.PSP14.server.model.board.Point;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -137,7 +138,7 @@ class CLITest {
     }
 
     @Test
-    void chooseWorker() {
+    void chooseWorker() throws IOException {
         System.out.println();
         ui.chooseWorker(new ArrayList<>(Arrays.asList(0, 1)));
     }
@@ -148,7 +149,7 @@ class CLITest {
     }
 
     @Test
-    void chooseMoves() {
+    void chooseMoves() throws IOException {
         List<MoveProposal> _l = new ArrayList<>();
         _l.add(new MoveProposal(new Point(0,0)));
         _l.add(new MoveProposal(new Point(1,1)));

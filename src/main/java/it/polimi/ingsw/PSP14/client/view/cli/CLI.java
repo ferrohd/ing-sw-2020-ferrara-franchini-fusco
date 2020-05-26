@@ -7,6 +7,7 @@ import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -93,11 +94,15 @@ public class CLI implements UI {
         return _i - 1;
     }
 
-    private int parseCoordinates(Consumer<String> callback, List<Point> validCoordinates) {
+    private int parseCoordinates(Consumer<String> callback, List<Point> validCoordinates) throws IOException {
         String _input;
         do {
             callback.accept("");
             _input = in.nextLine();
+            if (_input.equals("help")) {
+                Map<String, UIGod> godList = GodFactory.getInstance().getGodsMap();
+                godList.forEach( (name, god) -> { this.drawMessage(god.getName() + ": " + god.getDescription(), CLIColor.RED); } );
+            }
         } while (!_input.matches("^[a-e]|[A-E]\\s[0-4]$"));
         String[] _coords = _input.split(" ");
         int _x = _coords[1].charAt(0) - '0';
@@ -116,6 +121,15 @@ public class CLI implements UI {
      */
     private void drawMessage(String text) {
         System.out.println(CLIColor.YELLOW + "> " + text + CLIColor.RESET);
+    }
+    
+    /**
+     * Use this to draw a fullscreen message.
+     * @param text the text to draw
+     * @param color color of the drawing
+     */
+    private void drawMessage(String text, CLIColor color) {
+        System.out.println(color + "> " + text + CLIColor.RESET);
     }
 
     @Override
@@ -230,7 +244,7 @@ public class CLI implements UI {
     }
 
     @Override
-    public int chooseWorker(List<Integer> choosable) {
+    public int chooseWorker(List<Integer> choosable) throws IOException {
         // Get this player name and get his worker details
         List<UIWorker> _pw = cache.getPlayer(this.playerUsername).getWorkers();
         List<Point> workersPosition = _pw.stream().map(w -> w.getCell().getPoint()).collect(Collectors.toList());
@@ -250,7 +264,7 @@ public class CLI implements UI {
     }
 
     @Override
-    public int chooseMove(List<MoveProposal> moves) {
+    public int chooseMove(List<MoveProposal> moves) throws IOException {
         List<String> moveStrings = moves.stream()
                 .map(m -> "[" + (char)(m.getPoint().getY() +'A') + " " + m.getPoint().getX() + "]")
                 .collect(Collectors.toList());
@@ -267,7 +281,7 @@ public class CLI implements UI {
     }
 
     @Override
-    public int chooseBuild(List<BuildProposal> moves) {
+    public int chooseBuild(List<BuildProposal> moves) throws IOException {
         List<String> buildStrings = moves.stream()
                 .map(m -> "[" + (char)(m.getPoint().getY() +'A') + " " + m.getPoint().getX() + "]" + (m.hasDome() ? " (dome)" : ""))
                 .collect(Collectors.toList());
