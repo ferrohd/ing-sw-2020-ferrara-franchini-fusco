@@ -140,7 +140,7 @@ public class GameSceneModel {
      * in the game.
      * @return a collection of nodes
      */
-    public Collection<Node> getAllWorkers() {
+    public List<Node> getAllWorkers() {
         List<String> _keys = actors.keySet().stream().filter(k -> k.startsWith("worker")).collect(Collectors.toList());
         List<Node> _ret = new ArrayList<>();
         for (String key : _keys) {
@@ -226,27 +226,30 @@ public class GameSceneModel {
      * @param position the target position
      */
     public void moveWorker(int playerNumber, int workerNumber, Point position) {
-        Node worker = actors.get(getWorkerActorId(playerNumber, workerNumber));
+        moveWorkerNode(position, actors.get(getWorkerActorId(playerNumber, workerNumber)));
+    }
+
+    private void moveWorkerNode(Point position, Node worker) {
         if (worker != null) {
             Point3D finalPosition = getSceneCoordinates(position).add(0, getWorkerHeight(position), 0),
                     diff = finalPosition.subtract(getSceneCoordinates(worker));
             Timeline xTimeline = new Timeline(
-                        new KeyFrame(
+                    new KeyFrame(
                             Duration.millis(diff.getX() != 0 ? 250 : 0),
                             new KeyValue(worker.translateXProperty(), finalPosition.getX())
-                        )
-                    ),
+                    )
+            ),
                     yTimeline = new Timeline(
-                        new KeyFrame(
-                            Duration.millis(diff.getY() != 0 ? 250 : 0),
-                            new KeyValue(worker.translateYProperty(), finalPosition.getY())
-                        )
+                            new KeyFrame(
+                                    Duration.millis(diff.getY() != 0 ? 250 : 0),
+                                    new KeyValue(worker.translateYProperty(), finalPosition.getY())
+                            )
                     ),
                     zTimeline = new Timeline(
-                        new KeyFrame(
-                            Duration.millis(diff.getZ() != 0 ? 250 : 0),
-                            new KeyValue(worker.translateZProperty(), finalPosition.getZ())
-                        )
+                            new KeyFrame(
+                                    Duration.millis(diff.getZ() != 0 ? 250 : 0),
+                                    new KeyValue(worker.translateZProperty(), finalPosition.getZ())
+                            )
                     );
             xTimeline.setCycleCount(1);
             yTimeline.setCycleCount(1);
@@ -319,6 +322,14 @@ public class GameSceneModel {
 
     public void incrementCell(Point position) {
         towerBuildHelper(position, getTowerSize(position));
+        updateWorkers();
+    }
+
+    private void updateWorkers() {
+        for(Node w : getAllWorkers()) {
+            Point p = getBoardCoordinates(w);
+            moveWorkerNode(p, w);
+        }
     }
 
     public void putDome(Point position) {
