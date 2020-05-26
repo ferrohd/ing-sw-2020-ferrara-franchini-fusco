@@ -85,3 +85,6 @@ out/
 .classpath
 .project
 .settings/
+
+# SKIP the only lib we use
+!lib/jimObjModelImporterJFX.jar
