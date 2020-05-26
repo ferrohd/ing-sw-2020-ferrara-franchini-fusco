@@ -14,6 +14,7 @@ import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class GUI implements UI {
     private ArrayList<String> players = new ArrayList<>();
@@ -95,15 +96,32 @@ public class GUI implements UI {
     private void startGameScene() {
         Platform.runLater(gameScene);
 
-        incrementCell(new Point(0, 0));
-        players.add("pippo");
-        players.add("pluto");
-        incrementCell(new Point(0, 0));
-        setDome(new Point(3, 3));
-        for (int i = 0; i < 3; ++i)
-            incrementCell(new Point(2, 3));
-        setWorker(new Point(0, 0), 0, "pippo");
-        setWorker(new Point(1, 0), 1, "pippo");
+        showDemo();
+    }
+
+    private void showDemo() {
+        new Thread(() -> {
+            try {
+                incrementCell(new Point(0, 0));
+                players.add("pippo");
+                players.add("pluto");
+                incrementCell(new Point(0, 0));
+                setDome(new Point(3, 3));
+                for (int i = 0; i < 3; ++i)
+                    incrementCell(new Point(2, 3));
+                setWorker(new Point(0, 0), 0, "pippo");
+                setWorker(new Point(1, 0), 1, "pippo");
+                Thread.sleep(3000);
+                moveWorker(new Point(0, 1), 0, "pippo");
+                Thread.sleep(1500);
+                incrementCell(new Point(4, 1));
+                moveWorker(new Point(4, 1), 1, "pippo");
+                Thread.sleep(2000);
+                incrementCell(new Point(4, 1));
+                Thread.sleep(1000);
+                moveWorker(new Point(0, 0), 0, "pippo");
+            } catch(InterruptedException e) {}
+        }).start();
     }
 
     /**
