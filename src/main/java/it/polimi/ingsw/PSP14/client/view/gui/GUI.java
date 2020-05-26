@@ -12,7 +12,6 @@ import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class GUI implements UI {
     private ArrayList<String> players = new ArrayList<>();
@@ -140,7 +139,7 @@ public class GUI implements UI {
      */
     @Override
     public void showNotification(String s) {
-        Platform.runLater(new ToastScene(s));
+        Platform.runLater(new NotificationScene(s));
     }
 
     /**

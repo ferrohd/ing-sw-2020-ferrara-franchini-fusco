@@ -7,6 +7,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -21,7 +22,7 @@ import org.controlsfx.control.Notifications;
 
 import javax.swing.*;
 
-public class ToastScene implements Runnable {
+public class NotificationScene implements Runnable {
     /**
      * When an object implementing interface {@code Runnable} is used
      * to create a thread, starting the thread causes the object's
@@ -35,19 +36,23 @@ public class ToastScene implements Runnable {
      */
     final String textMessage;
 
-    public ToastScene(String textMessage) {
+    public NotificationScene(String textMessage) {
         this.textMessage = textMessage;
     }
     @Override
     public void run() {
-        NotificationPane toast = new NotificationPane(GUIMain.getStage().getScene().getFocusOwner());
-        toast.setText(this.textMessage);
-        toast.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                toast.hide();
-            }
-        });
-        toast.show();
+        Scene scene = GUIMain.getStage().getScene();
+        Parent pane = scene.getRoot();
+
+        if (!(pane instanceof NotificationPane)) {
+            NotificationPane toast = new NotificationPane(pane);
+            toast.setText(this.textMessage);
+            scene = new Scene(toast, scene.getWidth(), scene.getHeight());
+            GUIMain.getStage().setScene(scene);
+            toast.show();
+        } else {
+            ((NotificationPane) pane).setText(this.textMessage);
+            ((NotificationPane) pane).show();
+        }
     }
 }
