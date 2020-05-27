@@ -9,7 +9,7 @@
    <children>
       <ImageView fitHeight="400.0" layoutX="185.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@../images/background.png" />
+            <Image url="@../images/splash.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="172.0" layoutX="120.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="130.0">

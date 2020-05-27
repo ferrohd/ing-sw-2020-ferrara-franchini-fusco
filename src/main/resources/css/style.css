@@ -1,0 +1,13 @@
+.menu {
+    -fx-background-image: url('../images/frame.png');
+    -fx-background-size: 100% 100%;
+    -fx-padding: 20;
+    -fx-spacing: 10;
+    -fx-halignment: center;
+    -fx-valignment: center;
+}
+
+.splash {
+    -fx-background-image: url('../images/splash.png');
+    -fx-background-size: 100% 100%;
+}

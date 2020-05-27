@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP14.client.view.gui;
 
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.util.concurrent.BlockingQueue;
@@ -30,5 +31,12 @@ public class GUIMain extends Application {
         initStage.setTitle("SANTORINI");
         initStage.show();
         queue.add(new Object());
+    }
+
+    static public void updateScene(Scene scene) {
+        initStage.setScene(scene);
+        initStage.show();
+        initStage.setAlwaysOnTop(true);
+        initStage.setAlwaysOnTop(false);
     }
 }
