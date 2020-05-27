@@ -1,13 +1,12 @@
 package it.polimi.ingsw.PSP14.server.model;
 
-import it.polimi.ingsw.PSP14.client.Client;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
+import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
+import it.polimi.ingsw.PSP14.server.controller.GodfileParser;
 import it.polimi.ingsw.PSP14.server.model.actions.Action;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
-import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.controller.GodfileParser;
 import it.polimi.ingsw.PSP14.server.model.board.Board;
 import it.polimi.ingsw.PSP14.server.model.board.Direction;
 import it.polimi.ingsw.PSP14.server.model.board.Player;

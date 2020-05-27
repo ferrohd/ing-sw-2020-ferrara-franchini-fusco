@@ -5,7 +5,6 @@ import it.polimi.ingsw.PSP14.server.model.gods.God;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**

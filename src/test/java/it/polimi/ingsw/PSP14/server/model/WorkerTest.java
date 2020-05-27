@@ -6,7 +6,7 @@ import it.polimi.ingsw.PSP14.server.model.board.Worker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WorkerTest {
 

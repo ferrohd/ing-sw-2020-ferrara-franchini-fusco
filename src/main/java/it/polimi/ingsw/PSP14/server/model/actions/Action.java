@@ -1,12 +1,10 @@
 package it.polimi.ingsw.PSP14.server.model.actions;
 
+import it.polimi.ingsw.PSP14.server.model.Match;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.List;
-
-import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.model.Match;
 
 /**
  * A game action.

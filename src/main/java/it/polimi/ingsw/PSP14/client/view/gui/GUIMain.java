@@ -1,7 +1,6 @@
 package it.polimi.ingsw.PSP14.client.view.gui;
 
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
