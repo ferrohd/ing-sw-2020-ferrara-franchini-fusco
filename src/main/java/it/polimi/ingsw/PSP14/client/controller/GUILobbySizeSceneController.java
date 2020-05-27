@@ -4,7 +4,6 @@ import it.polimi.ingsw.PSP14.client.view.gui.GUIMain;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 
 public class GUILobbySizeSceneController {
     @FXML private Button btn2;

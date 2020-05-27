@@ -1,9 +1,11 @@
 package it.polimi.ingsw.PSP14.client.controller;
 
-import java.io.*;
-import java.net.Socket;
-
 import it.polimi.ingsw.PSP14.core.messages.Message;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 /**
  * ServerConnection implemented using TCP sockets.

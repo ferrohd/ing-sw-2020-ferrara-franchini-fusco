@@ -1,7 +1,5 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
-import it.polimi.ingsw.PSP14.core.messages.Message;
-import it.polimi.ingsw.PSP14.core.messages.LobbySizeMessage;
 import it.polimi.ingsw.PSP14.server.model.Match;
 
 import java.io.IOException;

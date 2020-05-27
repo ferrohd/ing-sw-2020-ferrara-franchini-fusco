@@ -1,12 +1,10 @@
 package it.polimi.ingsw.PSP14.server.model.actions;
 
-import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 import java.io.IOException;
-import java.util.List;
 
 public class MinotaurMoveAction extends MoveAction {
     private Point opponentNewPos;

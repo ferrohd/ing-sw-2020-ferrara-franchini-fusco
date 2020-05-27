@@ -2,9 +2,7 @@ package it.polimi.ingsw.PSP14.server.model;
 
 import it.polimi.ingsw.PSP14.core.messages.ChoiceMessage;
 import it.polimi.ingsw.PSP14.core.messages.Message;
-import it.polimi.ingsw.PSP14.core.messages.StringMessage;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.controller.TCPClientConnection;
 
 import java.io.IOException;
 import java.util.List;
