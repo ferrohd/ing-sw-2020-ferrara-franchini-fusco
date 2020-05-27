@@ -135,8 +135,8 @@ public class Match implements Runnable {
     private void playersPlaceWorkers() throws IOException {
         List<String> busyPositions = new ArrayList<>();
 
-        for(int i = 0; i < 2; ++i) {
-            for (String p : users) {
+        for (String p : users) {
+            for(int i = 0; i < 2; ++i) {
                 ClientConnection connection = clients.get(p);
                 Point pos = connection.placeWorker();
                 while(busyPositions.contains(pos.toString())) {
