@@ -15,8 +15,7 @@ public class GUIUsernameScene implements Runnable {
 
             Scene scene = new Scene(root);
 
-            GUIMain.getStage().setScene(scene);
-            GUIMain.getStage().show();
+            GUIMain.updateScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
         }

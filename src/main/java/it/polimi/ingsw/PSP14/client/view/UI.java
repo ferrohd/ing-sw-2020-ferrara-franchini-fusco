@@ -112,7 +112,7 @@ public interface UI {
      *
      * @return the index of the chosen god.
      */
-    int chooseGod(List<GodProposal> proposals);
+    int chooseGod(List<GodProposal> proposals) throws InterruptedException;
 
     /**
      * Ask the player to choose another player (even themselves) from a list.
@@ -136,7 +136,7 @@ public interface UI {
      * @param gods a list of the available gods
      * @return the index of the chosen god
      */
-    int chooseAvailableGods(List<GodProposal> gods);
+    int chooseAvailableGods(List<GodProposal> gods) throws InterruptedException;
 
     /**
      * Ask a player for the starting position of one of their workers.
