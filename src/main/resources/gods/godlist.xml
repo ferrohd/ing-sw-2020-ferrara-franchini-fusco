@@ -59,7 +59,7 @@
         <name>Minotaur</name>
         <alias>Bull-headed Monster</alias>
         <ability>Your move</ability>
-        <description>Your Worker may move into an opponent Worker' space, if their Worker can be forced one space straight backwards to an unoccupied space at any level.</description>
+        <description>Your Worker may move into an opponent Worker's space, if their Worker can be forced one space straight backwards.</description>
         <max>3</max>
     </god>
     <god>

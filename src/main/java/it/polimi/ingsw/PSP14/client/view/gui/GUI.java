@@ -163,9 +163,8 @@ public class GUI implements UI {
      */
     @Override
     public int chooseGod(List<GodProposal> proposals) throws InterruptedException {
-        GUIMain.getQueue().add("chooseGod");
-        GUIMain.getQueue().add(proposals);
-        return 0;
+        Platform.runLater(new GUIGodSelectScene("Choose your God", proposals.stream().map(GodProposal::getName).collect(Collectors.toList())));
+        return (Integer) GUIMain.getQueue().take();
     }
 
     /**
@@ -194,7 +193,7 @@ public class GUI implements UI {
 
     @Override
     public int chooseAvailableGods(List<GodProposal> gods) throws InterruptedException {
-        Platform.runLater(new GUIGodSelectScene(gods.stream().map(GodProposal::getName).collect(Collectors.toList())));
+        Platform.runLater(new GUIGodSelectScene("Choose available Gods", gods.stream().map(GodProposal::getName).collect(Collectors.toList())));
         return (Integer) GUIMain.getQueue().take();
     }
 
