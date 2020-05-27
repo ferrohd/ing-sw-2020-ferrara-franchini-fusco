@@ -46,7 +46,7 @@ public class Client {
             try {
                 serverSocket = new Socket(hostname, port);
                 connected = true;
-                ui.showNotification("Connected!");
+                ui.showNotification("Connected! Waiting for a game...");
             } catch (IOException e) {
                 ui.showNotification("Could not connect to the server. Retrying...");
             }
