@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,6 +27,7 @@ public class GUIGodSelectScene implements Runnable {
     private Label godDescription;
     private GridPane godGrid;
     private String title;
+    private Button select;
 
     public GUIGodSelectScene(String title, List<String> gods) {
         this.gods = gods;
@@ -45,6 +47,7 @@ public class GUIGodSelectScene implements Runnable {
             godName = (Label) scene.lookup("#godname");
             godDescription = (Label) scene.lookup("#goddescription");
             godDescription.setWrapText(true);
+            select = (Button) scene.lookup("#select");
 
             ((Label) scene.lookup("#title")).setText(title);
 
@@ -62,15 +65,24 @@ public class GUIGodSelectScene implements Runnable {
                 img.setOnMouseClicked((event) -> {
                     try {
                         UIGod god = GodFactory.getInstance().getGod(godname);
-                        godName.setText(god.getName());
+                        godName.setText(godname);
                         godDescription.setText(god.getDescription());
                         godSplash.setImage(new Image(basepath + godname + ".png"));
                     } catch(IOException e) {}
                 });
             }
 
-            GUIMain.getStage().setScene(scene);
-            GUIMain.getStage().show();
+            select.setOnMouseClicked((event) -> {
+                if(!godName.getText().equals("")) {
+                    select.setDisable(true);
+                    select.setText("Waiting...");
+                    try {
+                        GUIMain.getQueue().put(gods.indexOf(godName.getText()));
+                    } catch (InterruptedException e) {}
+                }
+            });
+
+            GUIMain.updateScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
         }

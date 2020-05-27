@@ -199,7 +199,14 @@ public class GUI implements UI {
 
     @Override
     public int[] chooseWorkerInitialPosition() {
-        return new int[0];
+        int[] pos = new int[2];
+        Platform.runLater(gameScene);
+        try {
+            pos[0] = (Integer) GUIMain.getQueue().take();
+            pos[1] = (Integer) GUIMain.getQueue().take();
+        } catch(InterruptedException e) {}
+
+        return pos;
     }
 
     /**
