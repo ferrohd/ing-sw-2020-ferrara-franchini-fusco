@@ -52,6 +52,7 @@ public class Match implements Runnable {
             setupGame();
         } catch(IOException e) {
             System.out.println("An error has occurred while setting up the game!");
+            return;
         }
 
         gameLoop();
@@ -81,22 +82,26 @@ public class Match implements Runnable {
         }
 
 
-        availableGods = GodfileParser.getGodIdList("src/main/resources/gods/godlist.xml");
+        availableGods = GodfileParser.getGodIdList("src/main/resources/gods/godlist.xml", users.size());
         ClientConnection roomMaster = clients.get(users.get(0));
+        for(ClientConnection c : clientConnections) if(!c.equals(roomMaster)) c.sendNotification(users.get(0) + " (room leader) is choosing the gods of the game.");
         selectedGods = roomMaster.selectGameGods(new ArrayList<>(availableGods), users.size());
 
         // roomMaster is last to choose
         Collections.rotate(users, -1);
         for (String p : users) {
             ClientConnection player = clients.get(p);
+            for(ClientConnection c : clientConnections) if(!c.equals(player)) c.sendNotification(p + " is choosing their god.");
             String chosenGod = player.selectGod(selectedGods);
             gods.put(p, GodFactory.getGod(chosenGod, p));
             selectedGods.remove(chosenGod);
         }
         Collections.rotate(users, 1);
 
+        for(ClientConnection c : clientConnections) if(!c.equals(roomMaster)) c.sendNotification(users.get(0) + " (room leader) is choosing who goes first.");
         String firstPlayer = roomMaster.selectFirstPlayer(users);
         Collections.rotate(users, -users.indexOf(firstPlayer));
+        for(ClientConnection c : clientConnections) if(!c.equals(roomMaster)) c.sendNotification(users.get(0) + " is first!");
 
         for(String p : users) {
             players.put(p, new Player(p, gods.get(p), clientConnections));
@@ -134,9 +139,10 @@ public class Match implements Runnable {
     private void playersPlaceWorkers() throws IOException {
         List<String> busyPositions = new ArrayList<>();
 
-        for(int i = 0; i < 2; ++i) {
-            for (String p : users) {
+        for (String p : users) {
+            for(int i = 0; i < 2; ++i) {
                 ClientConnection connection = clients.get(p);
+                for(ClientConnection c : clientConnections) if(!c.equals(connection)) c.sendNotification(p + " is placing their workers.");
                 Point pos = connection.placeWorker();
                 while(busyPositions.contains(pos.toString())) {
                     connection.sendNotification("Cell busy!");
@@ -198,6 +204,7 @@ public class Match implements Runnable {
      */
     private void turn(String player) throws IOException {
         ClientConnection client = clients.get(player);
+        for(ClientConnection c : clientConnections) if(!c.equals(client)) c.sendNotification("The turn of " + player + " has begun.");
 
         applyBeforeTurnEffects(player, client);
 
@@ -237,6 +244,7 @@ public class Match implements Runnable {
      * @throws IOException if a connection error occurs
      */
     public void move(String player, ClientConnection client, int workerIndex) throws IOException {
+        for(ClientConnection c : clientConnections) if(!c.equals(client)) c.sendNotification(player + " is moving...");
         for(Player p : getPlayers())
             p.getGod().beforeMove(player, workerIndex, client, this);
 
@@ -264,6 +272,7 @@ public class Match implements Runnable {
      * @throws IOException if a connection error occurs
      */
     public void build(String player, ClientConnection client, int workerIndex) throws IOException {
+        for(ClientConnection c : clientConnections) if(!c.equals(client)) c.sendNotification(player + " is building...");
         for(Player p : getPlayers())
             p.getGod().beforeBuild(player, workerIndex, client, this);
 
@@ -352,7 +361,7 @@ public class Match implements Runnable {
         Player currPlayer = getPlayerByUsername(playerName);
 
         Point currentPos = currPlayer.getWorkerPos(worker);
-        int currentLevel = board.getTowerSize(currentPos);;
+        int currentLevel = board.getTowerSize(currentPos);
         for(Direction dir: Direction.values()) {
             Point toCheckPos = currentPos.move(dir);
             if (Board.isValidPos(toCheckPos)

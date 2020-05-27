@@ -2,9 +2,7 @@ package it.polimi.ingsw.PSP14.client.view.gui;
 
 import it.polimi.ingsw.PSP14.client.view.cli.UIColor;
 import it.polimi.ingsw.PSP14.client.view.UI;
-import it.polimi.ingsw.PSP14.client.view.gui.scenes.GUIGameScene;
-import it.polimi.ingsw.PSP14.client.view.gui.scenes.GUILobbySizeScene;
-import it.polimi.ingsw.PSP14.client.view.gui.scenes.GUIUsernameScene;
+import it.polimi.ingsw.PSP14.client.view.gui.scenes.*;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
@@ -14,6 +12,7 @@ import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class GUI implements UI {
@@ -91,7 +90,7 @@ public class GUI implements UI {
         new Thread(() -> GUIMain.launch(GUIMain.class)).start();
         GUIMain.getQueue().take();
 
-        startGameScene();
+        Platform.runLater(new GUIWelcomeScene());
     }
 
     private void startGameScene() {
@@ -166,8 +165,9 @@ public class GUI implements UI {
      * @return the index of the chosen god.
      */
     @Override
-    public int chooseGod(List<GodProposal> proposals) {
-        return 0;
+    public int chooseGod(List<GodProposal> proposals) throws InterruptedException {
+        Platform.runLater(new GUIGodSelectScene("Choose your God", proposals.stream().map(GodProposal::getName).collect(Collectors.toList())));
+        return (Integer) GUIMain.getQueue().take();
     }
 
     /**
@@ -199,13 +199,20 @@ public class GUI implements UI {
 
     @Override
     public int chooseAvailableGods(List<GodProposal> gods) throws InterruptedException {
-        return 0;
+        Platform.runLater(new GUIGodSelectScene("Choose available Gods", gods.stream().map(GodProposal::getName).collect(Collectors.toList())));
+        return (Integer) GUIMain.getQueue().take();
     }
 
     @Override
     public int[] chooseWorkerInitialPosition() {
-        // TODO: Handle selection of starting cell
-        return new int[0];
+        int[] pos = new int[2];
+        Platform.runLater(gameScene);
+        try {
+            pos[0] = (Integer) GUIMain.getQueue().take();
+            pos[1] = (Integer) GUIMain.getQueue().take();
+        } catch(InterruptedException e) {}
+
+        return pos;
     }
 
     /**

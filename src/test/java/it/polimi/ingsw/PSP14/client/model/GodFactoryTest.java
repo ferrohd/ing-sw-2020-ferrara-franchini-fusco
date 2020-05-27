@@ -13,7 +13,7 @@ class GodFactoryTest {
     void getGodModel() {
         GodFactory factory;
         try {
-            factory = new GodFactory("src/main/resources/gods/godlist.xml");
+            factory = GodFactory.getInstance();
         } catch(Exception e) {
             e.printStackTrace();
             fail("Exception thrown");

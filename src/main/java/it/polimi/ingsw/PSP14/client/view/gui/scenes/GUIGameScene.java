@@ -77,7 +77,7 @@ public class GUIGameScene implements Runnable {
 
         // Create a scene object
         scene = new Scene(model.getRoot(), VIEWPORT_X, VIEWPORT_Y, true);
-        scene.setFill(Paint.valueOf("#f4d7ad"));
+        scene.setFill(Paint.valueOf("#21c8de"));
 
         // Create a camera with its transforms.
         Translate pivot = new Translate(0, 0, 0);

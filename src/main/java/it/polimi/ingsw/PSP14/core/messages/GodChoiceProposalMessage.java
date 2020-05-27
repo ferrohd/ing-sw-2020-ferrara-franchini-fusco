@@ -17,9 +17,9 @@ public class GodChoiceProposalMessage extends ProposalMessage<GodProposal> {
     }
 
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException {
+    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
         int index = ui.chooseGod(getProposals());
         serverConnection.sendMessage(new ChoiceMessage(index));
-        return false;
+        return true;
     }
 }

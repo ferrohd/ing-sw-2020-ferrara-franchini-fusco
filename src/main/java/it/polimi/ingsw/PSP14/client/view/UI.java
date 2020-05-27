@@ -7,6 +7,7 @@ import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -111,7 +112,7 @@ public interface UI {
      *
      * @return the index of the chosen god.
      */
-    int chooseGod(List<GodProposal> proposals);
+    int chooseGod(List<GodProposal> proposals) throws InterruptedException;
 
     /**
      * Ask the player to choose another player (even themselves) from a list.

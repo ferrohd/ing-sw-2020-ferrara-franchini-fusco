@@ -10,6 +10,7 @@ import it.polimi.ingsw.PSP14.server.model.board.Point;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -101,7 +102,9 @@ class CLITest {
         _list.add(new GodProposal("Athena"));
         _list.add(new GodProposal("Minotaur"));
 
-        ui.chooseGod(_list);
+        try {
+            ui.chooseGod(_list);
+        }catch(InterruptedException e) {}
     }
 
     @Test
@@ -121,7 +124,10 @@ class CLITest {
         _list.add(new GodProposal("Triton"));
         _list.add(new GodProposal("Zeus"));
 
-        ui.chooseAvailableGods(_list);
+        try {
+
+            ui.chooseAvailableGods(_list);
+        } catch(InterruptedException e) {}
     }
 
     @Test
@@ -132,9 +138,11 @@ class CLITest {
         _list.add(new GodProposal("Athena"));
         _list.add(new GodProposal("Chronus"));
         _list.add(new GodProposal("Demeter"));
+        try{
+            ui.chooseAvailableGods(_list);
+        } catch(InterruptedException e) {}
 
-        ui.chooseAvailableGods(_list);
-    }
+}
 
     @Test
     void chooseWorker() throws InterruptedException {
