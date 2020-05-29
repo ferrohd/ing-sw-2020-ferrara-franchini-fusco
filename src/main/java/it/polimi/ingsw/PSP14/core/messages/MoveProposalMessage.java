@@ -13,7 +13,7 @@ public class MoveProposalMessage extends ProposalMessage<MoveProposal> {
     }
 
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException {
+    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
         int choice = ui.chooseMove(getProposals());
         serverConnection.sendMessage(new ChoiceMessage(choice));
         return false;

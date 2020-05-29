@@ -73,5 +73,10 @@
             <scope>system</scope>
             <systemPath>${basedir}/lib/jimObjModelImporterJFX.jar</systemPath>
         </dependency>
+      <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>11.0.1</version>
+        </dependency>
     </dependencies>
 </project>

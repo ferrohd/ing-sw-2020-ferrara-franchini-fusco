@@ -53,16 +53,16 @@ public class Match implements Runnable {
         } catch (EndGameException e) {
             System.out.println("Game is over. Terminating...");
         } catch(IOException e) {
-            System.out.println("Connection error!");
+            System.out.println("An error has occurred. Closing...");
             for(ClientConnection c : clientConnections) {
                 try {
                     c.close();
-                } catch (IOException ioe) {
+                } catch(IOException ioe) {
                     System.out.println("Could not close connection.");
                 }
             }
+            e.printStackTrace();
         }
-
     }
 
     /**
@@ -114,6 +114,8 @@ public class Match implements Runnable {
             players.put(p, new Player(p, gods.get(p), clientConnections));
         }
 
+        for(ClientConnection c : clientConnections) c.notifyGameStart();
+
         playersPlaceWorkers();
     }
 
@@ -124,6 +126,7 @@ public class Match implements Runnable {
      * or a end game event is detected.
      */
     private void gameLoop() throws IOException, EndGameException {
+
         while(true)
             for(String p: users)
                 turn(p);
