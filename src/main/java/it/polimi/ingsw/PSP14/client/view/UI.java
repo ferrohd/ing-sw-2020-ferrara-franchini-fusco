@@ -19,6 +19,8 @@ import java.util.List;
  */
 public interface UI {
 
+    void gameStart() throws InterruptedException;
+
     /**
      * Add a new player to the match by providing their username.
      * @param newPlayerUsername the username of the player you want to

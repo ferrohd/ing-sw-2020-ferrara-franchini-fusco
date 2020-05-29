@@ -106,6 +106,8 @@ public class Match implements Runnable {
             players.put(p, new Player(p, gods.get(p), clientConnections));
         }
 
+        for(ClientConnection c : clientConnections) c.notifyGameStart();
+
         playersPlaceWorkers();
     }
 

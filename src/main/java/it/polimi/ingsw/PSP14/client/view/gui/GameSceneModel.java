@@ -148,6 +148,9 @@ public class GameSceneModel {
         Point3D target = getSceneWorkerCoordinates(point);
         setNodeToPoint3D(worker, target);
         addToActorsAndRegister(getWorkerActorId(playerId, workerId), worker);
+        try {
+            GUIMain.getQueue().put(new Object());
+        } catch (InterruptedException e) {}
     }
 
     /**
@@ -460,10 +463,10 @@ public class GameSceneModel {
         // Animate it
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(0),
-                        new KeyValue(mat.diffuseColorProperty(), Color.valueOf("f9d854aa"))
+                        new KeyValue(mat.diffuseColorProperty(), Color.valueOf("f9d85488"))
                 ),
                 new KeyFrame(Duration.millis(3000),
-                        new KeyValue(mat.diffuseColorProperty(), Color.valueOf("ef9723cc"))
+                        new KeyValue(mat.diffuseColorProperty(), Color.valueOf("ef9723bb"))
                 )
         );
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -491,6 +494,7 @@ public class GameSceneModel {
                 .filter(k -> k.startsWith("sel"))
                 .map(actors::get)
                 .forEach(a -> root.getChildren().remove(a));
+       GUIMain.getQueue().add(new Object());
     }
 
     /**

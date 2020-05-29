@@ -22,6 +22,11 @@ public class CLI implements UI {
     private final Scanner in = new Scanner(System.in);
 
     @Override
+    public void gameStart() throws InterruptedException {
+
+    }
+
+    @Override
     public void registerPlayer(String newPlayerUsername) {
         UIColor _newPlayerColor = null;
         // Prevent duplicate colors

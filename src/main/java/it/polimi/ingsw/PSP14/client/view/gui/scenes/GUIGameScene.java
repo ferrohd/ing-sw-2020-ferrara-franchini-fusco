@@ -36,11 +36,6 @@ public class GUIGameScene implements Runnable {
     private Scene scene = null;
     private Rotate xRotate, yRotate = null;
     private Translate zoom = null;
-    public boolean isShown = false;
-
-    public boolean getIsShown() {
-        return isShown;
-    }
 
     SimpleBooleanProperty isDragging = new SimpleBooleanProperty(false);
     SimpleDoubleProperty lastMouseX = new SimpleDoubleProperty(VIEWPORT_X * 0.5);
@@ -160,7 +155,7 @@ public class GUIGameScene implements Runnable {
                 if (node.getId().startsWith("sel")) {
                     // The player clicked on a BIG FAT YELLOW RECT
                     // TODO: Make clicking on workers work
-                    int selectableId = Integer.parseInt(String.valueOf(node.getId().charAt(3)));
+                    int selectableId = Integer.parseInt(node.getId().substring(3));
                     System.out.println(selectableId);
                     GUIMain.getQueue().add(selectableId);
                 }
@@ -181,7 +176,6 @@ public class GUIGameScene implements Runnable {
 
         GUIMain.getStage().setScene(scene);
         GUIMain.getStage().show();
-        isShown = true;
         GUIMain.getQueue().add(new Object());
     }
 

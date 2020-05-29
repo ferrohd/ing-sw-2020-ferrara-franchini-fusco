@@ -35,6 +35,9 @@ public class GUI implements UI {
         Platform.runLater(() ->
                 gameScene.getModel().addWorker(position, workerId, players.indexOf(playerUsername))
         );
+        try {
+            GUIMain.getQueue().take();
+        } catch (InterruptedException e) {}
     }
 
     private void unsetWorker(int workerId, String playerUsername) {
@@ -92,11 +95,10 @@ public class GUI implements UI {
         Platform.runLater(new GUIWelcomeScene());
     }
 
-    private void startGameScene() throws InterruptedException {
-        if(!gameScene.getIsShown()) {
-            Platform.runLater(gameScene);
-            GUIMain.getQueue().take();
-        }
+    @Override
+    public void gameStart() throws InterruptedException {
+        Platform.runLater(gameScene);
+        GUIMain.getQueue().take();
 
         //showDemo();
     }
@@ -208,7 +210,6 @@ public class GUI implements UI {
 
     @Override
     public int[] chooseWorkerInitialPosition() throws InterruptedException {
-        startGameScene();
         gameScene.setIsSelectingCell(true);
         List<Point> invalid = gameScene.getModel().getWorkerPositions();
         List<Point> points = new ArrayList<>();
@@ -230,6 +231,11 @@ public class GUI implements UI {
         int index = (Integer) GUIMain.getQueue().take();
 
         Point point = points.get(index);
+        System.out.println(point);
+
+        gameScene.setIsSelectingCell(false);
+        Platform.runLater(() -> gameScene.getModel().removeAllSelectables());
+        GUIMain.getQueue().take();
 
         return new int[]{point.getX(), point.getY()};
     }
