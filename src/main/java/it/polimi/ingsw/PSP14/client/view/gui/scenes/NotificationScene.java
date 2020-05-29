@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP14.client.view.gui.GUI;
 import it.polimi.ingsw.PSP14.client.view.gui.GUIMain;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -32,20 +33,16 @@ public class NotificationScene implements Runnable {
     public NotificationScene(String textMessage) {
         this.textMessage = textMessage;
     }
+
     @Override
     public void run() {
         Scene scene = GUIMain.getStage().getScene();
-        Parent pane = scene.getRoot();
 
-        if (!(pane instanceof NotificationPane)) {
-            NotificationPane toast = new NotificationPane(pane);
-            toast.setText(this.textMessage);
-            scene = new Scene(toast, scene.getWidth(), scene.getHeight());
-            GUIMain.getStage().setScene(scene);
-            toast.show();
-        } else {
-            ((NotificationPane) pane).setText(this.textMessage);
-            ((NotificationPane) pane).show();
-        }
+        NotificationPane pane = (NotificationPane) scene.getRoot();
+        pane.setText(this.textMessage);
+        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+        delay.setOnFinished(e -> pane.hide());
+        delay.play();
+        pane.show();
     }
 }

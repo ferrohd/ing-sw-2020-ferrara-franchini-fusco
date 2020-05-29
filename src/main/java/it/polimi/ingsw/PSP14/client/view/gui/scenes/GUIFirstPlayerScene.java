@@ -24,10 +24,10 @@ public class GUIFirstPlayerScene implements Runnable {
         try {
             AnchorPane root = FXMLLoader.load(getClass().getResource("/scenes/FirstPlayer.fxml"));
 
-            Scene scene = new Scene(root);
+            GUIMain.getMainPane().setContent(root);
 
             List<Button> buttons = new ArrayList<>(3);
-            for (int i = 0; i < names.size(); ++i) buttons.add((Button) scene.lookup("#button" + i));
+            for (int i = 0; i < names.size(); ++i) buttons.add((Button) root.lookup("#button" + i));
             for (int i = 0; i < names.size(); ++i) {
                 Integer index = i;
                 buttons.get(i).setText(names.get(i));
@@ -38,11 +38,11 @@ public class GUIFirstPlayerScene implements Runnable {
             }
 
             if(names.size() == 2) {
-                scene.lookup("#button2").setVisible(false);
-                scene.lookup("#button2").setManaged(false);
+                root.lookup("#button2").setVisible(false);
+                root.lookup("#button2").setManaged(false);
             }
 
-            GUIMain.updateScene(scene);
+            GUIMain.updateScene();
         } catch (IOException e) {
             e.printStackTrace();
         }
