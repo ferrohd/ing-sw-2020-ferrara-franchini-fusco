@@ -13,18 +13,30 @@ public class UIGod {
         this.description = description;
     }
 
+    /**
+     * @return name of the God
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return alis of the God
+     */
     public String getAlias() {
         return alias;
     }
 
+    /**
+     * @return ability of the God
+     */
     public String getAbility() {
         return ability;
     }
 
+    /**
+     * @return description of the God
+     */
     public String getDescription() {
         return description;
     }

@@ -7,6 +7,9 @@ import javafx.scene.Scene;
 
 import java.io.IOException;
 
+/**
+ * Welcome screen loaded while connecting to the server. Shows the name's game along a nice background
+ */
 public class GUIWelcomeScene implements Runnable {
     @Override
     public void run() {

@@ -67,6 +67,10 @@ public class UIWorker {
         this.cell = null;
     }
 
+    /**
+     * Remove a worker from the board
+     * This is useful to remove workers of player that lost the game
+     */
     public void remove() {
         this.cell.unsetWorker();
         this.player.removeWorker(id);

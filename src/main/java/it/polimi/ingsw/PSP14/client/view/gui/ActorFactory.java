@@ -15,26 +15,26 @@ import java.net.URL;
 public class ActorFactory {
     private static final double BLOCK_SCALE = 0.35;
 
-    private static int blockCounter = 0;
+    private static final int blockCounter = 0;
     static int workerCounter = 0;
 
-    private static Mesh BLOCK_1_MESH = getMesh("/assets/BuildingBlock01.obj");
-    private static Mesh BLOCK_2_MESH = getMesh("/assets/BuildingBlock02.obj");
-    private static Mesh BLOCK_3_MESH = getMesh("/assets/BuildingBlock03.obj");
-    private static Mesh DOME_MESH = getMesh("/assets/Dome.obj");
-    private static Mesh WORKER_M_MESH = getMesh("/assets/MaleBuilder.obj");
-    private static Mesh WORKER_F_MESH = getMesh("/assets/FemaleBuilder.obj");
+    private static final Mesh BLOCK_1_MESH = getMesh("/assets/BuildingBlock01.obj");
+    private static final Mesh BLOCK_2_MESH = getMesh("/assets/BuildingBlock02.obj");
+    private static final Mesh BLOCK_3_MESH = getMesh("/assets/BuildingBlock03.obj");
+    private static final Mesh DOME_MESH = getMesh("/assets/Dome.obj");
+    private static final Mesh WORKER_M_MESH = getMesh("/assets/MaleBuilder.obj");
+    private static final Mesh WORKER_F_MESH = getMesh("/assets/FemaleBuilder.obj");
 
-    private static PhongMaterial BLOCK_1_MAT = getMaterial("/assets/BuildingBlock01_v001.png");
-    private static PhongMaterial BLOCK_2_MAT = getMaterial("/assets/BuildingBlock02_v001.png");
-    private static PhongMaterial BLOCK_3_MAT = getMaterial("/assets/BuildingBlock03_v001.png");
-    private static PhongMaterial DOME_MAT = getColor(Color.MIDNIGHTBLUE);
-    private static PhongMaterial WORKER_M_BLUE_MAT = getMaterial("/assets/MaleBuilder_Blue_v001.png");
-    private static PhongMaterial WORKER_F_BLUE_MAT = getMaterial("/assets/FemaleBuilder_Blue_v001.png");
-    private static PhongMaterial WORKER_M_ORANGE_MAT = getMaterial("/assets/MaleBuilder_Orange_v001.png");
-    private static PhongMaterial WORKER_F_ORANGE_MAT = getMaterial("/assets/FemaleBuilder_Orange_v001.png");
-    private static PhongMaterial WORKER_M_PINK_MAT = getMaterial("/assets/MaleBuilder_Pink_v001.png");
-    private static PhongMaterial WORKER_F_PINK_MAT = getMaterial("/assets/FemaleBuilder_Pink_v001.png");
+    private static final PhongMaterial BLOCK_1_MAT = getMaterial("/assets/BuildingBlock01_v001.png");
+    private static final PhongMaterial BLOCK_2_MAT = getMaterial("/assets/BuildingBlock02_v001.png");
+    private static final PhongMaterial BLOCK_3_MAT = getMaterial("/assets/BuildingBlock03_v001.png");
+    private static final PhongMaterial DOME_MAT = getColor(Color.MIDNIGHTBLUE);
+    private static final PhongMaterial WORKER_M_BLUE_MAT = getMaterial("/assets/MaleBuilder_Blue_v001.png");
+    private static final PhongMaterial WORKER_F_BLUE_MAT = getMaterial("/assets/FemaleBuilder_Blue_v001.png");
+    private static final PhongMaterial WORKER_M_ORANGE_MAT = getMaterial("/assets/MaleBuilder_Orange_v001.png");
+    private static final PhongMaterial WORKER_F_ORANGE_MAT = getMaterial("/assets/FemaleBuilder_Orange_v001.png");
+    private static final PhongMaterial WORKER_M_PINK_MAT = getMaterial("/assets/MaleBuilder_Pink_v001.png");
+    private static final PhongMaterial WORKER_F_PINK_MAT = getMaterial("/assets/FemaleBuilder_Pink_v001.png");
 
     static Mesh getMesh(String meshUrl) {
         // Import 3D resource

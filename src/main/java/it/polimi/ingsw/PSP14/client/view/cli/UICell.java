@@ -97,13 +97,22 @@ public class UICell {
         this.worker = null;
     }
 
+    /**
+     * @return X coordinate of the Cell
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * @return Y coordinate of the Cell
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * @return a Point where the cell is situated
+     */
     public Point getPoint() { return new Point(x, y); }
 }

@@ -7,6 +7,9 @@ import javafx.scene.Scene;
 
 import java.io.IOException;
 
+/**
+ * This scene asks the user to input the username to  be used in the game.
+ */
 public class GUIUsernameScene implements Runnable {
     @Override
     public void run() {

@@ -150,7 +150,7 @@ public class GameSceneModel {
         addToActorsAndRegister(getWorkerActorId(playerId, workerId), worker);
         try {
             GUIMain.getQueue().put(new Object());
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException ignored) {}
     }
 
     /**
