@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP14.client.view.gui;
 
 import it.polimi.ingsw.PSP14.client.view.UI;
+import it.polimi.ingsw.PSP14.client.view.cli.UIColor;
 import it.polimi.ingsw.PSP14.client.view.gui.scenes.*;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
