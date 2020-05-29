@@ -1,6 +1,8 @@
 package it.polimi.ingsw.PSP14.client.controller;
 
 import it.polimi.ingsw.PSP14.core.messages.Message;
+import it.polimi.ingsw.PSP14.core.net.TCPIn;
+import it.polimi.ingsw.PSP14.core.net.TCPOut;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,24 +13,18 @@ import java.net.Socket;
  * ServerConnection implemented using TCP sockets.
  */
 public class TCPServerConnection implements ServerConnection {
-    private final Socket serverSocket;
-    private ObjectOutputStream serverOutput;
-    private ObjectInputStream serverInput;
+    private TCPOut serverOutput;
+    private TCPIn serverInput;
 
     /**
      * Constructor of the connection.
      * @param socket the socket on the server we need to connect to.
      */
-    public TCPServerConnection(final Socket socket) {
-        serverSocket = socket;
-        try {
-            serverOutput = new ObjectOutputStream(socket.getOutputStream());
-            serverInput = new ObjectInputStream(socket.getInputStream());
-        } catch (final IOException e) {
-            e.printStackTrace();
-            System.exit(-1);
-        }
-
+    public TCPServerConnection(final Socket socket) throws IOException {
+        serverOutput = new TCPOut(new ObjectOutputStream(socket.getOutputStream()));
+        serverInput = new TCPIn(new ObjectInputStream(socket.getInputStream()));
+        new Thread(serverInput).start();
+        new Thread(serverOutput).start();
     }
 
     public void sendFatalError() {
@@ -37,15 +33,17 @@ public class TCPServerConnection implements ServerConnection {
 
     @Override
     public void sendMessage(final Message message) throws IOException {
-        serverOutput.writeObject(message);
+        serverOutput.sendMessage(message);
     }
 
     @Override
     public Message receiveMessage() throws IOException {
-        try {
-            return (Message) serverInput.readObject();
-        } catch (final ClassNotFoundException e) {
-            throw new IOException();
-        }
+        return serverInput.receiveMessage();
+    }
+
+    @Override
+    public void close() throws IOException {
+        serverInput.close();
+        serverOutput.close();
     }
 }
