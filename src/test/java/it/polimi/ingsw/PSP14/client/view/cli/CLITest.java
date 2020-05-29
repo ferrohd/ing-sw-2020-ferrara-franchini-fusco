@@ -86,7 +86,7 @@ class CLITest {
     }
 
     @Test
-    void chooseFirstPlayer() {
+    void chooseFirstPlayer() throws InterruptedException {
         List<PlayerProposal> _list = new ArrayList<>();
         _list.add(new PlayerProposal("ferroHD"));
         _list.add(new PlayerProposal("QUB3X"));

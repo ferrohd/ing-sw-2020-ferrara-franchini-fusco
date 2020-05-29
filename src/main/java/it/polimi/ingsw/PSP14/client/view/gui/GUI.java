@@ -177,8 +177,9 @@ public class GUI implements UI {
      * @return the index of the chosen player
      */
     @Override
-    public int chooseFirstPlayer(List<PlayerProposal> proposals) {
-        return 0;
+    public int chooseFirstPlayer(List<PlayerProposal> proposals) throws InterruptedException {
+        Platform.runLater(new GUIFirstPlayerScene(proposals.stream().map(PlayerProposal::getName).collect(Collectors.toList())));
+        return (Integer) GUIMain.getQueue().take();
     }
 
     /**

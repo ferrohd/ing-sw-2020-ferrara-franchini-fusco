@@ -120,7 +120,7 @@ public interface UI {
      * @param proposals the list of players to choose from
      * @return the index of the chosen player
      */
-    int chooseFirstPlayer(List<PlayerProposal> proposals);
+    int chooseFirstPlayer(List<PlayerProposal> proposals) throws InterruptedException;
 
     /**
      * Ask the player to choose a worker from a list
