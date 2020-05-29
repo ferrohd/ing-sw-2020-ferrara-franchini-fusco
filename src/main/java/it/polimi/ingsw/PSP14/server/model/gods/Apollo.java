@@ -1,9 +1,12 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
+import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.actions.ApolloMoveAction;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
-import it.polimi.ingsw.PSP14.server.model.*;
-import it.polimi.ingsw.PSP14.server.model.board.*;
+import it.polimi.ingsw.PSP14.server.model.board.Board;
+import it.polimi.ingsw.PSP14.server.model.board.Direction;
+import it.polimi.ingsw.PSP14.server.model.board.Player;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP14.client.view.gui;
 
-import it.polimi.ingsw.PSP14.client.view.cli.UIColor;
 import it.polimi.ingsw.PSP14.client.view.UI;
 import it.polimi.ingsw.PSP14.client.view.gui.scenes.*;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
@@ -12,10 +11,12 @@ import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GUI implements UI {
-    private ArrayList<String> players = new ArrayList<>();
-    private GUIGameScene gameScene = new GUIGameScene();
+    private String currentPlayerId;
+    private final ArrayList<String> players = new ArrayList<>();
+    private final GUIGameScene gameScene = new GUIGameScene();
 
     @Override
     public void registerPlayer(String player) {
@@ -33,6 +34,9 @@ public class GUI implements UI {
         Platform.runLater(() ->
                 gameScene.getModel().addWorker(position, workerId, players.indexOf(playerUsername))
         );
+        try {
+            GUIMain.getQueue().take();
+        } catch (InterruptedException e) {}
     }
 
     private void unsetWorker(int workerId, String playerUsername) {
@@ -90,10 +94,12 @@ public class GUI implements UI {
         Platform.runLater(new GUIWelcomeScene());
     }
 
-    private void startGameScene() {
+    @Override
+    public void gameStart() throws InterruptedException {
         Platform.runLater(gameScene);
+        GUIMain.getQueue().take();
 
-        showDemo();
+        //showDemo();
     }
 
     private void showDemo() {
@@ -107,6 +113,7 @@ public class GUI implements UI {
                 for (int i = 0; i < 3; ++i)
                     incrementCell(new Point(2, 3));
                 setWorker(new Point(0, 0), 0, "pippo");
+                setWorker(new Point(4, 4), 0, "pluto");
                 setWorker(new Point(1, 0), 1, "pippo");
                 Thread.sleep(3000);
                 moveWorker(new Point(0, 1), 0, "pippo");
@@ -150,7 +157,8 @@ public class GUI implements UI {
     @Override
     public String askUsername() throws InterruptedException {
         Platform.runLater(new GUIUsernameScene());
-        return (String) GUIMain.getQueue().take();
+        currentPlayerId = (String) GUIMain.getQueue().take();
+        return currentPlayerId;
     }
 
     /**
@@ -160,10 +168,9 @@ public class GUI implements UI {
      * @return the index of the chosen god.
      */
     @Override
-    public int chooseGod(List<GodProposal> proposals) {
-        GUIMain.getQueue().add("chooseGod");
-        GUIMain.getQueue().add(proposals);
-        return 0;
+    public int chooseGod(List<GodProposal> proposals) throws InterruptedException {
+        Platform.runLater(new GUIGodSelectScene("Choose your God", proposals.stream().map(GodProposal::getName).collect(Collectors.toList())));
+        return (Integer) GUIMain.getQueue().take();
     }
 
     /**
@@ -173,10 +180,9 @@ public class GUI implements UI {
      * @return the index of the chosen player
      */
     @Override
-    public int chooseFirstPlayer(List<PlayerProposal> proposals) {
-        GUIMain.getQueue().add("chooseFirstPlayer");
-        GUIMain.getQueue().add(proposals);
-        return 0;
+    public int chooseFirstPlayer(List<PlayerProposal> proposals) throws InterruptedException {
+        Platform.runLater(new GUIFirstPlayerScene(proposals.stream().map(PlayerProposal::getName).collect(Collectors.toList())));
+        return (Integer) GUIMain.getQueue().take();
     }
 
     /**
@@ -186,20 +192,51 @@ public class GUI implements UI {
      * @return the index of the chosen worker
      */
     @Override
-    public int chooseWorker(List<Integer> choices) {
-        return 0;
+    public int chooseWorker(List<Integer> choices) throws InterruptedException {
+        gameScene.setIsSelectingWorker(true);
+        gameScene.setPlayerId(players.indexOf(currentPlayerId));
+
+        int ret = (int) GUIMain.getQueue().take();
+        gameScene.setIsSelectingWorker(false);
+        return ret;
     }
 
     @Override
-    public int chooseAvailableGods(List<GodProposal> gods) {
-        GUIMain.getQueue().add("chooseAvailableGods");
-        GUIMain.getQueue().add(gods);
-        return 0;
+    public int chooseAvailableGods(List<GodProposal> gods) throws InterruptedException {
+        Platform.runLater(new GUIGodSelectScene("Choose available Gods", gods.stream().map(GodProposal::getName).collect(Collectors.toList())));
+        return (Integer) GUIMain.getQueue().take();
     }
 
     @Override
-    public int[] chooseWorkerInitialPosition() {
-        return new int[0];
+    public int[] chooseWorkerInitialPosition() throws InterruptedException {
+        gameScene.setIsSelectingCell(true);
+        List<Point> invalid = gameScene.getModel().getWorkerPositions();
+        List<Point> points = new ArrayList<>();
+        for (int x = 0; x <= 4; x++) {
+            for (int y = 0; y <= 4; y++) {
+                Point newPoint = new Point(x, y);
+                boolean flag = true;
+                for(Point p : invalid)
+                    if(p.equals(newPoint)) {
+                        flag = false;
+                        break;
+                    }
+                if (flag)
+                    points.add(newPoint);
+            }
+        }
+        Platform.runLater(() -> gameScene.getModel().addAllSelectables(points));
+
+        int index = (Integer) GUIMain.getQueue().take();
+
+        Point point = points.get(index);
+        System.out.println(point);
+
+        gameScene.setIsSelectingCell(false);
+        Platform.runLater(() -> gameScene.getModel().removeAllSelectables());
+        GUIMain.getQueue().take();
+
+        return new int[]{point.getX(), point.getY()};
     }
 
     /**
@@ -209,8 +246,15 @@ public class GUI implements UI {
      * @return the Index of the chosen move
      */
     @Override
-    public int chooseMove(List<MoveProposal> moves) {
-        return 0;
+    public int chooseMove(List<MoveProposal> moves) throws InterruptedException {
+        gameScene.setIsSelectingCell(true);
+        List<Point> points = moves.stream().map(MoveProposal::getPoint).collect(Collectors.toList());
+        gameScene.getModel().addAllSelectables(points);
+
+        int ret = (int) GUIMain.getQueue().take();
+        gameScene.setIsSelectingCell(false);
+
+        return ret;
     }
 
     /**
@@ -221,8 +265,15 @@ public class GUI implements UI {
      * @return the Index of the chosen option
      */
     @Override
-    public int chooseBuild(List<BuildProposal> moves) {
-        return 0;
+    public int chooseBuild(List<BuildProposal> moves) throws InterruptedException {
+        gameScene.setIsSelectingCell(true);
+        List<Point> points = moves.stream().map(BuildProposal::getPoint).collect(Collectors.toList());
+        gameScene.getModel().addAllSelectables(points);
+
+        int ret = (int) GUIMain.getQueue().take();
+        gameScene.setIsSelectingCell(false);
+
+        return ret;
     }
 
     /**

@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class WorkerInitialPositionMessage implements ClientExecutableMessage {
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException {
+    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
         int[] coordinates = ui.chooseWorkerInitialPosition();
         serverConnection.sendMessage(new ChoiceMessage(coordinates[0]));
         serverConnection.sendMessage(new ChoiceMessage(coordinates[1]));

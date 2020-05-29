@@ -86,7 +86,7 @@ class CLITest {
     }
 
     @Test
-    void chooseFirstPlayer() {
+    void chooseFirstPlayer() throws InterruptedException {
         List<PlayerProposal> _list = new ArrayList<>();
         _list.add(new PlayerProposal("ferroHD"));
         _list.add(new PlayerProposal("QUB3X"));
@@ -102,11 +102,13 @@ class CLITest {
         _list.add(new GodProposal("Athena"));
         _list.add(new GodProposal("Minotaur"));
 
-        ui.chooseGod(_list);
+        try {
+            ui.chooseGod(_list);
+        }catch(InterruptedException e) {}
     }
 
     @Test
-    void chooseAvailableGods() {
+    void chooseAvailableGods() throws InterruptedException {
         List<GodProposal> _list = new ArrayList<>();
         _list.add(new GodProposal("Apollo"));
         _list.add(new GodProposal("Artemis"));
@@ -122,34 +124,39 @@ class CLITest {
         _list.add(new GodProposal("Triton"));
         _list.add(new GodProposal("Zeus"));
 
-        ui.chooseAvailableGods(_list);
+        try {
+
+            ui.chooseAvailableGods(_list);
+        } catch(InterruptedException e) {}
     }
 
     @Test
-    void chooseAvailableFewGods() {
+    void chooseAvailableFewGods() throws InterruptedException {
         List<GodProposal> _list = new ArrayList<>();
         _list.add(new GodProposal("Apollo"));
         _list.add(new GodProposal("Artemis"));
         _list.add(new GodProposal("Athena"));
         _list.add(new GodProposal("Chronus"));
         _list.add(new GodProposal("Demeter"));
+        try{
+            ui.chooseAvailableGods(_list);
+        } catch(InterruptedException e) {}
 
-        ui.chooseAvailableGods(_list);
-    }
+}
 
     @Test
-    void chooseWorker() throws IOException {
+    void chooseWorker() throws InterruptedException, IOException {
         System.out.println();
         ui.chooseWorker(new ArrayList<>(Arrays.asList(0, 1)));
     }
 
     @Test
-    void chooseWorkerInitialPosition() {
+    void chooseWorkerInitialPosition() throws InterruptedException {
         ui.chooseWorkerInitialPosition();
     }
 
     @Test
-    void chooseMoves() throws IOException {
+    void chooseMoves() throws InterruptedException, IOException {
         List<MoveProposal> _l = new ArrayList<>();
         _l.add(new MoveProposal(new Point(0,0)));
         _l.add(new MoveProposal(new Point(1,1)));

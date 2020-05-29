@@ -19,6 +19,8 @@ import java.util.List;
  */
 public interface UI {
 
+    void gameStart() throws InterruptedException;
+
     /**
      * Add a new player to the match by providing their username.
      * @param newPlayerUsername the username of the player you want to
@@ -39,9 +41,7 @@ public interface UI {
      * <br/>
      * If the player does not own a worker with that <code>workerId</code>,
      * a new worker will be instantiated.
-     * <br/>
-     * You can use this method to perform moves: in that case, call first
-     * {@link #unsetWorker(Point)}.
+     * <br/>r
      * @param position the target position
      * @param workerId the ID of the player's worker
      * @param playerUsername the owner of the worker
@@ -112,7 +112,7 @@ public interface UI {
      *
      * @return the index of the chosen god.
      */
-    int chooseGod(List<GodProposal> proposals);
+    int chooseGod(List<GodProposal> proposals) throws InterruptedException;
 
     /**
      * Ask the player to choose another player (even themselves) from a list.
@@ -120,14 +120,14 @@ public interface UI {
      * @param proposals the list of players to choose from
      * @return the index of the chosen player
      */
-    int chooseFirstPlayer(List<PlayerProposal> proposals);
+    int chooseFirstPlayer(List<PlayerProposal> proposals) throws InterruptedException;
 
     /**
      * Ask the player to choose a worker from a list
      *
      * @return the index of the chosen worker
      */
-    int chooseWorker(List<Integer> choosable) throws IOException;
+    int chooseWorker(List<Integer> choosable) throws InterruptedException, IOException;
 
     /**
      * Ask the (hosting) player to choose a god that will be added to a pool
@@ -136,14 +136,14 @@ public interface UI {
      * @param gods a list of the available gods
      * @return the index of the chosen god
      */
-    int chooseAvailableGods(List<GodProposal> gods);
+    int chooseAvailableGods(List<GodProposal> gods) throws InterruptedException;
 
     /**
      * Ask a player for the starting position of one of their workers.
      *
      * @return A tuple [x,y] of the worker coordinates
      */
-    int[] chooseWorkerInitialPosition();
+    int[] chooseWorkerInitialPosition() throws InterruptedException;
 
 
     /**
@@ -151,7 +151,7 @@ public interface UI {
      * @param moves a list of possible moves to choose from
      * @return the Index of the chosen move
      */
-    int chooseMove(List<MoveProposal> moves) throws IOException;
+    int chooseMove(List<MoveProposal> moves) throws InterruptedException, IOException;
 
     /**
      * Ask a player for the destination of their next build action,
@@ -159,7 +159,7 @@ public interface UI {
      * @param moves a list of options to choose from
      * @return the Index of the chosen option
      */
-    int chooseBuild(List<BuildProposal> moves) throws IOException;
+    int chooseBuild(List<BuildProposal> moves) throws InterruptedException, IOException;
 
     /**
      * Ask the player if they want to perform a certain action.

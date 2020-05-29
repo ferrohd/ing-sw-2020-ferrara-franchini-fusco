@@ -1,7 +1,5 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
-import it.polimi.ingsw.PSP14.core.messages.Message;
-import it.polimi.ingsw.PSP14.core.messages.LobbySizeMessage;
 import it.polimi.ingsw.PSP14.server.model.Match;
 
 import java.io.IOException;
@@ -39,13 +37,16 @@ public class GameFactory implements Runnable {
             players = new ArrayList<>();
             try {
                 players.add(clientConnectionFactory.getClientConnection());
+                players.get(0).sendNotification("You are the room leader!");
                 System.out.println("Room leader found.");
                 int choice = players.get(0).askLobbySize();
                 System.out.println("Room size is: " + choice + ".");
                 players.add(clientConnectionFactory.getClientConnection());
+                players.get(1).sendNotification("Game found!");
                 System.out.println("Found player 2.");
                 if (choice == 3) {
                     players.add(clientConnectionFactory.getClientConnection());
+                    players.get(2).sendNotification("Game found!");
                     System.out.println("Found player 3.");
                 }
 

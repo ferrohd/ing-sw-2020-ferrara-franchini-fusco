@@ -1,11 +1,8 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.model.EndGameException;
 import it.polimi.ingsw.PSP14.server.model.FakeClientConnection;
 import it.polimi.ingsw.PSP14.server.model.FakeMatch;
-import it.polimi.ingsw.PSP14.server.model.actions.Action;
-import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.model.board.Board;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
@@ -15,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PoseidonTest {
     @Test
