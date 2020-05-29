@@ -2,10 +2,9 @@ package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
+import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.actions.AtlasBuildAction;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
-import it.polimi.ingsw.PSP14.server.model.*;
-import it.polimi.ingsw.PSP14.server.model.board.Player;
 
 import java.io.IOException;
 import java.util.ArrayList;

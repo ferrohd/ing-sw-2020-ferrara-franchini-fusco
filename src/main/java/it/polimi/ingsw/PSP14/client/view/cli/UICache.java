@@ -2,7 +2,10 @@ package it.polimi.ingsw.PSP14.client.view.cli;
 
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static java.util.Comparator.comparing;
 

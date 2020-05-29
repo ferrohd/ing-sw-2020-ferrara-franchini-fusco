@@ -1,15 +1,17 @@
 package it.polimi.ingsw.PSP14.client.view.gui.scenes;
 
-import it.polimi.ingsw.PSP14.client.view.gui.GameSceneModel;
 import it.polimi.ingsw.PSP14.client.view.gui.GUIMain;
+import it.polimi.ingsw.PSP14.client.view.gui.GameSceneModel;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.*;
+import javafx.scene.Camera;
+import javafx.scene.Node;
+import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.input.ScrollEvent;

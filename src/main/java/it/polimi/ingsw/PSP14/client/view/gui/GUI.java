@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.client.view.gui;
 
-import it.polimi.ingsw.PSP14.client.view.cli.UIColor;
 import it.polimi.ingsw.PSP14.client.view.UI;
+import it.polimi.ingsw.PSP14.client.view.cli.UIColor;
 import it.polimi.ingsw.PSP14.client.view.gui.scenes.*;
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
@@ -12,7 +12,6 @@ import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class GUI implements UI {

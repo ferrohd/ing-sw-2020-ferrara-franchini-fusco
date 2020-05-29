@@ -39,9 +39,7 @@ public interface UI {
      * <br/>
      * If the player does not own a worker with that <code>workerId</code>,
      * a new worker will be instantiated.
-     * <br/>
-     * You can use this method to perform moves: in that case, call first
-     * {@link #unsetWorker(Point)}.
+     * <br/>r
      * @param position the target position
      * @param workerId the ID of the player's worker
      * @param playerUsername the owner of the worker

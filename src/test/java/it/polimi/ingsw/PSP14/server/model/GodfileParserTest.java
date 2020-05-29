@@ -1,15 +1,13 @@
 package it.polimi.ingsw.PSP14.server.model;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import it.polimi.ingsw.PSP14.server.controller.GodfileParser;
+import org.junit.jupiter.api.Test;
+import org.xml.sax.SAXException;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import it.polimi.ingsw.PSP14.server.controller.GodfileParser;
-import org.junit.jupiter.api.Test;
-import org.xml.sax.SAXException;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GodfileParserTest {
     @Test
