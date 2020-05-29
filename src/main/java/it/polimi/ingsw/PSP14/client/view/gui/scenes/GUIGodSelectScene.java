@@ -39,16 +39,16 @@ public class GUIGodSelectScene implements Runnable {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/scenes/GodSelect.fxml"));
 
-            Scene scene = new Scene(root);
+            GUIMain.getMainPane().setContent(root);
 
-            godGrid = (GridPane) scene.lookup("#godgrid");
-            godSplash = (ImageView) scene.lookup("#godsplash");
-            godName = (Label) scene.lookup("#godname");
-            godDescription = (Label) scene.lookup("#goddescription");
+            godGrid = (GridPane) root.lookup("#godgrid");
+            godSplash = (ImageView) root.lookup("#godsplash");
+            godName = (Label) root.lookup("#godname");
+            godDescription = (Label) root.lookup("#goddescription");
             godDescription.setWrapText(true);
-            select = (Button) scene.lookup("#select");
+            select = (Button) root.lookup("#select");
 
-            ((Label) scene.lookup("#title")).setText(title);
+            ((Label) root.lookup("#title")).setText(title);
 
 
             String basePath = "file:src/main/resources/images/gods/";
@@ -81,7 +81,7 @@ public class GUIGodSelectScene implements Runnable {
                 }
             });
 
-            GUIMain.updateScene(scene);
+            GUIMain.updateScene();
         } catch (IOException e) {
             e.printStackTrace();
         }

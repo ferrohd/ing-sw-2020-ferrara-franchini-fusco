@@ -16,9 +16,9 @@ public class GUIUsernameScene implements Runnable {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/scenes/Username.fxml"));
 
-            Scene scene = new Scene(root);
+            GUIMain.getMainPane().setContent(root);
 
-            GUIMain.updateScene(scene);
+            GUIMain.updateScene();
         } catch (IOException e) {
             e.printStackTrace();
         }

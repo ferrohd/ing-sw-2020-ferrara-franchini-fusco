@@ -19,9 +19,9 @@ public class GUILobbySizeScene implements Runnable {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/scenes/LobbySize.fxml"));
 
-            Scene scene = new Scene(root);
+            GUIMain.getMainPane().setContent(root);
 
-            GUIMain.updateScene(scene);
+            GUIMain.updateScene();
         } catch (IOException e) {
             e.printStackTrace();
         }

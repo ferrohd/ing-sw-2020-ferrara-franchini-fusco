@@ -3,6 +3,7 @@ package it.polimi.ingsw.PSP14.client.view.gui;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.controlsfx.control.NotificationPane;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -35,13 +36,15 @@ public class GUIMain extends Application {
         queue.add(new Object());
     }
 
+    public static NotificationPane getMainPane() {
+        return (NotificationPane) initStage.getScene().getRoot();
+    }
+
     /**
      * Used by other threads to change the scene of the stage (Window)
      * @param scene new scene to be used
      */
-    static public void updateScene(Scene scene) {
-        initStage.setScene(scene);
-        initStage.show();
+    static public void updateScene() {
         initStage.setAlwaysOnTop(true);
         initStage.setAlwaysOnTop(false);
     }
