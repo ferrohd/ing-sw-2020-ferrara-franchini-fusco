@@ -9,6 +9,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class TCPIn implements Runnable {
     private BlockingQueue<Message> queue = new LinkedBlockingQueue<>();
@@ -36,8 +37,12 @@ public class TCPIn implements Runnable {
 
     public Message receiveMessage() throws IOException {
         try {
-            if(Duration.between(lastTimestamp, Instant.now()).toMillis() > 5000) throw new IOException();
-            return queue.take();
+            Message message;
+            do {
+                if (Duration.between(lastTimestamp, Instant.now()).toMillis() > 5000) throw new IOException();
+                message = queue.poll(100, TimeUnit.MILLISECONDS);
+            } while(message == null);
+            return message;
         } catch(InterruptedException e) {throw new IOException();}
     }
 

@@ -38,6 +38,7 @@ public class ClientMatch implements Runnable {
                 } catch(IOException ioe) {
                     System.out.println("Could not close. Terminating...");
                 }
+                System.exit(-1);
                 return;
             }
         }
