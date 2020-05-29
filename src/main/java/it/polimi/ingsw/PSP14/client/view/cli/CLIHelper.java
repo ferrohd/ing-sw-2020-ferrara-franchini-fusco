@@ -241,6 +241,9 @@ public class CLIHelper {
         }
     }
 
+    /**
+     * Draw the board with the workers and builds
+     * */
     private void drawBoard() {
         // Draw the outer edge of the board
         addRect(BOARD_X, BOARD_Y, BOARD_WIDTH, BOARD_HEIGHT);
@@ -318,6 +321,9 @@ public class CLIHelper {
         }
     }
 
+    /**
+     * Draw the board with the player list aside
+     */
     public void drawBoardAndPlayers() {
         List<UIPlayer> _players = cache.getPlayers();
         reset();
@@ -380,6 +386,10 @@ public class CLIHelper {
         reset();
     }
 
+    /**
+     * Send a single message to the user
+     * @param text text to be drawn
+     */
     public void drawMessage(String text) {
         addText(BOARD_X, BOARD_Y+BOARD_HEIGHT+1, text, CLIColor.YELLOW);
     }

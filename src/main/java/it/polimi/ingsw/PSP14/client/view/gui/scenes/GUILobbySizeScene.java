@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This scene asks the user who created the lobby to define the size of the lobby (2 or 3 players)
+ */
 public class GUILobbySizeScene implements Runnable {
         @Override
     public void run() {

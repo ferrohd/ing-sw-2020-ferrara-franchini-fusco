@@ -54,6 +54,12 @@ public abstract class ClientConnection {
         return selectedGods;
     }
 
+    /**
+     * Asks the user to pick the God he wants to play with
+     * @param gods avaible gods to chose from
+     * @return the god selected
+     * @throws IOException
+     */
     public String selectGod(List<String> gods) throws IOException {
         List<GodProposal> godProposals = gods.stream().map(GodProposal::new).collect(Collectors.toList());
         GodChoiceProposalMessage message = new GodChoiceProposalMessage(godProposals);
@@ -68,6 +74,12 @@ public abstract class ClientConnection {
         return gods.get(choice);
     }
 
+    /**
+     * Ask the player owner of the lobby which player will make the first move
+     * @param players list of the players
+     * @return selected player
+     * @throws IOException
+     */
     public String selectFirstPlayer(List<String> players) throws IOException {
         List<PlayerProposal> playerProposals = players.stream().map(PlayerProposal::new).collect(Collectors.toList());
         FirstPlayerProposalMessage message = new FirstPlayerProposalMessage(playerProposals);
@@ -96,6 +108,11 @@ public abstract class ClientConnection {
         return workerIndex;
     }
 
+    /**
+     * Asks the player where to place the Worker
+     * @return a Point where to place the worker
+     * @throws IOException
+     */
     public Point placeWorker() throws IOException {
         Message message = new WorkerInitialPositionMessage();
         sendMessage(message);
@@ -124,6 +141,12 @@ public abstract class ClientConnection {
         sendMessage(new DomeBuildMessage(p));
     }
 
+    /**
+     * Notify the player a tower has been built with size amount and in position p
+     * @param p position (Point) of the build
+     * @param amount size of the build
+     * @throws IOException
+     */
     public void notifyBuild(Point p, int amount) throws IOException {
         Message message = new TowerIncrementMessage(p);
         for (int i = 0; i < amount; ++i)
@@ -138,6 +161,13 @@ public abstract class ClientConnection {
         sendMessage(new UnregisterPlayerMessage(player));
     }
 
+    /**
+     * Send a generic choice to a player
+     * @param message Message to the player
+     * @param size size of the proposal range (0-size)
+     * @return choice of the player (between 0 and size)
+     * @throws IOException
+     */
     private int askProposalMessage(ProposalMessage<? extends Proposal> message, int size) throws IOException {
         sendMessage(message);
         int choice = receiveChoice();
@@ -158,6 +188,11 @@ public abstract class ClientConnection {
         return askProposalMessage(new MoveProposalMessage(proposals), proposals.size());
     }
 
+    /**
+     * Ask the player the size of the lobby to be create
+     * @return
+     * @throws IOException
+     */
     public int askLobbySize() throws IOException {
         Message message = new LobbySizeMessage();
         sendMessage(message);
@@ -190,6 +225,11 @@ public abstract class ClientConnection {
         return choice == 1;
     }
 
+    /**
+     * Notify the player that the game has ended with a winner
+     * @param winner winner of the game
+     * @throws IOException
+     */
     public void endGame(String winner) throws IOException {
         sendMessage(new GameEndMessage(winner));
     }

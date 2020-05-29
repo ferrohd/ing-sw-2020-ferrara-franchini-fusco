@@ -7,6 +7,9 @@ import javafx.stage.Stage;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
+/**
+ * JavaFX Thread
+ */
 public class GUIMain extends Application {
 
     private static final BlockingQueue<Object> queue = new LinkedBlockingDeque<>();
@@ -32,6 +35,10 @@ public class GUIMain extends Application {
         queue.add(new Object());
     }
 
+    /**
+     * Used by other threads to change the scene of the stage (Window)
+     * @param scene new scene to be used
+     */
     static public void updateScene(Scene scene) {
         initStage.setScene(scene);
         initStage.show();

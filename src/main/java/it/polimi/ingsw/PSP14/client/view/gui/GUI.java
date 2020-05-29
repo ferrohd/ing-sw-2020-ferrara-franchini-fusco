@@ -37,7 +37,7 @@ public class GUI implements UI {
         );
         try {
             GUIMain.getQueue().take();
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException ignored) {}
     }
 
     private void unsetWorker(int workerId, String playerUsername) {

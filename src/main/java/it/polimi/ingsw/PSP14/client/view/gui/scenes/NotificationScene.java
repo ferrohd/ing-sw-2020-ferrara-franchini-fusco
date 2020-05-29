@@ -22,18 +22,11 @@ import org.controlsfx.control.Notifications;
 
 import javax.swing.*;
 
+/**
+ * Toast-like notification to (guess what) notify the user
+ */
 public class NotificationScene implements Runnable {
-    /**
-     * When an object implementing interface {@code Runnable} is used
-     * to create a thread, starting the thread causes the object's
-     * {@code run} method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method {@code run} is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread#run()
-     */
+
     final String textMessage;
 
     public NotificationScene(String textMessage) {

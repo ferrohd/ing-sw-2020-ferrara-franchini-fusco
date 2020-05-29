@@ -7,6 +7,12 @@ import it.polimi.ingsw.PSP14.client.view.gui.GUI;
 public class UIFactory {
     private UIFactory() {}
 
+    /**
+     * Launch GUI or CLI based on settings
+     * @param setting param used to launch cli or gui
+     * @return UI to use
+     * @throws InvalidSettingsException
+     */
     public static UI getUI(String setting) throws InvalidSettingsException {
         switch(setting) {
             case "cli":
