@@ -25,6 +25,10 @@ public abstract class ClientConnection {
      */
     protected abstract Message receiveMessage() throws IOException;
 
+    public void notifyGameStart() throws IOException {
+        sendMessage(new GameStartMessage());
+    }
+
     /**
      * A request to the client to provide the name that the player has chosen.
      * @return the player username
