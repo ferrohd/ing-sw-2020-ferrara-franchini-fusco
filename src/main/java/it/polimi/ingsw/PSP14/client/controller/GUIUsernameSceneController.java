@@ -14,6 +14,7 @@ public class GUIUsernameSceneController {
         System.out.println("HELLO " + usernameField.getText());
         if (usernameField.getText().length() > 0) {
             playBtn.setDisable(true);
+            usernameField.setDisable(true);
             GUIMain.getQueue().put(usernameField.getText());
         }
     }

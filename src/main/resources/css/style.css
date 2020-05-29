@@ -1,3 +1,8 @@
+/* Import custom font */
+@font-face {
+    src: url("/fonts/dalek.ttf");
+}
+
 .menu {
     -fx-background-image: url('../images/frame.png');
     -fx-background-size: 100% 100%;

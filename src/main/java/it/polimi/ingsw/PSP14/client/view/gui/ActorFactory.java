@@ -1,22 +1,20 @@
 package it.polimi.ingsw.PSP14.client.view.gui;
 
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.CullFace;
-import javafx.scene.shape.DrawMode;
-import javafx.scene.shape.Mesh;
-import javafx.scene.shape.MeshView;
+import javafx.scene.shape.*;
+import javafx.util.Duration;
 
 import java.net.URL;
 
 public class ActorFactory {
     private static final double BLOCK_SCALE = 0.35;
-
-    private static int blockCounter = 0;
-    static int workerCounter = 0;
 
     private static Mesh BLOCK_1_MESH = getMesh("/assets/BuildingBlock01.obj");
     private static Mesh BLOCK_2_MESH = getMesh("/assets/BuildingBlock02.obj");
@@ -35,6 +33,7 @@ public class ActorFactory {
     private static PhongMaterial WORKER_F_ORANGE_MAT = getMaterial("/assets/FemaleBuilder_Orange_v001.png");
     private static PhongMaterial WORKER_M_PINK_MAT = getMaterial("/assets/MaleBuilder_Pink_v001.png");
     private static PhongMaterial WORKER_F_PINK_MAT = getMaterial("/assets/FemaleBuilder_Pink_v001.png");
+    private static PhongMaterial SELECTABLE_MAT = getMaterial("/assets/selectable2.png");
 
     static Mesh getMesh(String meshUrl) {
         // Import 3D resource
@@ -141,6 +140,37 @@ public class ActorFactory {
         worker.setScaleZ(1);
 
         return worker;
+    }
+
+    public static Node getSelectable() {
+        // Spawn a flat rectangle
+        Box rect = new Box(2, 0.5, 2);
+        // Set material
+        PhongMaterial mat = new PhongMaterial();
+        //        mat.setDiffuseColor(Color.valueOf("f9d854aa"));
+
+        rect.setMaterial(SELECTABLE_MAT);
+        // Animate it
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(0),
+                        new KeyValue(rect.scaleXProperty(), 1),
+                        new KeyValue(rect.scaleZProperty(), 1)
+
+                ),
+                new KeyFrame(Duration.millis(1500),
+                        new KeyValue(rect.scaleXProperty(), 1.1),
+                        new KeyValue(rect.scaleZProperty(), 1.1)
+                ),
+                new KeyFrame(Duration.millis(3000),
+                        new KeyValue(rect.scaleXProperty(), 1),
+                        new KeyValue(rect.scaleZProperty(), 1)
+
+                )
+        );
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+
+        return rect;
     }
 }
 

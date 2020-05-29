@@ -144,7 +144,7 @@ public class GUIGameScene implements Runnable {
         });
 
         // Handle Selection
-        scene.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+        scene.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             PickResult res = event.getPickResult();
             Node node = res.getIntersectedNode();
             // Stop doing stuff if I clicked on nothing
