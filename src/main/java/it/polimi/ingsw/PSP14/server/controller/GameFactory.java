@@ -62,6 +62,13 @@ public class GameFactory implements Runnable {
                         c.close();
                     } catch (IOException exc) {
                         System.out.println("Error occurred closing a client connection.");
+                        for(ClientConnection clientConnection : players) {
+                            try {
+                                clientConnection.close();
+                            } catch(IOException ioe) {
+                                System.out.println("Could not close connection.");
+                            }
+                        }
                     }
             }
         }

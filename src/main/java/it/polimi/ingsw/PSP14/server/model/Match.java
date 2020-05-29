@@ -49,12 +49,20 @@ public class Match implements Runnable {
     public void run() {
         try {
             setupGame();
+            gameLoop();
+        } catch (EndGameException e) {
+            System.out.println("Game is over. Terminating...");
         } catch(IOException e) {
-            System.out.println("An error has occurred while setting up the game!");
-            return;
+            System.out.println("Connection error!");
+            for(ClientConnection c : clientConnections) {
+                try {
+                    c.close();
+                } catch (IOException ioe) {
+                    System.out.println("Could not close connection.");
+                }
+            }
         }
 
-        gameLoop();
     }
 
     /**
@@ -115,20 +123,10 @@ public class Match implements Runnable {
      * Consists of an infinite loop that plays the turn indefinitely until either a connection error occurs
      * or a end game event is detected.
      */
-    private void gameLoop() {
-        while(true) {
-            for(String p: users) {
-                try {
-                    turn(p);
-                } catch (EndGameException e) {
-                    System.out.println("Game is over. Terminating...");
-                    return;
-                } catch (IOException e) {
-                    System.out.println("IOException detected. Terminating...");
-                    return;
-                }
-            }
-        }
+    private void gameLoop() throws IOException, EndGameException {
+        while(true)
+            for(String p: users)
+                turn(p);
     }
 
     /**
