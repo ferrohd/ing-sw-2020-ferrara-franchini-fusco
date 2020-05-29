@@ -26,4 +26,6 @@ public interface ServerConnection {
      * @throws IOException if the message reception fails
      */
     Message receiveMessage() throws IOException;
+
+    void close() throws IOException;
 }

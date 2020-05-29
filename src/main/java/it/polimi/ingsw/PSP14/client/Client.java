@@ -51,7 +51,14 @@ public class Client {
                 ui.showNotification("Could not connect to the server. Retrying...");
             }
         }
-        ServerConnection connection = new TCPServerConnection(serverSocket);
+
+        ServerConnection connection;
+        try {
+            connection = new TCPServerConnection(serverSocket);
+        } catch(IOException e) {
+            ui.showNotification("Error connecting to the server.");
+            return;
+        }
 
         ClientMatch match = new ClientMatch(connection, ui);
         Thread mainThread = new Thread(match);

@@ -33,6 +33,11 @@ public class ClientMatch implements Runnable {
                 inMessage.execute(ui, serverConnection);
             } catch (IOException | InterruptedException e) {
                 System.out.println("Connection lost. Closing...");
+                try {
+                    serverConnection.close();
+                } catch(IOException ioe) {
+                    System.out.println("Could not close. Terminating...");
+                }
                 return;
             }
         }
