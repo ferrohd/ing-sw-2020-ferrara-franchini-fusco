@@ -125,7 +125,8 @@ public class Match implements Runnable {
      * Consists of an infinite loop that plays the turn indefinitely until either a connection error occurs
      * or a end game event is detected.
      */
-    private void gameLoop() throws EndGameException, IOException {
+    private void gameLoop() throws IOException, EndGameException {
+
         while(true)
             for(String p: users)
                 turn(p);

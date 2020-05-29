@@ -68,5 +68,10 @@ public class GodFactory {
     public UIGod getGod(String godName) {
         return godMap.get(godName);
     }
+
+    /**
+     * Return the GodModel map
+     * @return the godMap
+     */
     public Map<String, UIGod> getGodsMap() { return godMap; }
 }

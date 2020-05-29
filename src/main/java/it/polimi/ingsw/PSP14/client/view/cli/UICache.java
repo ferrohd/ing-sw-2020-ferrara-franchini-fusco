@@ -65,16 +65,29 @@ public class UICache {
         this.players.remove(username);
     }
 
+    /**
+     * @return a List of all Players
+     */
     public List<UIPlayer> getPlayers() {
         List<UIPlayer> _list = new ArrayList<>(this.players.values());
         _list.sort(comparing(UIPlayer::getNumber));
         return _list;
     }
 
+    /**
+     * @param username name of the player to be returned
+     * @return the player
+     */
     public UIPlayer getPlayer(String username) {
         return this.players.get(username);
     }
 
+    /**
+     * Updates the cache by setting a worker to a cell
+     * @param worker to be set
+     * @param player owner of the worker
+     * @param cell where the worker should be set to
+     */
     public void setWorker(UIWorker worker, String player, UICell cell) {
         if (cell == null) return;
 
@@ -90,6 +103,10 @@ public class UICache {
         cell.setWorker(worker);
     }
 
+    /**
+     * Remove a worker from the Board
+     * @param worker to be removed from the board
+     */
     public void unsetWorker(UIWorker worker) {
         if (worker == null) return;
         UICell _c = worker.getCell();

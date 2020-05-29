@@ -16,6 +16,9 @@ import javafx.scene.layout.GridPane;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * God selection scene
+ */
 public class GUIGodSelectScene implements Runnable {
     private final List<String> gods;
     private ImageView godSplash;
@@ -35,7 +38,7 @@ public class GUIGodSelectScene implements Runnable {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/scenes/GodSelect.fxml"));
 
-            Scene scene = new Scene(root);
+            GUIMain.getMainPane().setContent(root);
 
             GridPane godGrid = (GridPane) scene.lookup("#godgrid");
             godSplash = (ImageView) scene.lookup("#godsplash");
@@ -44,25 +47,25 @@ public class GUIGodSelectScene implements Runnable {
             godDescription.setWrapText(true);
             selectButton = (Button) scene.lookup("#selectButton");
 
-            ((Label) scene.lookup("#title")).setText(title);
+            ((Label) root.lookup("#title")).setText(title);
 
 
-            String basepath = "file:src/main/resources/images/gods/";
+            String basePath = "file:src/main/resources/images/gods/";
 
             List<Node> icons = godGrid.getChildren();
             for(Node icon : icons) ((ImageView)icon).fitHeightProperty().bind(godGrid.heightProperty().divide(3.2));
             for(int i = 0; i < gods.size(); ++i) {
                 ImageView img = (ImageView) icons.get(i);
-                String godname = gods.get(i);
-                String path = basepath + "icons/" + godname + ".png";
+                String godName = gods.get(i);
+                String path = basePath + "icons/" + godName + ".png";
                 img.setImage(new Image(path));
                 img.setPreserveRatio(true);
                 img.setOnMouseClicked((event) -> {
                     try {
-                        UIGod god = GodFactory.getInstance().getGod(godname);
-                        godName.setText(godname);
+                        UIGod god = GodFactory.getInstance().getGod(godName);
+                        this.godName.setText(godName);
                         godDescription.setText(god.getDescription());
-                        godSplash.setImage(new Image(basepath + godname + ".png"));
+                        godSplash.setImage(new Image(basePath + godName + ".png"));
                     } catch(IOException e) {}
                 });
             }
@@ -77,7 +80,7 @@ public class GUIGodSelectScene implements Runnable {
                 }
             });
 
-            GUIMain.updateScene(scene);
+            GUIMain.updateScene();
         } catch (IOException e) {
             e.printStackTrace();
         }

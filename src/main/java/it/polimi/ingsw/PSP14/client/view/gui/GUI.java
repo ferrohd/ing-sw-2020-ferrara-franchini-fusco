@@ -37,7 +37,7 @@ public class GUI implements UI {
         );
         try {
             GUIMain.getQueue().take();
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException ignored) {}
     }
 
     private void unsetWorker(int workerId, String playerUsername) {
@@ -125,7 +125,7 @@ public class GUI implements UI {
                 incrementCell(new Point(4, 1));
                 Thread.sleep(1000);
                 moveWorker(new Point(0, 0), 0, "pippo");
-            } catch(InterruptedException e) {}
+            } catch(InterruptedException ignored) {}
         }).start();
     }
 
@@ -147,7 +147,7 @@ public class GUI implements UI {
      */
     @Override
     public void showNotification(String s) {
-
+        Platform.runLater(new NotificationScene(s));
     }
 
     /**

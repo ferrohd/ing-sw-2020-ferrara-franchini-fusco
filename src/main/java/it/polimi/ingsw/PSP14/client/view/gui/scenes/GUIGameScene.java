@@ -8,10 +8,7 @@ import javafx.animation.Timeline;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.Camera;
-import javafx.scene.Node;
-import javafx.scene.PerspectiveCamera;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.input.ScrollEvent;
@@ -33,7 +30,6 @@ public class GUIGameScene implements Runnable {
     private final double ZOOM_MAX = -60;
     private final double ZOOM_TIME = 200;
 
-    private Scene scene = null;
     private Rotate xRotate, yRotate = null;
     private Translate zoom = null;
 
@@ -78,7 +74,10 @@ public class GUIGameScene implements Runnable {
         GUIMain.getStage().setResizable(true);
 
         // Create a scene object
-        scene = new Scene(model.getRoot(), VIEWPORT_X, VIEWPORT_Y, true);
+        SubScene scene = new SubScene(model.getRoot(), VIEWPORT_X, VIEWPORT_Y, true, SceneAntialiasing.BALANCED);
+        scene.heightProperty().bind(GUIMain.getMainPane().heightProperty());
+        scene.widthProperty().bind(GUIMain.getMainPane().widthProperty());
+        GUIMain.getMainPane().setContent(scene);
         scene.setFill(Paint.valueOf("#21c8de"));
 
         // Create a camera with its transforms.
@@ -174,8 +173,6 @@ public class GUIGameScene implements Runnable {
             }
         });
 
-        GUIMain.getStage().setScene(scene);
-        GUIMain.getStage().show();
         GUIMain.getQueue().add(new Object());
     }
 

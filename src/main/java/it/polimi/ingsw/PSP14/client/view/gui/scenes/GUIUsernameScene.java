@@ -7,15 +7,18 @@ import javafx.scene.Scene;
 
 import java.io.IOException;
 
+/**
+ * This scene asks the user to input the username to  be used in the game.
+ */
 public class GUIUsernameScene implements Runnable {
     @Override
     public void run() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/scenes/Username.fxml"));
 
-            Scene scene = new Scene(root);
+            GUIMain.getMainPane().setContent(root);
 
-            GUIMain.updateScene(scene);
+            GUIMain.updateScene();
         } catch (IOException e) {
             e.printStackTrace();
         }
