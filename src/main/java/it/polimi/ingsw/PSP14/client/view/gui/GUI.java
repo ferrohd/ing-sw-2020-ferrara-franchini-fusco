@@ -204,15 +204,21 @@ public class GUI implements UI {
     }
 
     @Override
-    public int[] chooseWorkerInitialPosition() {
-        int[] pos = new int[2];
-        Platform.runLater(gameScene);
-        try {
-            pos[0] = (Integer) GUIMain.getQueue().take();
-            pos[1] = (Integer) GUIMain.getQueue().take();
-        } catch(InterruptedException e) {}
+    public int[] chooseWorkerInitialPosition() throws InterruptedException {
+        gameScene.setIsSelectingCell(true);
+        List<Point> points = new ArrayList<>();
+        for (int x = 0; x <= 4; x++) {
+            for (int y = 0; y <= 4; y++) {
+                points.add(new Point(x, y));
+            }
+        }
+        gameScene.getModel().addAllSelectables(points);
 
-        return pos;
+        int index = (Integer) GUIMain.getQueue().take();
+
+        Point point = points.get(index);
+
+        return new int[]{point.getX(), point.getY()};
     }
 
     /**

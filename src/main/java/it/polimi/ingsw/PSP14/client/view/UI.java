@@ -127,7 +127,7 @@ public interface UI {
      *
      * @return the index of the chosen worker
      */
-    int chooseWorker(List<Integer> choosable) throws InterruptedException;
+    int chooseWorker(List<Integer> choosable) throws InterruptedException, IOException;
 
     /**
      * Ask the (hosting) player to choose a god that will be added to a pool
@@ -143,7 +143,7 @@ public interface UI {
      *
      * @return A tuple [x,y] of the worker coordinates
      */
-    int[] chooseWorkerInitialPosition();
+    int[] chooseWorkerInitialPosition() throws InterruptedException;
 
 
     /**
@@ -151,7 +151,7 @@ public interface UI {
      * @param moves a list of possible moves to choose from
      * @return the Index of the chosen move
      */
-    int chooseMove(List<MoveProposal> moves) throws InterruptedException;
+    int chooseMove(List<MoveProposal> moves) throws InterruptedException, IOException;
 
     /**
      * Ask a player for the destination of their next build action,
@@ -159,7 +159,7 @@ public interface UI {
      * @param moves a list of options to choose from
      * @return the Index of the chosen option
      */
-    int chooseBuild(List<BuildProposal> moves) throws InterruptedException;
+    int chooseBuild(List<BuildProposal> moves) throws InterruptedException, IOException;
 
     /**
      * Ask the player if they want to perform a certain action.

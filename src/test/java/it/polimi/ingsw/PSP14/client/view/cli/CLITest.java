@@ -145,7 +145,7 @@ class CLITest {
 }
 
     @Test
-    void chooseWorker() throws InterruptedException {
+    void chooseWorker() throws InterruptedException, IOException {
         System.out.println();
         ui.chooseWorker(new ArrayList<>(Arrays.asList(0, 1)));
     }
@@ -156,7 +156,7 @@ class CLITest {
     }
 
     @Test
-    void chooseMoves() throws InterruptedException {
+    void chooseMoves() throws InterruptedException, IOException {
         List<MoveProposal> _l = new ArrayList<>();
         _l.add(new MoveProposal(new Point(0,0)));
         _l.add(new MoveProposal(new Point(1,1)));
