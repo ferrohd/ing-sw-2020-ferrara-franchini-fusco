@@ -26,9 +26,6 @@
                </VBox.margin>
             </Label>
             <TextField fx:id="usernameField" maxWidth="1.7976931348623157E308">
-               <font>
-                  <Font name="Georgia" size="20.0" />
-               </font>
                <VBox.margin>
                   <Insets left="6.0" right="6.0" />
                </VBox.margin>
