@@ -19,6 +19,7 @@ import javafx.scene.shape.MeshView;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -439,6 +440,10 @@ public class GameSceneModel {
         setNodeToPoint3D(tower, target);
         showBlock(tower);
         addToActorsAndRegister(getBlockId(position, height), tower);
+    }
+
+    public List<Point> getWorkerPositions() {
+        return getAllWorkers().stream().map(GameSceneModel::getBoardCoordinates).collect(Collectors.toList());
     }
 
     /**

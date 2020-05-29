@@ -151,7 +151,7 @@ class CLITest {
     }
 
     @Test
-    void chooseWorkerInitialPosition() {
+    void chooseWorkerInitialPosition() throws InterruptedException {
         ui.chooseWorkerInitialPosition();
     }
 

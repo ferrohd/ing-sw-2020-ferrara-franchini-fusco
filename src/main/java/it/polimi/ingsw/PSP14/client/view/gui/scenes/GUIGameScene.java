@@ -36,6 +36,11 @@ public class GUIGameScene implements Runnable {
     private Scene scene = null;
     private Rotate xRotate, yRotate = null;
     private Translate zoom = null;
+    public boolean isShown = false;
+
+    public boolean getIsShown() {
+        return isShown;
+    }
 
     SimpleBooleanProperty isDragging = new SimpleBooleanProperty(false);
     SimpleDoubleProperty lastMouseX = new SimpleDoubleProperty(VIEWPORT_X * 0.5);
@@ -176,6 +181,8 @@ public class GUIGameScene implements Runnable {
 
         GUIMain.getStage().setScene(scene);
         GUIMain.getStage().show();
+        isShown = true;
+        GUIMain.getQueue().add(new Object());
     }
 
     public GameSceneModel getModel() { return model; }

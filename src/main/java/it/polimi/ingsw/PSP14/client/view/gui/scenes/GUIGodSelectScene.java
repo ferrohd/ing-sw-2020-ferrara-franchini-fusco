@@ -51,12 +51,12 @@ public class GUIGodSelectScene implements Runnable {
             String basepath = "file:src/main/resources/images/gods/";
 
             List<Node> icons = godGrid.getChildren();
+            for(Node icon : icons) ((ImageView)icon).fitHeightProperty().bind(godGrid.heightProperty().divide(3.3));
             for(int i = 0; i < gods.size(); ++i) {
                 ImageView img = (ImageView) icons.get(i);
                 String godname = gods.get(i);
                 String path = basepath + "icons/" + godname + ".png";
                 img.setImage(new Image(path));
-                img.fitHeightProperty().bind(godGrid.heightProperty().divide(3.5));
                 img.setPreserveRatio(true);
                 img.setOnMouseClicked((event) -> {
                     try {
