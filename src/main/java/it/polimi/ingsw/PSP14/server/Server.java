@@ -11,6 +11,7 @@ public class Server {
         ClientConnectionFactory clientConnectionFactory = new TCPClientConnectionFactory(42069);
         GameFactory gameFactory = new GameFactory(clientConnectionFactory);
         Thread mainThread = new Thread(gameFactory);
+        mainThread.setName("gameFactory");
         mainThread.start();
         mainThread.join();
     }

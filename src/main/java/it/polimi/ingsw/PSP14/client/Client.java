@@ -63,6 +63,6 @@ public class Client {
         ClientMatch match = new ClientMatch(connection, ui);
         Thread mainThread = new Thread(match);
         mainThread.start();
-        mainThread.join();
+        //mainThread.join();
     }
 }

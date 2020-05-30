@@ -53,6 +53,7 @@ public class GameFactory implements Runnable {
                 // Starts a new game lobby/match with the players in the arrayList
                 System.out.println("Creating game...");
                 Thread newGame = new Thread(new Match(players));
+                newGame.setName("Match");
                 System.out.println("Starting game...");
                 newGame.start();
             } catch(InterruptedException | IOException e) {

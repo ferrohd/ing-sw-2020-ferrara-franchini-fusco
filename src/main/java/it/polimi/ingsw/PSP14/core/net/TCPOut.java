@@ -24,7 +24,9 @@ public class TCPOut implements Runnable {
                     out.writeObject(new PingMessage());
                 }
                 Thread.sleep(1000);
-            } catch(IOException | InterruptedException e) {}
+            } catch(IOException | InterruptedException e) {
+                return;
+            }
         }
     }
 

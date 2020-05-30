@@ -31,6 +31,7 @@ public class TCPIn implements Runnable {
                     queue.add(message);
             } catch(ClassNotFoundException | IOException e) {
                 lastTimestamp = Instant.EPOCH;
+                return;
             }
         }
     }
