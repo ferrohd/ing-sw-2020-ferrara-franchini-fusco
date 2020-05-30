@@ -48,13 +48,13 @@ public interface UI {
      */
     void setWorker(Point position, int workerId, String playerUsername);
 
-    void moveWorker(Point newPosition, int workerId, String playerUsername);
+    void moveWorker(Point newPosition, int workerId, String playerUsername) throws InterruptedException;
 
     /**
      * Increment the tower height at the specified cell position by 1.
      * @param position position
      */
-    void incrementCell(Point position);
+    void incrementCell(Point position) throws InterruptedException;
 
     /**
      * Add a dome (marking a tower as complete) to the specified cell position.

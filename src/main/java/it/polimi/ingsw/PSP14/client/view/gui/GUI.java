@@ -9,6 +9,7 @@ import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import javafx.application.Platform;
+import javafx.scene.Node;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,17 +48,19 @@ public class GUI implements UI {
     }
 
     @Override
-    public void moveWorker(Point newPosition, int workerId, String playerUsername) {
+    public void moveWorker(Point newPosition, int workerId, String playerUsername) throws InterruptedException {
         Platform.runLater(() ->
                 gameScene.getModel().moveWorker(players.indexOf(playerUsername), workerId, newPosition)
         );
+        GUIMain.getQueue().take();
     }
 
     @Override
-    public void incrementCell(Point position) {
+    public void incrementCell(Point position) throws InterruptedException {
         Platform.runLater(() ->
                 gameScene.getModel().incrementCell(position)
         );
+        for(Node w : gameScene.getModel().getAllWorkers()) GUIMain.getQueue().take();
     }
 
     @Override
@@ -103,7 +106,7 @@ public class GUI implements UI {
         //showDemo();
     }
 
-    private void showDemo() {
+    private void showDemo() throws InterruptedException {
         new Thread(() -> {
             try {
                 incrementCell(new Point(0, 0));
@@ -231,7 +234,6 @@ public class GUI implements UI {
         int index = (Integer) GUIMain.getQueue().take();
 
         Point point = points.get(index);
-        System.out.println(point);
 
         gameScene.setIsSelectingCell(false);
         Platform.runLater(() -> gameScene.getModel().removeAllSelectables());
@@ -250,10 +252,13 @@ public class GUI implements UI {
     public int chooseMove(List<MoveProposal> moves) throws InterruptedException {
         gameScene.setIsSelectingCell(true);
         List<Point> points = moves.stream().map(MoveProposal::getPoint).collect(Collectors.toList());
-        gameScene.getModel().addAllSelectables(points);
+
+        Platform.runLater(() -> gameScene.getModel().addAllSelectables(points));
 
         int ret = (int) GUIMain.getQueue().take();
         gameScene.setIsSelectingCell(false);
+        Platform.runLater(() -> gameScene.getModel().removeAllSelectables());
+        GUIMain.getQueue().take();
 
         return ret;
     }
@@ -269,10 +274,13 @@ public class GUI implements UI {
     public int chooseBuild(List<BuildProposal> moves) throws InterruptedException {
         gameScene.setIsSelectingCell(true);
         List<Point> points = moves.stream().map(BuildProposal::getPoint).collect(Collectors.toList());
-        gameScene.getModel().addAllSelectables(points);
+
+        Platform.runLater(() -> gameScene.getModel().addAllSelectables(points));
 
         int ret = (int) GUIMain.getQueue().take();
         gameScene.setIsSelectingCell(false);
+        Platform.runLater(() -> gameScene.getModel().removeAllSelectables());
+        GUIMain.getQueue().take();
 
         return ret;
     }

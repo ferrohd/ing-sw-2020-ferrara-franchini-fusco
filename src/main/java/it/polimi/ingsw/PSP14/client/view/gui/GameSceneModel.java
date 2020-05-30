@@ -293,9 +293,11 @@ public class GameSceneModel {
             xTimeline.setOnFinished(event -> zTimeline.play());
             if(diff.getY() < 0) {
                 yTimeline.setOnFinished(event -> xTimeline.play());
+                zTimeline.setOnFinished(event -> {try{GUIMain.getQueue().put(new Object());}catch(InterruptedException e){}});
                 yTimeline.play();
             } else {
                 zTimeline.setOnFinished(event -> yTimeline.play());
+                yTimeline.setOnFinished(event -> {try{GUIMain.getQueue().put(new Object());}catch(InterruptedException e){}});
                 xTimeline.play();
             }
         }
