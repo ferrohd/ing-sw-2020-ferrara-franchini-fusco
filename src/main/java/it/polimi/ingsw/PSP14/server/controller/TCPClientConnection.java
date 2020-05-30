@@ -28,8 +28,12 @@ public class TCPClientConnection extends ClientConnection {
     public TCPClientConnection(final Socket socket) throws IOException {
         clientOutput = new TCPOut(new ObjectOutputStream(socket.getOutputStream()));
         clientInput = new TCPIn(new ObjectInputStream(socket.getInputStream()));
-        new Thread(clientInput).start();
-        new Thread(clientOutput).start();
+        Thread inputThread = new Thread(clientInput);
+        inputThread.setName("TCPIn");
+        Thread outputThread = new Thread(clientOutput);
+        outputThread.setName("TCPOut");
+        inputThread.start();
+        outputThread.start();
     }
 
     @Override
