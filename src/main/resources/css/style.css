@@ -1,3 +1,8 @@
+/* Import custom font */
+@font-face {
+    src: url("/fonts/dalek.ttf");
+}
+
 .menu {
     -fx-background-image: url('../images/frame.png');
     -fx-background-size: 100% 100%;
@@ -10,4 +15,27 @@
 .splash {
     -fx-background-image: url('../images/splash.png');
     -fx-background-size: 100% 100%;
+}
+
+#title,
+#godname {
+    -fx-font-family: "dalek";
+    -fx-font-size: 20;
+}
+
+#goddescription {
+    -fx-font-family: "Georgia";
+}
+
+#usernameField {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 20;
+}
+
+Button {
+    -fx-font-family: "dalek";
+    -fx-font-size: 20;
+    -fx-background-image: url('../images/btn_blue.png');
+    -fx-background-size: 100% 100%;
+    -fx-text-fill: white;
 }

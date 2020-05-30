@@ -20,13 +20,12 @@ import java.util.List;
  * God selection scene
  */
 public class GUIGodSelectScene implements Runnable {
-    private List<String> gods;
+    private final List<String> gods;
     private ImageView godSplash;
     private Label godName;
     private Label godDescription;
-    private GridPane godGrid;
-    private String title;
-    private Button select;
+    private final String title;
+    private Button selectButton;
 
     public GUIGodSelectScene(String title, List<String> gods) {
         this.gods = gods;
@@ -41,12 +40,12 @@ public class GUIGodSelectScene implements Runnable {
 
             GUIMain.getMainPane().setContent(root);
 
-            godGrid = (GridPane) root.lookup("#godgrid");
-            godSplash = (ImageView) root.lookup("#godsplash");
-            godName = (Label) root.lookup("#godname");
-            godDescription = (Label) root.lookup("#goddescription");
+            GridPane godGrid = (GridPane) scene.lookup("#godgrid");
+            godSplash = (ImageView) scene.lookup("#godsplash");
+            godName = (Label) scene.lookup("#godname");
+            godDescription = (Label) scene.lookup("#goddescription");
             godDescription.setWrapText(true);
-            select = (Button) root.lookup("#select");
+            selectButton = (Button) scene.lookup("#selectButton");
 
             ((Label) root.lookup("#title")).setText(title);
 
@@ -71,10 +70,10 @@ public class GUIGodSelectScene implements Runnable {
                 });
             }
 
-            select.setOnMouseClicked((event) -> {
+            selectButton.setOnMouseClicked((event) -> {
                 if(!godName.getText().equals("")) {
-                    select.setDisable(true);
-                    select.setText("Waiting...");
+                    selectButton.setDisable(true);
+                    selectButton.setText("Waiting...");
                     try {
                         GUIMain.getQueue().put(gods.indexOf(godName.getText()));
                     } catch (InterruptedException e) {}

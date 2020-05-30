@@ -454,23 +454,7 @@ public class GameSceneModel {
      * @param targetPos where to spawn the rect
      */
     public void addSelectable(int index, Point targetPos) {
-        // Spawn a flat rectangle
-        Box rect = new Box(2, SELECT_HEIGHT, 2);
-        // Set material
-        PhongMaterial mat = new PhongMaterial();
-        mat.setDiffuseColor(Color.valueOf("f9d854aa"));
-        rect.setMaterial(mat);
-        // Animate it
-        Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(0),
-                        new KeyValue(mat.diffuseColorProperty(), Color.valueOf("f9d85488"))
-                ),
-                new KeyFrame(Duration.millis(3000),
-                        new KeyValue(mat.diffuseColorProperty(), Color.valueOf("ef9723bb"))
-                )
-        );
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+        Node rect = ActorFactory.getSelectable();
 
         setNodeToPoint3D(rect, getSceneSelectableCoordinates(targetPos));
         addToActorsAndRegister("sel" + index, rect);

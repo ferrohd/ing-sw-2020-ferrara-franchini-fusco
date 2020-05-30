@@ -19,7 +19,7 @@
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="Insert your username" textAlignment="CENTER">
                <font>
-                  <Font name="Georgia" size="20.0" />
+                  <Font name="dalek" size="20.0" />
                </font>
                <VBox.margin>
                   <Insets bottom="6.0" top="6.0" />
