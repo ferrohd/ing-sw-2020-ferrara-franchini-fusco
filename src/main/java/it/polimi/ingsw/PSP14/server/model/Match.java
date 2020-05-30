@@ -149,8 +149,6 @@ public class Match implements Runnable {
                     pos = connection.placeWorker();
                 }
                 getPlayerByUsername(p).setWorker(i, pos);
-                for (ClientConnection c : getClientConnections())
-                    c.registerWorker(pos, i, p);
                 busyPositions.add(pos.toString());
             }
         }

@@ -40,12 +40,12 @@ public class GUIGodSelectScene implements Runnable {
 
             GUIMain.getMainPane().setContent(root);
 
-            GridPane godGrid = (GridPane) scene.lookup("#godgrid");
-            godSplash = (ImageView) scene.lookup("#godsplash");
-            godName = (Label) scene.lookup("#godname");
-            godDescription = (Label) scene.lookup("#goddescription");
+            GridPane godGrid = (GridPane) root.lookup("#godgrid");
+            godSplash = (ImageView) root.lookup("#godsplash");
+            godName = (Label) root.lookup("#godname");
+            godDescription = (Label) root.lookup("#goddescription");
             godDescription.setWrapText(true);
-            selectButton = (Button) scene.lookup("#selectButton");
+            selectButton = (Button) root.lookup("#selectButton");
 
             ((Label) root.lookup("#title")).setText(title);
 

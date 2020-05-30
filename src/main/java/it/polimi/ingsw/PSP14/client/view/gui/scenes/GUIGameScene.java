@@ -78,6 +78,8 @@ public class GUIGameScene implements Runnable {
         scene.heightProperty().bind(GUIMain.getMainPane().heightProperty());
         scene.widthProperty().bind(GUIMain.getMainPane().widthProperty());
         GUIMain.getMainPane().setContent(scene);
+        GUIMain.getStage().setHeight(VIEWPORT_Y);
+        GUIMain.getStage().setWidth(VIEWPORT_X);
         scene.setFill(Paint.valueOf("#21c8de"));
 
         // Create a camera with its transforms.

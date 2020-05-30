@@ -21,7 +21,7 @@ class CLITest {
     UI ui;
 
     @BeforeEach
-    void setup() {
+    void setup() throws InterruptedException {
         try {
             ui = UIFactory.getUI("cli");
             ui.registerPlayer("ferroHD");
