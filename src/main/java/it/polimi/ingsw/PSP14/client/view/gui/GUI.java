@@ -197,11 +197,17 @@ public class GUI implements UI {
      */
     @Override
     public int chooseWorker(List<Integer> choices) throws InterruptedException {
-        gameScene.setIsSelectingWorker(true);
+        gameScene.setIsSelectingCell(true);
+        List<Point> points = gameScene.getModel().getAllPlayerWorkers(players.indexOf(currentPlayerId));
         gameScene.setPlayerId(players.indexOf(currentPlayerId));
 
+        Platform.runLater(() -> gameScene.getModel().addAllSelectables(points));
+
         int ret = (int) GUIMain.getQueue().take();
-        gameScene.setIsSelectingWorker(false);
+        gameScene.setIsSelectingCell(false);
+        Platform.runLater(() -> gameScene.getModel().removeAllSelectables());
+        GUIMain.getQueue().take();
+
         return ret;
     }
 
