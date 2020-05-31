@@ -12,14 +12,12 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Box;
 import javafx.scene.shape.CullFace;
 import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.MeshView;
 import javafx.util.Duration;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -183,6 +181,18 @@ public class GameSceneModel {
         return actors.keySet().stream()
                 .filter(k -> k.startsWith("worker"))
                 .map(actors::get)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Return a collection of nodes representing all the workers
+     * of a certain player.
+     * @return a collection of nodes
+     */
+    public List<Point> getAllPlayerWorkers(int playerId) {
+        return actors.keySet().stream()
+                .filter(k -> k.startsWith("worker" + playerId))
+                .map(k -> getBoardCoordinates( actors.get(k) ))
                 .collect(Collectors.toList());
     }
 
