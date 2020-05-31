@@ -100,6 +100,7 @@ public class Match implements Runnable {
             ClientConnection player = clients.get(p);
             for(ClientConnection c : clientConnections) if(!c.equals(player)) c.sendNotification(p + " is choosing their god.");
             String chosenGod = player.selectGod(selectedGods);
+            for(ClientConnection c : clientConnections) c.notifyGod(p, chosenGod);
             gods.put(p, GodFactory.getGod(chosenGod, p));
             selectedGods.remove(chosenGod);
         }
