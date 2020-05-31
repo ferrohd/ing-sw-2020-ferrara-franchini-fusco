@@ -5,4 +5,5 @@ package it.polimi.ingsw.PSP14.server.controller;
  */
 public interface ClientConnectionFactory extends Runnable {
     public ClientConnection getClientConnection() throws InterruptedException;
+    public void addClientConnection(ClientConnection clientConnection);
 }

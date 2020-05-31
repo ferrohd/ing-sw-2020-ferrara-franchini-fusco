@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
  * Exposes the functions for bidirectional communication with a client.
  */
 public abstract class ClientConnection {
+    public void ping() throws IOException {
+        sendMessage(new PingMessage());
+    }
     /**
      * Serialize and send a message to the client.
      */
