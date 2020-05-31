@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP14.client.view.gui.GUIMain;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import org.controlsfx.control.NotificationPane;
 
 import java.io.IOException;
@@ -15,12 +16,8 @@ public class GUIWelcomeScene implements Runnable {
     @Override
     public void run() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/scenes/Welcome.fxml"));
-
-            NotificationPane mainPane = new NotificationPane(root);
-            Scene mainScene = new Scene(mainPane);
-
-            GUIMain.getStage().setScene(mainScene);
+            AnchorPane root = FXMLLoader.load(getClass().getResource("/scenes/Welcome.fxml"));
+            GUIMain.getMainPane().setContent(root);
 
             GUIMain.updateScene();
         } catch (IOException e) {

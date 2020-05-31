@@ -33,7 +33,7 @@ public class GUIMain extends Application {
         initStage = primaryStage;
         primaryStage.setResizable(false);
         initStage.setTitle("SANTORINI");
-        initStage.show();
+        initStage.setScene(new Scene(new NotificationPane()));
         queue.add(new Object());
 
         // Exit the program when pressing X button
@@ -56,6 +56,7 @@ public class GUIMain extends Application {
      * @param scene new scene to be used
      */
     static public void updateScene() {
+        initStage.show();
         initStage.setAlwaysOnTop(true);
         initStage.setAlwaysOnTop(false);
     }
