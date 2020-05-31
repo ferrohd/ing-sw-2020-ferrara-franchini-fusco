@@ -27,6 +27,7 @@ public class ApolloMoveAction extends MoveAction {
                     opponentWorkerIndex = i;
                     opponent = p.getUsername();
                     p.setWorker(i, getFrom());
+                    return;
                 }
             }
         }
