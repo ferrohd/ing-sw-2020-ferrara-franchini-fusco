@@ -18,7 +18,7 @@ public class GUILobbySizeSceneController {
     @FXML protected void didClickThreePlayers(ActionEvent event) throws InterruptedException {
         System.out.println("Set lobby with size 3");
         disableButtons();
-        GUIMain.getQueue().put(2);
+        GUIMain.getQueue().put(3);
     }
 
     private void disableButtons() {
