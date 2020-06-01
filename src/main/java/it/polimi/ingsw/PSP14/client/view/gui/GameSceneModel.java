@@ -18,6 +18,7 @@ import javafx.scene.shape.MeshView;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -185,15 +186,17 @@ public class GameSceneModel {
     }
 
     /**
-     * Return a collection of nodes representing all the workers
+     * Return an ordered list of points representing all the workers
      * of a certain player.
-     * @return a collection of nodes
+     * @return a list of points
      */
     public List<Point> getAllPlayerWorkers(int playerId) {
-        return actors.keySet().stream()
-                .filter(k -> k.startsWith("worker" + playerId))
-                .map(k -> getBoardCoordinates( actors.get(k) ))
-                .collect(Collectors.toList());
+        List<Point> points = new ArrayList<>();
+        for(int i = 0; i < 2; ++i) {
+            points.add(getBoardCoordinates(actors.get("worker"+playerId+i)));
+        }
+
+        return points;
     }
 
     /**
@@ -526,6 +529,7 @@ public class GameSceneModel {
     public List<Node> getAllSelectables() {
         return actors.keySet().stream()
                 .filter(k -> k.startsWith("sel"))
+                .sorted()
                 .map(actors::get)
                 .collect(Collectors.toList());
     }
