@@ -14,7 +14,7 @@ public class UnregisterPlayerMessage implements ClientExecutableMessage {
     }
 
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException {
+    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
         ui.unregisterPlayer(toRemove);
         return false;
     }

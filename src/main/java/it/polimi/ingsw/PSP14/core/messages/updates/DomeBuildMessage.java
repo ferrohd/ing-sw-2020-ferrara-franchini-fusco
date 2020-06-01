@@ -14,7 +14,7 @@ public class DomeBuildMessage implements UIUpdateMessage {
     }
 
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException {
+    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
         ui.setDome(pos);
         ui.update();
         return false;

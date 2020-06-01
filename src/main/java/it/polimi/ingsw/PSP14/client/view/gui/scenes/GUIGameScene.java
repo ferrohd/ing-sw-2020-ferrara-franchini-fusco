@@ -190,7 +190,6 @@ public class GUIGameScene implements Runnable {
         });
 
         GUIMain.updateScene();
-        GUIMain.getQueue().add(new Object());
     }
 
     public GameSceneModel getModel() { return model; }
