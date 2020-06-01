@@ -33,4 +33,16 @@ public class Hestia extends God {
             }
         }
     }
+
+    @Override
+    public void removeBuilds(List<BuildAction> builds, String player, int workerIndex, Match match) throws IOException {
+        if(!activated || !player.equals(getOwner())) return;
+
+        List<BuildAction> toRemove = builds.stream().filter(b ->
+                b.getPoint().getX() == 0 || b.getPoint().getX() == 4 ||
+                        b.getPoint().getY() == 0 || b.getPoint().getY() == 4
+        ).collect(Collectors.toList());
+
+        builds.removeAll(toRemove);
+    }
 }
