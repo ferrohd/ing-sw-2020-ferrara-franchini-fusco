@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 public class GUI implements UI {
@@ -32,50 +33,37 @@ public class GUI implements UI {
     }
 
     @Override
-    public void unregisterPlayer(String username) {
+    public void unregisterPlayer(String username) throws InterruptedException {
         unsetWorker(0, username);
         unsetWorker(1, username);
     }
 
     @Override
-    public void setWorker(Point position, int workerId, String playerUsername) {
-        Platform.runLater(() ->
+    public void setWorker(Point position, int workerId, String playerUsername) throws InterruptedException {
+        runLaterSynchronized(() ->
                 gameScene.getModel().addWorker(position, workerId, players.indexOf(playerUsername))
         );
-        try {
-            GUIMain.getQueue().take();
-        } catch (InterruptedException ignored) {}
     }
 
-    private void unsetWorker(int workerId, String playerUsername) {
-        Platform.runLater(() ->
-                gameScene.getModel().removeWorker(workerId, players.indexOf(playerUsername))
-        );
+    private void unsetWorker(int workerId, String playerUsername) throws InterruptedException {
+        runLaterSynchronized(() -> gameScene.getModel().removeWorker(workerId, players.indexOf(playerUsername)));
     }
 
     @Override
     public void moveWorker(Point newPosition, int workerId, String playerUsername) throws InterruptedException {
-        Platform.runLater(() ->
-                gameScene.getModel().moveWorker(players.indexOf(playerUsername), workerId, newPosition)
-        );
-        GUIMain.getQueue().take();
+        CountDownLatch latch = new CountDownLatch(1);
+        runLaterSynchronized(() -> gameScene.getModel().moveWorker(players.indexOf(playerUsername), workerId, newPosition, latch));
+        latch.await();
     }
 
     @Override
     public void incrementCell(Point position) throws InterruptedException {
-        int n = gameScene.getModel().getAllWorkers().size();
-        Platform.runLater(() ->
-                gameScene.getModel().incrementCell(position)
-        );
-        for(int i = 0; i < n; ++i)
-             GUIMain.getQueue().take();
+        runLaterSynchronized(() -> gameScene.getModel().incrementCell(position));
     }
 
     @Override
-    public void setDome(Point position) {
-        Platform.runLater(() ->
-                gameScene.getModel().putDome(position)
-        );
+    public void setDome(Point position) throws InterruptedException {
+        runLaterSynchronized(() -> gameScene.getModel().putDome(position));
     }
 
     @Override
@@ -100,21 +88,21 @@ public class GUI implements UI {
      */
     @Override
     public void welcome() throws InterruptedException {
-        new Thread(() -> GUIMain.launch(GUIMain.class)).start();
+        new Thread(() -> {
+            GUIMain.launch(GUIMain.class);
+        }).start();
         GUIMain.getQueue().take();
 
-        Platform.runLater(new GUIWelcomeScene());
-//        Platform.runLater(new GUIGameScene()); // DEBUG
+        runLaterSynchronized(new GUIWelcomeScene());
     }
 
     @Override
     public void gameStart() throws InterruptedException {
-        Platform.runLater(gameScene);
-        GUIMain.getQueue().take();
+        runLaterSynchronized(gameScene);
 
         // Display gods info for each player
         for (String player : players) {
-            Platform.runLater( () ->
+            runLaterSynchronized( () ->
                     gameScene.getInfoPanelModel().registerPlayerInfo(player, gods.get(player)));
         }
 
@@ -154,7 +142,7 @@ public class GUI implements UI {
      */
     @Override
     public int getLobbySize() throws InterruptedException {
-        Platform.runLater(new GUILobbySizeScene());
+        runLaterSynchronized(new GUILobbySizeScene());
         return  (int) GUIMain.getQueue().take();
     }
 
@@ -165,7 +153,9 @@ public class GUI implements UI {
      */
     @Override
     public void showNotification(String s) {
-        Platform.runLater(new NotificationScene(s));
+        try {
+            runLaterSynchronized(new NotificationScene(s));
+        } catch(InterruptedException ignored) {}
     }
 
     /**
@@ -175,7 +165,7 @@ public class GUI implements UI {
      */
     @Override
     public String askUsername() throws InterruptedException {
-        Platform.runLater(new GUIUsernameScene());
+        runLaterSynchronized(new GUIUsernameScene());
         currentPlayerId = (String) GUIMain.getQueue().take();
         return currentPlayerId;
     }
@@ -188,7 +178,7 @@ public class GUI implements UI {
      */
     @Override
     public int chooseGod(List<GodProposal> proposals) throws InterruptedException {
-        Platform.runLater(new GUIGodSelectScene("Choose your God", proposals.stream().map(GodProposal::getName).collect(Collectors.toList())));
+        runLaterSynchronized(new GUIGodSelectScene("Choose your God", proposals.stream().map(GodProposal::getName).collect(Collectors.toList())));
         return (Integer) GUIMain.getQueue().take();
     }
 
@@ -200,7 +190,7 @@ public class GUI implements UI {
      */
     @Override
     public int chooseFirstPlayer(List<PlayerProposal> proposals) throws InterruptedException {
-        Platform.runLater(new GUIFirstPlayerScene(proposals.stream().map(PlayerProposal::getName).collect(Collectors.toList())));
+        runLaterSynchronized(new GUIFirstPlayerScene(proposals.stream().map(PlayerProposal::getName).collect(Collectors.toList())));
         return (Integer) GUIMain.getQueue().take();
     }
 
@@ -216,19 +206,18 @@ public class GUI implements UI {
         List<Point> points = gameScene.getModel().getAllPlayerWorkers(players.indexOf(currentPlayerId));
         gameScene.setPlayerId(players.indexOf(currentPlayerId));
 
-        Platform.runLater(() -> gameScene.getModel().addAllSelectables(points));
+        runLaterSynchronized(() -> gameScene.getModel().addAllSelectables(points));
 
         int ret = (int) GUIMain.getQueue().take();
         gameScene.setIsSelectingCell(false);
-        Platform.runLater(() -> gameScene.getModel().removeAllSelectables());
-        GUIMain.getQueue().take();
+        runLaterSynchronized(() -> gameScene.getModel().removeAllSelectables());
 
         return ret;
     }
 
     @Override
     public int chooseAvailableGods(List<GodProposal> gods) throws InterruptedException {
-        Platform.runLater(new GUIGodSelectScene("Choose available Gods", gods.stream().map(GodProposal::getName).collect(Collectors.toList())));
+        runLaterSynchronized(new GUIGodSelectScene("Choose available Gods", gods.stream().map(GodProposal::getName).collect(Collectors.toList())));
         return (Integer) GUIMain.getQueue().take();
     }
 
@@ -250,15 +239,14 @@ public class GUI implements UI {
                     points.add(newPoint);
             }
         }
-        Platform.runLater(() -> gameScene.getModel().addAllSelectables(points));
+        runLaterSynchronized(() -> gameScene.getModel().addAllSelectables(points));
 
         int index = (Integer) GUIMain.getQueue().take();
 
         Point point = points.get(index);
 
         gameScene.setIsSelectingCell(false);
-        Platform.runLater(() -> gameScene.getModel().removeAllSelectables());
-        GUIMain.getQueue().take();
+        runLaterSynchronized(() -> gameScene.getModel().removeAllSelectables());
 
         return new int[]{point.getX(), point.getY()};
     }
@@ -274,12 +262,11 @@ public class GUI implements UI {
         gameScene.setIsSelectingCell(true);
         List<Point> points = moves.stream().map(MoveProposal::getPoint).collect(Collectors.toList());
 
-        Platform.runLater(() -> gameScene.getModel().addAllSelectables(points));
+        runLaterSynchronized(() -> gameScene.getModel().addAllSelectables(points));
 
         int ret = (int) GUIMain.getQueue().take();
         gameScene.setIsSelectingCell(false);
-        Platform.runLater(() -> gameScene.getModel().removeAllSelectables());
-        GUIMain.getQueue().take();
+        runLaterSynchronized(() -> gameScene.getModel().removeAllSelectables());
 
         return ret;
     }
@@ -296,12 +283,11 @@ public class GUI implements UI {
         gameScene.setIsSelectingCell(true);
         List<Point> points = moves.stream().map(BuildProposal::getPoint).collect(Collectors.toList());
 
-        Platform.runLater(() -> gameScene.getModel().addAllSelectables(points));
+        runLaterSynchronized(() -> gameScene.getModel().addAllSelectables(points));
 
         int ret = (int) GUIMain.getQueue().take();
         gameScene.setIsSelectingCell(false);
-        Platform.runLater(() -> gameScene.getModel().removeAllSelectables());
-        GUIMain.getQueue().take();
+        runLaterSynchronized(() -> gameScene.getModel().removeAllSelectables());
 
         return ret;
     }
@@ -315,7 +301,7 @@ public class GUI implements UI {
      */
     @Override
     public int chooseYesNo(String message) throws InterruptedException {
-        Platform.runLater(() -> {
+        runLaterSynchronized(() -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.YES, ButtonType.NO);
             alert.setTitle("Confirmation Dialog");
             alert.setGraphic(null);
@@ -338,5 +324,14 @@ public class GUI implements UI {
     @Override
     public void updateGod(String player, String god) {
         gods.put(player, god);
+    }
+
+    private void runLaterSynchronized(Runnable runnable) throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            runnable.run();
+            latch.countDown();
+        });
+        latch.await();
     }
 }

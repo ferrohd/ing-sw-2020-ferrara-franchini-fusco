@@ -34,7 +34,7 @@ public interface UI {
      * @param username the username of the player you want
      *                 to remove
      */
-    void unregisterPlayer(String username);
+    void unregisterPlayer(String username) throws InterruptedException;
 
     /**
      * Set a player's worker in a target position.
@@ -46,7 +46,7 @@ public interface UI {
      * @param workerId the ID of the player's worker
      * @param playerUsername the owner of the worker
      */
-    void setWorker(Point position, int workerId, String playerUsername);
+    void setWorker(Point position, int workerId, String playerUsername) throws InterruptedException;
 
     void moveWorker(Point newPosition, int workerId, String playerUsername) throws InterruptedException;
 
@@ -60,7 +60,7 @@ public interface UI {
      * Add a dome (marking a tower as complete) to the specified cell position.
      * @param position the position
      */
-    void setDome(Point position);
+    void setDome(Point position) throws InterruptedException;
 
     /*
      * Commands used by the Command Pattern

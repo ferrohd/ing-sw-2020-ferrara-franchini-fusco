@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 public class GameSceneModel {
@@ -147,9 +148,6 @@ public class GameSceneModel {
         Point3D target = getSceneWorkerCoordinates(point);
         setNodeToPoint3D(worker, target);
         addToActorsAndRegister(getWorkerActorId(playerId, workerId), worker);
-        try {
-            GUIMain.getQueue().put(new Object());
-        } catch (InterruptedException ignored) {}
     }
 
     /**
@@ -269,8 +267,8 @@ public class GameSceneModel {
      * @param workerNumber the number of the worker (0 or 1)
      * @param position the target position
      */
-    public void moveWorker(int playerNumber, int workerNumber, Point position) {
-        moveWorkerNode(position, actors.get(getWorkerActorId(playerNumber, workerNumber)));
+    public void moveWorker(int playerNumber, int workerNumber, Point position, CountDownLatch latch) {
+        moveWorkerNode(position, actors.get(getWorkerActorId(playerNumber, workerNumber)), latch);
     }
 
     /**
@@ -278,7 +276,7 @@ public class GameSceneModel {
      * @param position the target position
      * @param worker the worker to move
      */
-    private void moveWorkerNode(Point position, Node worker) {
+    private void moveWorkerNode(Point position, Node worker, CountDownLatch latch) {
         if (worker != null) {
             Point3D finalPosition = getSceneCoordinates(position).add(0, getWorkerHeight(position), 0),
                     diff = finalPosition.subtract(getSceneCoordinates(worker));
@@ -306,13 +304,15 @@ public class GameSceneModel {
             xTimeline.setOnFinished(event -> zTimeline.play());
             if(diff.getY() < 0) {
                 yTimeline.setOnFinished(event -> xTimeline.play());
-                zTimeline.setOnFinished(event -> {try{GUIMain.getQueue().put(new Object());}catch(InterruptedException e){}});
+                zTimeline.setOnFinished(event -> latch.countDown());
                 yTimeline.play();
             } else {
                 zTimeline.setOnFinished(event -> yTimeline.play());
-                yTimeline.setOnFinished(event -> {try{GUIMain.getQueue().put(new Object());}catch(InterruptedException e){}});
+                yTimeline.setOnFinished(event -> latch.countDown());
                 xTimeline.play();
             }
+        } else {
+            latch.countDown();
         }
     }
 
@@ -420,7 +420,7 @@ public class GameSceneModel {
     private void updateWorkers() {
         for(Node w : getAllWorkers()) {
             Point p = getBoardCoordinates(w);
-            moveWorkerNode(p, w);
+            moveWorkerNode(p, w, new CountDownLatch(1));
         }
     }
 
@@ -493,7 +493,6 @@ public class GameSceneModel {
                 .filter(k -> k.startsWith("sel"))
                 .map(actors::get)
                 .forEach(a -> root.getChildren().remove(a));
-       GUIMain.getQueue().add(new Object());
     }
 
     /**
