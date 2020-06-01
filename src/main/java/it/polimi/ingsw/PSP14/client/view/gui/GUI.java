@@ -63,10 +63,12 @@ public class GUI implements UI {
 
     @Override
     public void incrementCell(Point position) throws InterruptedException {
+        int n = gameScene.getModel().getAllWorkers().size();
         Platform.runLater(() ->
                 gameScene.getModel().incrementCell(position)
         );
-        for(Node w : gameScene.getModel().getAllWorkers()) GUIMain.getQueue().take();
+        for(int i = 0; i < n; ++i)
+             GUIMain.getQueue().take();
     }
 
     @Override

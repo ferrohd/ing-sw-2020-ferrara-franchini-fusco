@@ -61,7 +61,6 @@ public class Match implements Runnable {
                     System.out.println("Could not close connection.");
                 }
             }
-            e.printStackTrace();
         }
     }
 
