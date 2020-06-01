@@ -168,4 +168,11 @@ public interface UI {
      * @return 0 = no, 1 = yes
      */
     int chooseYesNo(String message) throws InterruptedException;
+
+    /**
+     * This method is called when a player has been assigned a god.
+     * @param player the player's username
+     * @param god the name/id of the god
+     */
+    void updateGod(String player, String god);
 }

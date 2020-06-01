@@ -14,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,6 +22,8 @@ import java.util.stream.Collectors;
 public class GUI implements UI {
     private String currentPlayerId;
     private final ArrayList<String> players = new ArrayList<>();
+    private final HashMap<String, String> gods = new HashMap<>();
+
     private final GUIGameScene gameScene = new GUIGameScene();
 
     @Override
@@ -99,13 +102,19 @@ public class GUI implements UI {
         GUIMain.getQueue().take();
 
         Platform.runLater(new GUIWelcomeScene());
-//        Platform.runLater(new GUIGameScene());
+//        Platform.runLater(new GUIGameScene()); // DEBUG
     }
 
     @Override
     public void gameStart() throws InterruptedException {
         Platform.runLater(gameScene);
         GUIMain.getQueue().take();
+
+        // Display gods info for each player
+        for (String player : players) {
+            Platform.runLater( () ->
+                    gameScene.getInfoPanelModel().registerPlayerInfo(player, gods.get(player)));
+        }
 
         //showDemo();
     }
@@ -322,5 +331,10 @@ public class GUI implements UI {
         int ret = (int) GUIMain.getQueue().take();
 
         return ret;
+    }
+
+    @Override
+    public void updateGod(String player, String god) {
+        gods.put(player, god);
     }
 }

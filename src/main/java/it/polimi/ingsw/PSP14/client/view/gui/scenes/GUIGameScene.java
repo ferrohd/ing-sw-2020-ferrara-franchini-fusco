@@ -68,10 +68,12 @@ public class GUIGameScene implements Runnable {
     }
 
     private GameSceneModel model;
+    private GameInfoPanelModel infoPanelModel;
 
     @Override
     public void run() {
         model = new GameSceneModel();
+        infoPanelModel = new GameInfoPanelModel();
 
         // Re-enable resize
         GUIMain.getStage().setResizable(true);
@@ -84,7 +86,6 @@ public class GUIGameScene implements Runnable {
         SubScene scene = new SubScene(model.getRoot(), VIEWPORT_X, VIEWPORT_Y, true, SceneAntialiasing.BALANCED);
 
         // Create an info panel (infoPanel)
-        GameInfoPanelModel infoPanelModel = new GameInfoPanelModel();
         Node infoPanel = infoPanelModel.getRoot();
 
         stackPane.getChildren().add(scene);
@@ -193,4 +194,8 @@ public class GUIGameScene implements Runnable {
     }
 
     public GameSceneModel getModel() { return model; }
+
+    public GameInfoPanelModel getInfoPanelModel() {
+        return infoPanelModel;
+    }
 }

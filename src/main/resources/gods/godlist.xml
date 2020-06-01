@@ -30,7 +30,7 @@
     <god>
         <name>Chronus</name>
         <alias>God of Time</alias>
-        <ability>Wind Condition</ability>
+        <ability>Win Condition</ability>
         <description>You also win when there are at least five Complete Towers on the board.</description>
         <max>2</max>
     </god>
@@ -65,7 +65,7 @@
     <god>
         <name>Pan</name>
         <alias>God of the Wild</alias>
-        <ability>Wind Condition</ability>
+        <ability>Win Condition</ability>
         <description>You also win if your Worker moves down two or more levels.</description>
         <max>3</max>
     </god>
