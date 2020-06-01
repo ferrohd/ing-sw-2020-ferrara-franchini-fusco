@@ -11,7 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class TCPClientConnectionFactory implements ClientConnectionFactory {
     private final ServerSocket serverSocket;
-    private final BlockingQueue<TCPClientConnection> clientQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<ClientConnection> clientQueue = new LinkedBlockingQueue<>();
 
     public TCPClientConnectionFactory(int port) throws IOException {
         serverSocket = new ServerSocket(port);
@@ -27,7 +27,7 @@ public class TCPClientConnectionFactory implements ClientConnectionFactory {
                 continue;
             }
             try {
-                TCPClientConnection newConnection = new TCPClientConnection(newConnectionSocket);
+                ClientConnection newConnection = new TCPClientConnection(newConnectionSocket);
                 clientQueue.put(newConnection);
             } catch(InterruptedException | IOException e) {
                 e.printStackTrace();
@@ -38,5 +38,10 @@ public class TCPClientConnectionFactory implements ClientConnectionFactory {
 
     public ClientConnection getClientConnection() throws InterruptedException {
         return clientQueue.take();
+    }
+
+    @Override
+    public void addClientConnection(ClientConnection clientConnection) {
+        clientQueue.add(clientConnection);
     }
 }

@@ -12,7 +12,6 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Box;
 import javafx.scene.shape.CullFace;
 import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.MeshView;
@@ -184,6 +183,20 @@ public class GameSceneModel {
                 .filter(k -> k.startsWith("worker"))
                 .map(actors::get)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Return an ordered list of points representing all the workers
+     * of a certain player.
+     * @return a list of points
+     */
+    public List<Point> getAllPlayerWorkers(int playerId) {
+        List<Point> points = new ArrayList<>();
+        for(int i = 0; i < 2; ++i) {
+            points.add(getBoardCoordinates(actors.get("worker"+playerId+i)));
+        }
+
+        return points;
     }
 
     /**
@@ -516,6 +529,7 @@ public class GameSceneModel {
     public List<Node> getAllSelectables() {
         return actors.keySet().stream()
                 .filter(k -> k.startsWith("sel"))
+                .sorted()
                 .map(actors::get)
                 .collect(Collectors.toList());
     }

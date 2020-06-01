@@ -52,26 +52,25 @@ public class GameFactory implements Runnable {
 
                 // Starts a new game lobby/match with the players in the arrayList
                 System.out.println("Creating game...");
+                for(ClientConnection c : players) c.ping();
                 Thread newGame = new Thread(new Match(players));
                 newGame.setName("Match");
                 System.out.println("Starting game...");
                 newGame.start();
             } catch(InterruptedException | IOException e) {
-                System.out.println("Error occurred during room setup. All clients in the room will be disconnected.");
-                for(ClientConnection c : players)
-                    try {
-                        c.close();
-                    } catch (IOException exc) {
-                        System.out.println("Error occurred closing a client connection.");
-                        for(ClientConnection clientConnection : players) {
-                            try {
-                                clientConnection.close();
-                            } catch(IOException ioe) {
-                                System.out.println("Could not close connection.");
-                            }
-                        }
-                    }
+                System.out.println("Error occurred during room setup. Connected players will be put in queue.");
+                recycleConnections(players);
             }
+        }
+    }
+
+    private void recycleConnections(List<ClientConnection> clients) {
+        for(ClientConnection c : clients) {
+            try {
+                c.ping();
+                c.sendNotification("An error occurred. You will be put back in queue.");
+                clientConnectionFactory.addClientConnection(c);
+            } catch(IOException e) {}
         }
     }
 

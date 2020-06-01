@@ -10,14 +10,20 @@ import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import javafx.application.Platform;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class GUI implements UI {
     private String currentPlayerId;
     private final ArrayList<String> players = new ArrayList<>();
+    private final HashMap<String, String> gods = new HashMap<>();
+
     private final GUIGameScene gameScene = new GUIGameScene();
 
     @Override
@@ -57,10 +63,12 @@ public class GUI implements UI {
 
     @Override
     public void incrementCell(Point position) throws InterruptedException {
+        int n = gameScene.getModel().getAllWorkers().size();
         Platform.runLater(() ->
                 gameScene.getModel().incrementCell(position)
         );
-        for(Node w : gameScene.getModel().getAllWorkers()) GUIMain.getQueue().take();
+        for(int i = 0; i < n; ++i)
+             GUIMain.getQueue().take();
     }
 
     @Override
@@ -96,12 +104,19 @@ public class GUI implements UI {
         GUIMain.getQueue().take();
 
         Platform.runLater(new GUIWelcomeScene());
+//        Platform.runLater(new GUIGameScene()); // DEBUG
     }
 
     @Override
     public void gameStart() throws InterruptedException {
         Platform.runLater(gameScene);
         GUIMain.getQueue().take();
+
+        // Display gods info for each player
+        for (String player : players) {
+            Platform.runLater( () ->
+                    gameScene.getInfoPanelModel().registerPlayerInfo(player, gods.get(player)));
+        }
 
         //showDemo();
     }
@@ -197,11 +212,17 @@ public class GUI implements UI {
      */
     @Override
     public int chooseWorker(List<Integer> choices) throws InterruptedException {
-        gameScene.setIsSelectingWorker(true);
+        gameScene.setIsSelectingCell(true);
+        List<Point> points = gameScene.getModel().getAllPlayerWorkers(players.indexOf(currentPlayerId));
         gameScene.setPlayerId(players.indexOf(currentPlayerId));
 
+        Platform.runLater(() -> gameScene.getModel().addAllSelectables(points));
+
         int ret = (int) GUIMain.getQueue().take();
-        gameScene.setIsSelectingWorker(false);
+        gameScene.setIsSelectingCell(false);
+        Platform.runLater(() -> gameScene.getModel().removeAllSelectables());
+        GUIMain.getQueue().take();
+
         return ret;
     }
 
@@ -293,7 +314,29 @@ public class GUI implements UI {
      * @return 0 = no, 1 = yes
      */
     @Override
-    public int chooseYesNo(String message) {
-        return 0;
+    public int chooseYesNo(String message) throws InterruptedException {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.YES, ButtonType.NO);
+            alert.setTitle("Confirmation Dialog");
+            alert.setGraphic(null);
+            alert.setHeaderText(null);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.YES){
+                System.out.println("Clicked on Yes");
+                GUIMain.getQueue().add(1);
+            } else {
+                System.out.println("Clicked on No");
+                GUIMain.getQueue().add(0);
+            }
+        });
+        int ret = (int) GUIMain.getQueue().take();
+
+        return ret;
+    }
+
+    @Override
+    public void updateGod(String player, String god) {
+        gods.put(player, god);
     }
 }

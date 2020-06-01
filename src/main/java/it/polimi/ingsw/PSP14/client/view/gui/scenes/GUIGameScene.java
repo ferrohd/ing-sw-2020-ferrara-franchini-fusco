@@ -1,21 +1,29 @@
 package it.polimi.ingsw.PSP14.client.view.gui.scenes;
 
 import it.polimi.ingsw.PSP14.client.view.gui.GUIMain;
+import it.polimi.ingsw.PSP14.client.view.gui.GameInfoPanelModel;
 import it.polimi.ingsw.PSP14.client.view.gui.GameSceneModel;
+import it.polimi.ingsw.PSP14.server.model.board.Point;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.geometry.Pos;
 import javafx.scene.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
+
+import java.util.List;
 
 import static com.sun.javafx.util.Utils.clamp;
 
@@ -37,7 +45,6 @@ public class GUIGameScene implements Runnable {
     SimpleDoubleProperty lastMouseX = new SimpleDoubleProperty(VIEWPORT_X * 0.5);
     SimpleDoubleProperty lastMouseY = new SimpleDoubleProperty(VIEWPORT_Y * 0.5);
     SimpleBooleanProperty isSelectingCell = new SimpleBooleanProperty(false);
-    SimpleBooleanProperty isSelectingWorker = new SimpleBooleanProperty(false);
     SimpleIntegerProperty playerId = new SimpleIntegerProperty(0);
 
     public void setIsDragging(boolean isDragging) {
@@ -56,30 +63,42 @@ public class GUIGameScene implements Runnable {
         this.isSelectingCell.set(isSelectingCell);
     }
 
-    public void setIsSelectingWorker(boolean isSelectingWorker) {
-        this.isSelectingWorker.set(isSelectingWorker);
-    }
-
     public void setPlayerId(int playerId) {
         this.playerId.set(playerId);
     }
 
     private GameSceneModel model;
+    private GameInfoPanelModel infoPanelModel;
 
     @Override
     public void run() {
         model = new GameSceneModel();
+        infoPanelModel = new GameInfoPanelModel();
 
         // Re-enable resize
         GUIMain.getStage().setResizable(true);
 
+        // Create container for 3D scene and HUD
+        StackPane stackPane = new StackPane();
+        stackPane.setAlignment(Pos.BOTTOM_LEFT);
+
         // Create a scene object
         SubScene scene = new SubScene(model.getRoot(), VIEWPORT_X, VIEWPORT_Y, true, SceneAntialiasing.BALANCED);
+
+        // Create an info panel (infoPanel)
+        Node infoPanel = infoPanelModel.getRoot();
+
+        stackPane.getChildren().add(scene);
+        stackPane.getChildren().add(infoPanel);
+
         scene.heightProperty().bind(GUIMain.getMainPane().heightProperty());
         scene.widthProperty().bind(GUIMain.getMainPane().widthProperty());
-        GUIMain.getMainPane().setContent(scene);
+
+        GUIMain.getMainPane().setContent(stackPane);
         GUIMain.getStage().setHeight(VIEWPORT_Y);
         GUIMain.getStage().setWidth(VIEWPORT_X);
+
+        // Set background
         scene.setFill(Paint.valueOf("#21c8de"));
 
         // Create a camera with its transforms.
@@ -154,29 +173,29 @@ public class GUIGameScene implements Runnable {
             // If I should handle picking cells
             if (isSelectingCell.get()) {
                 if (node.getId().startsWith("sel")) {
-                    // The player clicked on a BIG FAT YELLOW RECT
-                    // TODO: Make clicking on workers work
                     int selectableId = Integer.parseInt(node.getId().substring(3));
                     System.out.println(selectableId);
                     GUIMain.getQueue().add(selectableId);
-                }
-            }
-            // Handle selection of a worker
-            if (isSelectingWorker.get()) {
-                if (node.getId().startsWith("worker")) {
-                    int selectedPlayerId = Integer.parseInt(String.valueOf(node.getId().charAt(6)));
-                    int workerId = Integer.parseInt(String.valueOf(node.getId().charAt(7)));
-                    // A player can only select their own worker
-                    if (selectedPlayerId == playerId.get()) {
-                        System.out.println("Player " + playerId.get() + " (you) selected worker #" + workerId);
-                        GUIMain.getQueue().add(workerId);
+                } else if (node.getId().startsWith("worker")) {
+                    List<Node> selectables = model.getAllSelectables();
+                    Point workerPos = GameSceneModel.getBoardCoordinates(node);
+                    for (int i = 0; i < selectables.size(); ++i) {
+                        if (GameSceneModel.getBoardCoordinates(selectables.get(i)).equals(workerPos)) {
+                            GUIMain.getQueue().add(i);
+                            return;
+                        }
                     }
                 }
             }
         });
 
+        GUIMain.updateScene();
         GUIMain.getQueue().add(new Object());
     }
 
     public GameSceneModel getModel() { return model; }
+
+    public GameInfoPanelModel getInfoPanelModel() {
+        return infoPanelModel;
+    }
 }

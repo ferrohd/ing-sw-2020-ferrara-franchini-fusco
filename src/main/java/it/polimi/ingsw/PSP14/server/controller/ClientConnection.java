@@ -15,6 +15,13 @@ import java.util.stream.Collectors;
  * Exposes the functions for bidirectional communication with a client.
  */
 public abstract class ClientConnection {
+    public void notifyGod(String player, String god) throws IOException {
+        sendMessage(new GodUpdateMessage(player, god));
+    }
+
+    public void ping() throws IOException {
+        sendMessage(new PingMessage());
+    }
     /**
      * Serialize and send a message to the client.
      */

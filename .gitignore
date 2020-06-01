@@ -88,3 +88,5 @@ out/
 # SKIP the only lib we use
 !lib/jimObjModelImporterJFX.jar
 !delieveries/
+
+.DS_Store

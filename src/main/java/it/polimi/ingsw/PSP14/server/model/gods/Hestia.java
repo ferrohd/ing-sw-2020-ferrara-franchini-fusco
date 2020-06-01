@@ -16,22 +16,27 @@ public class Hestia extends God {
     }
 
     @Override
+    public void beforeTurn(String player, ClientConnection client, Match match) throws IOException {
+        activated = false;
+    }
+
+    @Override
     public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
         if(!player.equals(getOwner())) return;
 
-        boolean choice = client.askQuestion("HESTIA: Do you want to build again, my dear?");
+        if(!activated) {
+            boolean choice = client.askQuestion("HESTIA: Do you want to build again, my dear?");
 
-        if(choice) {
-            activated = true;
-            match.build(player, client, workerIndex);
+            if (choice) {
+                activated = true;
+                match.build(player, client, workerIndex);
+            }
         }
     }
 
     @Override
     public void removeBuilds(List<BuildAction> builds, String player, int workerIndex, Match match) throws IOException {
         if(!activated || !player.equals(getOwner())) return;
-
-        activated = false;
 
         List<BuildAction> toRemove = builds.stream().filter(b ->
                 b.getPoint().getX() == 0 || b.getPoint().getX() == 4 ||

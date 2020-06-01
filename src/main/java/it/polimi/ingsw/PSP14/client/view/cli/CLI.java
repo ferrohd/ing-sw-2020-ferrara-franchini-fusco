@@ -321,6 +321,11 @@ public class CLI implements UI {
         return output;
     }
 
+    @Override
+    public void updateGod(String player, String god) {
+        // TODO: Should it do something?
+    }
+
     // DEBUG:
     public void debug_setPlayerUsername(String name) {
         this.playerUsername = name;
