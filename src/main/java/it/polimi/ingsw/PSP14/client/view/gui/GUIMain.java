@@ -53,7 +53,6 @@ public class GUIMain extends Application {
 
     /**
      * Used by other threads to change the scene of the stage (Window)
-     * @param scene new scene to be used
      */
     static public void updateScene() {
         initStage.show();

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP14.client.view.gui.scenes;
 
 import it.polimi.ingsw.PSP14.client.view.gui.GUIMain;
+import it.polimi.ingsw.PSP14.client.view.gui.GameInfoPanelModel;
 import it.polimi.ingsw.PSP14.client.view.gui.GameSceneModel;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -8,11 +9,15 @@ import javafx.animation.Timeline;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.geometry.Pos;
 import javafx.scene.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
@@ -73,13 +78,28 @@ public class GUIGameScene implements Runnable {
         // Re-enable resize
         GUIMain.getStage().setResizable(true);
 
+        // Create container for 3D scene and HUD
+        StackPane stackPane = new StackPane();
+        stackPane.setAlignment(Pos.BOTTOM_LEFT);
+
         // Create a scene object
         SubScene scene = new SubScene(model.getRoot(), VIEWPORT_X, VIEWPORT_Y, true, SceneAntialiasing.BALANCED);
+
+        // Create an info panel (infoPanel)
+        GameInfoPanelModel infoPanelModel = new GameInfoPanelModel();
+        Node infoPanel = infoPanelModel.getRoot();
+
+        stackPane.getChildren().add(scene);
+        stackPane.getChildren().add(infoPanel);
+
         scene.heightProperty().bind(GUIMain.getMainPane().heightProperty());
         scene.widthProperty().bind(GUIMain.getMainPane().widthProperty());
-        GUIMain.getMainPane().setContent(scene);
+
+        GUIMain.getMainPane().setContent(stackPane);
         GUIMain.getStage().setHeight(VIEWPORT_Y);
         GUIMain.getStage().setWidth(VIEWPORT_X);
+
+        // Set background
         scene.setFill(Paint.valueOf("#21c8de"));
 
         // Create a camera with its transforms.
@@ -175,6 +195,7 @@ public class GUIGameScene implements Runnable {
             }
         });
 
+        GUIMain.updateScene();
         GUIMain.getQueue().add(new Object());
     }
 

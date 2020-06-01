@@ -10,9 +10,12 @@ import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import javafx.application.Platform;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class GUI implements UI {
@@ -96,6 +99,7 @@ public class GUI implements UI {
         GUIMain.getQueue().take();
 
         Platform.runLater(new GUIWelcomeScene());
+//        Platform.runLater(new GUIGameScene());
     }
 
     @Override
@@ -293,7 +297,24 @@ public class GUI implements UI {
      * @return 0 = no, 1 = yes
      */
     @Override
-    public int chooseYesNo(String message) {
-        return 0;
+    public int chooseYesNo(String message) throws InterruptedException {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.YES, ButtonType.NO);
+            alert.setTitle("Confirmation Dialog");
+            alert.setGraphic(null);
+            alert.setHeaderText(null);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.YES){
+                System.out.println("Clicked on Yes");
+                GUIMain.getQueue().add(1);
+            } else {
+                System.out.println("Clicked on No");
+                GUIMain.getQueue().add(0);
+            }
+        });
+        int ret = (int) GUIMain.getQueue().take();
+
+        return ret;
     }
 }

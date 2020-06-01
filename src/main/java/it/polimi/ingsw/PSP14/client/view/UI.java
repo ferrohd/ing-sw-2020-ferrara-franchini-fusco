@@ -167,5 +167,5 @@ public interface UI {
      * @param message the text to display
      * @return 0 = no, 1 = yes
      */
-    int chooseYesNo(String message);
+    int chooseYesNo(String message) throws InterruptedException;
 }

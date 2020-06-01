@@ -171,7 +171,7 @@ class CLITest {
     }
 
     @Test
-    void chooseYesNo() {
+    void chooseYesNo() throws InterruptedException {
         ui.chooseYesNo("Will you marry me?");
     }
 }
