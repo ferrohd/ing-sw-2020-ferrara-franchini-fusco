@@ -11,7 +11,7 @@ class SettingsParserTest {
     void get() {
         SettingsParser settings;
         try {
-            settings = new SettingsParser("src/main/resources/settings.set");
+            settings = new SettingsParser("src/main/resources/settings.txt");
         } catch(Exception e) {
             fail();
             return;
