@@ -69,6 +69,23 @@ public class Client {
         //mainThread.join();
     }
 
+    /**
+     * By default, the client tries to read a file called settings.txt in the same folder of the jar file.
+     * There are additional flags documented below. Flags override the default value/the one specified in settings.txt: for example, if you have specified the interface as GUI and launch the jar with the —cli flag, it will start as CLI.
+     *
+     *     --gui # Starts the GUI
+     *     --cli # Starts the CLI
+     *     --address <address> # Specify the server address (IP or URL)
+     *     --port <port> # Speficy the server port (a number)
+     *     --config <path to config> # Specify a custom path to a config file.
+     *
+     * A possible config file is the following:
+     *
+     *     interface: gui
+     *     hostname: 127.0.0.1
+     *     port: 42069
+     * @param args an array of arguments, usually the one provided by the  main method.
+     */
     private static void parseArgs(String[] args) {
         boolean overrideMode = false;
         boolean overridePort = false;
