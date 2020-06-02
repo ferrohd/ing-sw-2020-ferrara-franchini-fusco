@@ -19,7 +19,7 @@ public class Client {
     /**
      * 0 = CLI, 1 = GUI
      */
-    private static String clientMode = "cli";
+    private static String clientMode = "gui";
     private static int port = DEFAULT_PORT;
     private static String address = DEFAULT_ADDRESS;
     private static String settingsLocation = "settings.txt";

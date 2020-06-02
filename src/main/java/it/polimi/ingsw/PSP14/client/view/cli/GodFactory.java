@@ -20,7 +20,7 @@ public class GodFactory {
 
     public static GodFactory getInstance() throws IOException {
         if(instance == null) {
-            instance = new GodFactory("src/main/resources/gods/godlist.xml");
+            instance = new GodFactory("gods/godlist.xml");
         }
 
         return instance;
@@ -38,8 +38,9 @@ public class GodFactory {
         Document doc;
         try {
             DocumentBuilder builder = factory.newDocumentBuilder();
-            doc = builder.parse(new File(godsFile));
+            doc = builder.parse(getClass().getClassLoader().getResourceAsStream(godsFile));
         } catch (Exception e) {
+            e.printStackTrace();
             throw new IOException();
         }
 
