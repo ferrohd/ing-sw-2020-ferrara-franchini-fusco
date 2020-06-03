@@ -24,12 +24,15 @@ public class Hestia extends God {
     public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
         if(!player.equals(getOwner())) return;
 
-        if(!activated) {
-            boolean choice = client.askQuestion("HESTIA: Do you want to build again, my dear?");
 
-            if (choice) {
-                activated = true;
-                match.build(player, client, workerIndex);
+        if(!activated) {
+            activated = true;
+            List<BuildAction> buildable = match.getBuildable(player, workerIndex);
+            if(buildable.size() > 0) {
+                boolean choice = client.askQuestion("HESTIA: Do you want to build again, my dear?");
+                if (choice) {
+                    match.build(player, client, workerIndex);
+                }
             }
         }
     }
