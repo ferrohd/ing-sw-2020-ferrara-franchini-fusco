@@ -276,6 +276,7 @@ public class Match implements Runnable {
 
         List<BuildAction> builds = getBuildable(player, workerIndex);
         List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
+        if(buildProposals.size() == 0) lose(player);
 
         int choice = client.askBuild(buildProposals);
 
