@@ -18,11 +18,13 @@ public class Poseidon extends God {
 
         if(match.getBoard().getTowerSize(match.getPlayerByUsername(player).getWorkerPos(otherWorker)) == 0) {
             for(int i = 0; i < 3; ++i) {
-                boolean choice = client.askQuestion("POSEIDON: Why don't you let the other guy build as well?");
+                if(match.getBuildable(player, otherWorker).size() > 0) {
+                    boolean choice = client.askQuestion("POSEIDON: Why don't you let the other guy build as well?");
 
-                if(!choice) break;
+                    if (!choice) break;
 
-                match.build(player, client, otherWorker);
+                    match.build(player, client, otherWorker);
+                } else break;
             }
         }
     }
