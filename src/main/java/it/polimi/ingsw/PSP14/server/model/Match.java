@@ -77,6 +77,7 @@ public class Match implements Runnable {
         List<String> availableGods;
         List<String> selectedGods;
 
+        for (ClientConnection c :clientConnections) c.sendNotification("Game started! You will be asked to insert your username soon");
         for (ClientConnection connection : clientConnections) {
             String username = connection.getUsername();
             while(users.contains(username)) {

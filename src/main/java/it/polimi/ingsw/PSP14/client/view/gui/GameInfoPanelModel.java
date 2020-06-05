@@ -62,7 +62,7 @@ public class GameInfoPanelModel {
         hud.setMouseTransparent(true);
 
         StackPane container = new StackPane();
-        container.setPrefHeight(150);
+        container.setPrefHeight(200);
         container.setMaxWidth(MAX_WIDTH - H_PADDING * 2);
 
 
