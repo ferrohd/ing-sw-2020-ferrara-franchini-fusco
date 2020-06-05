@@ -245,5 +245,21 @@ public abstract class ClientConnection {
 
     protected abstract String receiveString() throws IOException;
 
+    public void notifyWorkerChoicePhase(String player) throws IOException {
+        sendMessage(new WorkerChoicePhaseMessage(player));
+    }
+
+    public void notifyMovePhase(String player) throws IOException {
+        sendMessage(new MovePhaseMessage(player));
+    }
+
+    public void notifyBuildPhase(String player) throws IOException {
+        sendMessage(new BuildPhaseMessage(player));
+    }
+
+    public void notifyWorkerPlacementPhase(String player) throws IOException {
+        sendMessage(new WorkerPlacementPhaseMessage(player));
+    }
+
     public abstract void close() throws IOException;
 }

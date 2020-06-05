@@ -3,6 +3,10 @@ package it.polimi.ingsw.PSP14.client.view.gui;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.controlsfx.control.NotificationPane;
@@ -22,6 +26,13 @@ public class GUIMain extends Application {
     private static Stage initStage;
     public static Stage getStage() {
         return initStage;
+    }
+
+    public static VBox getInfoPanel() {
+        return (VBox) ((BorderPane)getMainPane().getContent()).getLeft();
+    }
+    public static Text getInfoText() {
+        return (Text) ((StackPane)getInfoPanel().getChildren().get(0)).getChildren().get(0);
     }
 
     /**

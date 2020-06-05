@@ -27,6 +27,42 @@ public class CLI implements UI {
     }
 
     @Override
+    public void startWorkerChoice(String player) throws InterruptedException {
+        if(player.equals(playerUsername)) {
+            showNotification("Choose the worker you would like to move");
+        } else {
+            showNotification(player + " is choosing the worker to move");
+        }
+    }
+
+    @Override
+    public void startMove(String player) throws InterruptedException {
+        if(player.equals(playerUsername)) {
+            showNotification("Choose where to move");
+        } else {
+            showNotification(player + " is choosing where to move");
+        }
+    }
+
+    @Override
+    public void startBuild(String player) throws InterruptedException {
+        if(player.equals(playerUsername)) {
+            showNotification("Choose where to build");
+        } else {
+            showNotification(player + " is choosing where to build");
+        }
+    }
+
+    @Override
+    public void startWorkerPlacement(String player) throws InterruptedException {
+        if(player.equals(playerUsername)) {
+            showNotification("Choose where to place your workers");
+        } else {
+            showNotification(player + " is choosing where to place their workers");
+        }
+    }
+
+    @Override
     public void registerPlayer(String newPlayerUsername) {
         UIColor _newPlayerColor = null;
         // Prevent duplicate colors

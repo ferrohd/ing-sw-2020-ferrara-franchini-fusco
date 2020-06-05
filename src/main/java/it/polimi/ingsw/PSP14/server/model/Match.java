@@ -142,7 +142,7 @@ public class Match implements Runnable {
         for (String p : users) {
             for(int i = 0; i < 2; ++i) {
                 ClientConnection connection = clients.get(p);
-                for(ClientConnection c : clientConnections) if(!c.equals(connection)) c.sendNotification(p + " is placing their workers.");
+                for(ClientConnection c : clientConnections) c.notifyWorkerPlacementPhase(p);
                 Point pos = connection.placeWorker();
                 while(busyPositions.contains(pos.toString())) {
                     connection.sendNotification("Cell busy!");
@@ -211,6 +211,7 @@ public class Match implements Runnable {
             lose(player);
             return;
         }
+        for(ClientConnection c : clientConnections) c.notifyWorkerChoicePhase(player);
         int workerIndex = client.getWorkerIndex(movableWorkers);
 
         move(player, client, workerIndex);
@@ -242,7 +243,7 @@ public class Match implements Runnable {
      * @throws IOException if a connection error occurs
      */
     public void move(String player, ClientConnection client, int workerIndex) throws IOException {
-        for(ClientConnection c : clientConnections) if(!c.equals(client)) c.sendNotification(player + " is moving...");
+        for(ClientConnection c : clientConnections) c.notifyMovePhase(player);
         for(Player p : getPlayers())
             p.getGod().beforeMove(player, workerIndex, client, this);
 
@@ -270,7 +271,7 @@ public class Match implements Runnable {
      * @throws IOException if a connection error occurs
      */
     public void build(String player, ClientConnection client, int workerIndex) throws IOException {
-        for(ClientConnection c : clientConnections) if(!c.equals(client)) c.sendNotification(player + " is building...");
+        for(ClientConnection c : clientConnections) c.notifyBuildPhase(player);
         for(Player p : getPlayers())
             p.getGod().beforeBuild(player, workerIndex, client, this);
 

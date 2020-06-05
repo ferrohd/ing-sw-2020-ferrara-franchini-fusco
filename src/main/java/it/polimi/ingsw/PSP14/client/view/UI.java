@@ -36,6 +36,14 @@ public interface UI {
      */
     void unregisterPlayer(String username) throws InterruptedException;
 
+    void startWorkerChoice(String player) throws InterruptedException;
+
+    void startMove(String player) throws InterruptedException;
+
+    void startBuild(String player) throws InterruptedException;
+
+    void startWorkerPlacement(String player) throws InterruptedException;
+
     /**
      * Set a player's worker in a target position.
      * <br/>

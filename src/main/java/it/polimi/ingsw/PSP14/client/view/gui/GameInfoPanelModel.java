@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP14.client.view.cli.UIGod;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,8 +44,8 @@ public class GameInfoPanelModel {
     private void init() {
         VBox hud = new VBox();
         hud.setMaxHeight(Integer.MAX_VALUE);
-        //hud.setMaxWidth(MAX_WIDTH);
         hud.setMaxWidth(200);
+        hud.setMinWidth(200);
         Background bg = new Background(new BackgroundImage(
                 new Image("/images/panel_mid.png"),
                 BackgroundRepeat.NO_REPEAT,
@@ -59,6 +60,27 @@ public class GameInfoPanelModel {
 
         // Disable mouse interaction
         hud.setMouseTransparent(true);
+
+        StackPane container = new StackPane();
+        container.setPrefHeight(150);
+        container.setMaxWidth(MAX_WIDTH - H_PADDING * 2);
+
+
+        DropShadow ds = new DropShadow();
+        ds.setSpread(0.75f);
+        ds.setColor(Color.valueOf("eeeeeebb"));
+
+        Text phaseText = new Text();
+        phaseText.setText("Loading...");
+        phaseText.setFont(Font.font("Georgia", FontWeight.BOLD, 14));
+        phaseText.setWrappingWidth(MAX_WIDTH - H_PADDING * 4);
+        phaseText.setEffect(ds);
+        phaseText.setCache(true);
+
+        container.getChildren().add(phaseText);
+
+        hud.getChildren().add(container);
+
         this.hud = hud;
     }
 
