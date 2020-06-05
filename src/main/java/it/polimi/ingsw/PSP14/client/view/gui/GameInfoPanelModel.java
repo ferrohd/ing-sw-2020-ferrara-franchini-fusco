@@ -44,8 +44,8 @@ public class GameInfoPanelModel {
     private void init() {
         VBox hud = new VBox();
         hud.setMaxHeight(Integer.MAX_VALUE);
-        hud.setMaxWidth(200);
-        hud.setMinWidth(200);
+        hud.setMaxWidth(150);
+        hud.setMinWidth(150);
         Background bg = new Background(new BackgroundImage(
                 new Image("/images/panel_mid.png"),
                 BackgroundRepeat.NO_REPEAT,

@@ -41,8 +41,10 @@ public class GameFactory implements Runnable {
                 System.out.println("Room leader found.");
                 int choice = players.get(0).askLobbySize();
                 System.out.println("Room size is: " + choice + ".");
+                players.get(0).sendNotification("Waiting for other players to connect...");
                 players.add(clientConnectionFactory.getClientConnection());
-                players.get(1).sendNotification("Game found!");
+                players.get(1).sendNotification("Game found! You are player 2 of " + choice);
+                players.get(0).sendNotification("Player 2 found!");
                 System.out.println("Found player 2.");
                 if (choice == 3) {
                     players.add(clientConnectionFactory.getClientConnection());
