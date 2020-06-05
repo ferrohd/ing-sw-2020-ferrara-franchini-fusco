@@ -33,7 +33,7 @@ public class GameInfoPanelModel {
         init();
     }
 
-    public Node getRoot() {
+    public VBox getRoot() {
         return hud;
     }
 
@@ -43,7 +43,8 @@ public class GameInfoPanelModel {
     private void init() {
         VBox hud = new VBox();
         hud.setMaxHeight(Integer.MAX_VALUE);
-        hud.setMaxWidth(MAX_WIDTH);
+        //hud.setMaxWidth(MAX_WIDTH);
+        hud.setMaxWidth(200);
         Background bg = new Background(new BackgroundImage(
                 new Image("/images/panel_mid.png"),
                 BackgroundRepeat.NO_REPEAT,

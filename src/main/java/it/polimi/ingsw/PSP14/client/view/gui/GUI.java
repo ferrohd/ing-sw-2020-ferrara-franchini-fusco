@@ -94,6 +94,7 @@ public class GUI implements UI {
         GUIMain.getQueue().take();
 
         runLaterSynchronized(new GUIWelcomeScene());
+        //runLaterSynchronized(new GUIGameScene());
     }
 
     @Override
