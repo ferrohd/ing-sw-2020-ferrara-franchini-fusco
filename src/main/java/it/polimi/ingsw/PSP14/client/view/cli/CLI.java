@@ -201,6 +201,11 @@ public class CLI implements UI {
     }
 
     @Override
+    public void showVictory(String winner) {
+        showNotification(winner + " won!");
+    }
+
+    @Override
     public void welcome() {
         drawMessage("Welcome to SANTORINI!");
     }

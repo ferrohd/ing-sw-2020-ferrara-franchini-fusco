@@ -43,6 +43,8 @@ public interface UI {
     void startBuild(String player) throws InterruptedException;
 
     void startWorkerPlacement(String player) throws InterruptedException;
+  
+    void showVictory(String winner) throws InterruptedException;
 
     /**
      * Set a player's worker in a target position.

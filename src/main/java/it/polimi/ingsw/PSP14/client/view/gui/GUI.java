@@ -73,6 +73,18 @@ public class GUI implements UI {
 
     }
 
+    @Override
+    public void showVictory(String winner) throws InterruptedException {
+        runLaterSynchronized(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, winner + " won!", ButtonType.OK);
+            alert.setTitle("Victory");
+            alert.setGraphic(null);
+            alert.setHeaderText(null);
+
+            alert.showAndWait();
+        });
+    }
+
     /**
      * Get a color depending on the player unique id.
      *
