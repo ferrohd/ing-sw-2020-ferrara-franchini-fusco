@@ -36,6 +36,8 @@ public interface UI {
      */
     void unregisterPlayer(String username) throws InterruptedException;
 
+    void showVictory(String winner) throws InterruptedException;
+
     /**
      * Set a player's worker in a target position.
      * <br/>
