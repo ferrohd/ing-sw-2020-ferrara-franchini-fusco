@@ -12,6 +12,8 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -106,6 +108,7 @@ public class GUI implements UI {
         GUIMain.getQueue().take();
 
         runLaterSynchronized(new GUIWelcomeScene());
+        //runLaterSynchronized(new GUIGameScene());
     }
 
     @Override
@@ -145,6 +148,42 @@ public class GUI implements UI {
                 moveWorker(new Point(0, 0), 0, "pippo");
             } catch(InterruptedException ignored) {}
         }).start();
+    }
+
+    @Override
+    public void startWorkerChoice(String player) throws InterruptedException {
+        if(player.equals(currentPlayerId)) {
+            GUIMain.getInfoText().setText("Choose the worker you would like to move");
+        } else {
+            GUIMain.getInfoText().setText(player + " is choosing the worker to move");
+        }
+    }
+
+    @Override
+    public void startMove(String player) throws InterruptedException {
+        if(player.equals(currentPlayerId)) {
+            GUIMain.getInfoText().setText("Choose where to move");
+        } else {
+            GUIMain.getInfoText().setText(player + " is choosing where to move");
+        }
+    }
+
+    @Override
+    public void startBuild(String player) throws InterruptedException {
+        if(player.equals(currentPlayerId)) {
+            GUIMain.getInfoText().setText("Choose where to build");
+        } else {
+            GUIMain.getInfoText().setText(player + " is choosing where to build");
+        }
+    }
+
+    @Override
+    public void startWorkerPlacement(String player) throws InterruptedException {
+        if(player.equals(currentPlayerId)) {
+            GUIMain.getInfoText().setText("Choose where to place your workers");
+        } else {
+            GUIMain.getInfoText().setText(player + " is choosing where to place their workers");
+        }
     }
 
     /**

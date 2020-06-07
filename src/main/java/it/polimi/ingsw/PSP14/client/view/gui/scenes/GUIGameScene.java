@@ -79,24 +79,27 @@ public class GUIGameScene implements Runnable {
         GUIMain.getStage().setResizable(true);
 
         // Create container for 3D scene and HUD
-        StackPane stackPane = new StackPane();
-        stackPane.setAlignment(Pos.BOTTOM_LEFT);
+        BorderPane main = new BorderPane();
+        //hBox.setAlignment(Pos.BOTTOM_LEFT);
 
         // Create a scene object
         SubScene scene = new SubScene(model.getRoot(), VIEWPORT_X, VIEWPORT_Y, true, SceneAntialiasing.BALANCED);
+        Pane sceneContainer = new Pane(scene);
+        scene.widthProperty().bind(sceneContainer.widthProperty());
+        scene.heightProperty().bind(sceneContainer.heightProperty());
 
         // Create an info panel (infoPanel)
-        Node infoPanel = infoPanelModel.getRoot();
+        VBox infoPanel = infoPanelModel.getRoot();
 
-        stackPane.getChildren().add(scene);
-        stackPane.getChildren().add(infoPanel);
+        main.setLeft(infoPanel);
+        main.setCenter(sceneContainer);
 
-        scene.heightProperty().bind(GUIMain.getMainPane().heightProperty());
-        scene.widthProperty().bind(GUIMain.getMainPane().widthProperty());
+        scene.heightProperty().bind(sceneContainer.heightProperty());
+        scene.widthProperty().bind(sceneContainer.widthProperty());
 
-        GUIMain.getMainPane().setContent(stackPane);
+        GUIMain.getMainPane().setContent(main);
         GUIMain.getStage().setHeight(VIEWPORT_Y);
-        GUIMain.getStage().setWidth(VIEWPORT_X);
+        GUIMain.getStage().setWidth(VIEWPORT_X + infoPanel.getWidth());
 
         // Set background
         scene.setFill(Paint.valueOf("#21c8de"));
