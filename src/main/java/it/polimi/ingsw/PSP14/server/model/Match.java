@@ -155,10 +155,16 @@ public class Match implements Runnable {
         }
     }
 
+    /**
+     * @return All the clients' connections in the match
+     */
     public List<ClientConnection> getClientConnections() {
         return new ArrayList<>(clientConnections);
     }
 
+    /**
+     * @return the history of the match
+     */
     public List<Action> getHistory() {
         return new ArrayList<>(history);
     }
@@ -178,6 +184,9 @@ public class Match implements Runnable {
         history.add(action);
     }
 
+    /**
+     * @return the players map in the match
+     */
     public ArrayList<Player> getPlayers() {
         return new ArrayList<>(players.values());
     }
@@ -221,6 +230,10 @@ public class Match implements Runnable {
         applyAfterTurnEffects(player, workerIndex, client);
     }
 
+    /**
+     * @param player the owner of the workers
+     * @return a list of all workers a player can move
+     */
     private List<Integer> getMovableWorkers(String player) {
         List<Integer> workerIndexes = new ArrayList<>();
         for(int i = 0; i < 2; ++i) {

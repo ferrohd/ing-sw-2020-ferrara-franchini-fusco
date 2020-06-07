@@ -69,6 +69,11 @@ public class Board {
         return board[pos.getY()][pos.getX()].getIsCompleted();
     }
 
+    /**
+     * Tells if the provided Point is inside the board
+     * @param pos the Point to check
+     * @return the validity of the point
+     */
     public static boolean isValidPos(Point pos) {
         return pos.getX() >= 0 && pos.getX() < 5 &&
                 pos.getY() >= 0 && pos.getY() < 5;
