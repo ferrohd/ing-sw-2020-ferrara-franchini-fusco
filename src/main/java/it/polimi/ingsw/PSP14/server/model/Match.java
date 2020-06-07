@@ -54,6 +54,7 @@ public class Match implements Runnable {
             System.out.println("Game is over. Terminating...");
         } catch(IOException e) {
             System.out.println("An error has occurred. Closing...");
+            e.printStackTrace();
             for(ClientConnection c : clientConnections) {
                 try {
                     c.close();
@@ -89,7 +90,7 @@ public class Match implements Runnable {
         }
 
 
-        availableGods = GodfileParser.getGodIdList("src/main/resources/gods/godlist.xml", users.size());
+        availableGods = GodfileParser.getGodIdList(getClass().getClassLoader().getResourceAsStream("gods/godlist.xml"), users.size());
         ClientConnection roomMaster = clients.get(users.get(0));
         for(ClientConnection c : clientConnections) if(!c.equals(roomMaster)) c.sendNotification(users.get(0) + " (room leader) is choosing the gods of the game.");
         selectedGods = roomMaster.selectGameGods(new ArrayList<>(availableGods), users.size());

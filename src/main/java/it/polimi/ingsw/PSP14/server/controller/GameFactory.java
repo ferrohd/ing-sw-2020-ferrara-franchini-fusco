@@ -61,6 +61,7 @@ public class GameFactory implements Runnable {
                 newGame.start();
             } catch(InterruptedException | IOException e) {
                 System.out.println("Error occurred during room setup. Connected players will be put in queue.");
+                e.printStackTrace();
                 recycleConnections(players);
             }
         }
@@ -72,7 +73,10 @@ public class GameFactory implements Runnable {
                 c.ping();
                 c.sendNotification("An error occurred. You will be put back in queue.");
                 clientConnectionFactory.addClientConnection(c);
-            } catch(IOException e) {}
+            } catch(IOException e) {
+                System.out.println("Error while recycling clients");
+                e.printStackTrace();
+            }
         }
     }
 
