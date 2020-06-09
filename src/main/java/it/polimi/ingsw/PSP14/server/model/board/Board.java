@@ -1,11 +1,9 @@
 package it.polimi.ingsw.PSP14.server.model.board;
 
-import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.controller.MatchController;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A board for the game.

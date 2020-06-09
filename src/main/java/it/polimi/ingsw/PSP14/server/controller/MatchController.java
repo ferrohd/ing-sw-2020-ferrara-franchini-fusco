@@ -5,7 +5,6 @@ import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
-import it.polimi.ingsw.PSP14.server.model.gods.God;
 
 import java.io.IOException;
 import java.util.ArrayList;

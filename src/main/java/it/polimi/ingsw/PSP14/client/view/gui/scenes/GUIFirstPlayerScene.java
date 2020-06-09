@@ -2,9 +2,6 @@ package it.polimi.ingsw.PSP14.client.view.gui.scenes;
 
 import it.polimi.ingsw.PSP14.client.view.gui.GUIMain;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
