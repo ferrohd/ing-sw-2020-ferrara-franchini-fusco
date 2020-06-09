@@ -140,7 +140,7 @@ public abstract class ClientConnection {
         sendMessage(new PlayerRegisterMessage(p));
     }
 
-    public void registerWorker(Point pos, int workerIndex, String player) throws IOException {
+    public void registerWorker(Point pos, String player, int workerIndex) throws IOException {
         sendMessage(new WorkerAddMessage(pos, player, workerIndex));
     }
 

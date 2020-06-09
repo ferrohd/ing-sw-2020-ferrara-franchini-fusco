@@ -14,7 +14,7 @@ public class MatchController {
     private Map<String, ClientConnection> connections = new HashMap<>(3);
 
     public MatchController(List<ClientConnection> clientConnections) throws IOException {
-        for (ClientConnection c :clientConnections) c.sendNotification("Game started! You will be asked to insert your username soon");
+        for (ClientConnection c : clientConnections) c.sendNotification("Game started! You will be asked to insert your username soon");
         for (ClientConnection connection : clientConnections) {
             String username = connection.getUsername();
             while(users.contains(username)) {
@@ -89,5 +89,21 @@ public class MatchController {
         }
 
         return pos;
+    }
+
+    public void registerPlayer(String player) throws IOException {
+        for(ClientConnection c : connections.values()) c.registerPlayer(player);
+    }
+
+    public void notifyWorkerMove(Point pos, String player, int workerIndex) throws IOException {
+        for(ClientConnection c : connections.values()) c.notifyWorkerMove(pos, player, workerIndex);
+    }
+
+    public void registerWorker(Point pos, String player, int workerIndex) throws IOException {
+        for(ClientConnection c : connections.values()) c.registerWorker(pos, player, workerIndex);
+    }
+
+    public void notifyUnregisterPlayer(String player) throws IOException {
+        for(ClientConnection c : connections.values()) c.notifyUnregisterPlayer(player);
     }
 }

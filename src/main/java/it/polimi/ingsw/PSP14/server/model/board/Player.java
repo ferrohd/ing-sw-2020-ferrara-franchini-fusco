@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.board;
 
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.gods.God;
 
 import java.io.IOException;
@@ -14,22 +15,22 @@ public class Player {
     private String username;
     private God god;
     private Worker[] workers = new Worker[2];
-    private List<ClientConnection> clients = new ArrayList<>();
+    private MatchController controller;
 
     /**
      * @param username username of the player to display in game
      */
-    public Player(String username, God god, List<ClientConnection> clients) throws IOException {
+    public Player(String username, God god, MatchController controller) throws IOException {
         if (username == null || username.equals("")) throw new NullPointerException();
         this.username = username;
         this.god = god;
-        this.clients.addAll(clients);
+        this.controller = controller;
 
-        for(ClientConnection c : clients) c.registerPlayer(username);
+        controller.registerPlayer(username);
     }
 
     public Player(String username, God god) throws IOException {
-        this(username, god, new ArrayList<>());
+        this(username, god, new MatchController(new ArrayList<>()));
     }
 
     public Player(String username) throws IOException {
@@ -43,7 +44,7 @@ public class Player {
      */
     public void moveWorker(int index, Direction dir) throws IndexOutOfBoundsException, IOException {
         workers[index].move(dir);
-        for(ClientConnection c : clients) c.notifyWorkerMove(workers[index].getPos(), username, index);
+        controller.notifyWorkerMove(workers[index].getPos(), username, index);
     }
 
     /**
@@ -55,15 +56,15 @@ public class Player {
     public void setWorker(int index, Point position) throws IOException {
         if (workers[index] == null) {
             workers[index] = new Worker(position);
-            for(ClientConnection c : clients) c.registerWorker(position, index, username);
+            controller.registerWorker(position, username, index);
         } else {
             workers[index].setPos(position);
-            for(ClientConnection c : clients) c.notifyWorkerMove(position, username, index);
+            controller.notifyWorkerMove(position, username, index);
         }
     }
 
     public void clear() throws IOException {
-        for(ClientConnection c : clients) c.notifyUnregisterPlayer(username);
+        controller.notifyUnregisterPlayer(username);
     }
 
     public Point getWorkerPos(int index) {
