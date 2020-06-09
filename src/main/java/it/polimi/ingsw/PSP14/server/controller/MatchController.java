@@ -106,4 +106,12 @@ public class MatchController {
     public void notifyUnregisterPlayer(String player) throws IOException {
         for(ClientConnection c : connections.values()) c.notifyUnregisterPlayer(player);
     }
+
+    public void notifyBuild(Point pos) throws IOException {
+        for(ClientConnection c : connections.values()) c.notifyBuild(pos);
+    }
+
+    public void notifyDome(Point pos) throws IOException {
+        for(ClientConnection c : connections.values()) c.notifyDome(pos);
+    }
 }

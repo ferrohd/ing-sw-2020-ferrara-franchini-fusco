@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.board;
 
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,20 +13,20 @@ import java.util.List;
  */
 public class Board {
     private Cell[][] board = new Cell[5][5];
-    private List<ClientConnection> clients = new ArrayList<>();
+    private MatchController controller;
 
-    public Board(List<ClientConnection> clients) {
+    public Board(MatchController controller) throws IOException {
         for(int i = 0; i < 5; ++i) {
             for(int j = 0; j < 5; ++j) {
                 board[j][i] = new Cell();
             }
         }
 
-        this.clients.addAll(clients);
+        this.controller = controller;
     }
 
-    public Board() {
-        this(new ArrayList<>());
+    public Board() throws IOException {
+        this(new MatchController(new ArrayList<>()));
     }
 
     /**
@@ -46,7 +47,7 @@ public class Board {
      */
     public void incrementTowerSize(Point pos) throws TowerSizeException, IOException {
         board[pos.getY()][pos.getX()].incrementTowerSize();
-        for(ClientConnection c : clients) c.notifyBuild(pos, 1);
+        controller.notifyBuild(pos);
     }
 
     /**
@@ -56,7 +57,7 @@ public class Board {
      */
     public void setAsCompleted(Point pos) throws IOException {
         board[pos.getY()][pos.getX()].setAsCompleted();
-        for(ClientConnection c : clients) c.notifyDome(pos);
+        controller.notifyDome(pos);
     }
 
     /**

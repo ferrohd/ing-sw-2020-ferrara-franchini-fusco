@@ -154,10 +154,8 @@ public abstract class ClientConnection {
      * @param amount size of the build
      * @throws IOException
      */
-    public void notifyBuild(Point p, int amount) throws IOException {
-        Message message = new TowerIncrementMessage(p);
-        for (int i = 0; i < amount; ++i)
-            sendMessage(message);
+    public void notifyBuild(Point p) throws IOException {
+        sendMessage(new TowerIncrementMessage(p));
     }
 
     public void notifyWorkerMove(Point p, String user, int workerId) throws IOException {
