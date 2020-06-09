@@ -40,7 +40,7 @@ public class TCPIn implements Runnable {
         try {
             Message message;
             do {
-                if (Duration.between(lastTimestamp, Instant.now()).toMillis() > 5000) throw new IOException();
+                if (Duration.between(lastTimestamp, Instant.now()).toMillis() > 5000) throw new IOException("Too much time elapsed!");
                 message = queue.poll(100, TimeUnit.MILLISECONDS);
             } while(message == null);
             return message;

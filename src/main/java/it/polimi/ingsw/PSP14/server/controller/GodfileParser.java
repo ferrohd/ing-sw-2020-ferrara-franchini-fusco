@@ -10,11 +10,11 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class GodfileParser {
     private static ArrayList<String> godIdList = new ArrayList<>();
-    private static String lastGodFile = "";
     /**
      * Obtain the list of all available gods, by parsing the associated XML file.
      * The function use a memoizer to reduce the I/O.
@@ -23,9 +23,9 @@ public class GodfileParser {
      * @return An ArrayList containing the names of the available gods to play.
      * @throws IOException If there's an error reading the godlist file
      */
-    public static ArrayList<String> getGodIdList(String godsFile, int gamesize) throws IOException {
+    public static ArrayList<String> getGodIdList(InputStream godsFile, int gamesize) throws IOException {
         // If godIdList isn't set OR the file to parse has changed
-        if ( godIdList.isEmpty() || !godsFile.equals(lastGodFile) ) {
+        if ( godIdList.isEmpty() ) {
             // Initialise the list
             godIdList = new ArrayList<>();
             // Parse the XML and generate a new godIdList.
@@ -33,9 +33,9 @@ public class GodfileParser {
             Document doc;
             try {
                 DocumentBuilder builder = factory.newDocumentBuilder();
-                doc = builder.parse(new File(godsFile));
+                doc = builder.parse(godsFile);
             } catch (ParserConfigurationException | SAXException e) {
-                throw new IOException();
+                throw new IOException("Error parsing god file");
             }
 
             Element root = (Element) doc.getFirstChild();
@@ -49,8 +49,6 @@ public class GodfileParser {
                     godIdList.add(godName);
             }
         }
-
-        lastGodFile = godsFile;
         return godIdList;
     }
 }

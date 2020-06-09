@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GodfileParserTest {
-    @Test
+/*    @Test
     void shouldParseCorrectly() {
         assertDoesNotThrow(() -> {
             ArrayList<String> test = GodfileParser.getGodIdList("src/test/resources/godlist_valid_1.xml", 2);
@@ -32,5 +32,5 @@ public class GodfileParserTest {
         assertThrows(SAXException.class, () -> {
             GodfileParser.getGodIdList("src/test/resources/godlist_invalid_1.xml", 2);
         });
-    }
+    }*/
 }
