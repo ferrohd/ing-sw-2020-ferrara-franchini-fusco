@@ -31,6 +31,10 @@ public class MatchController {
         }
     }
 
+    public MatchController() throws IOException {
+        this(new ArrayList<>());
+    }
+
     public List<String> getUsers() {
         return users;
     }

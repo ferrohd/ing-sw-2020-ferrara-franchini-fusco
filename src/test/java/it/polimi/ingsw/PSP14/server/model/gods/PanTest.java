@@ -1,8 +1,9 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.EndGameException;
-import it.polimi.ingsw.PSP14.server.model.FakeClientConnection;
+import it.polimi.ingsw.PSP14.server.model.FakeMatchController;
 import it.polimi.ingsw.PSP14.server.model.FakeMatch;
 import it.polimi.ingsw.PSP14.server.model.actions.Action;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
@@ -29,14 +30,14 @@ public class PanTest {
                 assertTrue(flag);
             }
         };
-        ClientConnection client = new FakeClientConnection();
+        MatchController controller = new FakeMatchController();
         God pan = new Pan("panOwner");
         Board board = match.getBoard();
         board.incrementTowerSize(new Point(0, 0));
 
-        pan.afterMove("panOwner", 0, client, match);
+        pan.afterMove("panOwner", 0, controller, match);
         board.incrementTowerSize(new Point(0, 0));
         match.flag = true;
-        pan.afterMove("panOwner", 0, client, match);
+        pan.afterMove("panOwner", 0, controller, match);
     }
 }

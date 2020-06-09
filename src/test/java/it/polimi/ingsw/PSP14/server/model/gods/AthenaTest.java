@@ -1,7 +1,8 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.model.FakeClientConnection;
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
+import it.polimi.ingsw.PSP14.server.model.FakeMatchController;
 import it.polimi.ingsw.PSP14.server.model.FakeMatch;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.actions.Action;
@@ -26,14 +27,14 @@ public class AthenaTest {
                 return new MoveAction("athenaOwner", new Point(0, 0), new Point(1, 1));
             }
         };
-        ClientConnection client = new FakeClientConnection();
+        MatchController controller = new FakeMatchController();
         God athena = new Athena("athenaOwner");
         Board board = match.getBoard();
         board.incrementTowerSize(new Point(1, 1));
         board.incrementTowerSize(new Point(3, 3));
 
-        athena.beforeTurn("athenaOwner", client, match);
-        athena.afterMove("athenaOwner", 0, client, match);
+        athena.beforeTurn("athenaOwner", controller, match);
+        athena.afterMove("athenaOwner", 0, controller, match);
 
         List<MoveAction> moves = new ArrayList<>();
         moves.add(new MoveAction("opponent", new Point(2, 2), new Point(3, 3)));

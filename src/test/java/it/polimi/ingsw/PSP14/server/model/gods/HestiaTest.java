@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.model.FakeClientConnection;
+import it.polimi.ingsw.PSP14.server.model.FakeMatchController;
 import it.polimi.ingsw.PSP14.server.model.FakeMatch;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
@@ -20,7 +20,7 @@ public class HestiaTest {
         God hestia = new Hestia("hestiaOwner");
         Match match = new FakeMatch() {
             @Override
-            public void build(String player, ClientConnection client, int workerIndex) throws IOException {
+            public void build(String player, int workerIndex) throws IOException {
                 List<BuildAction> builds = new ArrayList<>();
                 builds.add(new BuildAction("hestiaOwner", new Point(0,0), false, 1));
                 builds.add(new BuildAction("hestiaOwner", new Point(1,1), false, 1));
@@ -31,6 +31,6 @@ public class HestiaTest {
             }
         };
 
-        hestia.afterBuild("hestiaOwner", 0, new FakeClientConnection(), match);
+        hestia.afterBuild("hestiaOwner", 0, new FakeMatchController(), match);
     }
 }

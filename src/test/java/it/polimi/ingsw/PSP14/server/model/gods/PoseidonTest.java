@@ -1,7 +1,8 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.model.FakeClientConnection;
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
+import it.polimi.ingsw.PSP14.server.model.FakeMatchController;
 import it.polimi.ingsw.PSP14.server.model.FakeMatch;
 import it.polimi.ingsw.PSP14.server.model.board.Board;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
@@ -18,7 +19,7 @@ public class PoseidonTest {
     public void functionalityTest() throws IOException, TowerSizeException {
         FakeMatch match = new FakeMatch() {
             @Override
-            public void build(String player, ClientConnection client, int workerIndex) throws IOException {
+            public void build(String player, int workerIndex) throws IOException {
                 num++;
             }
 
@@ -37,9 +38,9 @@ public class PoseidonTest {
                 return player;
             }
         };
-        ClientConnection client = new FakeClientConnection() {
+        MatchController controller = new FakeMatchController() {
             @Override
-            public boolean askQuestion(String s) throws IOException {
+            public boolean askQuestion(String player, String s) throws IOException {
                 return true;
             }
         };
@@ -47,10 +48,10 @@ public class PoseidonTest {
         Board board = match.getBoard();
         board.incrementTowerSize(new Point(0, 0));
 
-        poseidon.afterTurn("poseidonOwner", 1, client, match);
+        poseidon.afterTurn("poseidonOwner", 1, controller, match);
         assertEquals(0, match.num);
         match.flag = true;
-        poseidon.afterTurn("poseidonOwner", 0, client, match);
+        poseidon.afterTurn("poseidonOwner", 0, controller, match);
         assertEquals(3, match.num);
     }
 }

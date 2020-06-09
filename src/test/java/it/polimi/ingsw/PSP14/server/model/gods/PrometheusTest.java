@@ -1,7 +1,8 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.model.FakeClientConnection;
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
+import it.polimi.ingsw.PSP14.server.model.FakeMatchController;
 import it.polimi.ingsw.PSP14.server.model.FakeMatch;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.model.board.Board;
@@ -21,13 +22,13 @@ public class PrometheusTest {
     public void functionalityTest() throws IOException, TowerSizeException {
         FakeMatch match = new FakeMatch() {
             @Override
-            public void build(String player, ClientConnection client, int workerIndex) throws IOException {
+            public void build(String player, int workerIndex) throws IOException {
                 num++;
             }
         };
-        ClientConnection client = new FakeClientConnection() {
+        MatchController controller = new FakeMatchController() {
             @Override
-            public boolean askQuestion(String s) throws IOException {
+            public boolean askQuestion(String player, String s) throws IOException {
                 return true;
             }
         };
@@ -35,7 +36,7 @@ public class PrometheusTest {
         Board board = match.getBoard();
         board.incrementTowerSize(new Point(1, 1));
 
-        god.beforeMove("owner", 0, client, match);
+        god.beforeMove("owner", 0, controller, match);
         assertEquals(1, match.num);
         List<MoveAction> moves = new ArrayList<>();
         moves.add(new MoveAction("owner", new Point(0, 0), new Point(1, 1)));

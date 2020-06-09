@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP14.server.model;
 
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.board.Board;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import it.polimi.ingsw.PSP14.server.model.board.TowerSizeException;
@@ -13,12 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
 
-    private Board board = new Board(new ArrayList<>());
+    private Board board;
 
 
     @BeforeEach
-    void reset() {
-        board = new Board(new ArrayList<>());
+    void reset() throws IOException {
+        board = new Board();
     }
 
     @Test

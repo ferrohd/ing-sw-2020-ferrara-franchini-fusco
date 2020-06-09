@@ -1,7 +1,8 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.model.FakeClientConnection;
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
+import it.polimi.ingsw.PSP14.server.model.FakeMatchController;
 import it.polimi.ingsw.PSP14.server.model.FakeMatch;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.actions.Action;
@@ -24,12 +25,12 @@ public class HephaestusTest {
                 return new BuildAction("hephaestusOwner", new Point(0, 0), false, 1);
             }
         };
-        ClientConnection client = new FakeClientConnection();
+        MatchController controller = new FakeMatchController();
         God hephaestus = new Hephaestus("hephaestusOwner");
         Board board = match.getBoard();
         board.incrementTowerSize(new Point(0, 0));
 
-        hephaestus.afterBuild("hephaestusOwner", 0, client, match);
+        hephaestus.afterBuild("hephaestusOwner", 0, controller, match);
 
         assertEquals(board.getTowerSize(new Point(0, 0)), 2);
     }
