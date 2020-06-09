@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
@@ -29,7 +30,7 @@ public class God {
      * @param player moving player
      * @param match current match
      */
-    public void addMoves(List<MoveAction> moves, String player, int workerIndex, Match match) throws IOException {
+    public void addMoves(List<MoveAction> moves, String player, int workerIndex, Match model) throws IOException {
     }
 
     /**
@@ -39,7 +40,7 @@ public class God {
      * @param player moving player
      * @param match current match
      */
-    public void removeMoves(List<MoveAction> moves, String player, int workerIndex, Match match) throws IOException {
+    public void removeMoves(List<MoveAction> moves, String player, int workerIndex, Match model) throws IOException {
     }
 
     /**
@@ -49,10 +50,10 @@ public class God {
      * @param player building player
      * @param match current match
      */
-    public void addBuilds(List<BuildAction> builds, String player, int workerIndex, Match match) throws IOException {
+    public void addBuilds(List<BuildAction> builds, String player, int workerIndex, Match model) throws IOException {
     }
 
-    public void removeBuilds(List<BuildAction> builds, String player, int workerIndex, Match match) throws IOException {
+    public void removeBuilds(List<BuildAction> builds, String player, int workerIndex, Match model) throws IOException {
     }
 
     /**
@@ -62,10 +63,10 @@ public class God {
      * @param client ClientConnection relative to the current turn's player
      * @param match current match
      */
-    public void afterMove(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
+    public void afterMove(String player, int workerIndex, MatchController controller, Match model) throws IOException {
     }
 
-    public void beforeMove(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
+    public void beforeMove(String player, int workerIndex, MatchController controller, Match model) throws IOException {
     }
 
     /**
@@ -75,15 +76,15 @@ public class God {
      * @param client ClientConnection relative to the current turn's player
      * @param match current match
      */
-    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
+    public void afterBuild(String player, int workerIndex, MatchController controller, Match model) throws IOException {
     }
 
-    public void beforeBuild(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
+    public void beforeBuild(String player, int workerIndex, MatchController controller, Match model) throws IOException {
     }
 
-    public void beforeTurn(String player, ClientConnection client, Match match) throws IOException {
+    public void beforeTurn(String player, MatchController controller, Match model) throws IOException {
     }
 
-    public void afterTurn(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
+    public void afterTurn(String player, int workerIndex, MatchController controller, Match model) throws IOException {
     }
 }

@@ -132,18 +132,20 @@ public class MatchController {
         return connections.get(player).getWorkerIndex(movableWorkers);
     }
 
-    public int askMove(String player, List<MoveAction> movements) throws IOException {
+    public MoveAction askMove(String player, List<MoveAction> movements) throws IOException {
         for(ClientConnection c : connections.values()) c.notifyMovePhase(player);
         List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
+        int choice = connections.get(player).askMove(moveProposals);
 
-        return connections.get(player).askMove(moveProposals);
+        return movements.get(choice);
     }
 
-    public int askBuild(String player, List<BuildAction> builds) throws IOException {
+    public BuildAction askBuild(String player, List<BuildAction> builds) throws IOException {
         for(ClientConnection c : connections.values()) c.notifyBuildPhase(player);
         List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
+        int choice = connections.get(player).askBuild(buildProposals);
 
-        return connections.get(player).askBuild(buildProposals);
+        return builds.get(choice);
     }
 
     public void endGame(String winningPlayer) throws IOException {
@@ -152,5 +154,9 @@ public class MatchController {
 
     public void lose(String losingPlayer) throws IOException {
         for(ClientConnection c : connections.values()) c.sendNotification(losingPlayer + " lost");
+    }
+
+    public boolean askQuestion(String player, String message) throws IOException {
+        return connections.get(player).askQuestion(message);
     }
 }

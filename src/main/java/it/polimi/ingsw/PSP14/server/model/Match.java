@@ -1,9 +1,5 @@
 package it.polimi.ingsw.PSP14.server.model;
 
-import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
-import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
-import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.controller.GodfileParser;
 import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.actions.Action;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
@@ -38,6 +34,7 @@ public class Match implements Runnable {
      * the order of setup doesn't matter.
      */
     public Match(MatchController controller) throws IOException {
+        this.controller = controller;
         board = new Board(controller);
     }
 
@@ -123,10 +120,6 @@ public class Match implements Runnable {
         }
     }
 
-    public List<ClientConnection> getClientConnections() {
-        return new ArrayList<>(clientConnections);
-    }
-
     public List<Action> getHistory() {
         return new ArrayList<>(history);
     }
@@ -152,12 +145,12 @@ public class Match implements Runnable {
 
     private void applyBeforeTurnEffects(String player) throws IOException {
         for(Player p : getPlayers())
-            p.getGod().beforeTurn(player, client, this);
+            p.getGod().beforeTurn(player, controller, this);
     }
 
     private void applyAfterTurnEffects(String player, int workerIndex) throws IOException {
         for(Player p : getPlayers())
-            p.getGod().afterTurn(player, workerIndex, client, this);
+            p.getGod().afterTurn(player, workerIndex, controller, this);
     }
 
     /**
@@ -206,7 +199,6 @@ public class Match implements Runnable {
      * - executes the chosen action
      * - calls the afterMove effects of all gods
      * @param player the moving player
-     * @param client the client relative to the moving player
      * @param workerIndex the index of the moving worker
      * @throws IOException if a connection error occurs
      */
@@ -216,13 +208,11 @@ public class Match implements Runnable {
 
         List<MoveAction> movements = getMovements(player, workerIndex);
 
-        int choice = controller.askMove(player, movements);
-
-        Action action = movements.get(choice);
+        MoveAction action = controller.askMove(player, movements);
         executeAction(action);
 
         for(Player p : getPlayers())
-            p.getGod().afterMove(player, workerIndex, client, this);
+            p.getGod().afterMove(player, workerIndex, controller, this);
     }
 
     /**
@@ -232,24 +222,21 @@ public class Match implements Runnable {
      * - executes the chosen action
      * - calls the afterBuild effects of all gods
      * @param player the building player
-     * @param client the client relative to the building player
      * @param workerIndex the index of the building worker
      * @throws IOException if a connection error occurs
      */
     public void build(String player, int workerIndex) throws IOException {
         for(Player p : getPlayers())
-            p.getGod().beforeBuild(player, workerIndex, client, this);
+            p.getGod().beforeBuild(player, workerIndex, controller, this);
 
         List<BuildAction> builds = getBuildable(player, workerIndex);
         if(builds.size() == 0) lose(player);
 
-        int choice = controller.askBuild(player, builds);
-
-        Action action = builds.get(choice);
+        BuildAction action = controller.askBuild(player, builds);
         executeAction(action);
 
         for(Player p : getPlayers())
-            p.getGod().afterBuild(player, workerIndex, client, this);
+            p.getGod().afterBuild(player, workerIndex, controller, this);
     }
 
     /**

@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.actions.Action;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
@@ -16,21 +17,19 @@ public class Artemis extends God {
     }
 
     @Override
-    public void afterMove(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
+    public void afterMove(String player, int workerIndex, MatchController controller, Match model) throws IOException {
         if(!player.equals(getOwner())) return;
 
 
-        List<MoveAction> movements = match.getMovements(player, workerIndex);
-        MoveAction lastMove = (MoveAction) match.getLastAction();
+        List<MoveAction> movements = model.getMovements(player, workerIndex);
+        MoveAction lastMove = (MoveAction) model.getLastAction();
         movements = movements.stream().filter(m -> !m.getTo().equals(lastMove.getFrom())).collect(Collectors.toList());
-        List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
 
-        if(moveProposals.size() > 0) {
-            boolean choice = client.askQuestion("ARTEMIS: Do you want get closer to the prey?");
+        if(movements.size() > 0) {
+            boolean choice = controller.askQuestion(player, "ARTEMIS: Do you want get closer to the prey?");
             if (choice) {
-                int moveChoice = client.askMove(moveProposals);
-                Action action = movements.get(moveChoice);
-                match.executeAction(action);
+                MoveAction action = controller.askMove(player, movements);
+                model.executeAction(action);
             }
         }
 

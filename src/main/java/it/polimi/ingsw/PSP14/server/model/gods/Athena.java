@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 
@@ -16,29 +17,29 @@ public class Athena extends God {
     }
 
     @Override
-    public void beforeTurn(String player, ClientConnection client, Match match) throws IOException {
+    public void beforeTurn(String player, MatchController controller, Match model) throws IOException {
         if(!player.equals(getOwner())) return;
 
         activated = false;
     }
 
     @Override
-    public void afterMove(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
+    public void afterMove(String player, int workerIndex, MatchController controller, Match model) throws IOException {
         if(!player.equals(getOwner())) return;
 
-        MoveAction lastAction = (MoveAction) match.getLastAction();
-        if(match.getBoard().getTowerSize(lastAction.getFrom()) < match.getBoard().getTowerSize(lastAction.getTo())) {
+        MoveAction lastAction = (MoveAction) model.getLastAction();
+        if(model.getBoard().getTowerSize(lastAction.getFrom()) < model.getBoard().getTowerSize(lastAction.getTo())) {
             activated = true;
         }
     }
 
     @Override
-    public void removeMoves(List<MoveAction> moves, String player, int workerIndex, Match match) throws IOException {
+    public void removeMoves(List<MoveAction> moves, String player, int workerIndex, Match model) throws IOException {
         if(player.equals(getOwner())) return;
 
         if(activated) {
             List<MoveAction> illegalMoves = moves.stream().filter(m ->
-                match.getBoard().getTowerSize(m.getFrom()) < match.getBoard().getTowerSize(m.getTo())
+                    model.getBoard().getTowerSize(m.getFrom()) < model.getBoard().getTowerSize(m.getTo())
             ).collect(Collectors.toList());
 
             moves.removeAll(illegalMoves);

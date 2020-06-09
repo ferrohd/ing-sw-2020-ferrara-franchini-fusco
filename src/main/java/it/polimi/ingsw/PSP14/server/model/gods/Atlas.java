@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.Match;
 import it.polimi.ingsw.PSP14.server.model.actions.AtlasBuildAction;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
@@ -19,14 +20,14 @@ public class Atlas extends God {
     }
 
     @Override
-    public void beforeBuild(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
+    public void beforeBuild(String player, int workerIndex, MatchController controller, Match model) throws IOException {
         if(!player.equals(getOwner())) return;
 
-        activated = client.askQuestion("ATLAS: DOMEEEEEES???!!!?!?!??");
+        activated = controller.askQuestion(player, "ATLAS: DOMEEEEEES???!!!?!?!??");
     }
 
     @Override
-    public void addBuilds(List<BuildAction> builds, String player, int workerIndex, Match match) throws IOException {
+    public void addBuilds(List<BuildAction> builds, String player, int workerIndex, Match model) throws IOException {
         if(!player.equals(getOwner()) || !activated) return;
 
         ArrayList<BuildAction> newBuilds = new ArrayList<>();
@@ -43,7 +44,7 @@ public class Atlas extends God {
     }
 
     @Override
-    public void removeBuilds(List<BuildAction> builds, String player, int workerIndex, Match match) throws IOException {
+    public void removeBuilds(List<BuildAction> builds, String player, int workerIndex, Match model) throws IOException {
         if(!player.equals(getOwner()) || !activated) return;
 
         activated = false;
