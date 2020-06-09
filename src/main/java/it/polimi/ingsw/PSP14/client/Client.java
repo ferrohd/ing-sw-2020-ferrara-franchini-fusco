@@ -131,8 +131,8 @@ public class Client {
         try {
             settings = new SettingsParser(settingsLocation);
         } catch(IOException e) {
-            System.out.println("Could not read settings file:");
-            e.printStackTrace();
+            System.out.println("Could not find settings file:\n\tsettings.txt\n\nUsing default settings...");
+            // e.printStackTrace();
             settings = null;
         }
 
