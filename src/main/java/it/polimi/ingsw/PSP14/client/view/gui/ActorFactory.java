@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP14.client.view.gui;
 
-import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -12,6 +11,8 @@ import javafx.scene.shape.*;
 import javafx.util.Duration;
 
 import java.net.URL;
+
+import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 
 public class ActorFactory {
     private static final double BLOCK_SCALE = 0.35;
