@@ -150,12 +150,12 @@ public class Match implements Runnable {
         return new ArrayList<>(players.values());
     }
 
-    private void applyBeforeTurnEffects(String player, ClientConnection client) throws IOException {
+    private void applyBeforeTurnEffects(String player) throws IOException {
         for(Player p : getPlayers())
             p.getGod().beforeTurn(player, client, this);
     }
 
-    private void applyAfterTurnEffects(String player, int workerIndex, ClientConnection client) throws IOException {
+    private void applyAfterTurnEffects(String player, int workerIndex) throws IOException {
         for(Player p : getPlayers())
             p.getGod().afterTurn(player, workerIndex, client, this);
     }
@@ -170,23 +170,22 @@ public class Match implements Runnable {
      * @throws IOException if a connection error occurs
      */
     private void turn(String player) throws IOException {
-        ClientConnection client = clients.get(player);
-        for(ClientConnection c : clientConnections) if(!c.equals(client)) c.sendNotification("The turn of " + player + " has begun.");
+        controller.startTurn(player);
 
-        applyBeforeTurnEffects(player, client);
+        applyBeforeTurnEffects(player);
 
         List<Integer> movableWorkers = getMovableWorkers(player);
         if(movableWorkers.size() == 0) {
             lose(player);
             return;
         }
-        for(ClientConnection c : clientConnections) c.notifyWorkerChoicePhase(player);
-        int workerIndex = client.getWorkerIndex(movableWorkers);
 
-        move(player, client, workerIndex);
-        build(player, client, workerIndex);
+        int workerIndex = controller.getWorkerIndex(player, movableWorkers);
 
-        applyAfterTurnEffects(player, workerIndex, client);
+        move(player, workerIndex);
+        build(player, workerIndex);
+
+        applyAfterTurnEffects(player, workerIndex);
     }
 
     private List<Integer> getMovableWorkers(String player) {
@@ -211,15 +210,13 @@ public class Match implements Runnable {
      * @param workerIndex the index of the moving worker
      * @throws IOException if a connection error occurs
      */
-    public void move(String player, ClientConnection client, int workerIndex) throws IOException {
-        for(ClientConnection c : clientConnections) c.notifyMovePhase(player);
+    public void move(String player, int workerIndex) throws IOException {
         for(Player p : getPlayers())
-            p.getGod().beforeMove(player, workerIndex, client, this);
+            p.getGod().beforeMove(player, workerIndex, controller, this);
 
         List<MoveAction> movements = getMovements(player, workerIndex);
-        List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
 
-        int choice = client.askMove(moveProposals);
+        int choice = controller.askMove(player, movements);
 
         Action action = movements.get(choice);
         executeAction(action);
@@ -239,16 +236,14 @@ public class Match implements Runnable {
      * @param workerIndex the index of the building worker
      * @throws IOException if a connection error occurs
      */
-    public void build(String player, ClientConnection client, int workerIndex) throws IOException {
-        for(ClientConnection c : clientConnections) c.notifyBuildPhase(player);
+    public void build(String player, int workerIndex) throws IOException {
         for(Player p : getPlayers())
             p.getGod().beforeBuild(player, workerIndex, client, this);
 
         List<BuildAction> builds = getBuildable(player, workerIndex);
-        List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
-        if(buildProposals.size() == 0) lose(player);
+        if(builds.size() == 0) lose(player);
 
-        int choice = client.askBuild(buildProposals);
+        int choice = controller.askBuild(player, builds);
 
         Action action = builds.get(choice);
         executeAction(action);
@@ -264,15 +259,13 @@ public class Match implements Runnable {
      * @throws IOException if a connection error occurs
      */
     public void end(String winningPlayer) throws EndGameException, IOException {
-        for(ClientConnection c : clientConnections)
-            c.endGame(winningPlayer);
+        controller.endGame(winningPlayer);
         System.out.println("Game ended, closing...");
         throw new EndGameException();
     }
 
     public void lose(String losingPlayer) throws IOException {
-        for(ClientConnection c : clientConnections)
-            c.sendNotification(losingPlayer + " lost");
+        controller.lose(losingPlayer);
         users.remove(losingPlayer);
         players.get(losingPlayer).clear();
         players.remove(losingPlayer);

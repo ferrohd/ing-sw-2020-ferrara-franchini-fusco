@@ -1,5 +1,9 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
+import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
+import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
+import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
+import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import it.polimi.ingsw.PSP14.server.model.gods.God;
 
@@ -8,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MatchController {
     private List<String> users = new ArrayList<>(3);
@@ -113,5 +118,39 @@ public class MatchController {
 
     public void notifyDome(Point pos) throws IOException {
         for(ClientConnection c : connections.values()) c.notifyDome(pos);
+    }
+
+    public void startTurn(String player) throws IOException {
+        for(ClientConnection c : connections.values())
+            if(!c.equals(connections.get(player)))
+                c.sendNotification("The turn of " + player + " has begun.");
+    }
+
+    public int getWorkerIndex(String player, List<Integer> movableWorkers) throws IOException {
+        for(ClientConnection c : connections.values()) c.notifyWorkerChoicePhase(player);
+
+        return connections.get(player).getWorkerIndex(movableWorkers);
+    }
+
+    public int askMove(String player, List<MoveAction> movements) throws IOException {
+        for(ClientConnection c : connections.values()) c.notifyMovePhase(player);
+        List<MoveProposal> moveProposals = movements.stream().map(MoveAction::getProposal).collect(Collectors.toList());
+
+        return connections.get(player).askMove(moveProposals);
+    }
+
+    public int askBuild(String player, List<BuildAction> builds) throws IOException {
+        for(ClientConnection c : connections.values()) c.notifyBuildPhase(player);
+        List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
+
+        return connections.get(player).askBuild(buildProposals);
+    }
+
+    public void endGame(String winningPlayer) throws IOException {
+        for(ClientConnection c : connections.values()) c.endGame(winningPlayer);
+    }
+
+    public void lose(String losingPlayer) throws IOException {
+        for(ClientConnection c : connections.values()) c.sendNotification(losingPlayer + " lost");
     }
 }
