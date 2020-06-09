@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.controller.GodfileParser;
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.actions.Action;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
@@ -27,9 +28,8 @@ public class Match implements Runnable {
     private final List<Action> history = new ArrayList<>();
 
     private final List<String> users = new ArrayList<>();
-    private final List<ClientConnection> clientConnections = new ArrayList<>();
+    private MatchController controller;
     private final HashMap<String, Player> players = new HashMap<>();
-    private final Map<String, ClientConnection> clients = new HashMap<>();
     private final Map<String, God> gods = new HashMap<>();
 
     /**
@@ -37,9 +37,8 @@ public class Match implements Runnable {
      * Since players don't require any previous data except for username,
      * the order of setup doesn't matter.
      */
-    public Match(List<ClientConnection> clientConnections) throws IOException {
-        this.clientConnections.addAll(clientConnections);
-        board = new Board(clientConnections);
+    public Match(MatchController controller) throws IOException {
+        board = new Board(controller);
     }
 
     /**
@@ -55,13 +54,7 @@ public class Match implements Runnable {
         } catch(IOException e) {
             System.out.println("An error has occurred. Closing...");
             e.printStackTrace();
-            for(ClientConnection c : clientConnections) {
-                try {
-                    c.close();
-                } catch(IOException ioe) {
-                    System.out.println("Could not close connection.");
-                }
-            }
+            controller.closeConnections();
         }
     }
 
@@ -76,47 +69,27 @@ public class Match implements Runnable {
      */
     private void setupGame() throws IOException {
         List<String> availableGods;
-        List<String> selectedGods;
 
-        for (ClientConnection c :clientConnections) c.sendNotification("Game started! You will be asked to insert your username soon");
-        for (ClientConnection connection : clientConnections) {
-            String username = connection.getUsername();
-            while(users.contains(username)) {
-                connection.sendNotification("Name already chosen!");
-                username = connection.getUsername();
-            }
-            clients.put(username, connection);
-            users.add(username);
-        }
+        availableGods = controller.getMatchGods(users.get(0));
 
-
-        availableGods = GodfileParser.getGodIdList(getClass().getClassLoader().getResourceAsStream("gods/godlist.xml"), users.size());
-        ClientConnection roomMaster = clients.get(users.get(0));
-        for(ClientConnection c : clientConnections) if(!c.equals(roomMaster)) c.sendNotification(users.get(0) + " (room leader) is choosing the gods of the game.");
-        selectedGods = roomMaster.selectGameGods(new ArrayList<>(availableGods), users.size());
 
         // roomMaster is last to choose
         Collections.rotate(users, -1);
         for (String p : users) {
-            ClientConnection player = clients.get(p);
-            for(ClientConnection c : clientConnections) if(!c.equals(player)) c.sendNotification(p + " is choosing their god.");
-            String chosenGod = player.selectGod(selectedGods);
-            for(ClientConnection c : clientConnections) c.notifyGod(p, chosenGod);
+            String chosenGod = controller.chooseGod(p, availableGods);
             gods.put(p, GodFactory.getGod(chosenGod, p));
-            selectedGods.remove(chosenGod);
+            availableGods.remove(chosenGod);
         }
         Collections.rotate(users, 1);
 
-        for(ClientConnection c : clientConnections) if(!c.equals(roomMaster)) c.sendNotification(users.get(0) + " (room leader) is choosing who goes first.");
-        String firstPlayer = roomMaster.selectFirstPlayer(users);
+        String firstPlayer = controller.chooseFirstPlayer(users.get(0), users);
         Collections.rotate(users, -users.indexOf(firstPlayer));
-        for(ClientConnection c : clientConnections) if(!c.equals(roomMaster)) c.sendNotification(users.get(0) + " is first!");
 
         for(String p : users) {
-            players.put(p, new Player(p, gods.get(p), clientConnections));
+            players.put(p, new Player(p, gods.get(p), controller));
         }
 
-        for(ClientConnection c : clientConnections) c.notifyGameStart();
+        controller.startGame();
 
         playersPlaceWorkers();
     }
@@ -139,19 +112,13 @@ public class Match implements Runnable {
      * @throws IOException a connection error occurs
      */
     private void playersPlaceWorkers() throws IOException {
-        List<String> busyPositions = new ArrayList<>();
+        List<Point> busyPositions = new ArrayList<>();
 
         for (String p : users) {
             for(int i = 0; i < 2; ++i) {
-                ClientConnection connection = clients.get(p);
-                for(ClientConnection c : clientConnections) c.notifyWorkerPlacementPhase(p);
-                Point pos = connection.placeWorker();
-                while(busyPositions.contains(pos.toString())) {
-                    connection.sendNotification("Cell busy!");
-                    pos = connection.placeWorker();
-                }
+                Point pos = controller.chooseWorkerPosition(p, busyPositions);
                 getPlayerByUsername(p).setWorker(i, pos);
-                busyPositions.add(pos.toString());
+                busyPositions.add(pos);
             }
         }
     }
