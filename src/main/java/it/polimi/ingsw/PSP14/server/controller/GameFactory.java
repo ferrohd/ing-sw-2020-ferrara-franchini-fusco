@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.server.controller;
 
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,30 +38,30 @@ public class GameFactory implements Runnable {
             try {
                 players.add(clientConnectionFactory.getClientConnection());
                 players.get(0).sendNotification("You are the room leader!");
-                System.out.println("Room leader found.");
+                System.out.println("Room leader found");
                 int choice = players.get(0).askLobbySize();
-                System.out.println("Room size is: " + choice + ".");
+                System.out.println("Room size is: " + choice);
                 players.get(0).sendNotification("Waiting for other players to connect...");
                 players.add(clientConnectionFactory.getClientConnection());
                 players.get(1).sendNotification("Game found! You are player 2 of " + choice);
                 players.get(0).sendNotification("Player 2 found!");
-                System.out.println("Found player 2.");
+                System.out.println("Found player 2");
                 if (choice == 3) {
                     players.add(clientConnectionFactory.getClientConnection());
                     players.get(2).sendNotification("Game found!");
-                    System.out.println("Found player 3.");
+                    System.out.println("Found player 3");
             }
 
                 // Starts a new game lobby/match with the players in the arrayList
                 System.out.println("Creating game...");
                 for(ClientConnection c : players) c.ping();
                 MatchController controller = new MatchController(players);
-                Thread newGame = new Thread(new Match(controller));
+                Thread newGame = new Thread(new MatchModel(controller));
                 newGame.setName("Match");
                 System.out.println("Starting game...");
                 newGame.start();
             } catch(InterruptedException | IOException e) {
-                System.out.println("Error occurred during room setup. Connected players will be put in queue.");
+                System.out.println("Error occurred during room setup. Connected players will be put in queue");
                 e.printStackTrace();
                 recycleConnections(players);
             }
@@ -72,7 +72,7 @@ public class GameFactory implements Runnable {
         for(ClientConnection c : clients) {
             try {
                 c.ping();
-                c.sendNotification("An error occurred. You will be put back in queue.");
+                c.sendNotification("An error occurred. You will be put back in queue");
                 clientConnectionFactory.addClientConnection(c);
             } catch(IOException e) {
                 System.out.println("Error while recycling clients");

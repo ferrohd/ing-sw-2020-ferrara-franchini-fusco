@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
@@ -14,7 +14,7 @@ public class Zeus extends God {
     }
 
     @Override
-    public void addBuilds(List<BuildAction> builds, String player, int workerIndex, Match model) throws IOException {
+    public void addBuilds(List<BuildAction> builds, String player, int workerIndex, MatchModel model) throws IOException {
         if(!player.equals(getOwner())) return;
 
         Player playing = model.getPlayerByUsername(player);

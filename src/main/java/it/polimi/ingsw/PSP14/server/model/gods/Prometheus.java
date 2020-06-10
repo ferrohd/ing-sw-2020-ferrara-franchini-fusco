@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.MatchController;
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ public class Prometheus extends God {
     }
 
     @Override
-    public void beforeMove(String player, int workerIndex, MatchController controller, Match model) throws IOException {
+    public void beforeMove(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
         if(!player.equals(getOwner())) return;
 
         boolean choice = controller.askQuestion(player, "PROMETHEUS: Do not move up and build twice. Art thou willing to accept my deal?");
@@ -28,7 +28,7 @@ public class Prometheus extends God {
     }
 
     @Override
-    public void removeMoves(List<MoveAction> moves, String player, int workerIndex, Match model) throws IOException {
+    public void removeMoves(List<MoveAction> moves, String player, int workerIndex, MatchModel model) throws IOException {
         if(!player.equals(getOwner())) return;
 
         if(activated) {

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.MatchController;
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ public class Poseidon extends God {
     }
 
     @Override
-    public void afterTurn(String player, int workerIndex, MatchController controller, Match model) throws IOException {
+    public void afterTurn(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
         if(!player.equals(getOwner())) return;
 
         int otherWorker = workerIndex == 1 ? 0 : 1;

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.MatchController;
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 
 import java.io.IOException;
@@ -16,14 +16,14 @@ public class Athena extends God {
     }
 
     @Override
-    public void beforeTurn(String player, MatchController controller, Match model) throws IOException {
+    public void beforeTurn(String player, MatchController controller, MatchModel model) throws IOException {
         if(!player.equals(getOwner())) return;
 
         activated = false;
     }
 
     @Override
-    public void afterMove(String player, int workerIndex, MatchController controller, Match model) throws IOException {
+    public void afterMove(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
         if(!player.equals(getOwner())) return;
 
         MoveAction lastAction = (MoveAction) model.getLastAction();
@@ -33,7 +33,7 @@ public class Athena extends God {
     }
 
     @Override
-    public void removeMoves(List<MoveAction> moves, String player, int workerIndex, Match model) throws IOException {
+    public void removeMoves(List<MoveAction> moves, String player, int workerIndex, MatchModel model) throws IOException {
         if(player.equals(getOwner())) return;
 
         if(activated) {

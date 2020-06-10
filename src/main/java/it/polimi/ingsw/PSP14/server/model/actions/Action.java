@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.server.model.actions;
 
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -29,5 +29,5 @@ public abstract class Action implements Serializable {
 
     public String getUser() { return user; }
 
-    public abstract void execute(Match match) throws IOException;
+    public abstract void execute(MatchModel model) throws IOException;
 }

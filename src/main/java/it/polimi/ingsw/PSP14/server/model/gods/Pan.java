@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.MatchController;
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 
 import java.io.IOException;
@@ -12,7 +12,7 @@ public class Pan extends God {
     }
 
     @Override
-    public void afterMove(String player, int workerIndex, MatchController controller, Match model) throws IOException {
+    public void afterMove(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
         if(!player.equals(getOwner())) return;
 
         MoveAction lastMove = (MoveAction) model.getLastAction();

@@ -1,9 +1,8 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.model.FakeMatchController;
-import it.polimi.ingsw.PSP14.server.model.FakeMatch;
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.FakeMatchModel;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,7 @@ public class HestiaTest {
     @Test
     public void functionalityTest() throws IOException {
         God hestia = new Hestia("hestiaOwner");
-        Match match = new FakeMatch() {
+        MatchModel model = new FakeMatchModel() {
             @Override
             public void build(String player, int workerIndex) throws IOException {
                 List<BuildAction> builds = new ArrayList<>();
@@ -31,6 +30,6 @@ public class HestiaTest {
             }
         };
 
-        hestia.afterBuild("hestiaOwner", 0, new FakeMatchController(), match);
+        hestia.afterBuild("hestiaOwner", 0, new FakeMatchController(), model);
     }
 }

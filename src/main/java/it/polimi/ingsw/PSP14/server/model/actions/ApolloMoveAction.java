@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.server.model.actions;
 
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 
@@ -16,13 +16,13 @@ public class ApolloMoveAction extends MoveAction {
     }
 
     @Override
-    public void execute(Match match) throws IOException {
+    public void execute(MatchModel model) throws IOException {
         // finds the worker at the "to" position
-        for(Player p: match.getPlayers()) {
+        for(Player p: model.getPlayerMap()) {
             for(int i = 0; i < 2; ++i) {
                 if(p.getWorkerPos(i).equals(getTo())) {
                     // moves the worker at "from" to  "to"
-                    super.execute(match);
+                    super.execute(model);
                     opponentNewPos = getFrom();
                     opponentWorkerIndex = i;
                     opponent = p.getUsername();

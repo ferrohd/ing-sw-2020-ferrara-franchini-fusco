@@ -103,21 +103,21 @@
 <i>29</i>&nbsp;    }
 <i>30</i>&nbsp;
 <i>31</i>&nbsp;    @Override
-<i>32</i>&nbsp;    public void addMoves(List&lt;MoveAction&gt; moves, Player player, Worker worker, Match match) {
-<b class="fc"><i>33</i>&nbsp;        List&lt;Point&gt; workerPos = match.getWorkerPositions();</b>
+<i>32</i>&nbsp;    public void addMoves(List&lt;MoveAction&gt; moves, Player player, Worker worker, Match model) {
+<b class="fc"><i>33</i>&nbsp;        List&lt;Point&gt; workerPos = model.getWorkerPositions();</b>
 <b class="fc"><i>34</i>&nbsp;        workerPos.remove(player.getWorker(0).getPos());</b>
 <b class="fc"><i>35</i>&nbsp;        workerPos.remove(player.getWorker(1).getPos());</b>
 <i>36</i>&nbsp;
 <b class="fc"><i>37</i>&nbsp;        Point currPos = worker.getPos();</b>
-<b class="fc"><i>38</i>&nbsp;        int currentLevel = match.getBoard().getCell(currPos).getTowerSize();</b>
+<b class="fc"><i>38</i>&nbsp;        int currentLevel = model.getBoard().getCell(currPos).getTowerSize();</b>
 <i>39</i>&nbsp;
 <b class="fc"><i>40</i>&nbsp;        for(Direction dir: Direction.values()) {</b>
 <b class="fc"><i>41</i>&nbsp;            Point newPos = currPos.move(dir),</b>
 <b class="fc"><i>42</i>&nbsp;                    minotaurPos = newPos.move(dir);</b>
 <b class="fc"><i>43</i>&nbsp;            if(Board.isValidPos(minotaurPos)) {</b>
-<b class="fc"><i>44</i>&nbsp;                int newLevel = match.getBoard().getCell(newPos).getTowerSize();</b>
-<b class="fc"><i>45</i>&nbsp;                if (!match.isCellFree(newPos) &amp;&amp; newLevel &lt;= currentLevel + 1 &amp;&amp;</b>
-<b class="fc"><i>46</i>&nbsp;                        !match.getBoard().getCell(newPos).getIsCompleted())</b>
+<b class="fc"><i>44</i>&nbsp;                int newLevel = model.getBoard().getCell(newPos).getTowerSize();</b>
+<b class="fc"><i>45</i>&nbsp;                if (!model.isCellFree(newPos) &amp;&amp; newLevel &lt;= currentLevel + 1 &amp;&amp;</b>
+<b class="fc"><i>46</i>&nbsp;                        !model.getBoard().getCell(newPos).getIsCompleted())</b>
 <b class="fc"><i>47</i>&nbsp;                    moves.add(new MinotaurMoveAction(player.getUsername(), currPos, newPos));</b>
 <i>48</i>&nbsp;            }
 <i>49</i>&nbsp;        }

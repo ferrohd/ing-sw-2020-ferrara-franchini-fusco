@@ -1,9 +1,8 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.FakeMatchController;
-import it.polimi.ingsw.PSP14.server.model.FakeMatch;
+import it.polimi.ingsw.PSP14.server.model.FakeMatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.Action;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
@@ -24,7 +23,7 @@ public class TritonTest {
                 return true;
             }
         };
-        FakeMatch match = new FakeMatch() {
+        FakeMatchModel match = new FakeMatchModel() {
             @Override
             public void move(String player, int workerIndex) throws IOException {
                 num++;

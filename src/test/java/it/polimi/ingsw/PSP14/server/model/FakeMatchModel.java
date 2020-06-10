@@ -6,11 +6,11 @@ import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class FakeMatch extends Match {
+public class FakeMatchModel extends MatchModel {
     public boolean flag;
     public int num;
 
-    public FakeMatch() throws IOException {
+    public FakeMatchModel() throws IOException {
         super(new MatchController(new ArrayList<>()));
         flag = false;
         num = 0;

@@ -1,10 +1,9 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.EndGameException;
 import it.polimi.ingsw.PSP14.server.model.FakeMatchController;
-import it.polimi.ingsw.PSP14.server.model.FakeMatch;
+import it.polimi.ingsw.PSP14.server.model.FakeMatchModel;
 import it.polimi.ingsw.PSP14.server.model.board.Board;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import it.polimi.ingsw.PSP14.server.model.board.TowerSizeException;
@@ -17,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ChronusTest {
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
-        FakeMatch match = new FakeMatch() {
+        FakeMatchModel match = new FakeMatchModel() {
             @Override
             public void end(String winningPlayer) throws EndGameException, IOException {
                 assertTrue(flag);

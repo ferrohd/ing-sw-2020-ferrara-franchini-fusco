@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.actions;
 
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 
@@ -23,14 +23,14 @@ public class MoveAction extends Action implements Proposable {
     }
 
     @Override
-    public void execute(Match match) throws IOException {
-        for(Player p: match.getPlayers()) {
+    public void execute(MatchModel model) throws IOException {
+        for(Player p: model.getPlayerMap()) {
             for(int i = 0; i < 2; ++i) {
                 if(p.getWorkerPos(i).equals(from)) {
                     workerId = i;
                     p.setWorker(i, to);
-                    if(match.getBoard().getTowerSize(to) == 3 && match.getBoard().getTowerSize(from) < 3) {
-                        match.end(getUser());
+                    if(model.getBoard().getTowerSize(to) == 3 && model.getBoard().getTowerSize(from) < 3) {
+                        model.end(getUser());
                     }
                 }
             }

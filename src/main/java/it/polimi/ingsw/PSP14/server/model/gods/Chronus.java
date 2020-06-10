@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.MatchController;
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.board.Board;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 
@@ -13,7 +13,7 @@ public class Chronus extends God {
     }
 
     @Override
-    public void afterBuild(String player, int workerIndex, MatchController controller, Match model) throws IOException {
+    public void afterBuild(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
         int nComplete = 0;
 
         for(int i = 0; i < 5; ++i) {

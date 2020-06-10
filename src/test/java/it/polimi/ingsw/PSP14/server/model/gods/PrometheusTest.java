@@ -1,9 +1,8 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.FakeMatchController;
-import it.polimi.ingsw.PSP14.server.model.FakeMatch;
+import it.polimi.ingsw.PSP14.server.model.FakeMatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.model.board.Board;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
@@ -20,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PrometheusTest {
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
-        FakeMatch match = new FakeMatch() {
+        FakeMatchModel match = new FakeMatchModel() {
             @Override
             public void build(String player, int workerIndex) throws IOException {
                 num++;

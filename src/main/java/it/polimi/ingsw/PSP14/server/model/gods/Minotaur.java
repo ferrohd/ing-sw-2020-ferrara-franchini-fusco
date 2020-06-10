@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.MinotaurMoveAction;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.model.board.Board;
@@ -27,7 +27,7 @@ public class Minotaur extends God {
     }
 
     @Override
-    public void addMoves(List<MoveAction> moves, String player, int workerIndex, Match model) throws IOException {
+    public void addMoves(List<MoveAction> moves, String player, int workerIndex, MatchModel model) throws IOException {
         if(!player.equals(getOwner())) {
             return;
         }

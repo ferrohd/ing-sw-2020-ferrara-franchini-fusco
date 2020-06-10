@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.MatchController;
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
 
 import java.io.IOException;
@@ -16,12 +16,12 @@ public class Hestia extends God {
     }
 
     @Override
-    public void beforeTurn(String player, MatchController controller, Match model) throws IOException {
+    public void beforeTurn(String player, MatchController controller, MatchModel model) throws IOException {
         activated = false;
     }
 
     @Override
-    public void afterBuild(String player, int workerIndex, MatchController controller, Match model) throws IOException {
+    public void afterBuild(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
         if(!player.equals(getOwner())) return;
 
 
@@ -38,7 +38,7 @@ public class Hestia extends God {
     }
 
     @Override
-    public void removeBuilds(List<BuildAction> builds, String player, int workerIndex, Match model) throws IOException {
+    public void removeBuilds(List<BuildAction> builds, String player, int workerIndex, MatchModel model) throws IOException {
         if(!activated || !player.equals(getOwner())) return;
 
         List<BuildAction> toRemove = builds.stream().filter(b ->
