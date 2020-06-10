@@ -88,7 +88,7 @@ public class MatchController {
     }
 
     public Point chooseWorkerPosition(String player, List<Point> busy) throws IOException {
-        for(ClientConnection c : connections.values()) c.notifyWorkerChoicePhase(player);
+        for(ClientConnection c : connections.values()) c.notifyWorkerPlacementPhase(player);
         ClientConnection conn = connections.get(player);
         Point pos = conn.placeWorker();
         while(busy.stream().anyMatch(pos::equals)) {

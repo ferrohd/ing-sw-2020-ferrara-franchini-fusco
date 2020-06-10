@@ -35,6 +35,7 @@ public class Match implements Runnable {
      */
     public Match(MatchController controller) throws IOException {
         this.controller = controller;
+        this.users.addAll(controller.getUsers());
         board = new Board(controller);
     }
 
