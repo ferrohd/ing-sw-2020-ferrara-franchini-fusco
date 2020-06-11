@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.ApolloMoveAction;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.model.board.Board;
@@ -25,23 +25,23 @@ public class Apollo extends God {
     }
 
     @Override
-    public void addMoves(List<MoveAction> moves, String player, int workerIndex, Match match) throws IOException {
+    public void addMoves(List<MoveAction> moves, String player, int workerIndex, MatchModel model) throws IOException {
         if(!player.equals(getOwner())) {
             return;
         }
-        Player playing = match.getPlayerByUsername(player);
+        Player playing = model.getPlayerByUsername(player);
         Point worker0 = playing.getWorkerPos(0);
         Point worker1 = playing.getWorkerPos(1);
 
         Point currPos = playing.getWorkerPos(workerIndex);
-        int currentLevel = match.getBoard().getTowerSize(currPos);
+        int currentLevel = model.getBoard().getTowerSize(currPos);
 
         for(Direction dir: Direction.values()) {
             Point newPos = currPos.move(dir);
             if (Board.isValidPos(newPos) && !newPos.equals(worker0) && !newPos.equals(worker1)) {
-                int newLevel = match.getBoard().getTowerSize(newPos);
-                if (!match.isCellFree(newPos) && newLevel <= currentLevel + 1 &&
-                        !match.getBoard().getIsCompleted(newPos)) {
+                int newLevel = model.getBoard().getTowerSize(newPos);
+                if (!model.isCellFree(newPos) && newLevel <= currentLevel + 1 &&
+                        !model.getBoard().getIsCompleted(newPos)) {
                     moves.add(new ApolloMoveAction(player, currPos, newPos));
                 }
             }

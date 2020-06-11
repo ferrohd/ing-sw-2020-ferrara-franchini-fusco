@@ -1,9 +1,8 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
-import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.model.FakeClientConnection;
-import it.polimi.ingsw.PSP14.server.model.FakeMatch;
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
+import it.polimi.ingsw.PSP14.server.model.FakeMatchController;
+import it.polimi.ingsw.PSP14.server.model.FakeMatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.Action;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
@@ -20,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class DemeterTest {
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
-        FakeMatch match = new FakeMatch() {
+        FakeMatchModel match = new FakeMatchModel() {
             @Override
             public List<BuildAction> getBuildable(String player, int worker) {
                 List<BuildAction> builds = new ArrayList<>();
@@ -40,17 +39,17 @@ public class DemeterTest {
             public void executeAction(Action action) throws IOException {
             }
         };
-        ClientConnection client = new FakeClientConnection() {
+        MatchController controller = new FakeMatchController() {
             @Override
-            public int askBuild(List<BuildProposal> proposals) throws IOException {
-                proposals.forEach(p -> assertFalse(p.getPoint().equals(new Point(0, 0))));
-                assertEquals(2, proposals.size());
-                return 0;
+            public BuildAction askBuild(String player, List<BuildAction> builds) throws IOException {
+                builds.forEach(p -> assertFalse(p.getPoint().equals(new Point(0, 0))));
+                assertEquals(2, builds.size());
+                return builds.get(0);
             }
         };
         God demeter = new Demeter("demeterOwner");
 
-        demeter.afterBuild("demeterOwner", 0, client, match);
+        demeter.afterBuild("demeterOwner", 0, controller, match);
 
 
     }

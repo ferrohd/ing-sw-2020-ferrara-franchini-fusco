@@ -1,10 +1,9 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
-import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.model.FakeClientConnection;
-import it.polimi.ingsw.PSP14.server.model.FakeMatch;
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
+import it.polimi.ingsw.PSP14.server.model.FakeMatchController;
+import it.polimi.ingsw.PSP14.server.model.FakeMatchModel;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.Action;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
@@ -21,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ArtemisTest {
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
-        Match match = new FakeMatch() {
+        MatchModel model = new FakeMatchModel() {
             @Override
             public Action getLastAction() {
                 return new MoveAction("artemisOwner", new Point(0, 0), new Point(1, 1));
@@ -41,18 +40,18 @@ public class ArtemisTest {
                 assertTrue(((MoveAction)action).getTo().equals(new Point(1, 0)));
             }
         };
-        ClientConnection client = new FakeClientConnection() {
+        MatchController controller = new FakeMatchController() {
             @Override
-            public int askMove(List<MoveProposal> moves) {
-                for(MoveProposal move : moves) {
-                    assertFalse(move.getPoint().equals(new Point(0, 0)));
+            public MoveAction askMove(String player, List<MoveAction> moves) {
+                for(MoveAction move : moves) {
+                    assertFalse(move.getTo().equals(new Point(0, 0)));
                 }
 
-                return 0;
+                return moves.get(0);
             }
         };
         God artemis = new Artemis("artemisOwner");
 
-        artemis.afterMove("artemisOwner", 0, client, match);
+        artemis.afterMove("artemisOwner", 0, controller, model);
     }
 }

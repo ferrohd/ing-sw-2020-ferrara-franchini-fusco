@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
 
 import java.io.IOException;
@@ -16,29 +16,29 @@ public class Hestia extends God {
     }
 
     @Override
-    public void beforeTurn(String player, ClientConnection client, Match match) throws IOException {
+    public void beforeTurn(String player, MatchController controller, MatchModel model) throws IOException {
         activated = false;
     }
 
     @Override
-    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
+    public void afterBuild(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
         if(!player.equals(getOwner())) return;
 
 
         if(!activated) {
             activated = true;
-            List<BuildAction> buildable = match.getBuildable(player, workerIndex);
+            List<BuildAction> buildable = model.getBuildable(player, workerIndex);
             if(buildable.size() > 0) {
-                boolean choice = client.askQuestion("HESTIA: Do you want to build again, my dear?");
+                boolean choice = controller.askQuestion(player, "HESTIA: Do you want to build again, my dear?");
                 if (choice) {
-                    match.build(player, client, workerIndex);
+                    model.build(player, workerIndex);
                 }
             }
         }
     }
 
     @Override
-    public void removeBuilds(List<BuildAction> builds, String player, int workerIndex, Match match) throws IOException {
+    public void removeBuilds(List<BuildAction> builds, String player, int workerIndex, MatchModel model) throws IOException {
         if(!activated || !player.equals(getOwner())) return;
 
         List<BuildAction> toRemove = builds.stream().filter(b ->

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.server.model.FakeMatch;
+import it.polimi.ingsw.PSP14.server.model.FakeMatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
@@ -18,7 +18,7 @@ public class ZeusTest {
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
         God god = new Zeus("owner");
-        FakeMatch match = new FakeMatch() {
+        FakeMatchModel match = new FakeMatchModel() {
             @Override
             public Player getPlayerByUsername(String username) {
                 Player p = null;

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.server.model.FakeMatch;
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.FakeMatchModel;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MinotaurTest {
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
-        Match match = new FakeMatch() {
+        MatchModel model = new FakeMatchModel() {
             @Override
             public Player getPlayerByUsername(String name) {
                 Player player = null;
@@ -36,10 +36,10 @@ public class MinotaurTest {
             }
         };
         God minotaur = new Minotaur("minotaurOwner");
-        match.getBoard().setAsCompleted(new Point(2, 0));
+        model.getBoard().setAsCompleted(new Point(2, 0));
 
         List<MoveAction> moves = new ArrayList<>();
-        minotaur.addMoves(moves, "minotaurOwner", 0, match);
+        minotaur.addMoves(moves, "minotaurOwner", 0, model);
 
         assertEquals(moves.size(), 1);
     }

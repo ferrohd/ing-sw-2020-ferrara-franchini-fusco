@@ -2,10 +2,7 @@ package it.polimi.ingsw.PSP14.client.view.gui.scenes;
 
 import it.polimi.ingsw.PSP14.client.view.gui.GUIMain;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import org.controlsfx.control.NotificationPane;
 
 import java.io.IOException;
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.server.model.actions;
 
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 
@@ -16,12 +16,12 @@ public class MinotaurMoveAction extends MoveAction {
     }
 
     @Override
-    public void execute(Match match) throws IOException {
-        for(Player p: match.getPlayers()) {
+    public void execute(MatchModel model) throws IOException {
+        for(Player p: model.getPlayerMap()) {
             for(int i = 0; i < 2; ++i) {
                 if(p.getWorkerPos(i).equals(getTo()) &&
                         !p.getUsername().equals(getUser())) {
-                    super.execute(match);
+                    super.execute(model);
                     Point newPos = new Point(
                             2*getTo().getX() - getFrom().getX(),
                             2*getTo().getY() - getFrom().getY()

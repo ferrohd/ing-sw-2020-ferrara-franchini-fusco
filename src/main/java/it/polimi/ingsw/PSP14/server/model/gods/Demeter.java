@@ -1,9 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
-import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
-import it.polimi.ingsw.PSP14.server.model.Match;
-import it.polimi.ingsw.PSP14.server.model.actions.Action;
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
 
 import java.io.IOException;
@@ -16,20 +14,18 @@ public class Demeter extends God {
     }
 
     @Override
-    public void afterBuild(String player, int workerIndex, ClientConnection client, Match match) throws IOException {
+    public void afterBuild(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
         if(!player.equals(getOwner())) return;
 
-        List<BuildAction> builds = match.getBuildable(player, workerIndex);
-        BuildAction lastBuild = (BuildAction) match.getLastAction();
+        List<BuildAction> builds = model.getBuildable(player, workerIndex);
+        BuildAction lastBuild = (BuildAction) model.getLastAction();
         builds = builds.stream().filter(m -> !m.getPoint().equals(lastBuild.getPoint())).collect(Collectors.toList());
-        List<BuildProposal> buildProposals = builds.stream().map(BuildAction::getProposal).collect(Collectors.toList());
 
-        if(buildProposals.size() > 0) {
-            boolean choice = client.askQuestion("DEMETER: By my blessing, will you build again?");
+        if(builds.size() > 0) {
+            boolean choice = controller.askQuestion(player, "DEMETER: By my blessing, will you build again?");
             if (choice) {
-                int buildChoice = client.askBuild(buildProposals);
-                Action action = builds.get(buildChoice);
-                match.executeAction(action);
+                BuildAction action = controller.askBuild(player, builds);
+                model.executeAction(action);
             }
         }
     }

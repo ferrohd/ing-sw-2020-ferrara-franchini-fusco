@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP14.server.model;
 
+import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.board.Direction;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
@@ -17,14 +18,14 @@ public class PlayerTest {
 
     @BeforeEach
     void setUp() throws IOException {
-            testPlayer = new Player("Ada", new God("Ada"), new ArrayList<>());
+            testPlayer = new Player("Ada", new God("Ada"), new MatchController());
             testPlayer.setWorker(0, new Point(0, 0));
     }
 
     @Test
     void playerShouldInstantiate() {
         assertDoesNotThrow(() -> {
-            testPlayer = new Player("Ada", new God("Ada"), new ArrayList<>());
+            testPlayer = new Player("Ada", new God("Ada"), new MatchController());
         });
         assertEquals("Ada", testPlayer.getUsername());
     }
@@ -32,7 +33,7 @@ public class PlayerTest {
     @Test
     void playerShouldNotInstantiate() {
         assertThrows(NullPointerException.class, () -> {
-            testPlayer = new Player(null, new God("Ada"), new ArrayList<>());
+            testPlayer = new Player(null, new God("Ada"), new MatchController());
         });
     }
 

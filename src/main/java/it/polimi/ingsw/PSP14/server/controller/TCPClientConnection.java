@@ -2,7 +2,6 @@ package it.polimi.ingsw.PSP14.server.controller;
 
 import it.polimi.ingsw.PSP14.core.messages.ChoiceMessage;
 import it.polimi.ingsw.PSP14.core.messages.Message;
-import it.polimi.ingsw.PSP14.core.messages.PingMessage;
 import it.polimi.ingsw.PSP14.core.messages.StringMessage;
 import it.polimi.ingsw.PSP14.core.net.TCPIn;
 import it.polimi.ingsw.PSP14.core.net.TCPOut;
@@ -11,12 +10,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.sql.Timestamp;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * ClientConnection implemented using TCP sockets.

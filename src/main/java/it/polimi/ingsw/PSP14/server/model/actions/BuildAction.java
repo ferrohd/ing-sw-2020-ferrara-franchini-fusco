@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.actions;
 
 import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import it.polimi.ingsw.PSP14.server.model.board.TowerSizeException;
 
@@ -28,13 +28,13 @@ public class BuildAction extends Action implements Proposable {
     }
 
     @Override
-    public void execute(Match match) throws IOException {
+    public void execute(MatchModel model) throws IOException {
         if(dome) {
-            match.getBoard().setAsCompleted(point);
+            model.getBoard().setAsCompleted(point);
         } else {
             try {
                 for(int i = 0; i < amount; ++i)
-                    match.getBoard().incrementTowerSize(point);
+                    model.getBoard().incrementTowerSize(point);
             } catch(TowerSizeException e) {
                 e.printStackTrace();
                 System.exit(-1);

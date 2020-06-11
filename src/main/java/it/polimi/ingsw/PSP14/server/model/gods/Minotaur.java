@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.server.model.Match;
+import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.MinotaurMoveAction;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.model.board.Board;
@@ -27,24 +27,24 @@ public class Minotaur extends God {
     }
 
     @Override
-    public void addMoves(List<MoveAction> moves, String player, int workerIndex, Match match) throws IOException {
+    public void addMoves(List<MoveAction> moves, String player, int workerIndex, MatchModel model) throws IOException {
         if(!player.equals(getOwner())) {
             return;
         }
-        Player playing = match.getPlayerByUsername(player);
+        Player playing = model.getPlayerByUsername(player);
         Point worker0 = playing.getWorkerPos(0),
                 worker1 = playing.getWorkerPos(1);
 
         Point currPos = playing.getWorkerPos(workerIndex);
-        int currentLevel = match.getBoard().getTowerSize(currPos);
+        int currentLevel = model.getBoard().getTowerSize(currPos);
 
         for(Direction dir: Direction.values()) {
             Point newPos = currPos.move(dir),
                     minotaurPos = newPos.move(dir);
             if(Board.isValidPos(minotaurPos) && !newPos.equals(worker0) && !newPos.equals(worker1)) {
-                int newLevel = match.getBoard().getTowerSize(newPos);
-                if (!match.isCellFree(newPos) && match.isCellFree(minotaurPos) && newLevel <= currentLevel + 1 &&
-                        !match.getBoard().getIsCompleted(newPos) && !match.getBoard().getIsCompleted(minotaurPos))
+                int newLevel = model.getBoard().getTowerSize(newPos);
+                if (!model.isCellFree(newPos) && model.isCellFree(minotaurPos) && newLevel <= currentLevel + 1 &&
+                        !model.getBoard().getIsCompleted(newPos) && !model.getBoard().getIsCompleted(minotaurPos))
                     moves.add(new MinotaurMoveAction(player, currPos, newPos));
             }
         }
