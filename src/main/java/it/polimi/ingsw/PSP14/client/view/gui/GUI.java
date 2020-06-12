@@ -254,7 +254,12 @@ public class GUI implements UI {
         List<Point> points = gameScene.getModel().getAllPlayerWorkers(players.indexOf(currentPlayerId));
         gameScene.setPlayerId(players.indexOf(currentPlayerId));
 
-        runLaterSynchronized(() -> gameScene.getModel().addAllSelectables(points));
+        List<Point> validPoints = new ArrayList<>();
+        for(int i : choices) {
+            validPoints.add(points.get(i));
+        }
+
+        runLaterSynchronized(() -> gameScene.getModel().addAllSelectables(validPoints));
 
         int ret = (int) GUIMain.getQueue().take();
         gameScene.setIsSelectingCell(false);
