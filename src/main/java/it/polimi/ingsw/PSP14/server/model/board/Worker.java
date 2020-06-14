@@ -17,8 +17,14 @@ public class Worker {
         return pos;
     }
 
+    /**
+     * @param pos new position to set the worker to
+     */
     public void setPos(Point pos) { this.pos = pos; }
 
+    /**
+     * @param dir direction where to move the worker
+     */
     public void move(Direction dir) {
         pos = pos.move(dir);
     }

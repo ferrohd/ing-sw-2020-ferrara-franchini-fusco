@@ -65,6 +65,10 @@ public class Player {
         controller.notifyUnregisterPlayer(username);
     }
 
+    /**
+     * @param index worker to find position
+     * @return the position of the selected worker
+     */
     public Point getWorkerPos(int index) {
         return workers[index].getPos();
     }
@@ -76,6 +80,10 @@ public class Player {
         return username;
     }
 
+    /**
+     *
+     * @return the god of the player
+     */
     public God getGod() {
         return god;
     }

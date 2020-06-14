@@ -27,6 +27,9 @@ public abstract class Action implements Serializable {
         return timestamp;
     }
 
+    /**
+     * @return the player who made the action
+     */
     public String getUser() { return user; }
 
     public abstract void execute(MatchModel model) throws IOException;
