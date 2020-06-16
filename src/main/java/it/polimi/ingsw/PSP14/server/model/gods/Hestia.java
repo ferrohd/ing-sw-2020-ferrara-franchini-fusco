@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Your Build: Your Worker may build one additional time, but this cannot be on a perimeter space.
+ */
 public class Hestia extends God {
     private boolean activated = false;
 

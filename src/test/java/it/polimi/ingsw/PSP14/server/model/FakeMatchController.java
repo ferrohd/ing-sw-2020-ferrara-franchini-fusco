@@ -14,4 +14,16 @@ public class FakeMatchController extends MatchController {
 
     public FakeMatchController() throws IOException {
     }
+
+    /**
+     * Always returns true, for the test cases.
+     * @param player who cares
+     * @param message who cares
+     * @return true, always
+     * @throws IOException never
+     */
+    @Override
+    public boolean askQuestion(String player, String message) throws IOException {
+        return true;
+    }
 }

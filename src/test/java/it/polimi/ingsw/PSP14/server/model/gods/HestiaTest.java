@@ -28,6 +28,15 @@ public class HestiaTest {
 
                 assertEquals(builds.size(), 1);
             }
+
+            @Override
+            public List<BuildAction> getBuildable(String player, int worker) {
+                List<BuildAction> builds = new ArrayList<>();
+                builds.add(new BuildAction("hestiaOwner", new Point(0,0), false, 1));
+                builds.add(new BuildAction("hestiaOwner", new Point(1,1), false, 1));
+
+                return builds;
+            }
         };
 
         hestia.afterBuild("hestiaOwner", 0, new FakeMatchController(), model);
