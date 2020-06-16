@@ -7,6 +7,9 @@ public class Cell {
     private int towerSize;
     private boolean isCompleted;
 
+    /**
+     * Cell constructor. Initialize the cell with no towers on it
+     */
     public Cell() {
         towerSize = 0;
         isCompleted = false;

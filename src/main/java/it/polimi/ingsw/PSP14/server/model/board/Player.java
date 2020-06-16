@@ -61,21 +61,34 @@ public class Player {
         }
     }
 
+    /**
+     * Unregister player from the match.
+     */
     public void clear() throws IOException {
         controller.notifyUnregisterPlayer(username);
     }
 
+    /**
+     * Get the index-esim worker position.
+     * @param index worker to find position
+     * @return the position of the selected worker
+     */
     public Point getWorkerPos(int index) {
         return workers[index].getPos();
     }
 
     /**
+     * Get the player's username.
      * @return the username
      */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Get the player's god.
+     * @return the god of the player
+     */
     public God getGod() {
         return god;
     }
