@@ -25,7 +25,7 @@ public class ActionTest {
     private final Instant time = Instant.now();
 
     @Test
-    public void actionShouldReturnTimestamp() {
-        assertEquals(time, myAction.getTimestamp());
+    public void actionShouldReturnCorrectUsername() {
+        assertEquals("user", myAction.getUser());
     }
 }
