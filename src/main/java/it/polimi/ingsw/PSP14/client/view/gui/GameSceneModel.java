@@ -1,6 +1,15 @@
 package it.polimi.ingsw.PSP14.client.view.gui;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.stream.Collectors;
+
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
+
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -17,14 +26,6 @@ import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.MeshView;
 import javafx.util.Duration;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.stream.Collectors;
-
 public class GameSceneModel {
     private static final double WALLS_X = 8.65;
     private static final double WALLS_SCALE = 1;
@@ -36,8 +37,9 @@ public class GameSceneModel {
     private static final double BLOCK_Y_2 = 0; // lv2
     private static final double BLOCK_Y_3 = -1.9; //lv 3
     private static final double BLOCK_Y_4 = -3; // dome
+    private static final double BLOCK_Y_HIDE = 5; // dome
     private static final double BLOCK_SCALE = 0.35;
-    private static final double WORKER_HIDE_Y = 5;
+    private static final double WORKER_Y_HIDE = 5;
     private static final double WORKER_Y_1 = -1; // ground
     private static final double WORKER_Y_2 = -2.3; // lv 1
     private static final double WORKER_Y_3 = -3.4; // lv 2
@@ -347,7 +349,7 @@ public class GameSceneModel {
             case 3:
                 return WORKER_Y_4;
             default:
-                return 5;
+                return WORKER_Y_HIDE;
         }
     }
 
@@ -367,7 +369,7 @@ public class GameSceneModel {
             case 3:
                 return BLOCK_Y_4;
             default:
-                return 5;
+                return BLOCK_Y_HIDE;
         }
     }
 

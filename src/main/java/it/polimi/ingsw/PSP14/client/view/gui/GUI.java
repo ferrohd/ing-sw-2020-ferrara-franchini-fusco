@@ -121,32 +121,6 @@ public class GUI implements UI {
         //showDemo();
     }
 
-    private void showDemo() throws InterruptedException {
-        new Thread(() -> {
-            try {
-                incrementCell(new Point(0, 0));
-                players.add("pippo");
-                players.add("pluto");
-                incrementCell(new Point(0, 0));
-                setDome(new Point(3, 3));
-                for (int i = 0; i < 3; ++i)
-                    incrementCell(new Point(2, 3));
-                setWorker(new Point(0, 0), 0, "pippo");
-                setWorker(new Point(4, 4), 0, "pluto");
-                setWorker(new Point(1, 0), 1, "pippo");
-                Thread.sleep(3000);
-                moveWorker(new Point(0, 1), 0, "pippo");
-                Thread.sleep(1500);
-                incrementCell(new Point(4, 1));
-                moveWorker(new Point(4, 1), 1, "pippo");
-                Thread.sleep(2000);
-                incrementCell(new Point(4, 1));
-                Thread.sleep(1000);
-                moveWorker(new Point(0, 0), 0, "pippo");
-            } catch(InterruptedException ignored) {}
-        }).start();
-    }
-
     @Override
     public void startWorkerChoice(String player) throws InterruptedException {
         if(player.equals(currentPlayerId)) {
