@@ -1,6 +1,9 @@
 package it.polimi.ingsw.PSP14.client.view.gui;
 
+import java.net.URL;
+
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -8,10 +11,12 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.*;
+import javafx.scene.shape.Box;
+import javafx.scene.shape.CullFace;
+import javafx.scene.shape.DrawMode;
+import javafx.scene.shape.Mesh;
+import javafx.scene.shape.MeshView;
 import javafx.util.Duration;
-
-import java.net.URL;
 
 public class ActorFactory {
     private static final double BLOCK_SCALE = 0.35;
@@ -146,8 +151,8 @@ public class ActorFactory {
         // Spawn a flat rectangle
         Box rect = new Box(2, 0.5, 2);
         // Set material
-        PhongMaterial mat = new PhongMaterial();
-        //        mat.setDiffuseColor(Color.valueOf("f9d854aa"));
+        // PhongMaterial mat = new PhongMaterial();
+        // mat.setDiffuseColor(Color.valueOf("f9d854aa"));
 
         rect.setMaterial(SELECTABLE_MAT);
         // Animate it
