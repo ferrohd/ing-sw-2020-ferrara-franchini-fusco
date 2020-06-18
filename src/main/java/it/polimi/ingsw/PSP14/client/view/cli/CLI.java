@@ -290,12 +290,12 @@ public class CLI implements UI {
     }
 
     @Override
-    public int chooseWorker(List<Integer> choosable) throws IOException {
+    public int chooseWorker(List<Integer> choices) throws IOException {
         // Get this player name and get his worker details
         List<UIWorker> _pw = cache.getPlayer(this.playerUsername).getWorkers();
         List<Point> workersPosition = _pw.stream().map(w -> w.getCell().getPoint()).collect(Collectors.toList());
         List<String> _workers = _pw.stream()
-                .filter(w -> choosable.contains(w.getId()))
+                .filter(w -> choices.contains(w.getId()))
                 .map(w -> "[" + (char)(w.getCell().getY()+'A') + " " + w.getCell().getX() + "]")
                 .collect(Collectors.toList());
 

@@ -24,13 +24,15 @@ public class MatchModel implements Runnable {
     private final List<Action> history = new ArrayList<>();
 
     private final List<String> userNames = new ArrayList<>();
-    private MatchController controller;
+    private final MatchController controller;
     private final HashMap<String, Player> playerMap = new HashMap<>();
     private final Map<String, God> godMap = new HashMap<>();
 
     /**
      * Constructor of Match. Since players don't require any previous data except
      * for username, the order of setup doesn't matter.
+     * @param controller the controller of the match
+     * @throws IOException if there's a problem creating the board
      */
     public MatchModel(MatchController controller) throws IOException {
         this.controller = controller;

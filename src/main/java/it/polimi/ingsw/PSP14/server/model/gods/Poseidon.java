@@ -5,6 +5,10 @@ import it.polimi.ingsw.PSP14.server.model.MatchModel;
 
 import java.io.IOException;
 
+/**
+ * End of your turn:
+ * If your unmoved Worker is on the ground level, it may build up to three times.
+ */
 public class Poseidon extends God {
     public Poseidon(String owner) {
         super(owner);

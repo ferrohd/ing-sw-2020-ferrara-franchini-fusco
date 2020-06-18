@@ -7,6 +7,10 @@ import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 import java.io.IOException;
 
+/**
+ * Win condition:
+ * You also win when there are at least five Complete Towers on the board.
+ */
 public class Chronus extends God {
     public Chronus(String owner) {
         super(owner);

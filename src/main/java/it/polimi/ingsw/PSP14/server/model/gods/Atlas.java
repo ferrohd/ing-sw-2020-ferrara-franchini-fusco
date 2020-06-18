@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Your build:
+ * Your Worker may build a dome at any level.
+ */
 public class Atlas extends God {
     private boolean activated = false;
 

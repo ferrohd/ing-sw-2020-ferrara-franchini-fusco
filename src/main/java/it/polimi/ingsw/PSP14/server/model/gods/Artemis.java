@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Your move:
+ * Your Worker may move one additional time, but not back to its initial space.
+ */
 public class Artemis extends God {
     public Artemis(String owner) {
         super(owner);

@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Opponent's turn:
+ * If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.
+ */
 public class Athena extends God {
     private boolean activated = false;
 

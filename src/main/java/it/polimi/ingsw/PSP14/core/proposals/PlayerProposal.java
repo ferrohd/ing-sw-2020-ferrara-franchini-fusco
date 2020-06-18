@@ -1,8 +1,7 @@
 package it.polimi.ingsw.PSP14.core.proposals;
 
 /**
- * A proposal containing data about a player, currently:<br/>
- * - name
+ * A proposal containing data about a player (the username).
  */
 public class PlayerProposal implements Proposal {
     private String name;

@@ -10,13 +10,17 @@ import java.util.ArrayList;
  * Model for a player in the game.
  */
 public class Player {
-    private String username;
-    private God god;
-    private Worker[] workers = new Worker[2];
-    private MatchController controller;
+    private final String username;
+    private final God god;
+    private final Worker[] workers = new Worker[2];
+    private final MatchController controller;
 
     /**
+     * Constructor.
      * @param username username of the player to display in game
+     * @param god this player's god
+     * @param controller current match controller
+     * @throws IOException if it can't register the player
      */
     public Player(String username, God god, MatchController controller) throws IOException {
         if (username == null || username.equals("")) throw new NullPointerException();
@@ -36,9 +40,11 @@ public class Player {
     }
 
     /**
+     * Move the worker in the specified direction.
      * @param index index of the worker to move
      * @param dir direction of movement
      * @throws IndexOutOfBoundsException if the index does not correspond to any worker
+     * @throws IOException if it can't notify the controller
      */
     public void moveWorker(int index, Direction dir) throws IndexOutOfBoundsException, IOException {
         workers[index].move(dir);
@@ -50,6 +56,7 @@ public class Player {
      * (0 or 1) and a new position.
      * @param index {0, 1} the index of the worker
      * @param position the position of the worker
+     * @throws IOException if it can't register the worker
      */
     public void setWorker(int index, Point position) throws IOException {
         if (workers[index] == null) {
@@ -63,6 +70,7 @@ public class Player {
 
     /**
      * Unregister player from the match.
+     * @throws IOException if it fails to notify the controller
      */
     public void clear() throws IOException {
         controller.notifyUnregisterPlayer(username);

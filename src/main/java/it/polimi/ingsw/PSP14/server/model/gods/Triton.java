@@ -6,6 +6,10 @@ import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 
 import java.io.IOException;
 
+/**
+ * Your move:
+ * Each time your Worker moves into a perimeter space, it may immediately move again.
+ */
 public class Triton extends God {
     public Triton(String owner) {
         super(owner);
