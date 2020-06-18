@@ -277,6 +277,7 @@ public class GameSceneModel {
     /**
      * Move a worker to a target position with a cool animation.
      * @param position the target position
+     * @param latch latch to avoid async issues
      * @param worker the worker to move
      */
     private void moveWorkerNode(Point position, Node worker, CountDownLatch latch) {
