@@ -1,0 +1,439 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ClientConnection</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.server.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ClientConnection (it.polimi.ingsw.PSP14.server.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientConnection</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 27)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 105)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.server.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP14.core.messages.*;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP14.core.messages.updates.*;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP14.core.proposals.*;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP14.server.model.board.Point;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.io.IOException;
+<i>9</i>&nbsp;import java.util.ArrayList;
+<i>10</i>&nbsp;import java.util.List;
+<i>11</i>&nbsp;import java.util.stream.Collectors;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;/**
+<i>14</i>&nbsp; * Generic connection to a client.
+<i>15</i>&nbsp; * Exposes the functions for bidirectional communication with a client.
+<i>16</i>&nbsp; */
+<b class="nc"><i>17</i>&nbsp;public abstract class ClientConnection {</b>
+<i>18</i>&nbsp;    public void notifyGod(String player, String god) throws IOException {
+<b class="nc"><i>19</i>&nbsp;        sendMessage(new GodUpdateMessage(player, god));</b>
+<b class="nc"><i>20</i>&nbsp;    }</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    public void ping() throws IOException {
+<b class="nc"><i>23</i>&nbsp;        sendMessage(new PingMessage());</b>
+<b class="nc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;    /**
+<i>26</i>&nbsp;     * Serialize and send a message to the client.
+<i>27</i>&nbsp;     * @param message the message to send
+<i>28</i>&nbsp;     * @throws IOException if it fails to send the message
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    protected abstract void sendMessage(Message message) throws IOException;
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /**
+<i>33</i>&nbsp;     * Receive a message from the client.
+<i>34</i>&nbsp;     * @return the received message
+<i>35</i>&nbsp;     * @throws IOException if it fails to send the message
+<i>36</i>&nbsp;     */
+<i>37</i>&nbsp;    protected abstract Message receiveMessage() throws IOException;
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    public void notifyGameStart() throws IOException {
+<b class="nc"><i>40</i>&nbsp;        sendMessage(new GameStartMessage());</b>
+<b class="nc"><i>41</i>&nbsp;    }</b>
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    /**
+<i>44</i>&nbsp;     * A request to the client to provide the name that the player has chosen.
+<i>45</i>&nbsp;     * @return the player username
+<i>46</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>47</i>&nbsp;     */
+<i>48</i>&nbsp;    public String getUsername() throws IOException {
+<b class="nc"><i>49</i>&nbsp;        Message message = new UsernameMessage();</b>
+<b class="nc"><i>50</i>&nbsp;        sendMessage(message);</b>
+<b class="nc"><i>51</i>&nbsp;        return receiveString();</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    /**
+<i>55</i>&nbsp;     * Ask a player to select from a list of gods the one that will be available in the match.
+<i>56</i>&nbsp;     * @param availableGods the gods to select from
+<i>57</i>&nbsp;     * @param n the number of gods to select
+<i>58</i>&nbsp;     * @return a list of god names representing the chosen gods
+<i>59</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>60</i>&nbsp;     */
+<i>61</i>&nbsp;    public List&lt;String&gt; selectGameGods(List&lt;String&gt; availableGods, int n) throws IOException {
+<b class="nc"><i>62</i>&nbsp;        List&lt;String&gt; selectedGods = new ArrayList&lt;&gt;();</b>
+<i>63</i>&nbsp;
+<b class="nc"><i>64</i>&nbsp;        for (int i = 0; i &lt; n; i++) {</b>
+<b class="nc"><i>65</i>&nbsp;            List&lt;GodProposal&gt; godProposals = availableGods.stream().map(GodProposal::new).collect(Collectors.toList());</b>
+<b class="nc"><i>66</i>&nbsp;            GodSublistProposalMessage message = new GodSublistProposalMessage(godProposals);</b>
+<b class="nc"><i>67</i>&nbsp;            sendMessage(message);</b>
+<b class="nc"><i>68</i>&nbsp;            int choice = receiveChoice();</b>
+<b class="nc"><i>69</i>&nbsp;            selectedGods.add(availableGods.get(choice));</b>
+<b class="nc"><i>70</i>&nbsp;            availableGods.remove(choice);</b>
+<i>71</i>&nbsp;        }
+<i>72</i>&nbsp;
+<b class="nc"><i>73</i>&nbsp;        return selectedGods;</b>
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    /**
+<i>77</i>&nbsp;     * Asks the user to pick the God he wants to play with
+<i>78</i>&nbsp;     * @param gods available gods to chose from
+<i>79</i>&nbsp;     * @return the god selected
+<i>80</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>81</i>&nbsp;     */
+<i>82</i>&nbsp;    public String selectGod(List&lt;String&gt; gods) throws IOException {
+<b class="nc"><i>83</i>&nbsp;        List&lt;GodProposal&gt; godProposals = gods.stream().map(GodProposal::new).collect(Collectors.toList());</b>
+<b class="nc"><i>84</i>&nbsp;        GodChoiceProposalMessage message = new GodChoiceProposalMessage(godProposals);</b>
+<b class="nc"><i>85</i>&nbsp;        sendMessage(message);</b>
+<b class="nc"><i>86</i>&nbsp;        int choice = receiveChoice();</b>
+<b class="nc"><i>87</i>&nbsp;        while(choice &lt; 0 || choice &gt;= godProposals.size()) {</b>
+<b class="nc"><i>88</i>&nbsp;            sendNotification(&quot;Out of range!&quot;);</b>
+<b class="nc"><i>89</i>&nbsp;            sendMessage(message);</b>
+<b class="nc"><i>90</i>&nbsp;            choice = receiveChoice();</b>
+<i>91</i>&nbsp;        }
+<i>92</i>&nbsp;
+<b class="nc"><i>93</i>&nbsp;        return gods.get(choice);</b>
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    /**
+<i>97</i>&nbsp;     * Ask the player owner of the lobby which player will make the first move
+<i>98</i>&nbsp;     * @param players list of the players
+<i>99</i>&nbsp;     * @return selected player
+<i>100</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>101</i>&nbsp;     */
+<i>102</i>&nbsp;    public String selectFirstPlayer(List&lt;String&gt; players) throws IOException {
+<b class="nc"><i>103</i>&nbsp;        List&lt;PlayerProposal&gt; playerProposals = players.stream().map(PlayerProposal::new).collect(Collectors.toList());</b>
+<b class="nc"><i>104</i>&nbsp;        FirstPlayerProposalMessage message = new FirstPlayerProposalMessage(playerProposals);</b>
+<i>105</i>&nbsp;
+<b class="nc"><i>106</i>&nbsp;        sendMessage(message);</b>
+<b class="nc"><i>107</i>&nbsp;        int choice = receiveChoice();</b>
+<b class="nc"><i>108</i>&nbsp;        while(choice &lt; 0 || choice &gt;= playerProposals.size()) {</b>
+<b class="nc"><i>109</i>&nbsp;            sendNotification(&quot;Out of range!&quot;);</b>
+<b class="nc"><i>110</i>&nbsp;            sendMessage(message);</b>
+<b class="nc"><i>111</i>&nbsp;            choice = receiveChoice();</b>
+<i>112</i>&nbsp;        }
+<i>113</i>&nbsp;
+<b class="nc"><i>114</i>&nbsp;        return players.get(choice);</b>
+<i>115</i>&nbsp;    }
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;    /**
+<i>118</i>&nbsp;     * Retrieve the index of a worker specified by a player.
+<i>119</i>&nbsp;     * @param choices the workers&#39; indexes
+<i>120</i>&nbsp;     * @return the index of the chosen worker
+<i>121</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>122</i>&nbsp;     */
+<i>123</i>&nbsp;    public int getWorkerIndex(List&lt;Integer&gt; choices) throws IOException {
+<b class="nc"><i>124</i>&nbsp;        Message message = new WorkerIndexMessage(choices);</b>
+<b class="nc"><i>125</i>&nbsp;        sendMessage(message);</b>
+<b class="nc"><i>126</i>&nbsp;        int workerIndex = receiveChoice();</b>
+<b class="nc"><i>127</i>&nbsp;        while(workerIndex != 0 &amp;&amp; workerIndex != 1) {</b>
+<b class="nc"><i>128</i>&nbsp;            sendNotification(&quot;Out of Range!&quot;);</b>
+<b class="nc"><i>129</i>&nbsp;            sendMessage(message);</b>
+<b class="nc"><i>130</i>&nbsp;            workerIndex = receiveChoice();</b>
+<i>131</i>&nbsp;        }
+<i>132</i>&nbsp;
+<b class="nc"><i>133</i>&nbsp;        return workerIndex;</b>
+<i>134</i>&nbsp;    }
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;    /**
+<i>137</i>&nbsp;     * Asks the player where to place the Worker
+<i>138</i>&nbsp;     * @return a Point where to place the worker
+<i>139</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>140</i>&nbsp;     */
+<i>141</i>&nbsp;    public Point placeWorker() throws IOException {
+<b class="nc"><i>142</i>&nbsp;        Message message = new WorkerInitialPositionMessage();</b>
+<b class="nc"><i>143</i>&nbsp;        sendMessage(message);</b>
+<b class="nc"><i>144</i>&nbsp;        int[] coord = new int[2];</b>
+<b class="nc"><i>145</i>&nbsp;        coord[0] = receiveChoice();</b>
+<b class="nc"><i>146</i>&nbsp;        coord[1] = receiveChoice();</b>
+<b class="nc"><i>147</i>&nbsp;        while(coord[0] &lt; 0 || coord[0] &gt;= 5 || coord[1] &lt; 0 || coord[1] &gt;= 5) {</b>
+<b class="nc"><i>148</i>&nbsp;            sendNotification(&quot;Out of range!&quot;);</b>
+<b class="nc"><i>149</i>&nbsp;            sendMessage(message);</b>
+<b class="nc"><i>150</i>&nbsp;            coord[0] = receiveChoice();</b>
+<b class="nc"><i>151</i>&nbsp;            coord[1] = receiveChoice();</b>
+<i>152</i>&nbsp;        }
+<i>153</i>&nbsp;
+<b class="nc"><i>154</i>&nbsp;        return new Point(coord[0], coord[1]);</b>
+<i>155</i>&nbsp;    }
+<i>156</i>&nbsp;
+<i>157</i>&nbsp;    /**
+<i>158</i>&nbsp;     * Add a player to the match
+<i>159</i>&nbsp;     * @param p the name of the player
+<i>160</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>161</i>&nbsp;     */
+<i>162</i>&nbsp;    public void registerPlayer(String p) throws IOException {
+<b class="nc"><i>163</i>&nbsp;        sendMessage(new PlayerRegisterMessage(p));</b>
+<b class="nc"><i>164</i>&nbsp;    }</b>
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;    /**
+<i>167</i>&nbsp;     * Add a worker to a match
+<i>168</i>&nbsp;     * @param pos where to place the worker
+<i>169</i>&nbsp;     * @param player the worker&#39;s owner name
+<i>170</i>&nbsp;     * @param workerIndex the index of the worker
+<i>171</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>172</i>&nbsp;     */
+<i>173</i>&nbsp;    public void registerWorker(Point pos, String player, int workerIndex) throws IOException {
+<b class="nc"><i>174</i>&nbsp;        sendMessage(new WorkerAddMessage(pos, player, workerIndex));</b>
+<b class="nc"><i>175</i>&nbsp;    }</b>
+<i>176</i>&nbsp;
+<i>177</i>&nbsp;    /**
+<i>178</i>&nbsp;     * Add a dome at the target position.
+<i>179</i>&nbsp;     * @param p the target position
+<i>180</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>181</i>&nbsp;     */
+<i>182</i>&nbsp;    public void notifyDome(Point p) throws IOException {
+<b class="nc"><i>183</i>&nbsp;        sendMessage(new DomeBuildMessage(p));</b>
+<b class="nc"><i>184</i>&nbsp;    }</b>
+<i>185</i>&nbsp;
+<i>186</i>&nbsp;    /**
+<i>187</i>&nbsp;     * Notify the client a tower has been built with size amount and in position p
+<i>188</i>&nbsp;     * @param p position (Point) of the build
+<i>189</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>190</i>&nbsp;     */
+<i>191</i>&nbsp;    public void notifyBuild(Point p) throws IOException {
+<b class="nc"><i>192</i>&nbsp;        sendMessage(new TowerIncrementMessage(p));</b>
+<b class="nc"><i>193</i>&nbsp;    }</b>
+<i>194</i>&nbsp;
+<i>195</i>&nbsp;    /**
+<i>196</i>&nbsp;     * Notify the client of that a worker has been moved
+<i>197</i>&nbsp;     * @param p the new position of the worker
+<i>198</i>&nbsp;     * @param user the worker&#39;s owner
+<i>199</i>&nbsp;     * @param workerId the worker&#39;s id
+<i>200</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>201</i>&nbsp;     */
+<i>202</i>&nbsp;    public void notifyWorkerMove(Point p, String user, int workerId) throws IOException {
+<b class="nc"><i>203</i>&nbsp;        sendMessage(new WorkerMoveMessage(p, user, workerId));</b>
+<b class="nc"><i>204</i>&nbsp;    }</b>
+<i>205</i>&nbsp;
+<i>206</i>&nbsp;    /**
+<i>207</i>&nbsp;     * Tell the client that a player has been removed
+<i>208</i>&nbsp;     * @param player the player to unregister
+<i>209</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>210</i>&nbsp;     */
+<i>211</i>&nbsp;    public void notifyUnregisterPlayer(String player) throws IOException {
+<b class="nc"><i>212</i>&nbsp;        sendMessage(new UnregisterPlayerMessage(player));</b>
+<b class="nc"><i>213</i>&nbsp;    }</b>
+<i>214</i>&nbsp;
+<i>215</i>&nbsp;    /**
+<i>216</i>&nbsp;     * Send a generic choice to the player
+<i>217</i>&nbsp;     * @param message Message to the player
+<i>218</i>&nbsp;     * @param size size of the proposal range (0-size)
+<i>219</i>&nbsp;     * @return choice of the player (between 0 and size)
+<i>220</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>221</i>&nbsp;     */
+<i>222</i>&nbsp;    private int askProposalMessage(ProposalMessage&lt;? extends Proposal&gt; message, int size) throws IOException {
+<b class="nc"><i>223</i>&nbsp;        sendMessage(message);</b>
+<b class="nc"><i>224</i>&nbsp;        int choice = receiveChoice();</b>
+<b class="nc"><i>225</i>&nbsp;        while(choice &lt; 0 || choice &gt;= size) {</b>
+<b class="nc"><i>226</i>&nbsp;            sendNotification(&quot;Out of range!&quot;);</b>
+<b class="nc"><i>227</i>&nbsp;            sendMessage(message);</b>
+<b class="nc"><i>228</i>&nbsp;            choice = receiveChoice();</b>
+<i>229</i>&nbsp;        }
+<i>230</i>&nbsp;
+<b class="nc"><i>231</i>&nbsp;        return choice;</b>
+<i>232</i>&nbsp;    }
+<i>233</i>&nbsp;
+<i>234</i>&nbsp;    /**
+<i>235</i>&nbsp;     * Ask the player where they want to build.
+<i>236</i>&nbsp;     * @param proposals a list of possible moves
+<i>237</i>&nbsp;     * @return the index of the chosen move
+<i>238</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>239</i>&nbsp;     */
+<i>240</i>&nbsp;    public int askBuild(List&lt;BuildProposal&gt; proposals) throws IOException {
+<b class="nc"><i>241</i>&nbsp;        return askProposalMessage(new BuildProposalMessage(proposals), proposals.size());</b>
+<i>242</i>&nbsp;    }
+<i>243</i>&nbsp;
+<i>244</i>&nbsp;    /**
+<i>245</i>&nbsp;     * Ask the player where they want to move.
+<i>246</i>&nbsp;     * @param proposals a list of possible moves
+<i>247</i>&nbsp;     * @return the index of the chosen move
+<i>248</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>249</i>&nbsp;     */
+<i>250</i>&nbsp;    public int askMove(List&lt;MoveProposal&gt; proposals) throws IOException {
+<b class="nc"><i>251</i>&nbsp;        return askProposalMessage(new MoveProposalMessage(proposals), proposals.size());</b>
+<i>252</i>&nbsp;    }
+<i>253</i>&nbsp;
+<i>254</i>&nbsp;    /**
+<i>255</i>&nbsp;     * Ask the player the size of the lobby to be create
+<i>256</i>&nbsp;     * @return the size of the lobby
+<i>257</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>258</i>&nbsp;     */
+<i>259</i>&nbsp;    public int askLobbySize() throws IOException {
+<b class="nc"><i>260</i>&nbsp;        Message message = new LobbySizeMessage();</b>
+<b class="nc"><i>261</i>&nbsp;        sendMessage(message);</b>
+<b class="nc"><i>262</i>&nbsp;        int choice = receiveChoice();</b>
+<i>263</i>&nbsp;
+<b class="nc"><i>264</i>&nbsp;        while(choice != 2 &amp;&amp; choice != 3) {</b>
+<b class="nc"><i>265</i>&nbsp;            sendNotification(&quot;Error!&quot;);</b>
+<b class="nc"><i>266</i>&nbsp;            sendMessage(message);</b>
+<b class="nc"><i>267</i>&nbsp;            choice = receiveChoice();</b>
+<i>268</i>&nbsp;        }
+<i>269</i>&nbsp;
+<b class="nc"><i>270</i>&nbsp;        return choice;</b>
+<i>271</i>&nbsp;    }
+<i>272</i>&nbsp;
+<i>273</i>&nbsp;    /**
+<i>274</i>&nbsp;     * Send a notification to the client
+<i>275</i>&nbsp;     * @param s the content of the notification
+<i>276</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>277</i>&nbsp;     */
+<i>278</i>&nbsp;    public void sendNotification(String s) throws IOException {
+<b class="nc"><i>279</i>&nbsp;        sendMessage(new NotificationMessage(s));</b>
+<b class="nc"><i>280</i>&nbsp;    }</b>
+<i>281</i>&nbsp;
+<i>282</i>&nbsp;    /**
+<i>283</i>&nbsp;     * Ask the player a close question (yes/no)
+<i>284</i>&nbsp;     * @param s the content of the question
+<i>285</i>&nbsp;     * @return the answer
+<i>286</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>287</i>&nbsp;     */
+<i>288</i>&nbsp;    public boolean askQuestion(String s) throws IOException {
+<b class="nc"><i>289</i>&nbsp;        Message message = new YesNoMessage(s);</b>
+<b class="nc"><i>290</i>&nbsp;        sendMessage(message);</b>
+<i>291</i>&nbsp;
+<b class="nc"><i>292</i>&nbsp;        int choice = receiveChoice();</b>
+<b class="nc"><i>293</i>&nbsp;        while(choice != 0 &amp;&amp; choice != 1) {</b>
+<b class="nc"><i>294</i>&nbsp;            sendNotification(&quot;Error!&quot;);</b>
+<b class="nc"><i>295</i>&nbsp;            sendMessage(message);</b>
+<b class="nc"><i>296</i>&nbsp;            choice = receiveChoice();</b>
+<i>297</i>&nbsp;        }
+<i>298</i>&nbsp;
+<b class="nc"><i>299</i>&nbsp;        return choice == 1;</b>
+<i>300</i>&nbsp;    }
+<i>301</i>&nbsp;
+<i>302</i>&nbsp;    /**
+<i>303</i>&nbsp;     * Notify the player that the game has ended with a winner
+<i>304</i>&nbsp;     * @param winner winner of the game
+<i>305</i>&nbsp;     * @throws IOException if there&#39;s a connectione error
+<i>306</i>&nbsp;     */
+<i>307</i>&nbsp;    public void endGame(String winner) throws IOException {
+<b class="nc"><i>308</i>&nbsp;        sendMessage(new GameEndMessage(winner));</b>
+<b class="nc"><i>309</i>&nbsp;    }</b>
+<i>310</i>&nbsp;
+<i>311</i>&nbsp;    protected abstract int receiveChoice() throws IOException;
+<i>312</i>&nbsp;
+<i>313</i>&nbsp;    protected abstract String receiveString() throws IOException;
+<i>314</i>&nbsp;
+<i>315</i>&nbsp;    /**
+<i>316</i>&nbsp;     * Notify that a player is choosing which of their workers to move
+<i>317</i>&nbsp;     * @param player the name of that player
+<i>318</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>319</i>&nbsp;     */
+<i>320</i>&nbsp;    public void notifyWorkerChoicePhase(String player) throws IOException {
+<b class="nc"><i>321</i>&nbsp;        sendMessage(new WorkerChoicePhaseMessage(player));</b>
+<b class="nc"><i>322</i>&nbsp;    }</b>
+<i>323</i>&nbsp;
+<i>324</i>&nbsp;    /**
+<i>325</i>&nbsp;     * Notify that a player is moving
+<i>326</i>&nbsp;     * @param player the name of that player
+<i>327</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>328</i>&nbsp;     */
+<i>329</i>&nbsp;    public void notifyMovePhase(String player) throws IOException {
+<b class="nc"><i>330</i>&nbsp;        sendMessage(new MovePhaseMessage(player));</b>
+<b class="nc"><i>331</i>&nbsp;    }</b>
+<i>332</i>&nbsp;
+<i>333</i>&nbsp;    /**
+<i>334</i>&nbsp;     * Notify that a player is building
+<i>335</i>&nbsp;     * @param player the name of that player
+<i>336</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>337</i>&nbsp;     */
+<i>338</i>&nbsp;    public void notifyBuildPhase(String player) throws IOException {
+<b class="nc"><i>339</i>&nbsp;        sendMessage(new BuildPhaseMessage(player));</b>
+<b class="nc"><i>340</i>&nbsp;    }</b>
+<i>341</i>&nbsp;
+<i>342</i>&nbsp;    /**
+<i>343</i>&nbsp;     * Notify that a player is placing their workers
+<i>344</i>&nbsp;     * @param player the name of that player
+<i>345</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>346</i>&nbsp;     */
+<i>347</i>&nbsp;    public void notifyWorkerPlacementPhase(String player) throws IOException {
+<b class="nc"><i>348</i>&nbsp;        sendMessage(new WorkerPlacementPhaseMessage(player));</b>
+<b class="nc"><i>349</i>&nbsp;    }</b>
+<i>350</i>&nbsp;
+<i>351</i>&nbsp;    /**
+<i>352</i>&nbsp;     * Close the connection with the client.
+<i>353</i>&nbsp;     * @throws IOException if there&#39;s a connection error.
+<i>354</i>&nbsp;     */
+<i>355</i>&nbsp;    public abstract void close() throws IOException;
+<i>356</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-18 16:44</div>
+</div>
+</body>
+</html>

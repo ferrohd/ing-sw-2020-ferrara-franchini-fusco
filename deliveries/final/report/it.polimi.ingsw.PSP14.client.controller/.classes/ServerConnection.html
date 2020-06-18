@@ -1,0 +1,78 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ServerConnection</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.client.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ServerConnection (it.polimi.ingsw.PSP14.client.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ServerConnection</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.client.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP14.core.messages.Message;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.io.IOException;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * ServerConnection implemented using TCP sockets.
+<i>9</i>&nbsp; */
+<i>10</i>&nbsp;public interface ServerConnection {
+<i>11</i>&nbsp;    /**
+<i>12</i>&nbsp;     * Used when an error occurs and the match has to be terminated.
+<i>13</i>&nbsp;     */
+<i>14</i>&nbsp;    void sendFatalError();
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * Allows to send a message to the server.
+<i>18</i>&nbsp;     * @param message the message to send
+<i>19</i>&nbsp;     * @throws IOException if the sending of the message fails
+<i>20</i>&nbsp;     */
+<i>21</i>&nbsp;    void sendMessage(Message message) throws IOException;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * Allows to receive a message from the server.
+<i>25</i>&nbsp;     * @return the received message
+<i>26</i>&nbsp;     * @throws IOException if the message reception fails
+<i>27</i>&nbsp;     */
+<i>28</i>&nbsp;    Message receiveMessage() throws IOException;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    void close() throws IOException;
+<i>31</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-18 16:44</div>
+</div>
+</body>
+</html>

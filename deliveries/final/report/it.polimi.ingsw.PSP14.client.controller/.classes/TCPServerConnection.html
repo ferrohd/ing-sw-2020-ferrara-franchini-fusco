@@ -1,0 +1,133 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TCPServerConnection</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.client.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TCPServerConnection (it.polimi.ingsw.PSP14.client.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TCPServerConnection</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.client.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP14.core.messages.Message;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP14.core.net.TCPIn;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP14.core.net.TCPOut;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.io.IOException;
+<i>8</i>&nbsp;import java.io.ObjectInputStream;
+<i>9</i>&nbsp;import java.io.ObjectOutputStream;
+<i>10</i>&nbsp;import java.net.Socket;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;/**
+<i>13</i>&nbsp; * ServerConnection implemented using TCP sockets.
+<i>14</i>&nbsp; */
+<i>15</i>&nbsp;public class TCPServerConnection implements ServerConnection {
+<i>16</i>&nbsp;    private TCPOut serverOutput;
+<i>17</i>&nbsp;    private TCPIn serverInput;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * Constructor of the connection.
+<i>21</i>&nbsp;     * @param socket the socket on the server we need to connect to.
+<i>22</i>&nbsp;     * @throws IOException if a connection error occurs
+<i>23</i>&nbsp;     */
+<b class="nc"><i>24</i>&nbsp;    public TCPServerConnection(final Socket socket) throws IOException {</b>
+<b class="nc"><i>25</i>&nbsp;        serverOutput = new TCPOut(new ObjectOutputStream(socket.getOutputStream()));</b>
+<b class="nc"><i>26</i>&nbsp;        serverInput = new TCPIn(new ObjectInputStream(socket.getInputStream()));</b>
+<b class="nc"><i>27</i>&nbsp;        new Thread(serverInput).start();</b>
+<b class="nc"><i>28</i>&nbsp;        new Thread(serverOutput).start();</b>
+<b class="nc"><i>29</i>&nbsp;    }</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    public void sendFatalError() {
+<i>32</i>&nbsp;        // TODO
+<b class="nc"><i>33</i>&nbsp;    }</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    @Override
+<i>36</i>&nbsp;    public void sendMessage(final Message message) throws IOException {
+<b class="nc"><i>37</i>&nbsp;        serverOutput.sendMessage(message);</b>
+<b class="nc"><i>38</i>&nbsp;    }</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    @Override
+<i>41</i>&nbsp;    public Message receiveMessage() throws IOException {
+<b class="nc"><i>42</i>&nbsp;        return serverInput.receiveMessage();</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    @Override
+<i>46</i>&nbsp;    public void close() throws IOException {
+<b class="nc"><i>47</i>&nbsp;        serverInput.close();</b>
+<b class="nc"><i>48</i>&nbsp;        serverOutput.close();</b>
+<b class="nc"><i>49</i>&nbsp;    }</b>
+<i>50</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-18 16:44</div>
+</div>
+</body>
+</html>

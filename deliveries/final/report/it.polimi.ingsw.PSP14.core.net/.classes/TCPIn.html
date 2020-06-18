@@ -1,0 +1,136 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TCPIn</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.core.net</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TCPIn (it.polimi.ingsw.PSP14.core.net)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TCPIn</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.core.net;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP14.core.messages.Message;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP14.core.messages.PingMessage;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.io.IOException;
+<i>7</i>&nbsp;import java.io.ObjectInputStream;
+<i>8</i>&nbsp;import java.time.Duration;
+<i>9</i>&nbsp;import java.time.Instant;
+<i>10</i>&nbsp;import java.util.concurrent.BlockingQueue;
+<i>11</i>&nbsp;import java.util.concurrent.LinkedBlockingQueue;
+<i>12</i>&nbsp;import java.util.concurrent.TimeUnit;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;public class TCPIn implements Runnable {
+<b class="nc"><i>15</i>&nbsp;    private BlockingQueue&lt;Message&gt; queue = new LinkedBlockingQueue&lt;&gt;();</b>
+<i>16</i>&nbsp;    private ObjectInputStream in;
+<b class="nc"><i>17</i>&nbsp;    private Instant lastTimestamp = Instant.now();</b>
+<i>18</i>&nbsp;
+<b class="nc"><i>19</i>&nbsp;    public TCPIn(ObjectInputStream in) {</b>
+<b class="nc"><i>20</i>&nbsp;        this.in = in;</b>
+<b class="nc"><i>21</i>&nbsp;    }</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @Override
+<i>24</i>&nbsp;    public void run() {
+<i>25</i>&nbsp;        while(true) {
+<i>26</i>&nbsp;            try {
+<b class="nc"><i>27</i>&nbsp;                Message message = (Message) in.readObject();</b>
+<b class="nc"><i>28</i>&nbsp;                if(message instanceof PingMessage)</b>
+<b class="nc"><i>29</i>&nbsp;                    lastTimestamp = ((PingMessage)message).getTimestamp();</b>
+<i>30</i>&nbsp;                else
+<b class="nc"><i>31</i>&nbsp;                    queue.add(message);</b>
+<b class="nc"><i>32</i>&nbsp;            } catch(ClassNotFoundException | IOException e) {</b>
+<b class="nc"><i>33</i>&nbsp;                lastTimestamp = Instant.EPOCH;</b>
+<b class="nc"><i>34</i>&nbsp;                return;</b>
+<b class="nc"><i>35</i>&nbsp;            }</b>
+<i>36</i>&nbsp;        }
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    public Message receiveMessage() throws IOException {
+<i>40</i>&nbsp;        try {
+<i>41</i>&nbsp;            Message message;
+<i>42</i>&nbsp;            do {
+<b class="nc"><i>43</i>&nbsp;                if (Duration.between(lastTimestamp, Instant.now()).toMillis() &gt; 5000) throw new IOException(&quot;Too much time elapsed!&quot;);</b>
+<b class="nc"><i>44</i>&nbsp;                message = queue.poll(100, TimeUnit.MILLISECONDS);</b>
+<b class="nc"><i>45</i>&nbsp;            } while(message == null);</b>
+<b class="nc"><i>46</i>&nbsp;            return message;</b>
+<b class="nc"><i>47</i>&nbsp;        } catch(InterruptedException e) {throw new IOException();}</b>
+<i>48</i>&nbsp;    }
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    public void close() throws IOException {
+<b class="nc"><i>51</i>&nbsp;        in.close();</b>
+<b class="nc"><i>52</i>&nbsp;    }</b>
+<i>53</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-18 16:44</div>
+</div>
+</body>
+</html>

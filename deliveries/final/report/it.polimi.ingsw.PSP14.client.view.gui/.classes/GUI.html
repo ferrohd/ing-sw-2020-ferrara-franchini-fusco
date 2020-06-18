@@ -1,0 +1,447 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GUI</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.client.view.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GUI (it.polimi.ingsw.PSP14.client.view.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 142)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.client.view.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP14.client.view.UI;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP14.client.view.cli.UIColor;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP14.client.view.gui.scenes.*;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
+<i>9</i>&nbsp;import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
+<i>10</i>&nbsp;import it.polimi.ingsw.PSP14.server.model.board.Point;
+<i>11</i>&nbsp;import javafx.application.Platform;
+<i>12</i>&nbsp;import javafx.scene.control.Alert;
+<i>13</i>&nbsp;import javafx.scene.control.ButtonType;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;import java.util.ArrayList;
+<i>16</i>&nbsp;import java.util.HashMap;
+<i>17</i>&nbsp;import java.util.List;
+<i>18</i>&nbsp;import java.util.Optional;
+<i>19</i>&nbsp;import java.util.concurrent.CountDownLatch;
+<i>20</i>&nbsp;import java.util.stream.Collectors;
+<i>21</i>&nbsp;
+<b class="nc"><i>22</i>&nbsp;public class GUI implements UI {</b>
+<i>23</i>&nbsp;    private String currentPlayerId;
+<b class="nc"><i>24</i>&nbsp;    private final ArrayList&lt;String&gt; players = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>25</i>&nbsp;    private final HashMap&lt;String, String&gt; gods = new HashMap&lt;&gt;();</b>
+<i>26</i>&nbsp;
+<b class="nc"><i>27</i>&nbsp;    private final GUIGameScene gameScene = new GUIGameScene();</b>
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    @Override
+<i>30</i>&nbsp;    public void registerPlayer(String player) {
+<b class="nc"><i>31</i>&nbsp;        players.add(player);</b>
+<b class="nc"><i>32</i>&nbsp;    }</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    @Override
+<i>35</i>&nbsp;    public void unregisterPlayer(String username) throws InterruptedException {
+<b class="nc"><i>36</i>&nbsp;        unsetWorker(0, username);</b>
+<b class="nc"><i>37</i>&nbsp;        unsetWorker(1, username);</b>
+<b class="nc"><i>38</i>&nbsp;    }</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    @Override
+<i>41</i>&nbsp;    public void setWorker(Point position, int workerId, String playerUsername) throws InterruptedException {
+<b class="nc"><i>42</i>&nbsp;        runLaterSynchronized(() -&gt;</b>
+<b class="nc"><i>43</i>&nbsp;                gameScene.getModel().addWorker(position, workerId, players.indexOf(playerUsername))</b>
+<i>44</i>&nbsp;        );
+<b class="nc"><i>45</i>&nbsp;    }</b>
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    private void unsetWorker(int workerId, String playerUsername) throws InterruptedException {
+<b class="nc"><i>48</i>&nbsp;        runLaterSynchronized(() -&gt; gameScene.getModel().removeWorker(workerId, players.indexOf(playerUsername)));</b>
+<b class="nc"><i>49</i>&nbsp;    }</b>
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    @Override
+<i>52</i>&nbsp;    public void moveWorker(Point newPosition, int workerId, String playerUsername) throws InterruptedException {
+<b class="nc"><i>53</i>&nbsp;        CountDownLatch latch = new CountDownLatch(1);</b>
+<b class="nc"><i>54</i>&nbsp;        runLaterSynchronized(() -&gt; gameScene.getModel().moveWorker(players.indexOf(playerUsername), workerId, newPosition, latch));</b>
+<b class="nc"><i>55</i>&nbsp;        latch.await();</b>
+<b class="nc"><i>56</i>&nbsp;    }</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    @Override
+<i>59</i>&nbsp;    public void incrementCell(Point position) throws InterruptedException {
+<b class="nc"><i>60</i>&nbsp;        runLaterSynchronized(() -&gt; gameScene.getModel().incrementCell(position));</b>
+<b class="nc"><i>61</i>&nbsp;    }</b>
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    @Override
+<i>64</i>&nbsp;    public void setDome(Point position) throws InterruptedException {
+<b class="nc"><i>65</i>&nbsp;        runLaterSynchronized(() -&gt; gameScene.getModel().putDome(position));</b>
+<b class="nc"><i>66</i>&nbsp;    }</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    @Override
+<i>69</i>&nbsp;    public void update() {
+<i>70</i>&nbsp;
+<b class="nc"><i>71</i>&nbsp;    }</b>
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    @Override
+<i>74</i>&nbsp;    public void showVictory(String winner) throws InterruptedException {
+<b class="nc"><i>75</i>&nbsp;        runLaterSynchronized(() -&gt; {</b>
+<b class="nc"><i>76</i>&nbsp;            Alert alert = new Alert(Alert.AlertType.INFORMATION, winner + &quot; won!&quot;, ButtonType.OK);</b>
+<b class="nc"><i>77</i>&nbsp;            alert.setTitle(&quot;Victory&quot;);</b>
+<b class="nc"><i>78</i>&nbsp;            alert.setGraphic(null);</b>
+<b class="nc"><i>79</i>&nbsp;            alert.setHeaderText(null);</b>
+<i>80</i>&nbsp;
+<b class="nc"><i>81</i>&nbsp;            alert.showAndWait();</b>
+<b class="nc"><i>82</i>&nbsp;        });</b>
+<b class="nc"><i>83</i>&nbsp;    }</b>
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    /**
+<i>86</i>&nbsp;     * Get a color depending on the player unique id.
+<i>87</i>&nbsp;     *
+<i>88</i>&nbsp;     * @param playerNumber an int between &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;3&lt;/code&gt;
+<i>89</i>&nbsp;     * @return a color
+<i>90</i>&nbsp;     */
+<i>91</i>&nbsp;    @Override
+<i>92</i>&nbsp;    public UIColor getColor(int playerNumber) {
+<b class="nc"><i>93</i>&nbsp;        return null;</b>
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;    /**
+<i>98</i>&nbsp;     * Display a greeting to the player.
+<i>99</i>&nbsp;     */
+<i>100</i>&nbsp;    @Override
+<i>101</i>&nbsp;    public void welcome() throws InterruptedException {
+<b class="nc"><i>102</i>&nbsp;        new Thread(() -&gt; {</b>
+<b class="nc"><i>103</i>&nbsp;            GUIMain.launch(GUIMain.class);</b>
+<b class="nc"><i>104</i>&nbsp;        }).start();</b>
+<b class="nc"><i>105</i>&nbsp;        GUIMain.getQueue().take();</b>
+<i>106</i>&nbsp;
+<b class="nc"><i>107</i>&nbsp;        runLaterSynchronized(new GUIWelcomeScene());</b>
+<i>108</i>&nbsp;        //runLaterSynchronized(new GUIGameScene());
+<b class="nc"><i>109</i>&nbsp;    }</b>
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;    @Override
+<i>112</i>&nbsp;    public void gameStart() throws InterruptedException {
+<b class="nc"><i>113</i>&nbsp;        runLaterSynchronized(gameScene);</b>
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;        // Display gods info for each player
+<b class="nc"><i>116</i>&nbsp;        for (String player : players) {</b>
+<b class="nc"><i>117</i>&nbsp;            runLaterSynchronized( () -&gt;</b>
+<b class="nc"><i>118</i>&nbsp;                    gameScene.getInfoPanelModel().registerPlayerInfo(player, gods.get(player)));</b>
+<b class="nc"><i>119</i>&nbsp;        }</b>
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;        //showDemo();
+<b class="nc"><i>122</i>&nbsp;    }</b>
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;    @Override
+<i>125</i>&nbsp;    public void startWorkerChoice(String player) throws InterruptedException {
+<b class="nc"><i>126</i>&nbsp;        if(player.equals(currentPlayerId)) {</b>
+<b class="nc"><i>127</i>&nbsp;            GUIMain.getInfoText().setText(&quot;Choose the worker you would like to move&quot;);</b>
+<i>128</i>&nbsp;        } else {
+<b class="nc"><i>129</i>&nbsp;            GUIMain.getInfoText().setText(player + &quot; is choosing the worker to move&quot;);</b>
+<i>130</i>&nbsp;        }
+<b class="nc"><i>131</i>&nbsp;    }</b>
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;    @Override
+<i>134</i>&nbsp;    public void startMove(String player) throws InterruptedException {
+<b class="nc"><i>135</i>&nbsp;        if(player.equals(currentPlayerId)) {</b>
+<b class="nc"><i>136</i>&nbsp;            GUIMain.getInfoText().setText(&quot;Choose where to move&quot;);</b>
+<i>137</i>&nbsp;        } else {
+<b class="nc"><i>138</i>&nbsp;            GUIMain.getInfoText().setText(player + &quot; is choosing where to move&quot;);</b>
+<i>139</i>&nbsp;        }
+<b class="nc"><i>140</i>&nbsp;    }</b>
+<i>141</i>&nbsp;
+<i>142</i>&nbsp;    @Override
+<i>143</i>&nbsp;    public void startBuild(String player) throws InterruptedException {
+<b class="nc"><i>144</i>&nbsp;        if(player.equals(currentPlayerId)) {</b>
+<b class="nc"><i>145</i>&nbsp;            GUIMain.getInfoText().setText(&quot;Choose where to build&quot;);</b>
+<i>146</i>&nbsp;        } else {
+<b class="nc"><i>147</i>&nbsp;            GUIMain.getInfoText().setText(player + &quot; is choosing where to build&quot;);</b>
+<i>148</i>&nbsp;        }
+<b class="nc"><i>149</i>&nbsp;    }</b>
+<i>150</i>&nbsp;
+<i>151</i>&nbsp;    @Override
+<i>152</i>&nbsp;    public void startWorkerPlacement(String player) throws InterruptedException {
+<b class="nc"><i>153</i>&nbsp;        if(player.equals(currentPlayerId)) {</b>
+<b class="nc"><i>154</i>&nbsp;            GUIMain.getInfoText().setText(&quot;Choose where to place your workers&quot;);</b>
+<i>155</i>&nbsp;        } else {
+<b class="nc"><i>156</i>&nbsp;            GUIMain.getInfoText().setText(player + &quot; is choosing where to place their workers&quot;);</b>
+<i>157</i>&nbsp;        }
+<b class="nc"><i>158</i>&nbsp;    }</b>
+<i>159</i>&nbsp;
+<i>160</i>&nbsp;    /**
+<i>161</i>&nbsp;     * Ask the player for how many players should participate in a match.
+<i>162</i>&nbsp;     *
+<i>163</i>&nbsp;     * @return the size of the lobby
+<i>164</i>&nbsp;     */
+<i>165</i>&nbsp;    @Override
+<i>166</i>&nbsp;    public int getLobbySize() throws InterruptedException {
+<b class="nc"><i>167</i>&nbsp;        runLaterSynchronized(new GUILobbySizeScene());</b>
+<b class="nc"><i>168</i>&nbsp;        return  (int) GUIMain.getQueue().take();</b>
+<i>169</i>&nbsp;    }
+<i>170</i>&nbsp;
+<i>171</i>&nbsp;    /**
+<i>172</i>&nbsp;     * Display a notification to the player.
+<i>173</i>&nbsp;     *
+<i>174</i>&nbsp;     * @param s the content of the notification
+<i>175</i>&nbsp;     */
+<i>176</i>&nbsp;    @Override
+<i>177</i>&nbsp;    public void showNotification(String s) {
+<i>178</i>&nbsp;        try {
+<b class="nc"><i>179</i>&nbsp;            runLaterSynchronized(new NotificationScene(s));</b>
+<b class="nc"><i>180</i>&nbsp;        } catch(InterruptedException ignored) {}</b>
+<b class="nc"><i>181</i>&nbsp;    }</b>
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;    /**
+<i>184</i>&nbsp;     * Prompt the player to provide a username
+<i>185</i>&nbsp;     *
+<i>186</i>&nbsp;     * @return the chosen username
+<i>187</i>&nbsp;     */
+<i>188</i>&nbsp;    @Override
+<i>189</i>&nbsp;    public String askUsername() throws InterruptedException {
+<b class="nc"><i>190</i>&nbsp;        runLaterSynchronized(new GUIUsernameScene());</b>
+<b class="nc"><i>191</i>&nbsp;        currentPlayerId = (String) GUIMain.getQueue().take();</b>
+<b class="nc"><i>192</i>&nbsp;        return currentPlayerId;</b>
+<i>193</i>&nbsp;    }
+<i>194</i>&nbsp;
+<i>195</i>&nbsp;    /**
+<i>196</i>&nbsp;     * Prompt the player to select a god from the list of available gods.
+<i>197</i>&nbsp;     *
+<i>198</i>&nbsp;     * @param proposals Available gods
+<i>199</i>&nbsp;     * @return the index of the chosen god.
+<i>200</i>&nbsp;     */
+<i>201</i>&nbsp;    @Override
+<i>202</i>&nbsp;    public int chooseGod(List&lt;GodProposal&gt; proposals) throws InterruptedException {
+<b class="nc"><i>203</i>&nbsp;        runLaterSynchronized(new GUIGodSelectScene(&quot;Choose your God&quot;, proposals.stream().map(GodProposal::getName).collect(Collectors.toList())));</b>
+<b class="nc"><i>204</i>&nbsp;        return (Integer) GUIMain.getQueue().take();</b>
+<i>205</i>&nbsp;    }
+<i>206</i>&nbsp;
+<i>207</i>&nbsp;    /**
+<i>208</i>&nbsp;     * Ask the player to choose another player (even themselves) from a list.
+<i>209</i>&nbsp;     *
+<i>210</i>&nbsp;     * @param proposals the list of players to choose from
+<i>211</i>&nbsp;     * @return the index of the chosen player
+<i>212</i>&nbsp;     */
+<i>213</i>&nbsp;    @Override
+<i>214</i>&nbsp;    public int chooseFirstPlayer(List&lt;PlayerProposal&gt; proposals) throws InterruptedException {
+<b class="nc"><i>215</i>&nbsp;        runLaterSynchronized(new GUIFirstPlayerScene(proposals.stream().map(PlayerProposal::getName).collect(Collectors.toList())));</b>
+<b class="nc"><i>216</i>&nbsp;        return (Integer) GUIMain.getQueue().take();</b>
+<i>217</i>&nbsp;    }
+<i>218</i>&nbsp;
+<i>219</i>&nbsp;    /**
+<i>220</i>&nbsp;     * Ask the player to choose a worker from a list
+<i>221</i>&nbsp;     *
+<i>222</i>&nbsp;     * @param choices a list of workers to choose from
+<i>223</i>&nbsp;     * @return the index of the chosen worker
+<i>224</i>&nbsp;     */
+<i>225</i>&nbsp;    @Override
+<i>226</i>&nbsp;    public int chooseWorker(List&lt;Integer&gt; choices) throws InterruptedException {
+<b class="nc"><i>227</i>&nbsp;        gameScene.setIsSelectingCell(true);</b>
+<b class="nc"><i>228</i>&nbsp;        List&lt;Point&gt; points = gameScene.getModel().getAllPlayerWorkers(players.indexOf(currentPlayerId));</b>
+<b class="nc"><i>229</i>&nbsp;        gameScene.setPlayerId(players.indexOf(currentPlayerId));</b>
+<i>230</i>&nbsp;
+<b class="nc"><i>231</i>&nbsp;        List&lt;Point&gt; validPoints = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>232</i>&nbsp;        for(int i : choices) {</b>
+<b class="nc"><i>233</i>&nbsp;            validPoints.add(points.get(i));</b>
+<b class="nc"><i>234</i>&nbsp;        }</b>
+<i>235</i>&nbsp;
+<b class="nc"><i>236</i>&nbsp;        runLaterSynchronized(() -&gt; gameScene.getModel().addAllSelectables(validPoints));</b>
+<i>237</i>&nbsp;
+<b class="nc"><i>238</i>&nbsp;        int ret = (int) GUIMain.getQueue().take();</b>
+<b class="nc"><i>239</i>&nbsp;        gameScene.setIsSelectingCell(false);</b>
+<b class="nc"><i>240</i>&nbsp;        runLaterSynchronized(() -&gt; gameScene.getModel().removeAllSelectables());</b>
+<i>241</i>&nbsp;
+<b class="nc"><i>242</i>&nbsp;        return ret;</b>
+<i>243</i>&nbsp;    }
+<i>244</i>&nbsp;
+<i>245</i>&nbsp;    @Override
+<i>246</i>&nbsp;    public int chooseAvailableGods(List&lt;GodProposal&gt; gods) throws InterruptedException {
+<b class="nc"><i>247</i>&nbsp;        runLaterSynchronized(new GUIGodSelectScene(&quot;Choose available Gods&quot;, gods.stream().map(GodProposal::getName).collect(Collectors.toList())));</b>
+<b class="nc"><i>248</i>&nbsp;        return (Integer) GUIMain.getQueue().take();</b>
+<i>249</i>&nbsp;    }
+<i>250</i>&nbsp;
+<i>251</i>&nbsp;    @Override
+<i>252</i>&nbsp;    public int[] chooseWorkerInitialPosition() throws InterruptedException {
+<b class="nc"><i>253</i>&nbsp;        gameScene.setIsSelectingCell(true);</b>
+<b class="nc"><i>254</i>&nbsp;        List&lt;Point&gt; invalid = gameScene.getModel().getWorkerPositions();</b>
+<b class="nc"><i>255</i>&nbsp;        List&lt;Point&gt; points = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>256</i>&nbsp;        for (int x = 0; x &lt;= 4; x++) {</b>
+<b class="nc"><i>257</i>&nbsp;            for (int y = 0; y &lt;= 4; y++) {</b>
+<b class="nc"><i>258</i>&nbsp;                Point newPoint = new Point(x, y);</b>
+<b class="nc"><i>259</i>&nbsp;                boolean flag = true;</b>
+<b class="nc"><i>260</i>&nbsp;                for(Point p : invalid)</b>
+<b class="nc"><i>261</i>&nbsp;                    if(p.equals(newPoint)) {</b>
+<b class="nc"><i>262</i>&nbsp;                        flag = false;</b>
+<b class="nc"><i>263</i>&nbsp;                        break;</b>
+<i>264</i>&nbsp;                    }
+<b class="nc"><i>265</i>&nbsp;                if (flag)</b>
+<b class="nc"><i>266</i>&nbsp;                    points.add(newPoint);</b>
+<i>267</i>&nbsp;            }
+<i>268</i>&nbsp;        }
+<b class="nc"><i>269</i>&nbsp;        runLaterSynchronized(() -&gt; gameScene.getModel().addAllSelectables(points));</b>
+<i>270</i>&nbsp;
+<b class="nc"><i>271</i>&nbsp;        int index = (Integer) GUIMain.getQueue().take();</b>
+<i>272</i>&nbsp;
+<b class="nc"><i>273</i>&nbsp;        Point point = points.get(index);</b>
+<i>274</i>&nbsp;
+<b class="nc"><i>275</i>&nbsp;        gameScene.setIsSelectingCell(false);</b>
+<b class="nc"><i>276</i>&nbsp;        runLaterSynchronized(() -&gt; gameScene.getModel().removeAllSelectables());</b>
+<i>277</i>&nbsp;
+<b class="nc"><i>278</i>&nbsp;        return new int[]{point.getX(), point.getY()};</b>
+<i>279</i>&nbsp;    }
+<i>280</i>&nbsp;
+<i>281</i>&nbsp;    /**
+<i>282</i>&nbsp;     * Ask a player for the destination of their next move.
+<i>283</i>&nbsp;     *
+<i>284</i>&nbsp;     * @param moves a list of possible moves to choose from
+<i>285</i>&nbsp;     * @return the Index of the chosen move
+<i>286</i>&nbsp;     */
+<i>287</i>&nbsp;    @Override
+<i>288</i>&nbsp;    public int chooseMove(List&lt;MoveProposal&gt; moves) throws InterruptedException {
+<b class="nc"><i>289</i>&nbsp;        gameScene.setIsSelectingCell(true);</b>
+<b class="nc"><i>290</i>&nbsp;        List&lt;Point&gt; points = moves.stream().map(MoveProposal::getPoint).collect(Collectors.toList());</b>
+<i>291</i>&nbsp;
+<b class="nc"><i>292</i>&nbsp;        runLaterSynchronized(() -&gt; gameScene.getModel().addAllSelectables(points));</b>
+<i>293</i>&nbsp;
+<b class="nc"><i>294</i>&nbsp;        int ret = (int) GUIMain.getQueue().take();</b>
+<b class="nc"><i>295</i>&nbsp;        gameScene.setIsSelectingCell(false);</b>
+<b class="nc"><i>296</i>&nbsp;        runLaterSynchronized(() -&gt; gameScene.getModel().removeAllSelectables());</b>
+<i>297</i>&nbsp;
+<b class="nc"><i>298</i>&nbsp;        return ret;</b>
+<i>299</i>&nbsp;    }
+<i>300</i>&nbsp;
+<i>301</i>&nbsp;    /**
+<i>302</i>&nbsp;     * Ask a player for the destination of their next build action,
+<i>303</i>&nbsp;     * where the next tower block will be built if possible.
+<i>304</i>&nbsp;     *
+<i>305</i>&nbsp;     * @param moves a list of options to choose from
+<i>306</i>&nbsp;     * @return the Index of the chosen option
+<i>307</i>&nbsp;     */
+<i>308</i>&nbsp;    @Override
+<i>309</i>&nbsp;    public int chooseBuild(List&lt;BuildProposal&gt; moves) throws InterruptedException {
+<b class="nc"><i>310</i>&nbsp;        gameScene.setIsSelectingCell(true);</b>
+<b class="nc"><i>311</i>&nbsp;        List&lt;Point&gt; points = moves.stream().map(BuildProposal::getPoint).collect(Collectors.toList());</b>
+<i>312</i>&nbsp;
+<b class="nc"><i>313</i>&nbsp;        runLaterSynchronized(() -&gt; gameScene.getModel().addAllSelectables(points));</b>
+<i>314</i>&nbsp;
+<b class="nc"><i>315</i>&nbsp;        int ret = (int) GUIMain.getQueue().take();</b>
+<b class="nc"><i>316</i>&nbsp;        gameScene.setIsSelectingCell(false);</b>
+<b class="nc"><i>317</i>&nbsp;        runLaterSynchronized(() -&gt; gameScene.getModel().removeAllSelectables());</b>
+<i>318</i>&nbsp;
+<b class="nc"><i>319</i>&nbsp;        return ret;</b>
+<i>320</i>&nbsp;    }
+<i>321</i>&nbsp;
+<i>322</i>&nbsp;    /**
+<i>323</i>&nbsp;     * Ask the player if they want to perform a certain action.
+<i>324</i>&nbsp;     * This handles only the confirm (positive or negative).
+<i>325</i>&nbsp;     *
+<i>326</i>&nbsp;     * @param message the text to display
+<i>327</i>&nbsp;     * @return 0 = no, 1 = yes
+<i>328</i>&nbsp;     */
+<i>329</i>&nbsp;    @Override
+<i>330</i>&nbsp;    public int chooseYesNo(String message) throws InterruptedException {
+<b class="nc"><i>331</i>&nbsp;        runLaterSynchronized(() -&gt; {</b>
+<b class="nc"><i>332</i>&nbsp;            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.YES, ButtonType.NO);</b>
+<b class="nc"><i>333</i>&nbsp;            alert.setTitle(&quot;Confirmation Dialog&quot;);</b>
+<b class="nc"><i>334</i>&nbsp;            alert.setGraphic(null);</b>
+<b class="nc"><i>335</i>&nbsp;            alert.setHeaderText(null);</b>
+<i>336</i>&nbsp;
+<b class="nc"><i>337</i>&nbsp;            Optional&lt;ButtonType&gt; result = alert.showAndWait();</b>
+<b class="nc"><i>338</i>&nbsp;            if (result.get() == ButtonType.YES){</b>
+<b class="nc"><i>339</i>&nbsp;                System.out.println(&quot;Clicked on Yes&quot;);</b>
+<b class="nc"><i>340</i>&nbsp;                GUIMain.getQueue().add(1);</b>
+<i>341</i>&nbsp;            } else {
+<b class="nc"><i>342</i>&nbsp;                System.out.println(&quot;Clicked on No&quot;);</b>
+<b class="nc"><i>343</i>&nbsp;                GUIMain.getQueue().add(0);</b>
+<i>344</i>&nbsp;            }
+<b class="nc"><i>345</i>&nbsp;        });</b>
+<b class="nc"><i>346</i>&nbsp;        int ret = (int) GUIMain.getQueue().take();</b>
+<i>347</i>&nbsp;
+<b class="nc"><i>348</i>&nbsp;        return ret;</b>
+<i>349</i>&nbsp;    }
+<i>350</i>&nbsp;
+<i>351</i>&nbsp;    @Override
+<i>352</i>&nbsp;    public void updateGod(String player, String god) {
+<b class="nc"><i>353</i>&nbsp;        gods.put(player, god);</b>
+<b class="nc"><i>354</i>&nbsp;    }</b>
+<i>355</i>&nbsp;
+<i>356</i>&nbsp;    private void runLaterSynchronized(Runnable runnable) throws InterruptedException {
+<b class="nc"><i>357</i>&nbsp;        CountDownLatch latch = new CountDownLatch(1);</b>
+<b class="nc"><i>358</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>359</i>&nbsp;            runnable.run();</b>
+<b class="nc"><i>360</i>&nbsp;            latch.countDown();</b>
+<b class="nc"><i>361</i>&nbsp;        });</b>
+<b class="nc"><i>362</i>&nbsp;        latch.await();</b>
+<b class="nc"><i>363</i>&nbsp;    }</b>
+<i>364</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-18 16:44</div>
+</div>
+</body>
+</html>

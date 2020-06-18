@@ -1,0 +1,118 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Poseidon</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.server.model.gods</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Poseidon (it.polimi.ingsw.PSP14.server.model.gods)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Poseidon</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/ 11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.server.model.gods;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP14.server.controller.MatchController;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP14.server.model.MatchModel;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.io.IOException;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * End of your turn:
+<i>10</i>&nbsp; * If your unmoved Worker is on the ground level, it may build up to three times.
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public class Poseidon extends God {
+<i>13</i>&nbsp;    public Poseidon(String owner) {
+<b class="fc"><i>14</i>&nbsp;        super(owner);</b>
+<b class="fc"><i>15</i>&nbsp;    }</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    @Override
+<i>18</i>&nbsp;    public void afterTurn(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
+<b class="fc"><i>19</i>&nbsp;        if(!player.equals(getOwner())) return;</b>
+<i>20</i>&nbsp;
+<b class="fc"><i>21</i>&nbsp;        int otherWorker = workerIndex == 1 ? 0 : 1;</b>
+<i>22</i>&nbsp;
+<b class="fc"><i>23</i>&nbsp;        if(model.getBoard().getTowerSize(model.getPlayerByUsername(player).getWorkerPos(otherWorker)) == 0) {</b>
+<b class="fc"><i>24</i>&nbsp;            for(int i = 0; i &lt; 3; ++i) {</b>
+<b class="fc"><i>25</i>&nbsp;                if(model.getBuildable(player, otherWorker).size() &gt; 0) {</b>
+<b class="fc"><i>26</i>&nbsp;                    boolean choice = controller.askQuestion(player, &quot;POSEIDON: Why don&#39;t you let the other guy build as well?&quot;);</b>
+<i>27</i>&nbsp;
+<b class="fc"><i>28</i>&nbsp;                    if (!choice) break;</b>
+<i>29</i>&nbsp;
+<b class="fc"><i>30</i>&nbsp;                    model.build(player, otherWorker);</b>
+<i>31</i>&nbsp;                } else break;
+<i>32</i>&nbsp;            }
+<i>33</i>&nbsp;        }
+<b class="fc"><i>34</i>&nbsp;    }</b>
+<i>35</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-18 16:44</div>
+</div>
+</body>
+</html>

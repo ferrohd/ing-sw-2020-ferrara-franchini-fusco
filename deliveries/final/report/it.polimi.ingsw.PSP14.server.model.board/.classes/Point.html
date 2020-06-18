@@ -1,0 +1,136 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Point</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.server.model.board</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Point (it.polimi.ingsw.PSP14.server.model.board)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Point</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85.7%
+  </span>
+  <span class="absValue">
+    (6/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.7%
+  </span>
+  <span class="absValue">
+    (11/ 12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.server.model.board;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.io.Serializable;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * An immutable object containing integer 2D coordinates.
+<i>7</i>&nbsp; */
+<i>8</i>&nbsp;public class Point implements Serializable {
+<i>9</i>&nbsp;    private final int x;
+<i>10</i>&nbsp;    private final int y;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    /**
+<i>13</i>&nbsp;     * @param x the x coordinate of the point
+<i>14</i>&nbsp;     * @param y the y coordinate of the point
+<i>15</i>&nbsp;     */
+<b class="fc"><i>16</i>&nbsp;    public Point(int x, int y) {</b>
+<b class="fc"><i>17</i>&nbsp;        this.x = x;</b>
+<b class="fc"><i>18</i>&nbsp;        this.y = y;</b>
+<b class="fc"><i>19</i>&nbsp;    }</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    public int getX() {
+<b class="fc"><i>22</i>&nbsp;        return x;</b>
+<i>23</i>&nbsp;    }
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    public int getY() {
+<b class="fc"><i>26</i>&nbsp;        return y;</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * Compare two points and return a boolean whether they are equals or not.
+<i>31</i>&nbsp;     * @param point a point to confront with
+<i>32</i>&nbsp;     * @return whether the points are in the same position
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;    public boolean equals(Point point) {
+<b class="fc"><i>35</i>&nbsp;        return this.x == point.x &amp;&amp; this.y == point.y;</b>
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    public Point move(Direction dir) {
+<b class="fc"><i>39</i>&nbsp;        return new Point(</b>
+<b class="fc"><i>40</i>&nbsp;                x + dir.getXOffset(),</b>
+<b class="fc"><i>41</i>&nbsp;                y + dir.getYOffset()</b>
+<i>42</i>&nbsp;        );
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    public int distance(Point p) {
+<b class="fc"><i>46</i>&nbsp;        return Math.abs(x - p.x) + Math.abs(y - p.y);</b>
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    @Override
+<i>50</i>&nbsp;    public String toString() {
+<b class="nc"><i>51</i>&nbsp;        return &quot;(&quot; + x + &quot;, &quot; + y + &quot;)&quot;;</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-18 16:44</div>
+</div>
+</body>
+</html>

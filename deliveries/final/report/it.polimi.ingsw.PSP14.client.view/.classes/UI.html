@@ -1,0 +1,278 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: UI</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.client.view</a> ]
+</div>
+
+<h1>Coverage Summary for Class: UI (it.polimi.ingsw.PSP14.client.view)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">UI</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.client.view;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP14.client.view.cli.UIColor;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP14.core.proposals.BuildProposal;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP14.core.proposals.GodProposal;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP14.core.proposals.PlayerProposal;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP14.server.model.board.Point;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.io.IOException;
+<i>11</i>&nbsp;import java.util.List;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;/**
+<i>14</i>&nbsp; * This abstract class has to be implemented by
+<i>15</i>&nbsp; * a CLI or GUI (for example).
+<i>16</i>&nbsp; * It contains a set of abstract methods that have
+<i>17</i>&nbsp; * to be specifically implemented by the CLI or GUI.
+<i>18</i>&nbsp; * It contains a set of utility functions that
+<i>19</i>&nbsp; */
+<i>20</i>&nbsp;public interface UI {
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    void gameStart() throws InterruptedException;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /**
+<i>25</i>&nbsp;     * Add a new player to the match by providing their username.
+<i>26</i>&nbsp;     * @param newPlayerUsername the username of the player you want to
+<i>27</i>&nbsp;     *                          register (you get this from the server)
+<i>28</i>&nbsp;     */
+<i>29</i>&nbsp;    void registerPlayer(String newPlayerUsername);
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    /**
+<i>32</i>&nbsp;     * Remove a player from the match. This will remove the player and
+<i>33</i>&nbsp;     * all of its workers from this match.
+<i>34</i>&nbsp;     * @param username the username of the player you want
+<i>35</i>&nbsp;     *                 to remove
+<i>36</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>37</i>&nbsp;     */
+<i>38</i>&nbsp;    void unregisterPlayer(String username) throws InterruptedException;
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /**
+<i>41</i>&nbsp;     * Ask the player to choose a worker to move
+<i>42</i>&nbsp;     * @param player the player that has to choose the worker
+<i>43</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    void startWorkerChoice(String player) throws InterruptedException;
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    /**
+<i>48</i>&nbsp;     * Ask the player where they want to move the worker
+<i>49</i>&nbsp;     * @param player the player that has to choose where to move
+<i>50</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>51</i>&nbsp;     */
+<i>52</i>&nbsp;    void startMove(String player) throws InterruptedException;
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    /**
+<i>55</i>&nbsp;     * Ask the player where they want to build
+<i>56</i>&nbsp;     * @param player the player that has to choose where to build
+<i>57</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>58</i>&nbsp;     */
+<i>59</i>&nbsp;    void startBuild(String player) throws InterruptedException;
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    /**
+<i>62</i>&nbsp;     * Ask the player where to position the workers at the start of the match
+<i>63</i>&nbsp;     * @param player the player that has to place the workers
+<i>64</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>65</i>&nbsp;     */
+<i>66</i>&nbsp;    void startWorkerPlacement(String player) throws InterruptedException;
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    /**
+<i>69</i>&nbsp;     * Notify the players that there&#39;s a winner
+<i>70</i>&nbsp;     * @param winner the winner&#39;s name
+<i>71</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>72</i>&nbsp;     */
+<i>73</i>&nbsp;    void showVictory(String winner) throws InterruptedException;
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    /**
+<i>76</i>&nbsp;     * Set a player&#39;s worker in a target position.
+<i>77</i>&nbsp;     * If the player does not own a worker with that &lt;code&gt;workerId&lt;/code&gt;,
+<i>78</i>&nbsp;     * a new worker will be instantiated.
+<i>79</i>&nbsp;     * @param position the target position
+<i>80</i>&nbsp;     * @param workerId the ID of the player&#39;s worker
+<i>81</i>&nbsp;     * @param playerUsername the owner of the worker
+<i>82</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>83</i>&nbsp;     */
+<i>84</i>&nbsp;    void setWorker(Point position, int workerId, String playerUsername) throws InterruptedException;
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    /**
+<i>87</i>&nbsp;     * Move a worker of a player to a new position
+<i>88</i>&nbsp;     * @param newPosition the target destination of the worker
+<i>89</i>&nbsp;     * @param workerId the worker to move
+<i>90</i>&nbsp;     * @param playerUsername the worker&#39;s owner
+<i>91</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>92</i>&nbsp;     */
+<i>93</i>&nbsp;    void moveWorker(Point newPosition, int workerId, String playerUsername) throws InterruptedException;
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    /**
+<i>96</i>&nbsp;     * Increment the tower height at the specified cell position by 1.
+<i>97</i>&nbsp;     * @param position position
+<i>98</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>99</i>&nbsp;     */
+<i>100</i>&nbsp;    void incrementCell(Point position) throws InterruptedException;
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    /**
+<i>103</i>&nbsp;     * Add a dome (marking a tower as complete) to the specified cell position.
+<i>104</i>&nbsp;     * @param position the position
+<i>105</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>106</i>&nbsp;     */
+<i>107</i>&nbsp;    void setDome(Point position) throws InterruptedException;
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    /*
+<i>110</i>&nbsp;     * Commands used by the Command Pattern
+<i>111</i>&nbsp;     * (these methods will get called by the ProposalMessages
+<i>112</i>&nbsp;     * that are executable and are sent by the server)
+<i>113</i>&nbsp;     */
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;    /**
+<i>116</i>&nbsp;     * Calls an update of the UI implementation.
+<i>117</i>&nbsp;     * Use this to display changes in data.
+<i>118</i>&nbsp;     */
+<i>119</i>&nbsp;    void update();
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;    /**
+<i>122</i>&nbsp;     * Get a color depending on the player unique id.
+<i>123</i>&nbsp;     * @param playerNumber an int between &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;3&lt;/code&gt;
+<i>124</i>&nbsp;     * @return a color
+<i>125</i>&nbsp;     */
+<i>126</i>&nbsp;    UIColor getColor(int playerNumber);
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;    /**
+<i>129</i>&nbsp;     * Display a greeting to the player.
+<i>130</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>131</i>&nbsp;     */
+<i>132</i>&nbsp;    void welcome() throws InterruptedException;
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;    /**
+<i>135</i>&nbsp;     * Ask the host how many players should participate in the match.
+<i>136</i>&nbsp;     * @return the size of the lobby
+<i>137</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>138</i>&nbsp;     */
+<i>139</i>&nbsp;    int getLobbySize() throws InterruptedException;
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;    /**
+<i>142</i>&nbsp;     * Display a notification to the player.
+<i>143</i>&nbsp;     * @param s the content of the notification
+<i>144</i>&nbsp;     */
+<i>145</i>&nbsp;    void showNotification(String s);
+<i>146</i>&nbsp;
+<i>147</i>&nbsp;    /**
+<i>148</i>&nbsp;     * Prompt the player to provide a username.
+<i>149</i>&nbsp;     * @return the chosen username
+<i>150</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>151</i>&nbsp;     */
+<i>152</i>&nbsp;    String askUsername() throws InterruptedException;
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;    /**
+<i>155</i>&nbsp;     * Prompt the player to select a god from the list of available gods.
+<i>156</i>&nbsp;     * @param proposals the list of available gods
+<i>157</i>&nbsp;     * @return the index of the chosen god
+<i>158</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>159</i>&nbsp;     */
+<i>160</i>&nbsp;    int chooseGod(List&lt;GodProposal&gt; proposals) throws InterruptedException;
+<i>161</i>&nbsp;
+<i>162</i>&nbsp;    /**
+<i>163</i>&nbsp;     * Ask the player to choose another player (even themselves) from a list.
+<i>164</i>&nbsp;     *
+<i>165</i>&nbsp;     * @param proposals the list of players to choose from
+<i>166</i>&nbsp;     * @return the index of the chosen player
+<i>167</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>168</i>&nbsp;     */
+<i>169</i>&nbsp;    int chooseFirstPlayer(List&lt;PlayerProposal&gt; proposals) throws InterruptedException;
+<i>170</i>&nbsp;
+<i>171</i>&nbsp;    /**
+<i>172</i>&nbsp;     * Ask the player to choose a worker from a list
+<i>173</i>&nbsp;     * @param choices the list of workers
+<i>174</i>&nbsp;     * @return the index of the chosen worker
+<i>175</i>&nbsp;     * @throws IOException if it fails to communicate with the server
+<i>176</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>177</i>&nbsp;     */
+<i>178</i>&nbsp;    int chooseWorker(List&lt;Integer&gt; choices) throws InterruptedException, IOException;
+<i>179</i>&nbsp;
+<i>180</i>&nbsp;    /**
+<i>181</i>&nbsp;     * Ask the (hosting) player to choose a god that will be added to a pool
+<i>182</i>&nbsp;     * from which the players will be able to choose from before a game start.
+<i>183</i>&nbsp;     * @param gods a list of the available gods
+<i>184</i>&nbsp;     * @return the index of the chosen god
+<i>185</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>186</i>&nbsp;     */
+<i>187</i>&nbsp;    int chooseAvailableGods(List&lt;GodProposal&gt; gods) throws InterruptedException;
+<i>188</i>&nbsp;
+<i>189</i>&nbsp;    /**
+<i>190</i>&nbsp;     * Ask a player for the starting position of one of their workers.
+<i>191</i>&nbsp;     * @return A tuple [x,y] of the worker coordinates
+<i>192</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>193</i>&nbsp;     */
+<i>194</i>&nbsp;    int[] chooseWorkerInitialPosition() throws InterruptedException;
+<i>195</i>&nbsp;
+<i>196</i>&nbsp;
+<i>197</i>&nbsp;    /**
+<i>198</i>&nbsp;     * Ask a player for the destination of their next move.
+<i>199</i>&nbsp;     * @param moves a list of possible moves to choose from
+<i>200</i>&nbsp;     * @return the Index of the chosen move
+<i>201</i>&nbsp;     * @throws IOException if it fails to communicate with the server
+<i>202</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>203</i>&nbsp;     */
+<i>204</i>&nbsp;    int chooseMove(List&lt;MoveProposal&gt; moves) throws InterruptedException, IOException;
+<i>205</i>&nbsp;
+<i>206</i>&nbsp;    /**
+<i>207</i>&nbsp;     * Ask a player for the destination of their next build action,
+<i>208</i>&nbsp;     * where the next tower block will be built if possible.
+<i>209</i>&nbsp;     * @param moves a list of options to choose from
+<i>210</i>&nbsp;     * @return the Index of the chosen option
+<i>211</i>&nbsp;     * @throws IOException if it fails to communicate with the server
+<i>212</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>213</i>&nbsp;     */
+<i>214</i>&nbsp;    int chooseBuild(List&lt;BuildProposal&gt; moves) throws InterruptedException, IOException;
+<i>215</i>&nbsp;
+<i>216</i>&nbsp;    /**
+<i>217</i>&nbsp;     * Ask the player if they want to perform a certain action.
+<i>218</i>&nbsp;     * This handles only the confirm (positive or negative).
+<i>219</i>&nbsp;     * @param message the text to display
+<i>220</i>&nbsp;     * @return 0 = no, 1 = yes
+<i>221</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>222</i>&nbsp;     */
+<i>223</i>&nbsp;    int chooseYesNo(String message) throws InterruptedException;
+<i>224</i>&nbsp;
+<i>225</i>&nbsp;    /**
+<i>226</i>&nbsp;     * This method is called when a player has been assigned a god.
+<i>227</i>&nbsp;     * @param player the player&#39;s username
+<i>228</i>&nbsp;     * @param god the name/id of the god
+<i>229</i>&nbsp;     */
+<i>230</i>&nbsp;    void updateGod(String player, String god);
+<i>231</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-18 16:44</div>
+</div>
+</body>
+</html>

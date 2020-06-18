@@ -1,0 +1,131 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Apollo</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.server.model.gods</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Apollo (it.polimi.ingsw.PSP14.server.model.gods)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Apollo</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94.1%
+  </span>
+  <span class="absValue">
+    (16/ 17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.server.model.gods;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP14.server.model.MatchModel;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP14.server.model.actions.ApolloMoveAction;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP14.server.model.board.Board;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP14.server.model.board.Direction;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP14.server.model.board.Player;
+<i>9</i>&nbsp;import it.polimi.ingsw.PSP14.server.model.board.Point;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import java.io.IOException;
+<i>12</i>&nbsp;import java.util.List;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;/**
+<i>15</i>&nbsp; * Your Move: Your Worker may
+<i>16</i>&nbsp; * move into an opponent Worker’s
+<i>17</i>&nbsp; * space by forcing their Worker to
+<i>18</i>&nbsp; * the space yours just vacated.
+<i>19</i>&nbsp; */
+<i>20</i>&nbsp;public class Apollo extends God {
+<i>21</i>&nbsp;    public Apollo(String owner) {
+<b class="fc"><i>22</i>&nbsp;        super(owner);</b>
+<b class="fc"><i>23</i>&nbsp;    }</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    @Override
+<i>26</i>&nbsp;    public void addMoves(List&lt;MoveAction&gt; moves, String player, int workerIndex, MatchModel model) throws IOException {
+<b class="fc"><i>27</i>&nbsp;        if(!player.equals(getOwner())) {</b>
+<b class="nc"><i>28</i>&nbsp;            return;</b>
+<i>29</i>&nbsp;        }
+<b class="fc"><i>30</i>&nbsp;        Player playing = model.getPlayerByUsername(player);</b>
+<b class="fc"><i>31</i>&nbsp;        Point worker0 = playing.getWorkerPos(0);</b>
+<b class="fc"><i>32</i>&nbsp;        Point worker1 = playing.getWorkerPos(1);</b>
+<i>33</i>&nbsp;
+<b class="fc"><i>34</i>&nbsp;        Point currPos = playing.getWorkerPos(workerIndex);</b>
+<b class="fc"><i>35</i>&nbsp;        int currentLevel = model.getBoard().getTowerSize(currPos);</b>
+<i>36</i>&nbsp;
+<b class="fc"><i>37</i>&nbsp;        for(Direction dir: Direction.values()) {</b>
+<b class="fc"><i>38</i>&nbsp;            Point newPos = currPos.move(dir);</b>
+<b class="fc"><i>39</i>&nbsp;            if (Board.isValidPos(newPos) &amp;&amp; !newPos.equals(worker0) &amp;&amp; !newPos.equals(worker1)) {</b>
+<b class="fc"><i>40</i>&nbsp;                int newLevel = model.getBoard().getTowerSize(newPos);</b>
+<b class="fc"><i>41</i>&nbsp;                if (!model.isCellFree(newPos) &amp;&amp; newLevel &lt;= currentLevel + 1 &amp;&amp;</b>
+<b class="fc"><i>42</i>&nbsp;                        !model.getBoard().getIsCompleted(newPos)) {</b>
+<b class="fc"><i>43</i>&nbsp;                    moves.add(new ApolloMoveAction(player, currPos, newPos));</b>
+<i>44</i>&nbsp;                }
+<i>45</i>&nbsp;            }
+<i>46</i>&nbsp;        }
+<b class="fc"><i>47</i>&nbsp;    }</b>
+<i>48</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-18 16:44</div>
+</div>
+</body>
+</html>
