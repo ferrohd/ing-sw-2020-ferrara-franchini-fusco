@@ -6,6 +6,9 @@ import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 import java.io.IOException;
 
+/**
+ * Message that tells the client that a new worker has been added to the match.
+ */
 public class WorkerAddMessage implements UIUpdateMessage {
     private Point pos;
     private String player;

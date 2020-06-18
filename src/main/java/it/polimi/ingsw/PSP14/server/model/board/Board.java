@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * A board for the game.
- * Contains information about all the cells and exposes functions to get and update their state.
+ * The board of the game containing information about all the cells and exposing functions to get and update their state.
  */
 public class Board {
     private final Cell[][] board = new Cell[5][5];

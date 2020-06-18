@@ -5,6 +5,10 @@ import it.polimi.ingsw.PSP14.client.view.UI;
 
 import java.io.IOException;
 
+/**
+ * Message that tells the client that a player is choosing where to place their workers.
+ * Happens before the matchs starts.
+ */
 public class WorkerPlacementPhaseMessage extends PhaseMessage {
     public WorkerPlacementPhaseMessage(String player) {
         super(player);

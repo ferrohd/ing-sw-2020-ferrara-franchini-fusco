@@ -52,6 +52,16 @@ Final version of the project is in `/delieveries/final/` directory.
 
 5. The two [jar](https://en.wikipedia.org/wiki/Jar_Jar_Binks) (*santorini-client.jar* and *santorini-server.jar*) are in the `/target` directory.
 
+### Compiling Javadoc
+
+In order to generate the documentation, you can simply run the following command:
+
+```shell
+mvn javadoc:javadoc
+```
+
+The output directory will be in the `/target` directory.
+
 ### Running the jars
 
 Once you've acquired the *jar* files, either by compiling them yourself or downloading them from the `delieveries/final/jar/` directory on GitHub, you can run them the usual way:

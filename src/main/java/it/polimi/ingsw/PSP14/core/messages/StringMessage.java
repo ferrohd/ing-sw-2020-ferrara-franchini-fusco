@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.core.messages;
 
 /**
- * A message that contains only text.
+ * Message that contains only text.
  */
 public class StringMessage implements Message {
     private String string;

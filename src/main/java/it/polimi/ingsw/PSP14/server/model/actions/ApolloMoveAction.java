@@ -6,6 +6,9 @@ import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 import java.io.IOException;
 
+/**
+ * The implementation of a custom move of Apollo.
+ */
 public class ApolloMoveAction extends MoveAction {
     private Point opponentNewPos;
     private int opponentWorkerIndex;

@@ -18,6 +18,10 @@ import javafx.scene.shape.Mesh;
 import javafx.scene.shape.MeshView;
 import javafx.util.Duration;
 
+/**
+ * Utility class with methods to create and handle 3D models in a 3D context.
+ * It uses the flyweight pattern to minimally improve performances.
+ */
 public class ActorFactory {
     private static final double BLOCK_SCALE = 0.35;
 

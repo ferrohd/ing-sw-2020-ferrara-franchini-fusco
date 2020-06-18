@@ -19,6 +19,9 @@ import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
+/**
+ * A 2D/3D hybrid JavaFX implementation of {@link UI}.
+ */
 public class GUI implements UI {
     private String currentPlayerId;
     private final ArrayList<String> players = new ArrayList<>();

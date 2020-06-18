@@ -5,6 +5,9 @@ import it.polimi.ingsw.PSP14.client.view.UI;
 
 import java.io.IOException;
 
+/**
+ * Message to retrieve the player chosen initial position for their workers.
+ */
 public class WorkerInitialPositionMessage implements ClientExecutableMessage {
     @Override
     public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {

@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.time.Instant;
 
 /**
- * A game action.
+ * A game action which provides the base for custom actions.
  */
 public abstract class Action implements Serializable {
     // DO NOT TOUCH!

@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+/**
+ * A utility class that handles the parsing of a file that contains the names of the available gods.
+ */
 public class GodfileParser {
     private static ArrayList<String> godIdList = new ArrayList<>();
     /**

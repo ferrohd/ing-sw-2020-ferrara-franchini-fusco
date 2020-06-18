@@ -66,7 +66,7 @@ public class CLIHelper {
 
     /**
      * Reset the canvas to an empty state.
-     * <br/>It's good habit to call it straight after
+     * It's good habit to call it straight after
      * print() in order to prevent glitches.
      */
     private void reset() {

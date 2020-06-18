@@ -7,6 +7,9 @@ import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 import java.io.IOException;
 
+/**
+ * The implementation of a the move action.
+ */
 public class MoveAction extends Action implements Proposable {
     private Point from;
     private Point to;

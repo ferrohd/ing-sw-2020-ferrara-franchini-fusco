@@ -6,6 +6,9 @@ import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 import java.io.IOException;
 
+/**
+ * Message that tells the client that a player is choosing where to move a worker.
+ */
 public class WorkerMoveMessage implements UIUpdateMessage {
     private Point newPos;
     private String player;

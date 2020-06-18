@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.board;
 
 /**
- * Model for a worker
+ * Model of a worker.
  */
 public class Worker {
     private Point pos;

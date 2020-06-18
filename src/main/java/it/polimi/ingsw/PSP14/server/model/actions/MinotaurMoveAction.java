@@ -6,6 +6,9 @@ import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 import java.io.IOException;
 
+/**
+ * The implementation of a custom move of Minotaur.
+ */
 public class MinotaurMoveAction extends MoveAction {
     private Point opponentNewPos;
     private int opponentWorkerIndex;

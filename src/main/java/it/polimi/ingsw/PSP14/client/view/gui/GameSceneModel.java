@@ -26,6 +26,11 @@ import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.MeshView;
 import javafx.util.Duration;
 
+/**
+ * This class manages the actors in a 3D context,
+ * bridging the viewable content with the abstract data
+ * from the server, through a series of utility methods.
+ */
 public class GameSceneModel {
     private static final double WALLS_X = 8.65;
     private static final double WALLS_SCALE = 1;
@@ -277,6 +282,7 @@ public class GameSceneModel {
     /**
      * Move a worker to a target position with a cool animation.
      * @param position the target position
+     * @param latch latch to avoid async issues
      * @param worker the worker to move
      */
     private void moveWorkerNode(Point position, Node worker, CountDownLatch latch) {

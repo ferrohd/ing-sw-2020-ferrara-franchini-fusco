@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A view that allows a player to choose the player who goes first in the match.
+ */
 public class GUIFirstPlayerScene implements Runnable {
     List<String> names;
 

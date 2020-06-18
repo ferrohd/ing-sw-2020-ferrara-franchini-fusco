@@ -12,6 +12,9 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+/**
+ * A Command Line Interface implementation of the {@link UI}.
+ */
 public class CLI implements UI {
 
     private final UICache cache = new UICache();

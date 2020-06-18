@@ -6,6 +6,9 @@ import it.polimi.ingsw.PSP14.core.messages.ClientExecutableMessage;
 
 import java.io.IOException;
 
+/**
+ * Message that tells the client to unregister a player from the match.
+ */
 public class UnregisterPlayerMessage implements ClientExecutableMessage {
     private String toRemove;
 

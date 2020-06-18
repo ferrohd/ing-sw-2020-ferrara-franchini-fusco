@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * This class handles the retrieval of the player that will act first
+ * Message that handles the retrieval of the player that will act first
  * in the match. This class sends the client a list of players and retrieves
  * the index of the player for the server.
  */

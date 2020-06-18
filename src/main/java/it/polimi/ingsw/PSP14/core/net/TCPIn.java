@@ -11,6 +11,9 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * A task that handles the incoming messages.
+ */
 public class TCPIn implements Runnable {
     private BlockingQueue<Message> queue = new LinkedBlockingQueue<>();
     private ObjectInputStream in;

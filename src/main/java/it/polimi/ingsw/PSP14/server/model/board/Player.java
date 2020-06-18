@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Model for a player in the game.
+ * Model of a player in the game.
  */
 public class Player {
     private final String username;

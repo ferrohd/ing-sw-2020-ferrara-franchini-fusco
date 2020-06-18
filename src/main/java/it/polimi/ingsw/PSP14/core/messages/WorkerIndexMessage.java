@@ -7,7 +7,8 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * This class purpose is to retrieve a
+ * This class purpose is to retrieve the chosen worker index from a player and send
+ * it back to the server.
  */
 public class WorkerIndexMessage implements ClientExecutableMessage {
     private List<Integer> choosable;

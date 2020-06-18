@@ -75,9 +75,9 @@ public class Client {
      *
      *     --gui # Starts the GUI
      *     --cli # Starts the CLI
-     *     --address <address> # Specify the server address (IP or URL)
-     *     --port <port> # Speficy the server port (a number)
-     *     --config <path to config> # Specify a custom path to a config file.
+     *     --address example.com # Specify the server address (IP or URL)
+     *     --port 42069 # Specify the server port (a number)
+     *     --config path/to/settings.txt # Specify a custom path to a config file.
      *
      * A possible config file is the following:
      *

@@ -5,6 +5,10 @@ import it.polimi.ingsw.PSP14.client.view.UI;
 
 import java.io.IOException;
 
+/**
+ * Message of a terribly named class that returns a player's choice as a
+ * boolean value to the server.
+ */
 public class YesNoMessage implements ClientExecutableMessage {
     private String question;
 

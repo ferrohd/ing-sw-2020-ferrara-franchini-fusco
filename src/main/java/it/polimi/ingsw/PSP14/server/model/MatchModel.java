@@ -16,8 +16,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Model for a single match, server side. The MatchModel contains references to
- * the clients' connections.
+ * The model represents the state of a match.
  */
 public class MatchModel implements Runnable {
     private final Board board;
@@ -62,8 +61,7 @@ public class MatchModel implements Runnable {
      * usernames from players - asks the room leader to choose the gods of the game
      * - asks each player to choose their god - asks the room leader to choose the
      * game leader - asks each player to place their worker (twice)
-     * 
-     * @throws IOException
+     * @throws IOException if there's a connection error
      */
     private void setupGame() throws IOException {
         List<String> availableGods;
@@ -95,8 +93,9 @@ public class MatchModel implements Runnable {
      *
      * Consists of an infinite loop that plays the turn indefinitely until either a
      * connection error occurs or a end game event is detected.
+     * @throws IOException if there's a connection error
      */
-    private void gameLoop() throws IOException, EndGameException {
+    private void gameLoop() throws IOException {
         while (true)
             for (String p : userNames)
                 turn(p);

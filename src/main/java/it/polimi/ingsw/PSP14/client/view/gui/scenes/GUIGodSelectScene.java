@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * God selection scene
+ * A view that allows the players to choose the god they'll use in a match.
  */
 public class GUIGodSelectScene implements Runnable {
     private final List<String> gods;

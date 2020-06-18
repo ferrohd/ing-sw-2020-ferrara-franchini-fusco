@@ -6,6 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+/**
+ * The controller of {@link it.polimi.ingsw.PSP14.client.view.gui.scenes.GUIUsernameScene} FXML view.
+ */
 public class GUIUsernameSceneController {
     @FXML private TextField usernameField;
     @FXML private Button playBtn;
