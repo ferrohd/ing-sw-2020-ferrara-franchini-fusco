@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP14.server.model.board;
 
 /**
- * Defines the eight main cardinal directions.
+ * Defines the eight main cardinal directions, used for computing movement.
  * N  (x+0, y+1) <br>
  * NE (x+1, y+1) <br>
  * NW (x-1, y+1) <br>

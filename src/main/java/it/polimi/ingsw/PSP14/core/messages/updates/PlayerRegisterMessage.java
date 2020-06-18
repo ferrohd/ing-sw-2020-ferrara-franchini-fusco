@@ -5,6 +5,9 @@ import it.polimi.ingsw.PSP14.client.view.UI;
 
 import java.io.IOException;
 
+/**
+ * Message that tells the client to register a new player.
+ */
 public class PlayerRegisterMessage implements UIUpdateMessage {
     private String username;
 

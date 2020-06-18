@@ -16,8 +16,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Model for a single match, server side. The MatchModel contains references to
- * the clients' connections.
+ * The model represents the state of a match.
  */
 public class MatchModel implements Runnable {
     private final Board board;

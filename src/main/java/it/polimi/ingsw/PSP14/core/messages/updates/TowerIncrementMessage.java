@@ -6,6 +6,9 @@ import it.polimi.ingsw.PSP14.server.model.board.Point;
 
 import java.io.IOException;
 
+/**
+ * Message that tells the client that a tower size has been increased.
+ */
 public class TowerIncrementMessage implements UIUpdateMessage {
     private Point pos;
 

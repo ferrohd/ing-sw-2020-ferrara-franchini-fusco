@@ -5,6 +5,9 @@ import it.polimi.ingsw.PSP14.client.view.UI;
 
 import java.io.IOException;
 
+/**
+ * Message that tells the client that a player is choosing which worker to move.
+ */
 public class WorkerChoicePhaseMessage extends PhaseMessage {
 
     public WorkerChoicePhaseMessage(String player) {

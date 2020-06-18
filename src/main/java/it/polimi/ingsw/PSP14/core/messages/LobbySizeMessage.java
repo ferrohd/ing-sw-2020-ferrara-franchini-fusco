@@ -6,7 +6,7 @@ import it.polimi.ingsw.PSP14.client.view.UI;
 import java.io.IOException;
 
 /**
- * Send a client (the first player, in particular) a prompt to specify
+ * Message sent to a client (the first player, in particular) that prompts to specify
  * the number of players that the lobby will accept, and then send the
  * answer back to the server.
  */

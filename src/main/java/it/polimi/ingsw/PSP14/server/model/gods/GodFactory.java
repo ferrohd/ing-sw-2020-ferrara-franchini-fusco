@@ -1,6 +1,15 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
+/**
+ * Contains methods to get an instance of a god with an assigned player.
+ */
 public class GodFactory {
+    /**
+     * Generate a new god with an assigned player.
+     * @param name the name of the god
+     * @param owner the player that has chosen this god
+     * @return the god
+     */
     public static God getGod(String name, String owner) {
         switch (name) {
             case "Apollo":

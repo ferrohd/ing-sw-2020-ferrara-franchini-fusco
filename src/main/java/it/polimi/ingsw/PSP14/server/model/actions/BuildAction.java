@@ -7,6 +7,9 @@ import it.polimi.ingsw.PSP14.server.model.board.TowerSizeException;
 
 import java.io.IOException;
 
+/**
+ * The implementation of the build action.
+ */
 public class BuildAction extends Action implements Proposable {
     private Point point;
     private boolean dome;

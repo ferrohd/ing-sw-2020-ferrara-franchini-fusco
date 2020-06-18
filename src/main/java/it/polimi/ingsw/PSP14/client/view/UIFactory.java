@@ -4,6 +4,9 @@ import it.polimi.ingsw.PSP14.client.controller.InvalidSettingsException;
 import it.polimi.ingsw.PSP14.client.view.cli.CLI;
 import it.polimi.ingsw.PSP14.client.view.gui.GUI;
 
+/**
+ * A class containing static methods to obtain the requested implementation of the UI (CLI or GUI)
+ */
 public class UIFactory {
     private UIFactory() {}
 

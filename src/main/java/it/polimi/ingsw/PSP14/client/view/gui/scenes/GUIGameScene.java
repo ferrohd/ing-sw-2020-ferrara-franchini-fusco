@@ -26,6 +26,9 @@ import java.util.List;
 
 import static com.sun.javafx.util.Utils.clamp;
 
+/**
+ * A view representing the board, player info, gods info. This is where the game takes place.
+ */
 public class GUIGameScene implements Runnable {
 
     private static final int VIEWPORT_X = 800;

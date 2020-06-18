@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The core of the match. It exposes a series of methods that allows the game to change state.
+ * Works in tandem with {@link it.polimi.ingsw.PSP14.server.model.MatchModel}.
+ */
 public class MatchController {
     private List<String> users = new ArrayList<>(3);
     private Map<String, ClientConnection> connections = new HashMap<>(3);

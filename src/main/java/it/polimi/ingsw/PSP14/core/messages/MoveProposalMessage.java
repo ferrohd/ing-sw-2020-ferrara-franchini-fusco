@@ -7,6 +7,9 @@ import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import java.io.IOException;
 import java.util.Collection;
 
+/**
+ * Message containing the possible moves a client can perform.
+ */
 public class MoveProposalMessage extends ProposalMessage<MoveProposal> {
     public MoveProposalMessage(Collection<MoveProposal> p) {
         super(p);

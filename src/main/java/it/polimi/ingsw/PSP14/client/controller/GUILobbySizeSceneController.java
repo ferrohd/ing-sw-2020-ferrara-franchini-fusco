@@ -5,6 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
+/**
+ * The controller of {@link it.polimi.ingsw.PSP14.client.view.gui.scenes.GUILobbySizeScene} FXML view.
+ */
 public class GUILobbySizeSceneController {
     @FXML private Button btn2;
     @FXML private Button btn3;

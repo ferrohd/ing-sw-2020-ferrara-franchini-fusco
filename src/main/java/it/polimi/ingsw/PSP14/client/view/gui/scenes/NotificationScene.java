@@ -7,7 +7,7 @@ import javafx.util.Duration;
 import org.controlsfx.control.NotificationPane;
 
 /**
- * Toast-like notification to (guess what) notify the user
+ * Toast-like notification to notify the user of minor details.
  */
 public class NotificationScene implements Runnable {
 

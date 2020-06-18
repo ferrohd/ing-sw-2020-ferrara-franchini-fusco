@@ -5,6 +5,9 @@ import it.polimi.ingsw.PSP14.client.view.UI;
 
 import java.io.IOException;
 
+/**
+ * Message containing a custom notification for the player.
+ */
 public class NotificationMessage implements ClientExecutableMessage {
     private String content;
 

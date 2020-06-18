@@ -5,6 +5,9 @@ import it.polimi.ingsw.PSP14.client.view.UI;
 
 import java.io.IOException;
 
+/**
+ * Message that tells the client that a player has chosen a certain god.
+ */
 public class GodUpdateMessage implements UIUpdateMessage {
     private String player;
     private String god;

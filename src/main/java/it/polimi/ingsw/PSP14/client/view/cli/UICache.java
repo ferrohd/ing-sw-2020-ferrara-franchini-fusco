@@ -9,6 +9,11 @@ import java.util.Map;
 
 import static java.util.Comparator.comparing;
 
+/**
+ * This class reproduce locally the basic features of the server in order to
+ * maintain a consistent state of the game between server and client. It handles
+ * the players, the workers and the board.
+ */
 public class UICache {
     private final Map<String, UIPlayer> players;
     private final UICell[][] board = new UICell[5][5];

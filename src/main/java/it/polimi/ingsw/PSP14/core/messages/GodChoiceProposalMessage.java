@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * This class sends to the client a list of Gods to choose from,
+ * Message containing a list of Gods to choose from,
  * and sends the answer back to the server.
  */
 public class GodChoiceProposalMessage extends ProposalMessage<GodProposal> {

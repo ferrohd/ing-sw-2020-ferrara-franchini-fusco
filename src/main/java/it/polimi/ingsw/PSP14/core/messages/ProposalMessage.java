@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * ProposalMessage is the base class that is sent between client and server,
+ * This is the base class that is sent between client and server,
  * containing a list of Proposal that the client can choose from.
  * This class and its extensions can override the execute method to
  * execute code on the client.

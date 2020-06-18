@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * This class presents the first player with a list of gods to choose from
+ * Message that presents the first player with a list of gods to choose from
  * (up to the number of players)
  */
 public class GodSublistProposalMessage extends ProposalMessage<GodProposal> {

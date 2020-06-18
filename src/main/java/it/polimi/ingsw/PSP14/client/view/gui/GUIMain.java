@@ -15,7 +15,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
 /**
- * JavaFX Thread
+ * JavaFX Main Thread.
  */
 public class GUIMain extends Application {
 

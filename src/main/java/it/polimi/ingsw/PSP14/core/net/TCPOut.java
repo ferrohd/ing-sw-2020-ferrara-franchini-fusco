@@ -8,6 +8,9 @@ import java.io.ObjectOutputStream;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * A task that handles the outgoing messages.
+ */
 public class TCPOut implements Runnable {
     private BlockingQueue<Message> queue = new LinkedBlockingQueue<>();
     private final ObjectOutputStream out;

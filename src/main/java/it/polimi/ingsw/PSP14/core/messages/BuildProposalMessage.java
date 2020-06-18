@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * ProposalMessage containing the details about a specific Build action.
+ * Message containing the details about a specific Build action.
  */
 public class BuildProposalMessage extends ProposalMessage<BuildProposal> {
     public BuildProposalMessage(Collection<BuildProposal> p) {
