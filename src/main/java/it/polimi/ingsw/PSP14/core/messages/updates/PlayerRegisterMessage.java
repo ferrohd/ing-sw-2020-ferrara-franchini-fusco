@@ -13,9 +13,8 @@ public class PlayerRegisterMessage implements UIUpdateMessage {
     }
 
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException {
+    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
         ui.registerPlayer(username);
         ui.update();
-        return false;
     }
 }

@@ -12,8 +12,7 @@ public class NotificationMessage implements ClientExecutableMessage {
         this.content = content;
     }
 
-    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException {
+    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
         ui.showNotification(content);
-        return false;
     }
 }

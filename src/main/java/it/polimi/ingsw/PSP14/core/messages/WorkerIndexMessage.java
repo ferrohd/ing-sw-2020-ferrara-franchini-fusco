@@ -17,9 +17,8 @@ public class WorkerIndexMessage implements ClientExecutableMessage {
     }
 
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
+    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
         int index = ui.chooseWorker(choosable);
         serverConnection.sendMessage(new ChoiceMessage(index));
-        return false;
     }
 }

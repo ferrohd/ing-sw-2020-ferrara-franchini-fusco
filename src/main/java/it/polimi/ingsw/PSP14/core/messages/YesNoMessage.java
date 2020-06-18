@@ -13,9 +13,8 @@ public class YesNoMessage implements ClientExecutableMessage {
     }
 
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
+    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
         Message message = new ChoiceMessage(ui.chooseYesNo(question));
         serverConnection.sendMessage(message);
-        return false;
     }
 }

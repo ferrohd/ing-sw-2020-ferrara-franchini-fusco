@@ -7,9 +7,7 @@ import java.io.IOException;
 
 public class GameStartMessage implements ClientExecutableMessage {
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException {
+    public void execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException {
         ui.gameStart();
-
-        return true;
     }
 }

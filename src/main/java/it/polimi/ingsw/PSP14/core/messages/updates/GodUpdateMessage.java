@@ -15,9 +15,8 @@ public class GodUpdateMessage implements UIUpdateMessage {
     }
 
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException {
+    public void execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException {
         ui.showNotification(player + " chose " + god + "!");
         ui.updateGod(player, god);
-        return false;
     }
 }

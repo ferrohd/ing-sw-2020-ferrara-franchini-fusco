@@ -16,9 +16,8 @@ public class BuildProposalMessage extends ProposalMessage<BuildProposal> {
     }
 
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
+    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
         int choice = ui.chooseBuild(getProposals());
         serverConnection.sendMessage(new ChoiceMessage(choice));
-        return false;
     }
 }

@@ -18,9 +18,8 @@ public class WorkerAddMessage implements UIUpdateMessage {
     }
 
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
+    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
         ui.setWorker(pos, workerId, player);
         ui.update();
-        return false;
     }
 }
