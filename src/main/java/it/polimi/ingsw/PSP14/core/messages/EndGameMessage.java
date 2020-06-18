@@ -9,7 +9,7 @@ public class EndGameMessage implements ClientExecutableMessage {
     private String winner;
 
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) throws IOException {
+    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
         ui.showNotification(winner + " won!");
         throw new IOException();
     }

@@ -11,8 +11,7 @@ public class MovePhaseMessage extends PhaseMessage {
     }
 
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException {
+    public void execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException {
         ui.startMove(getPlayer());
-        return false;
     }
 }

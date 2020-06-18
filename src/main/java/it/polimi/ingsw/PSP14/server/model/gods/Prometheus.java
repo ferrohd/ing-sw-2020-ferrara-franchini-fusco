@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Your turn:
+ * If your Worker does not move up, it may build both before and after moving.
+ */
 public class Prometheus extends God {
     private boolean activated = false;
 

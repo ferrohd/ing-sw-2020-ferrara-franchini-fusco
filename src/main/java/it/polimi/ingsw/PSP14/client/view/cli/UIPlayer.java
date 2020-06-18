@@ -103,8 +103,8 @@ public class UIPlayer {
 
     /**
      * Delete a worker from a player by using the worker id.
-     * This will effectively delete a worker from the entire match.
-     * (Such as when the player loses).<br/>
+     * This will effectively delete a worker from the entire match
+     * (such as when the player loses).
      * Only a player can remove a worker.
      * @param withId the id of the worker
      */

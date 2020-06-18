@@ -12,8 +12,7 @@ public class WorkerChoicePhaseMessage extends PhaseMessage {
     }
 
     @Override
-    public boolean execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException {
+    public void execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException {
         ui.startWorkerChoice(getPlayer());
-        return false;
     }
 }

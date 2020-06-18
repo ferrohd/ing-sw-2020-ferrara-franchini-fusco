@@ -6,6 +6,10 @@ import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
 
 import java.io.IOException;
 
+/**
+ * Your build:
+ * Your Worker may build one additional block (not dome) on top of your first block.
+ */
 public class Hephaestus extends God {
     public Hephaestus(String owner) {
         super(owner);

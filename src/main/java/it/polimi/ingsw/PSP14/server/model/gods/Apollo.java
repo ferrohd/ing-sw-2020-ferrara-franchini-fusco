@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Apollo<br/>
- * God Of Music<br/>
  * Your Move: Your Worker may
  * move into an opponent Worker’s
  * space by forcing their Worker to

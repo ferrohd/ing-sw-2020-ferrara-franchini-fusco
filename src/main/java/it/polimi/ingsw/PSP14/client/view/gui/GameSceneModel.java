@@ -82,11 +82,11 @@ public class GameSceneModel {
      * @param meshUrl an absolute path relative to the resource
      *                folder where the OBJ model resides.
      * @param textureUrl an absolute path relative to the resource
-     *                   folder where the PNG texture resides.
+ *                    folder where the PNG texture resides.
      * @param position the position of the actor
      * @param scale the scale of the actor
      */
-    public Node addActor(String id, String meshUrl, String textureUrl, Point3D position, double scale) {
+    public void addActor(String id, String meshUrl, String textureUrl, Point3D position, double scale) {
         // Import 3D resource
         URL modelUrl = ActorFactory.class.getResource(meshUrl);
         ObjModelImporter objImporter = new ObjModelImporter();
@@ -117,7 +117,6 @@ public class GameSceneModel {
 
         actors.put(id, meshView);
         root.getChildren().add(meshView);
-        return meshView;
     }
 
     /**
@@ -188,6 +187,7 @@ public class GameSceneModel {
     /**
      * Return an ordered list of points representing all the workers
      * of a certain player.
+     * @param playerId the id of the player
      * @return a list of points
      */
     public List<Point> getAllPlayerWorkers(int playerId) {
@@ -268,6 +268,7 @@ public class GameSceneModel {
      * @param playerNumber the number of the worker's player (0, 1, 2)
      * @param workerNumber the number of the worker (0 or 1)
      * @param position the target position
+     * @param latch the CountDownLatch reference to prevent unwanted behaviour
      */
     public void moveWorker(int playerNumber, int workerNumber, Point position, CountDownLatch latch) {
         moveWorkerNode(position, actors.get(getWorkerActorId(playerNumber, workerNumber)), latch);
@@ -468,6 +469,7 @@ public class GameSceneModel {
 
     /**
      * Creates a rect at target position
+     * @param index index of the selectable
      * @param targetPos where to spawn the rect
      */
     public void addSelectable(int index, Point targetPos) {

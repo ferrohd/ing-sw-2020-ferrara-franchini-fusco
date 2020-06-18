@@ -305,7 +305,7 @@ public class CLIHelper {
     }
 
     /**
-     * Display a list that splits in two columns if <code>list.size() > height</code>
+     * Display a list that splits in two columns if <code>list.size()</code> is greater than <code>height</code>
      * @param x start
      * @param y start
      * @param w width
@@ -344,6 +344,7 @@ public class CLIHelper {
      * Draw options on the right side of the map/board.
      * This will be useful for either workers or actions.
      * @param choices list of strings representing the entries.
+     * @param title the title to display
      */
     public void drawPanelChoices(String title, List<String> choices) {
         addText(PANEL_START, PANEL_Y + 5, title, CLIColor.RESET);

@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Your build:
+ * Your Worker may build one additional time, but not on the same space.
+ */
 public class Demeter extends God {
     public Demeter(String owner) {
         super(owner);

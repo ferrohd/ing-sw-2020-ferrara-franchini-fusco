@@ -8,6 +8,10 @@ import it.polimi.ingsw.PSP14.server.model.board.Point;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Your build:
+ * Your Worker may build a block under itself.
+ */
 public class Zeus extends God {
     public Zeus(String owner) {
         super(owner);

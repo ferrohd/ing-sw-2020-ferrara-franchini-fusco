@@ -16,7 +16,8 @@ public interface ClientExecutableMessage extends Message {
      * Execute the instruction contained in this method on the client.
      * @param ui the client UI
      * @param serverConnection a way to send/receive messages to/from the server
-     * @return
+     * @throws InterruptedException if interrupted
+     * @throws IOException if there's a connection error
      */
-    public boolean execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException;
+    void execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException;
 }

@@ -6,6 +6,10 @@ import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 
 import java.io.IOException;
 
+/**
+ * Win condition:
+ * You also win if your Worker moves down two or more levels.
+ */
 public class Pan extends God {
     public Pan(String owner) {
         super(owner);

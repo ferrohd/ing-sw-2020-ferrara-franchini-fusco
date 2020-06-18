@@ -11,7 +11,7 @@ public class UIFactory {
      * Launch GUI or CLI based on settings
      * @param setting param used to launch cli or gui
      * @return UI to use
-     * @throws InvalidSettingsException
+     * @throws InvalidSettingsException if the specified setting isn't implemented
      */
     public static UI getUI(String setting) throws InvalidSettingsException {
         switch(setting) {
