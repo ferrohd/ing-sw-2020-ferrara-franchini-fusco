@@ -1,0 +1,199 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: UICache</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.client.view.cli</a> ]
+</div>
+
+<h1>Coverage Summary for Class: UICache (it.polimi.ingsw.PSP14.client.view.cli)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UICache</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (32/ 32)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.client.view.cli;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP14.server.model.board.Point;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.ArrayList;
+<i>6</i>&nbsp;import java.util.HashMap;
+<i>7</i>&nbsp;import java.util.List;
+<i>8</i>&nbsp;import java.util.Map;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import static java.util.Comparator.comparing;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;public class UICache {
+<i>13</i>&nbsp;    private final Map&lt;String, UIPlayer&gt; players;
+<b class="fc"><i>14</i>&nbsp;    private final UICell[][] board = new UICell[5][5];</b>
+<i>15</i>&nbsp;
+<b class="fc"><i>16</i>&nbsp;    public UICache() {</b>
+<b class="fc"><i>17</i>&nbsp;        players = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>18</i>&nbsp;        for(int y = 0; y &lt; 5; ++y) {</b>
+<b class="fc"><i>19</i>&nbsp;            for(int x = 0; x &lt; 5; ++x) {</b>
+<b class="fc"><i>20</i>&nbsp;                board[y][x] = new UICell(x, y);</b>
+<i>21</i>&nbsp;            }
+<i>22</i>&nbsp;        }
+<b class="fc"><i>23</i>&nbsp;    }</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    /**
+<i>26</i>&nbsp;     * Get a cell from the board.
+<i>27</i>&nbsp;     * @param x coordinate
+<i>28</i>&nbsp;     * @param y coordinate
+<i>29</i>&nbsp;     * @return the cell at x,y coordinates
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    public UICell getCell(int x, int y) {
+<b class="fc"><i>32</i>&nbsp;        return this.board[y][x];</b>
+<i>33</i>&nbsp;    }
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    /**
+<i>36</i>&nbsp;     * Get a cell from the board.
+<i>37</i>&nbsp;     * @param position a UIPoint representing the coordinates
+<i>38</i>&nbsp;     *                 of the cell.
+<i>39</i>&nbsp;     * @return the cell at x,y coordinates
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;    public UICell getCell(Point position) {
+<b class="fc"><i>42</i>&nbsp;        return getCell(position.getX(), position.getY());</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /**
+<i>46</i>&nbsp;     * Add a player to the match.
+<i>47</i>&nbsp;     * @param username username of the player
+<i>48</i>&nbsp;     * @param number unique id of the player
+<i>49</i>&nbsp;     * @param color unique (not necessarily) color of the player
+<i>50</i>&nbsp;     */
+<i>51</i>&nbsp;    public void addPlayer(String username, int number, UIColor color) {
+<b class="fc"><i>52</i>&nbsp;        this.players.put(username, new UIPlayer(username, number, color));</b>
+<b class="fc"><i>53</i>&nbsp;    }</b>
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    /**
+<i>56</i>&nbsp;     * Remove a player from the match. This will effectively wipe
+<i>57</i>&nbsp;     * the player and all of it&#39;s workers from the game.
+<i>58</i>&nbsp;     * @param username the username of the player to remove
+<i>59</i>&nbsp;     */
+<i>60</i>&nbsp;    public void removePlayer(String username) {
+<b class="fc"><i>61</i>&nbsp;        UIPlayer _player = getPlayer(username);</b>
+<i>62</i>&nbsp;        // Remove workers first
+<b class="fc"><i>63</i>&nbsp;        _player.getWorkers().forEach(UIWorker::remove);</b>
+<i>64</i>&nbsp;        // Then remove the player
+<b class="fc"><i>65</i>&nbsp;        this.players.remove(username);</b>
+<b class="fc"><i>66</i>&nbsp;    }</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    /**
+<i>69</i>&nbsp;     * @return a List of all Players
+<i>70</i>&nbsp;     */
+<i>71</i>&nbsp;    public List&lt;UIPlayer&gt; getPlayers() {
+<b class="fc"><i>72</i>&nbsp;        List&lt;UIPlayer&gt; _list = new ArrayList&lt;&gt;(this.players.values());</b>
+<b class="fc"><i>73</i>&nbsp;        _list.sort(comparing(UIPlayer::getNumber));</b>
+<b class="fc"><i>74</i>&nbsp;        return _list;</b>
+<i>75</i>&nbsp;    }
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    /**
+<i>78</i>&nbsp;     * @param username name of the player to be returned
+<i>79</i>&nbsp;     * @return the player
+<i>80</i>&nbsp;     */
+<i>81</i>&nbsp;    public UIPlayer getPlayer(String username) {
+<b class="fc"><i>82</i>&nbsp;        return this.players.get(username);</b>
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    /**
+<i>86</i>&nbsp;     * Updates the cache by setting a worker to a cell
+<i>87</i>&nbsp;     * @param worker to be set
+<i>88</i>&nbsp;     * @param player owner of the worker
+<i>89</i>&nbsp;     * @param cell where the worker should be set to
+<i>90</i>&nbsp;     */
+<i>91</i>&nbsp;    public void setWorker(UIWorker worker, String player, UICell cell) {
+<b class="fc"><i>92</i>&nbsp;        if (cell == null) return;</b>
+<i>93</i>&nbsp;
+<b class="fc"><i>94</i>&nbsp;        if (cell.getWorker() != worker) {</b>
+<i>95</i>&nbsp;            // Remove the worker on target cell
+<b class="fc"><i>96</i>&nbsp;            unsetWorker(cell.getWorker());</b>
+<i>97</i>&nbsp;        }
+<i>98</i>&nbsp;        // Free the new worker
+<b class="fc"><i>99</i>&nbsp;        unsetWorker(worker);</b>
+<i>100</i>&nbsp;        // Set it to target cell
+<b class="fc"><i>101</i>&nbsp;        getPlayer(player).setWorker(worker);</b>
+<b class="fc"><i>102</i>&nbsp;        worker.setCell(cell);</b>
+<b class="fc"><i>103</i>&nbsp;        cell.setWorker(worker);</b>
+<b class="fc"><i>104</i>&nbsp;    }</b>
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;    /**
+<i>107</i>&nbsp;     * Remove a worker from the Board
+<i>108</i>&nbsp;     * @param worker to be removed from the board
+<i>109</i>&nbsp;     */
+<i>110</i>&nbsp;    public void unsetWorker(UIWorker worker) {
+<b class="fc"><i>111</i>&nbsp;        if (worker == null) return;</b>
+<b class="fc"><i>112</i>&nbsp;        UICell _c = worker.getCell();</b>
+<b class="fc"><i>113</i>&nbsp;        if (_c != null) _c.unsetWorker(); // remove worker ref from cell</b>
+<b class="fc"><i>114</i>&nbsp;        worker.unsetCell(); // remove cell ref from worker</b>
+<b class="fc"><i>115</i>&nbsp;    }</b>
+<i>116</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-18 16:44</div>
+</div>
+</body>
+</html>

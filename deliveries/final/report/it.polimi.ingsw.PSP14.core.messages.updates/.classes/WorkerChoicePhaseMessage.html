@@ -1,0 +1,101 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: WorkerChoicePhaseMessage</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.core.messages.updates</a> ]
+</div>
+
+<h1>Coverage Summary for Class: WorkerChoicePhaseMessage (it.polimi.ingsw.PSP14.core.messages.updates)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WorkerChoicePhaseMessage</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.core.messages.updates;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP14.client.controller.ServerConnection;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP14.client.view.UI;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.io.IOException;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;public class WorkerChoicePhaseMessage extends PhaseMessage {
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    public WorkerChoicePhaseMessage(String player) {
+<b class="nc"><i>11</i>&nbsp;        super(player);</b>
+<b class="nc"><i>12</i>&nbsp;    }</b>
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    @Override
+<i>15</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException {
+<b class="nc"><i>16</i>&nbsp;        ui.startWorkerChoice(getPlayer());</b>
+<b class="nc"><i>17</i>&nbsp;    }</b>
+<i>18</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-18 16:44</div>
+</div>
+</body>
+</html>

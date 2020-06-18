@@ -1,0 +1,70 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ClientExecutableMessage</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.core.messages</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ClientExecutableMessage (it.polimi.ingsw.PSP14.core.messages)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ClientExecutableMessage</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.core.messages;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP14.client.controller.ServerConnection;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP14.client.view.UI;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.io.IOException;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * A message send from the server that contains executable instructions.
+<i>10</i>&nbsp; * This corresponds more-or-less to a client-side implementation of a
+<i>11</i>&nbsp; * server action, except that the client is &quot;dumb&quot; and has to simply
+<i>12</i>&nbsp; * display what the server says.
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public interface ClientExecutableMessage extends Message {
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * Execute the instruction contained in this method on the client.
+<i>17</i>&nbsp;     * @param ui the client UI
+<i>18</i>&nbsp;     * @param serverConnection a way to send/receive messages to/from the server
+<i>19</i>&nbsp;     * @throws InterruptedException if interrupted
+<i>20</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>21</i>&nbsp;     */
+<i>22</i>&nbsp;    void execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException;
+<i>23</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-18 16:44</div>
+</div>
+</body>
+</html>

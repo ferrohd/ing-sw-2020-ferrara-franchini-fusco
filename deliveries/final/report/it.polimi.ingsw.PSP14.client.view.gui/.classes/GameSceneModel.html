@@ -1,0 +1,702 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GameSceneModel</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.client.view.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GameSceneModel (it.polimi.ingsw.PSP14.client.view.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameSceneModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 41)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 209)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.client.view.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.net.URL;
+<i>4</i>&nbsp;import java.util.ArrayList;
+<i>5</i>&nbsp;import java.util.HashMap;
+<i>6</i>&nbsp;import java.util.List;
+<i>7</i>&nbsp;import java.util.Map;
+<i>8</i>&nbsp;import java.util.concurrent.CountDownLatch;
+<i>9</i>&nbsp;import java.util.stream.Collectors;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import it.polimi.ingsw.PSP14.server.model.board.Point;
+<i>14</i>&nbsp;import javafx.animation.KeyFrame;
+<i>15</i>&nbsp;import javafx.animation.KeyValue;
+<i>16</i>&nbsp;import javafx.animation.Timeline;
+<i>17</i>&nbsp;import javafx.geometry.Point3D;
+<i>18</i>&nbsp;import javafx.scene.AmbientLight;
+<i>19</i>&nbsp;import javafx.scene.Group;
+<i>20</i>&nbsp;import javafx.scene.Node;
+<i>21</i>&nbsp;import javafx.scene.image.Image;
+<i>22</i>&nbsp;import javafx.scene.paint.Color;
+<i>23</i>&nbsp;import javafx.scene.paint.PhongMaterial;
+<i>24</i>&nbsp;import javafx.scene.shape.CullFace;
+<i>25</i>&nbsp;import javafx.scene.shape.DrawMode;
+<i>26</i>&nbsp;import javafx.scene.shape.MeshView;
+<i>27</i>&nbsp;import javafx.util.Duration;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;public class GameSceneModel {
+<i>30</i>&nbsp;    private static final double WALLS_X = 8.65;
+<i>31</i>&nbsp;    private static final double WALLS_SCALE = 1;
+<i>32</i>&nbsp;    private static final double WALLS_Y = 3.5;
+<i>33</i>&nbsp;    private static final double WALLS_Z = 8.65;
+<i>34</i>&nbsp;    private static final double BLOCK_X = -0.3;
+<i>35</i>&nbsp;    private static final double BLOCK_Z = -0.1;
+<i>36</i>&nbsp;    private static final double BLOCK_Y_1 = 1.2; // lv 1
+<i>37</i>&nbsp;    private static final double BLOCK_Y_2 = 0; // lv2
+<i>38</i>&nbsp;    private static final double BLOCK_Y_3 = -1.9; //lv 3
+<i>39</i>&nbsp;    private static final double BLOCK_Y_4 = -3; // dome
+<i>40</i>&nbsp;    private static final double BLOCK_Y_HIDE = 5; // dome
+<i>41</i>&nbsp;    private static final double BLOCK_SCALE = 0.35;
+<i>42</i>&nbsp;    private static final double WORKER_Y_HIDE = 5;
+<i>43</i>&nbsp;    private static final double WORKER_Y_1 = -1; // ground
+<i>44</i>&nbsp;    private static final double WORKER_Y_2 = -2.3; // lv 1
+<i>45</i>&nbsp;    private static final double WORKER_Y_3 = -3.4; // lv 2
+<i>46</i>&nbsp;    private static final double WORKER_Y_4 = -4.25; // lv 3
+<i>47</i>&nbsp;    private static final double SELECT_HEIGHT = 0.4;
+<i>48</i>&nbsp;    private static final double SELECT_Y_1 = 0 - SELECT_HEIGHT/2; // ground
+<i>49</i>&nbsp;    private static final double SELECT_Y_2 = -1.5 - SELECT_HEIGHT/2; // lv 1
+<i>50</i>&nbsp;    private static final double SELECT_Y_3 = -2.5 - SELECT_HEIGHT/2; // lv 2
+<i>51</i>&nbsp;    private static final double SELECT_Y_4 = -3.5 - SELECT_HEIGHT/2; // lv 3
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    // Contains all actors, accessible with an ID
+<b class="nc"><i>54</i>&nbsp;    private final Map&lt;String, Node&gt; actors = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>55</i>&nbsp;    private final Group root = new Group();</b>
+<i>56</i>&nbsp;
+<b class="nc"><i>57</i>&nbsp;    public GameSceneModel() {</b>
+<b class="nc"><i>58</i>&nbsp;        setupScenery();</b>
+<b class="nc"><i>59</i>&nbsp;    }</b>
+<i>60</i>&nbsp;
+<b class="nc"><i>61</i>&nbsp;    public Group getRoot() { return root; }</b>
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    /**
+<i>64</i>&nbsp;     * Init the scenery (sea, board, cliff, all the cosmetic stuff).
+<i>65</i>&nbsp;     */
+<i>66</i>&nbsp;    public void setupScenery() {
+<b class="nc"><i>67</i>&nbsp;        addActor(&quot;sea&quot;, &quot;/assets/Sea.obj&quot;, &quot;/assets/Sea.png&quot;, new Point3D(0, 3, 0), 1);</b>
+<b class="nc"><i>68</i>&nbsp;        addActor(&quot;cliff&quot;, &quot;/assets/Cliff.obj&quot;, &quot;/assets/Cliff_v001.png&quot;, new Point3D(-0.1, 1.4, 0), 7.9);</b>
+<b class="nc"><i>69</i>&nbsp;        addActor(&quot;board&quot;, &quot;/assets/Board.obj&quot;, &quot;/assets/Cliff_v001.png&quot;, new Point3D(0, 0, 0), 1);</b>
+<b class="nc"><i>70</i>&nbsp;        addActor(&quot;outerWall&quot;, &quot;/assets/OuterWall.obj&quot;, &quot;/assets/Cliff_v001.png&quot;, new Point3D(WALLS_X, WALLS_Y, WALLS_Z), WALLS_SCALE);</b>
+<b class="nc"><i>71</i>&nbsp;        addActor(&quot;innerWall&quot;, &quot;/assets/InnerWalls.obj&quot;, &quot;/assets/Cliff_v001.png&quot;, new Point3D(WALLS_X, WALLS_Y, WALLS_Z), WALLS_SCALE);</b>
+<i>72</i>&nbsp;
+<b class="nc"><i>73</i>&nbsp;        AmbientLight ambientLight = new AmbientLight();</b>
+<b class="nc"><i>74</i>&nbsp;        ambientLight.setColor(Color.LIGHTYELLOW);</b>
+<b class="nc"><i>75</i>&nbsp;        actors.put(&quot;light&quot;, ambientLight);</b>
+<b class="nc"><i>76</i>&nbsp;        root.getChildren().add(ambientLight);</b>
+<b class="nc"><i>77</i>&nbsp;    }</b>
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    /**
+<i>80</i>&nbsp;     * Add an actor to the scene
+<i>81</i>&nbsp;     * @param id the id of the actor
+<i>82</i>&nbsp;     * @param meshUrl an absolute path relative to the resource
+<i>83</i>&nbsp;     *                folder where the OBJ model resides.
+<i>84</i>&nbsp;     * @param textureUrl an absolute path relative to the resource
+<i>85</i>&nbsp; *                    folder where the PNG texture resides.
+<i>86</i>&nbsp;     * @param position the position of the actor
+<i>87</i>&nbsp;     * @param scale the scale of the actor
+<i>88</i>&nbsp;     */
+<i>89</i>&nbsp;    public void addActor(String id, String meshUrl, String textureUrl, Point3D position, double scale) {
+<i>90</i>&nbsp;        // Import 3D resource
+<b class="nc"><i>91</i>&nbsp;        URL modelUrl = ActorFactory.class.getResource(meshUrl);</b>
+<b class="nc"><i>92</i>&nbsp;        ObjModelImporter objImporter = new ObjModelImporter();</b>
+<i>93</i>&nbsp;
+<b class="nc"><i>94</i>&nbsp;        objImporter.read(modelUrl);</b>
+<b class="nc"><i>95</i>&nbsp;        MeshView[] meshViews = objImporter.getImport();</b>
+<b class="nc"><i>96</i>&nbsp;        objImporter.close();</b>
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;        // Get the first mesh (there should not be multiple meshes)
+<b class="nc"><i>99</i>&nbsp;        MeshView meshView = meshViews[0];</b>
+<b class="nc"><i>100</i>&nbsp;        meshView.setCullFace(CullFace.BACK);</b>
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;        // Apply textures
+<i>103</i>&nbsp;        // This looks up to /resources/
+<b class="nc"><i>104</i>&nbsp;        Image texture = new Image(textureUrl);</b>
+<b class="nc"><i>105</i>&nbsp;        PhongMaterial texturedMaterial = new PhongMaterial();</b>
+<b class="nc"><i>106</i>&nbsp;        texturedMaterial.setDiffuseMap(texture);</b>
+<b class="nc"><i>107</i>&nbsp;        meshView.setDrawMode(DrawMode.FILL);</b>
+<b class="nc"><i>108</i>&nbsp;        meshView.setMaterial(texturedMaterial);</b>
+<i>109</i>&nbsp;
+<b class="nc"><i>110</i>&nbsp;        meshView.setTranslateX(position.getX());</b>
+<b class="nc"><i>111</i>&nbsp;        meshView.setTranslateY(position.getY());</b>
+<b class="nc"><i>112</i>&nbsp;        meshView.setTranslateZ(position.getZ());</b>
+<i>113</i>&nbsp;
+<b class="nc"><i>114</i>&nbsp;        meshView.setScaleX(scale);</b>
+<b class="nc"><i>115</i>&nbsp;        meshView.setScaleY(scale);</b>
+<b class="nc"><i>116</i>&nbsp;        meshView.setScaleZ(scale);</b>
+<i>117</i>&nbsp;
+<b class="nc"><i>118</i>&nbsp;        actors.put(id, meshView);</b>
+<b class="nc"><i>119</i>&nbsp;        root.getChildren().add(meshView);</b>
+<b class="nc"><i>120</i>&nbsp;    }</b>
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    /**
+<i>123</i>&nbsp;     * Get an actor (Node) from the actors data structure
+<i>124</i>&nbsp;     * @param id the key of that actor
+<i>125</i>&nbsp;     * @return the Node of that actor
+<i>126</i>&nbsp;     */
+<i>127</i>&nbsp;    public Node getActorById(String id) {
+<b class="nc"><i>128</i>&nbsp;        return actors.get(id);</b>
+<i>129</i>&nbsp;    }
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;    /**
+<i>132</i>&nbsp;     * Get a worker actor id.
+<i>133</i>&nbsp;     * @param player the worker&#39;s player number
+<i>134</i>&nbsp;     * @param workerId the worker&#39;s number
+<i>135</i>&nbsp;     * @return a key (String) representing that worker
+<i>136</i>&nbsp;     */
+<i>137</i>&nbsp;    public static String getWorkerActorId(int player, int workerId) {
+<b class="nc"><i>138</i>&nbsp;        return &quot;worker&quot; + player + workerId;</b>
+<i>139</i>&nbsp;    }
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;    /**
+<i>142</i>&nbsp;     * Add a worker to the board.
+<i>143</i>&nbsp;     * @param point a model coordinate
+<i>144</i>&nbsp;     * @param workerId the worker id number
+<i>145</i>&nbsp;     * @param playerId the player id number
+<i>146</i>&nbsp;     */
+<i>147</i>&nbsp;    public void addWorker(Point point, int workerId, int playerId) {
+<b class="nc"><i>148</i>&nbsp;        Node worker = ActorFactory.getWorker(playerId, workerId);</b>
+<b class="nc"><i>149</i>&nbsp;        Point3D target = getSceneWorkerCoordinates(point);</b>
+<b class="nc"><i>150</i>&nbsp;        setNodeToPoint3D(worker, target);</b>
+<b class="nc"><i>151</i>&nbsp;        addToActorsAndRegister(getWorkerActorId(playerId, workerId), worker);</b>
+<b class="nc"><i>152</i>&nbsp;    }</b>
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;    /**
+<i>155</i>&nbsp;     * Remove a worker from the game.
+<i>156</i>&nbsp;     * @param workerId the worker id number
+<i>157</i>&nbsp;     * @param playerId the player id number
+<i>158</i>&nbsp;     */
+<i>159</i>&nbsp;    public void removeWorker(int workerId, int playerId) {
+<b class="nc"><i>160</i>&nbsp;        Node worker = actors.get(getWorkerActorId(playerId, workerId));</b>
+<b class="nc"><i>161</i>&nbsp;        actors.remove(getWorkerActorId(playerId, workerId));</b>
+<b class="nc"><i>162</i>&nbsp;        root.getChildren().remove(worker);</b>
+<b class="nc"><i>163</i>&nbsp;    }</b>
+<i>164</i>&nbsp;
+<i>165</i>&nbsp;    /**
+<i>166</i>&nbsp;     * Get a worker by passing the player it belongs to and the id of the worker.
+<i>167</i>&nbsp;     * @param player the player number
+<i>168</i>&nbsp;     * @param worker the worker number
+<i>169</i>&nbsp;     * @return that worker&#39;s node reference
+<i>170</i>&nbsp;     */
+<i>171</i>&nbsp;    public Node getWorker(int player, int worker) {
+<b class="nc"><i>172</i>&nbsp;        return actors.get(getWorkerActorId(player, worker));</b>
+<i>173</i>&nbsp;    }
+<i>174</i>&nbsp;
+<i>175</i>&nbsp;    /**
+<i>176</i>&nbsp;     * Return a collection of nodes representing all the workers
+<i>177</i>&nbsp;     * in the game.
+<i>178</i>&nbsp;     * @return a collection of nodes
+<i>179</i>&nbsp;     */
+<i>180</i>&nbsp;    public List&lt;Node&gt; getAllWorkers() {
+<b class="nc"><i>181</i>&nbsp;        return actors.keySet().stream()</b>
+<b class="nc"><i>182</i>&nbsp;                .filter(k -&gt; k.startsWith(&quot;worker&quot;))</b>
+<b class="nc"><i>183</i>&nbsp;                .map(actors::get)</b>
+<b class="nc"><i>184</i>&nbsp;                .collect(Collectors.toList());</b>
+<i>185</i>&nbsp;    }
+<i>186</i>&nbsp;
+<i>187</i>&nbsp;    /**
+<i>188</i>&nbsp;     * Return an ordered list of points representing all the workers
+<i>189</i>&nbsp;     * of a certain player.
+<i>190</i>&nbsp;     * @param playerId the id of the player
+<i>191</i>&nbsp;     * @return a list of points
+<i>192</i>&nbsp;     */
+<i>193</i>&nbsp;    public List&lt;Point&gt; getAllPlayerWorkers(int playerId) {
+<b class="nc"><i>194</i>&nbsp;        List&lt;Point&gt; points = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>195</i>&nbsp;        for(int i = 0; i &lt; 2; ++i) {</b>
+<b class="nc"><i>196</i>&nbsp;            points.add(getBoardCoordinates(actors.get(&quot;worker&quot;+playerId+i)));</b>
+<i>197</i>&nbsp;        }
+<i>198</i>&nbsp;
+<b class="nc"><i>199</i>&nbsp;        return points;</b>
+<i>200</i>&nbsp;    }
+<i>201</i>&nbsp;
+<i>202</i>&nbsp;    /**
+<i>203</i>&nbsp;     * Return a list of nodes representing all the building components
+<i>204</i>&nbsp;     * in the game.
+<i>205</i>&nbsp;     * @return a collection of nodes
+<i>206</i>&nbsp;     */
+<i>207</i>&nbsp;    public List&lt;Node&gt; getAllBlocks() {
+<b class="nc"><i>208</i>&nbsp;        return actors.keySet().stream()</b>
+<b class="nc"><i>209</i>&nbsp;                .filter(k -&gt; k.startsWith(&quot;block&quot;))</b>
+<b class="nc"><i>210</i>&nbsp;                .map(actors::get)</b>
+<b class="nc"><i>211</i>&nbsp;                .collect(Collectors.toList());</b>
+<i>212</i>&nbsp;    }
+<i>213</i>&nbsp;
+<i>214</i>&nbsp;    /**
+<i>215</i>&nbsp;     * Hide the block passed as a parameter with a cool animation.
+<i>216</i>&nbsp;     * Unsafe: due to performance reasons, we don&#39;t check if we&#39;re resizing an
+<i>217</i>&nbsp;     * actual block or another node. Nothing bad should happen, except a (possible)
+<i>218</i>&nbsp;     * visual glitch.
+<i>219</i>&nbsp;     * @param block the block to hide
+<i>220</i>&nbsp;     */
+<i>221</i>&nbsp;    public void hideBlock(Node block) {
+<b class="nc"><i>222</i>&nbsp;        Timeline scaleBlockTimeline = new Timeline(</b>
+<i>223</i>&nbsp;                new KeyFrame(
+<b class="nc"><i>224</i>&nbsp;                        Duration.seconds(0),</b>
+<b class="nc"><i>225</i>&nbsp;                        new KeyValue(block.scaleXProperty(), BLOCK_SCALE),</b>
+<b class="nc"><i>226</i>&nbsp;                        new KeyValue(block.scaleYProperty(), BLOCK_SCALE),</b>
+<b class="nc"><i>227</i>&nbsp;                        new KeyValue(block.scaleZProperty(), BLOCK_SCALE)</b>
+<i>228</i>&nbsp;                ),
+<i>229</i>&nbsp;                new KeyFrame(
+<b class="nc"><i>230</i>&nbsp;                        Duration.millis(500),</b>
+<b class="nc"><i>231</i>&nbsp;                        new KeyValue(block.scaleXProperty(), 0),</b>
+<b class="nc"><i>232</i>&nbsp;                        new KeyValue(block.scaleYProperty(), 0),</b>
+<b class="nc"><i>233</i>&nbsp;                        new KeyValue(block.scaleZProperty(), 0)</b>
+<i>234</i>&nbsp;                )
+<i>235</i>&nbsp;        );
+<b class="nc"><i>236</i>&nbsp;        scaleBlockTimeline.setCycleCount(1);</b>
+<b class="nc"><i>237</i>&nbsp;        scaleBlockTimeline.play();</b>
+<b class="nc"><i>238</i>&nbsp;    }</b>
+<i>239</i>&nbsp;
+<i>240</i>&nbsp;    /**
+<i>241</i>&nbsp;     * Show the block passed as a parameter with a cool animation.
+<i>242</i>&nbsp;     * Unsafe: same reason as {@link #hideBlock(Node)}
+<i>243</i>&nbsp;     * @param block the block to show
+<i>244</i>&nbsp;     */
+<i>245</i>&nbsp;    public void showBlock(Node block) {
+<b class="nc"><i>246</i>&nbsp;        Timeline scaleBlockTimeline = new Timeline(</b>
+<i>247</i>&nbsp;                new KeyFrame(
+<b class="nc"><i>248</i>&nbsp;                        Duration.seconds(0),</b>
+<b class="nc"><i>249</i>&nbsp;                        new KeyValue(block.translateYProperty(), block.getTranslateY() + 1),</b>
+<b class="nc"><i>250</i>&nbsp;                        new KeyValue(block.scaleXProperty(), 0),</b>
+<b class="nc"><i>251</i>&nbsp;                        new KeyValue(block.scaleYProperty(), 0),</b>
+<b class="nc"><i>252</i>&nbsp;                        new KeyValue(block.scaleZProperty(), 0)</b>
+<i>253</i>&nbsp;                ),
+<i>254</i>&nbsp;                new KeyFrame(
+<b class="nc"><i>255</i>&nbsp;                        Duration.millis(500),</b>
+<b class="nc"><i>256</i>&nbsp;                        new KeyValue(block.translateYProperty(), block.getTranslateY()),</b>
+<b class="nc"><i>257</i>&nbsp;                        new KeyValue(block.scaleXProperty(), BLOCK_SCALE),</b>
+<b class="nc"><i>258</i>&nbsp;                        new KeyValue(block.scaleYProperty(), BLOCK_SCALE),</b>
+<b class="nc"><i>259</i>&nbsp;                        new KeyValue(block.scaleZProperty(), BLOCK_SCALE)</b>
+<i>260</i>&nbsp;                )
+<i>261</i>&nbsp;        );
+<b class="nc"><i>262</i>&nbsp;        scaleBlockTimeline.setCycleCount(1);</b>
+<b class="nc"><i>263</i>&nbsp;        scaleBlockTimeline.play();</b>
+<b class="nc"><i>264</i>&nbsp;    }</b>
+<i>265</i>&nbsp;
+<i>266</i>&nbsp;    /**
+<i>267</i>&nbsp;     * Move a worker with a cool animation.
+<i>268</i>&nbsp;     * @param playerNumber the number of the worker&#39;s player (0, 1, 2)
+<i>269</i>&nbsp;     * @param workerNumber the number of the worker (0 or 1)
+<i>270</i>&nbsp;     * @param position the target position
+<i>271</i>&nbsp;     * @param latch the CountDownLatch reference to prevent unwanted behaviour
+<i>272</i>&nbsp;     */
+<i>273</i>&nbsp;    public void moveWorker(int playerNumber, int workerNumber, Point position, CountDownLatch latch) {
+<b class="nc"><i>274</i>&nbsp;        moveWorkerNode(position, actors.get(getWorkerActorId(playerNumber, workerNumber)), latch);</b>
+<b class="nc"><i>275</i>&nbsp;    }</b>
+<i>276</i>&nbsp;
+<i>277</i>&nbsp;    /**
+<i>278</i>&nbsp;     * Move a worker to a target position with a cool animation.
+<i>279</i>&nbsp;     * @param position the target position
+<i>280</i>&nbsp;     * @param worker the worker to move
+<i>281</i>&nbsp;     */
+<i>282</i>&nbsp;    private void moveWorkerNode(Point position, Node worker, CountDownLatch latch) {
+<b class="nc"><i>283</i>&nbsp;        if (worker != null) {</b>
+<b class="nc"><i>284</i>&nbsp;            Point3D finalPosition = getSceneCoordinates(position).add(0, getWorkerHeight(position), 0),</b>
+<b class="nc"><i>285</i>&nbsp;                    diff = finalPosition.subtract(getSceneCoordinates(worker));</b>
+<b class="nc"><i>286</i>&nbsp;            Timeline xTimeline = new Timeline(</b>
+<i>287</i>&nbsp;                    new KeyFrame(
+<b class="nc"><i>288</i>&nbsp;                            Duration.millis(diff.getX() != 0 ? 250 : 0),</b>
+<b class="nc"><i>289</i>&nbsp;                            new KeyValue(worker.translateXProperty(), finalPosition.getX())</b>
+<i>290</i>&nbsp;                    )
+<i>291</i>&nbsp;            ),
+<b class="nc"><i>292</i>&nbsp;                    yTimeline = new Timeline(</b>
+<i>293</i>&nbsp;                            new KeyFrame(
+<b class="nc"><i>294</i>&nbsp;                                    Duration.millis(diff.getY() != 0 ? 250 : 0),</b>
+<b class="nc"><i>295</i>&nbsp;                                    new KeyValue(worker.translateYProperty(), finalPosition.getY())</b>
+<i>296</i>&nbsp;                            )
+<i>297</i>&nbsp;                    ),
+<b class="nc"><i>298</i>&nbsp;                    zTimeline = new Timeline(</b>
+<i>299</i>&nbsp;                            new KeyFrame(
+<b class="nc"><i>300</i>&nbsp;                                    Duration.millis(diff.getZ() != 0 ? 250 : 0),</b>
+<b class="nc"><i>301</i>&nbsp;                                    new KeyValue(worker.translateZProperty(), finalPosition.getZ())</b>
+<i>302</i>&nbsp;                            )
+<i>303</i>&nbsp;                    );
+<b class="nc"><i>304</i>&nbsp;            xTimeline.setCycleCount(1);</b>
+<b class="nc"><i>305</i>&nbsp;            yTimeline.setCycleCount(1);</b>
+<b class="nc"><i>306</i>&nbsp;            zTimeline.setCycleCount(1);</b>
+<b class="nc"><i>307</i>&nbsp;            xTimeline.setOnFinished(event -&gt; zTimeline.play());</b>
+<b class="nc"><i>308</i>&nbsp;            if(diff.getY() &lt; 0) {</b>
+<b class="nc"><i>309</i>&nbsp;                yTimeline.setOnFinished(event -&gt; xTimeline.play());</b>
+<b class="nc"><i>310</i>&nbsp;                zTimeline.setOnFinished(event -&gt; latch.countDown());</b>
+<b class="nc"><i>311</i>&nbsp;                yTimeline.play();</b>
+<i>312</i>&nbsp;            } else {
+<b class="nc"><i>313</i>&nbsp;                zTimeline.setOnFinished(event -&gt; yTimeline.play());</b>
+<b class="nc"><i>314</i>&nbsp;                yTimeline.setOnFinished(event -&gt; latch.countDown());</b>
+<b class="nc"><i>315</i>&nbsp;                xTimeline.play();</b>
+<i>316</i>&nbsp;            }
+<b class="nc"><i>317</i>&nbsp;        } else {</b>
+<b class="nc"><i>318</i>&nbsp;            latch.countDown();</b>
+<i>319</i>&nbsp;        }
+<b class="nc"><i>320</i>&nbsp;    }</b>
+<i>321</i>&nbsp;
+<i>322</i>&nbsp;    /**
+<i>323</i>&nbsp;     * Get a tower height in model &quot;numbers&quot;.
+<i>324</i>&nbsp;     * @param position the tower position in model coordinates
+<i>325</i>&nbsp;     * @return the height of the tower
+<i>326</i>&nbsp;     */
+<i>327</i>&nbsp;    private int getTowerHeight(Point position) {
+<b class="nc"><i>328</i>&nbsp;        int numOfBlocks = 0;</b>
+<b class="nc"><i>329</i>&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="nc"><i>330</i>&nbsp;            Node block = actors.get(getBlockId(position, i));</b>
+<b class="nc"><i>331</i>&nbsp;            if (block != null) numOfBlocks += 1;</b>
+<i>332</i>&nbsp;        }
+<i>333</i>&nbsp;
+<b class="nc"><i>334</i>&nbsp;        return numOfBlocks;</b>
+<i>335</i>&nbsp;    }
+<i>336</i>&nbsp;
+<i>337</i>&nbsp;    /**
+<i>338</i>&nbsp;     * Get a preset coordinate for a worker height
+<i>339</i>&nbsp;     * @param workerPos a model coordinate for the worker
+<i>340</i>&nbsp;     * @return the world Y coordinate for that worker
+<i>341</i>&nbsp;     */
+<i>342</i>&nbsp;    private double getWorkerHeight(Point workerPos) {
+<b class="nc"><i>343</i>&nbsp;        switch (getTowerHeight(workerPos)) {</b>
+<i>344</i>&nbsp;            case 0:
+<b class="nc"><i>345</i>&nbsp;                return WORKER_Y_1;</b>
+<i>346</i>&nbsp;            case 1:
+<b class="nc"><i>347</i>&nbsp;                return WORKER_Y_2;</b>
+<i>348</i>&nbsp;            case 2:
+<b class="nc"><i>349</i>&nbsp;                return WORKER_Y_3;</b>
+<i>350</i>&nbsp;            case 3:
+<b class="nc"><i>351</i>&nbsp;                return WORKER_Y_4;</b>
+<i>352</i>&nbsp;            default:
+<b class="nc"><i>353</i>&nbsp;                return WORKER_Y_HIDE;</b>
+<i>354</i>&nbsp;        }
+<i>355</i>&nbsp;    }
+<i>356</i>&nbsp;
+<i>357</i>&nbsp;    /**
+<i>358</i>&nbsp;     * Get a preset coordinate for a tower height
+<i>359</i>&nbsp;     * @param towerPos a model coordinate for the tower
+<i>360</i>&nbsp;     * @return the world Y coordinate for that tower
+<i>361</i>&nbsp;     */
+<i>362</i>&nbsp;    private double getNewTowerHeight(Point towerPos) {
+<b class="nc"><i>363</i>&nbsp;        switch (getTowerHeight(towerPos)) {</b>
+<i>364</i>&nbsp;            case 0:
+<b class="nc"><i>365</i>&nbsp;                return BLOCK_Y_1;</b>
+<i>366</i>&nbsp;            case 1:
+<b class="nc"><i>367</i>&nbsp;                return BLOCK_Y_2;</b>
+<i>368</i>&nbsp;            case 2:
+<b class="nc"><i>369</i>&nbsp;                return BLOCK_Y_3;</b>
+<i>370</i>&nbsp;            case 3:
+<b class="nc"><i>371</i>&nbsp;                return BLOCK_Y_4;</b>
+<i>372</i>&nbsp;            default:
+<b class="nc"><i>373</i>&nbsp;                return BLOCK_Y_HIDE;</b>
+<i>374</i>&nbsp;        }
+<i>375</i>&nbsp;    }
+<i>376</i>&nbsp;
+<i>377</i>&nbsp;    /**
+<i>378</i>&nbsp;     * Set a node to a target world position
+<i>379</i>&nbsp;     * @param node the node
+<i>380</i>&nbsp;     * @param point the target position
+<i>381</i>&nbsp;     */
+<i>382</i>&nbsp;    private void setNodeToPoint3D(Node node, Point3D point) {
+<b class="nc"><i>383</i>&nbsp;        node.setTranslateX(point.getX());</b>
+<b class="nc"><i>384</i>&nbsp;        node.setTranslateY(point.getY());</b>
+<b class="nc"><i>385</i>&nbsp;        node.setTranslateZ(point.getZ());</b>
+<b class="nc"><i>386</i>&nbsp;    }</b>
+<i>387</i>&nbsp;
+<i>388</i>&nbsp;    /**
+<i>389</i>&nbsp;     * Get the block ID string.
+<i>390</i>&nbsp;     * @param position of the block
+<i>391</i>&nbsp;     * @param height of the block
+<i>392</i>&nbsp;     * @return the unique block label
+<i>393</i>&nbsp;     */
+<i>394</i>&nbsp;    public static String getBlockId(Point position, int height) {
+<b class="nc"><i>395</i>&nbsp;        return &quot;block&quot; + position.getX() + position.getY() + height;</b>
+<i>396</i>&nbsp;    }
+<i>397</i>&nbsp;
+<i>398</i>&nbsp;    /**
+<i>399</i>&nbsp;     * Keep track of a node by binding it with an ID
+<i>400</i>&nbsp;     * @param id the ID of the node
+<i>401</i>&nbsp;     * @param node the node
+<i>402</i>&nbsp;     */
+<i>403</i>&nbsp;    private void addToActorsAndRegister(String id, Node node) {
+<b class="nc"><i>404</i>&nbsp;        node.setId(id);</b>
+<b class="nc"><i>405</i>&nbsp;        actors.put(id, node);</b>
+<b class="nc"><i>406</i>&nbsp;        root.getChildren().add(node);</b>
+<b class="nc"><i>407</i>&nbsp;    }</b>
+<i>408</i>&nbsp;
+<i>409</i>&nbsp;    /**
+<i>410</i>&nbsp;     * Add a tower block on a tower.
+<i>411</i>&nbsp;     * @param position the position of the tower.
+<i>412</i>&nbsp;     */
+<i>413</i>&nbsp;    public void incrementCell(Point position) {
+<b class="nc"><i>414</i>&nbsp;        setTower(position, getTowerHeight(position));</b>
+<b class="nc"><i>415</i>&nbsp;        updateWorkers();</b>
+<b class="nc"><i>416</i>&nbsp;        updateSelectables();</b>
+<b class="nc"><i>417</i>&nbsp;    }</b>
+<i>418</i>&nbsp;
+<i>419</i>&nbsp;    /**
+<i>420</i>&nbsp;     * Updates the worker position, to prevent them to glitching into
+<i>421</i>&nbsp;     * towers. It should get called when a cell is updated.
+<i>422</i>&nbsp;     */
+<i>423</i>&nbsp;    private void updateWorkers() {
+<b class="nc"><i>424</i>&nbsp;        for(Node w : getAllWorkers()) {</b>
+<b class="nc"><i>425</i>&nbsp;            Point p = getBoardCoordinates(w);</b>
+<b class="nc"><i>426</i>&nbsp;            moveWorkerNode(p, w, new CountDownLatch(1));</b>
+<b class="nc"><i>427</i>&nbsp;        }</b>
+<b class="nc"><i>428</i>&nbsp;    }</b>
+<i>429</i>&nbsp;
+<i>430</i>&nbsp;    /**
+<i>431</i>&nbsp;     * Updates the selectable position, to prevent them to glitching into
+<i>432</i>&nbsp;     * towers. It should get called when a cell is updated.
+<i>433</i>&nbsp;     */
+<i>434</i>&nbsp;    private void updateSelectables() {
+<b class="nc"><i>435</i>&nbsp;        for(Node w : getAllSelectables()) {</b>
+<b class="nc"><i>436</i>&nbsp;            Point p = getBoardCoordinates(w);</b>
+<b class="nc"><i>437</i>&nbsp;            moveSelectableNode(p, w);</b>
+<b class="nc"><i>438</i>&nbsp;        }</b>
+<b class="nc"><i>439</i>&nbsp;    }</b>
+<i>440</i>&nbsp;
+<i>441</i>&nbsp;    /**
+<i>442</i>&nbsp;     * Put a dome on the cell, &quot;filling&quot; the tower (setting it to height 3).
+<i>443</i>&nbsp;     * WARN: Chronus + Atlas (might) cause graphic glitches.
+<i>444</i>&nbsp;     * @param position the model position of the dome
+<i>445</i>&nbsp;     */
+<i>446</i>&nbsp;    public void putDome(Point position) {
+<b class="nc"><i>447</i>&nbsp;        while(getTowerHeight(position) &lt;= 3)</b>
+<b class="nc"><i>448</i>&nbsp;            setTower(position, getTowerHeight(position));</b>
+<b class="nc"><i>449</i>&nbsp;    }</b>
+<i>450</i>&nbsp;
+<i>451</i>&nbsp;    /**
+<i>452</i>&nbsp;     * Build a tower in the specified model position at the specified height.
+<i>453</i>&nbsp;     * @param position the model position of the tower
+<i>454</i>&nbsp;     * @param height the height of the tower
+<i>455</i>&nbsp;     */
+<i>456</i>&nbsp;    private void setTower(Point position, int height) {
+<b class="nc"><i>457</i>&nbsp;        Node tower = ActorFactory.getBlock(height);</b>
+<b class="nc"><i>458</i>&nbsp;        Point3D target = getSceneTowerCoordinates(position);</b>
+<i>459</i>&nbsp;        // Fix padding
+<b class="nc"><i>460</i>&nbsp;        target = target.add(-BLOCK_X, 0, BLOCK_Z);</b>
+<b class="nc"><i>461</i>&nbsp;        setNodeToPoint3D(tower, target);</b>
+<b class="nc"><i>462</i>&nbsp;        showBlock(tower);</b>
+<b class="nc"><i>463</i>&nbsp;        addToActorsAndRegister(getBlockId(position, height), tower);</b>
+<b class="nc"><i>464</i>&nbsp;    }</b>
+<i>465</i>&nbsp;
+<i>466</i>&nbsp;    public List&lt;Point&gt; getWorkerPositions() {
+<b class="nc"><i>467</i>&nbsp;        return getAllWorkers().stream().map(GameSceneModel::getBoardCoordinates).collect(Collectors.toList());</b>
+<i>468</i>&nbsp;    }
+<i>469</i>&nbsp;
+<i>470</i>&nbsp;    /**
+<i>471</i>&nbsp;     * Creates a rect at target position
+<i>472</i>&nbsp;     * @param index index of the selectable
+<i>473</i>&nbsp;     * @param targetPos where to spawn the rect
+<i>474</i>&nbsp;     */
+<i>475</i>&nbsp;    public void addSelectable(int index, Point targetPos) {
+<b class="nc"><i>476</i>&nbsp;        Node rect = ActorFactory.getSelectable();</b>
+<i>477</i>&nbsp;
+<b class="nc"><i>478</i>&nbsp;        setNodeToPoint3D(rect, getSceneSelectableCoordinates(targetPos));</b>
+<b class="nc"><i>479</i>&nbsp;        addToActorsAndRegister(&quot;sel&quot; + index, rect);</b>
+<b class="nc"><i>480</i>&nbsp;    }</b>
+<i>481</i>&nbsp;
+<i>482</i>&nbsp;    /**
+<i>483</i>&nbsp;     * Render a list of points (choices) as selectables.
+<i>484</i>&nbsp;     * @param positions a list of points
+<i>485</i>&nbsp;     */
+<i>486</i>&nbsp;    public void addAllSelectables(List&lt;Point&gt; positions) {
+<b class="nc"><i>487</i>&nbsp;        for (int i = 0; i &lt; positions.size(); i++) {</b>
+<b class="nc"><i>488</i>&nbsp;            if (positions.get(i) != null) addSelectable(i, positions.get(i));</b>
+<i>489</i>&nbsp;        }
+<b class="nc"><i>490</i>&nbsp;    }</b>
+<i>491</i>&nbsp;
+<i>492</i>&nbsp;    /**
+<i>493</i>&nbsp;     * Remove all rendered selectables from the scene.
+<i>494</i>&nbsp;     */
+<i>495</i>&nbsp;    public void removeAllSelectables() {
+<b class="nc"><i>496</i>&nbsp;       actors.keySet().stream()</b>
+<b class="nc"><i>497</i>&nbsp;                .filter(k -&gt; k.startsWith(&quot;sel&quot;))</b>
+<b class="nc"><i>498</i>&nbsp;                .map(actors::get)</b>
+<b class="nc"><i>499</i>&nbsp;                .forEach(a -&gt; root.getChildren().remove(a));</b>
+<b class="nc"><i>500</i>&nbsp;    }</b>
+<i>501</i>&nbsp;
+<i>502</i>&nbsp;    /**
+<i>503</i>&nbsp;     * Move a selectable node adjusting its height
+<i>504</i>&nbsp;     * @param p target position
+<i>505</i>&nbsp;     * @param n the node of the selectable
+<i>506</i>&nbsp;     */
+<i>507</i>&nbsp;    private void moveSelectableNode(Point p, Node n) {
+<b class="nc"><i>508</i>&nbsp;        Point3D finalPosition = getSceneCoordinates(p).add(0, getSelectableHeight(p), 0);</b>
+<b class="nc"><i>509</i>&nbsp;        setNodeToPoint3D(n, finalPosition);</b>
+<b class="nc"><i>510</i>&nbsp;    }</b>
+<i>511</i>&nbsp;
+<i>512</i>&nbsp;    /**
+<i>513</i>&nbsp;     * Get a preset coordinate for a selectable height
+<i>514</i>&nbsp;     * @param towerPos a model coordinate for the selectable
+<i>515</i>&nbsp;     * @return the world Y coordinate for that selectable
+<i>516</i>&nbsp;     */
+<i>517</i>&nbsp;    private double getSelectableHeight(Point towerPos) {
+<b class="nc"><i>518</i>&nbsp;        switch (getTowerHeight(towerPos)) {</b>
+<i>519</i>&nbsp;            case 0:
+<b class="nc"><i>520</i>&nbsp;                return SELECT_Y_1;</b>
+<i>521</i>&nbsp;            case 1:
+<b class="nc"><i>522</i>&nbsp;                return SELECT_Y_2;</b>
+<i>523</i>&nbsp;            case 2:
+<b class="nc"><i>524</i>&nbsp;                return SELECT_Y_3;</b>
+<i>525</i>&nbsp;            case 3:
+<b class="nc"><i>526</i>&nbsp;                return SELECT_Y_4;</b>
+<i>527</i>&nbsp;            default:
+<b class="nc"><i>528</i>&nbsp;                return 5;</b>
+<i>529</i>&nbsp;        }
+<i>530</i>&nbsp;    }
+<i>531</i>&nbsp;
+<i>532</i>&nbsp;    public List&lt;Node&gt; getAllSelectables() {
+<b class="nc"><i>533</i>&nbsp;        return actors.keySet().stream()</b>
+<b class="nc"><i>534</i>&nbsp;                .filter(k -&gt; k.startsWith(&quot;sel&quot;))</b>
+<b class="nc"><i>535</i>&nbsp;                .sorted()</b>
+<b class="nc"><i>536</i>&nbsp;                .map(actors::get)</b>
+<b class="nc"><i>537</i>&nbsp;                .collect(Collectors.toList());</b>
+<i>538</i>&nbsp;    }
+<i>539</i>&nbsp;
+<i>540</i>&nbsp;    /**
+<i>541</i>&nbsp;     * Transforms coordinates in world space to model coordinates.
+<i>542</i>&nbsp;     * @param v the world coordinates
+<i>543</i>&nbsp;     * @return the model coordinates
+<i>544</i>&nbsp;     */
+<i>545</i>&nbsp;    public static Point getBoardCoordinates(Point3D v) {
+<i>546</i>&nbsp;        // It just works, don&#39;t touch it LMAO
+<b class="nc"><i>547</i>&nbsp;        double x = (v.getX() + 6) / 12 * 5;</b>
+<b class="nc"><i>548</i>&nbsp;        double y = -(v.getZ() - 6) / 12 * 5;</b>
+<i>549</i>&nbsp;
+<b class="nc"><i>550</i>&nbsp;        return new Point((int) x, (int) y);</b>
+<i>551</i>&nbsp;    }
+<i>552</i>&nbsp;
+<i>553</i>&nbsp;    /**
+<i>554</i>&nbsp;     * Get model coordinates from a node
+<i>555</i>&nbsp;     * @param n a node
+<i>556</i>&nbsp;     * @return the position of the node in model coordinates
+<i>557</i>&nbsp;     */
+<i>558</i>&nbsp;    public static Point getBoardCoordinates(Node n) {
+<b class="nc"><i>559</i>&nbsp;        return getBoardCoordinates(new Point3D(</b>
+<b class="nc"><i>560</i>&nbsp;                n.getTranslateX(),</b>
+<b class="nc"><i>561</i>&nbsp;                n.getTranslateY(),</b>
+<b class="nc"><i>562</i>&nbsp;                n.getTranslateZ()</b>
+<i>563</i>&nbsp;        ));
+<i>564</i>&nbsp;    }
+<i>565</i>&nbsp;
+<i>566</i>&nbsp;    /**
+<i>567</i>&nbsp;     * Get world coordinates from Point (2D).
+<i>568</i>&nbsp;     * @param v a point from the model
+<i>569</i>&nbsp;     * @return the point in world coordinates
+<i>570</i>&nbsp;     */
+<i>571</i>&nbsp;    public static Point3D getSceneCoordinates(Point v) {
+<b class="nc"><i>572</i>&nbsp;        double x = 2.5 * (v.getX() - 2);</b>
+<b class="nc"><i>573</i>&nbsp;        double z = -2.5 * (v.getY() - 2);</b>
+<i>574</i>&nbsp;
+<b class="nc"><i>575</i>&nbsp;        return new Point3D(x,0, z);</b>
+<i>576</i>&nbsp;    }
+<i>577</i>&nbsp;
+<i>578</i>&nbsp;    /**
+<i>579</i>&nbsp;     * Get the coordinates to place a worker from a Point (2D).
+<i>580</i>&nbsp;     * @param point the point from the model
+<i>581</i>&nbsp;     * @return new worker coordinates
+<i>582</i>&nbsp;     */
+<i>583</i>&nbsp;    public Point3D getSceneWorkerCoordinates(Point point) {
+<b class="nc"><i>584</i>&nbsp;        return getSceneCoordinates(point).add(0, getWorkerHeight(point), 0);</b>
+<i>585</i>&nbsp;    }
+<i>586</i>&nbsp;
+<i>587</i>&nbsp;    /**
+<i>588</i>&nbsp;     * Get the coordinates to place a tower block from a Point (2D).
+<i>589</i>&nbsp;     * The returned coordinates contain the updated Y axis, to place the block of
+<i>590</i>&nbsp;     * the tower at the correct height.
+<i>591</i>&nbsp;     * @param point the point from the model
+<i>592</i>&nbsp;     * @return new tower block coordinates
+<i>593</i>&nbsp;     */
+<i>594</i>&nbsp;    public Point3D getSceneTowerCoordinates(Point point) {
+<b class="nc"><i>595</i>&nbsp;        return getSceneCoordinates(point).add(0, getNewTowerHeight(point), 0);</b>
+<i>596</i>&nbsp;    }
+<i>597</i>&nbsp;
+<i>598</i>&nbsp;    /**
+<i>599</i>&nbsp;     * Get the coordinates to place a worker from a Point (2D).
+<i>600</i>&nbsp;     * @param point the point from the model
+<i>601</i>&nbsp;     * @return new worker coordinates
+<i>602</i>&nbsp;     */
+<i>603</i>&nbsp;    public Point3D getSceneSelectableCoordinates(Point point) {
+<b class="nc"><i>604</i>&nbsp;        return getSceneCoordinates(point).add(0, getSelectableHeight(point), 0);</b>
+<i>605</i>&nbsp;    }
+<i>606</i>&nbsp;
+<i>607</i>&nbsp;    /**
+<i>608</i>&nbsp;     * Get the coordinates of a generic Node with a Point3D.
+<i>609</i>&nbsp;     * @param n the node
+<i>610</i>&nbsp;     * @return a Point3D of the coordinates of the node n
+<i>611</i>&nbsp;     */
+<i>612</i>&nbsp;    public static Point3D getSceneCoordinates(Node n) {
+<b class="nc"><i>613</i>&nbsp;        return new Point3D(</b>
+<b class="nc"><i>614</i>&nbsp;                n.getTranslateX(),</b>
+<b class="nc"><i>615</i>&nbsp;                n.getTranslateY(),</b>
+<b class="nc"><i>616</i>&nbsp;                n.getTranslateZ()</b>
+<i>617</i>&nbsp;        );
+<i>618</i>&nbsp;    }
+<i>619</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-18 16:44</div>
+</div>
+</body>
+</html>

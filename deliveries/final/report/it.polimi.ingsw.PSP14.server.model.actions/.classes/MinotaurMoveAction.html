@@ -1,0 +1,120 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MinotaurMoveAction</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.server.model.actions</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MinotaurMoveAction (it.polimi.ingsw.PSP14.server.model.actions)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MinotaurMoveAction</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    12.5%
+  </span>
+  <span class="absValue">
+    (2/ 16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.server.model.actions;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP14.server.model.MatchModel;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP14.server.model.board.Player;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP14.server.model.board.Point;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.io.IOException;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;public class MinotaurMoveAction extends MoveAction {
+<i>10</i>&nbsp;    private Point opponentNewPos;
+<i>11</i>&nbsp;    private int opponentWorkerIndex;
+<i>12</i>&nbsp;    private String opponent;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    public MinotaurMoveAction(String user, Point from, Point to) {
+<b class="fc"><i>15</i>&nbsp;        super(user, from, to);</b>
+<b class="fc"><i>16</i>&nbsp;    }</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    @Override
+<i>19</i>&nbsp;    public void execute(MatchModel model) throws IOException {
+<b class="nc"><i>20</i>&nbsp;        for(Player p: model.getPlayerMap()) {</b>
+<b class="nc"><i>21</i>&nbsp;            for(int i = 0; i &lt; 2; ++i) {</b>
+<b class="nc"><i>22</i>&nbsp;                if(p.getWorkerPos(i).equals(getTo()) &amp;&amp;</b>
+<b class="nc"><i>23</i>&nbsp;                        !p.getUsername().equals(getUser())) {</b>
+<b class="nc"><i>24</i>&nbsp;                    super.execute(model);</b>
+<b class="nc"><i>25</i>&nbsp;                    Point newPos = new Point(</b>
+<b class="nc"><i>26</i>&nbsp;                            2*getTo().getX() - getFrom().getX(),</b>
+<b class="nc"><i>27</i>&nbsp;                            2*getTo().getY() - getFrom().getY()</b>
+<i>28</i>&nbsp;                    );
+<b class="nc"><i>29</i>&nbsp;                    opponentNewPos = newPos;</b>
+<b class="nc"><i>30</i>&nbsp;                    opponentWorkerIndex = i;</b>
+<b class="nc"><i>31</i>&nbsp;                    opponent = p.getUsername();</b>
+<b class="nc"><i>32</i>&nbsp;                    p.setWorker(i, newPos);</b>
+<i>33</i>&nbsp;                }
+<i>34</i>&nbsp;            }
+<b class="nc"><i>35</i>&nbsp;        }</b>
+<b class="nc"><i>36</i>&nbsp;    }</b>
+<i>37</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-18 16:44</div>
+</div>
+</body>
+</html>

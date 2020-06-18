@@ -1,0 +1,197 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: UIPlayer</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.client.view.cli</a> ]
+</div>
+
+<h1>Coverage Summary for Class: UIPlayer (it.polimi.ingsw.PSP14.client.view.cli)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UIPlayer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (9/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81.8%
+  </span>
+  <span class="absValue">
+    (18/ 22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.client.view.cli;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.ArrayList;
+<i>4</i>&nbsp;import java.util.HashMap;
+<i>5</i>&nbsp;import java.util.List;
+<i>6</i>&nbsp;import java.util.Map;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Class containing all the details that are useful client-side to
+<i>10</i>&nbsp; * display a player, in addition to their workers.
+<i>11</i>&nbsp; * Each player has a unique number (it MAY differ on different clients).
+<i>12</i>&nbsp; * Each player has a unique color (it MAY differ on different clients).
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public class UIPlayer {
+<i>15</i>&nbsp;    private final String username;
+<i>16</i>&nbsp;    private final int number;
+<i>17</i>&nbsp;    private final UIColor color;
+<i>18</i>&nbsp;    private UIGod god;
+<i>19</i>&nbsp;    private final Map&lt;Integer, UIWorker&gt; workers;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    /**
+<i>22</i>&nbsp;     * Construct a player object.
+<i>23</i>&nbsp;     * @param username the username of the player (retrieved from the user
+<i>24</i>&nbsp;     *                 or the server).
+<i>25</i>&nbsp;     * @param number a unique number to distinguish the player
+<i>26</i>&nbsp;     * @param color a unique UIColor to highlight the player&#39;s belongings.
+<i>27</i>&nbsp;     */
+<b class="fc"><i>28</i>&nbsp;    public UIPlayer(String username, int number, UIColor color) {</b>
+<b class="fc"><i>29</i>&nbsp;        this.username = username;</b>
+<b class="fc"><i>30</i>&nbsp;        this.color = color;</b>
+<b class="fc"><i>31</i>&nbsp;        this.number = number;</b>
+<b class="fc"><i>32</i>&nbsp;        this.workers = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>33</i>&nbsp;    }</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    /**
+<i>36</i>&nbsp;     * Retrieve a player&#39;s username
+<i>37</i>&nbsp;     * @return the player username
+<i>38</i>&nbsp;     */
+<i>39</i>&nbsp;    public String getUsername() {
+<b class="fc"><i>40</i>&nbsp;        return username;</b>
+<i>41</i>&nbsp;    }
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    /**
+<i>44</i>&nbsp;     * Retrieve the color assigned to this player
+<i>45</i>&nbsp;     * @return the color (it may need a cast to the correct implementation)
+<i>46</i>&nbsp;     */
+<i>47</i>&nbsp;    public UIColor getColor() {
+<b class="fc"><i>48</i>&nbsp;        return color;</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    /**
+<i>52</i>&nbsp;     * Retrieve the player unique number
+<i>53</i>&nbsp;     * @return the number
+<i>54</i>&nbsp;     */
+<b class="nc"><i>55</i>&nbsp;    public int getNumber() { return number; }</b>
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    /**
+<i>58</i>&nbsp;     * Set a player god. If a god is not found, it will be &lt;code&gt;null&lt;/code&gt;!
+<i>59</i>&nbsp;     * @param id the name retrieved from the server corresponding
+<i>60</i>&nbsp;     *           to this god.
+<i>61</i>&nbsp;     */
+<i>62</i>&nbsp;    public void setGod(String id) {
+<i>63</i>&nbsp;        try {
+<b class="fc"><i>64</i>&nbsp;            this.god = GodFactory.getInstance().getGod(id);</b>
+<b class="nc"><i>65</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i>66</i>&nbsp;            System.out.println(&quot;ERROR: God or Godfile.xml not found!&quot;);</b>
+<b class="nc"><i>67</i>&nbsp;            e.printStackTrace();</b>
+<b class="fc"><i>68</i>&nbsp;        }</b>
+<b class="fc"><i>69</i>&nbsp;    }</b>
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    /**
+<i>72</i>&nbsp;     * Get the god assigned to this player
+<i>73</i>&nbsp;     * @return the god object
+<i>74</i>&nbsp;     */
+<i>75</i>&nbsp;    public UIGod getGod() {
+<b class="fc"><i>76</i>&nbsp;        return god;</b>
+<i>77</i>&nbsp;    }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    /**
+<i>80</i>&nbsp;     * Get all this player&#39;s workers in a List.
+<i>81</i>&nbsp;     * @return a list of workers
+<i>82</i>&nbsp;     */
+<i>83</i>&nbsp;    public List&lt;UIWorker&gt; getWorkers() {
+<b class="fc"><i>84</i>&nbsp;        return new ArrayList&lt;&gt;(workers.values());</b>
+<i>85</i>&nbsp;    }
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    /**
+<i>88</i>&nbsp;     * Get a worker from a player.
+<i>89</i>&nbsp;     * @param id the id of the worker
+<i>90</i>&nbsp;     * @return the worker
+<i>91</i>&nbsp;     */
+<i>92</i>&nbsp;    public UIWorker getWorker(int id) {
+<b class="fc"><i>93</i>&nbsp;        return workers.get(id);</b>
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    /**
+<i>97</i>&nbsp;     * Assign a new worker to this player.
+<i>98</i>&nbsp;     * @param worker a new instance of a worker.
+<i>99</i>&nbsp;     */
+<i>100</i>&nbsp;    public void setWorker(UIWorker worker) {
+<b class="fc"><i>101</i>&nbsp;        this.workers.put(worker.getId(), worker);</b>
+<b class="fc"><i>102</i>&nbsp;    }</b>
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    /**
+<i>105</i>&nbsp;     * Delete a worker from a player by using the worker id.
+<i>106</i>&nbsp;     * This will effectively delete a worker from the entire match
+<i>107</i>&nbsp;     * (such as when the player loses).
+<i>108</i>&nbsp;     * Only a player can remove a worker.
+<i>109</i>&nbsp;     * @param withId the id of the worker
+<i>110</i>&nbsp;     */
+<i>111</i>&nbsp;    public void removeWorker(int withId) {
+<b class="fc"><i>112</i>&nbsp;        workers.remove(withId);</b>
+<b class="fc"><i>113</i>&nbsp;    }</b>
+<i>114</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-18 16:44</div>
+</div>
+</body>
+</html>

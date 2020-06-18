@@ -1,0 +1,16 @@
+it.polimi.ingsw.PSP14.client
+it.polimi.ingsw.PSP14.client.controller
+it.polimi.ingsw.PSP14.client.view
+it.polimi.ingsw.PSP14.client.view.cli
+it.polimi.ingsw.PSP14.client.view.gui
+it.polimi.ingsw.PSP14.client.view.gui.scenes
+it.polimi.ingsw.PSP14.core.messages
+it.polimi.ingsw.PSP14.core.messages.updates
+it.polimi.ingsw.PSP14.core.net
+it.polimi.ingsw.PSP14.core.proposals
+it.polimi.ingsw.PSP14.server
+it.polimi.ingsw.PSP14.server.controller
+it.polimi.ingsw.PSP14.server.model
+it.polimi.ingsw.PSP14.server.model.actions
+it.polimi.ingsw.PSP14.server.model.board
+it.polimi.ingsw.PSP14.server.model.gods

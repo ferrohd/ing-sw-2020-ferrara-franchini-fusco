@@ -1,0 +1,236 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Client</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.client</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Client (it.polimi.ingsw.PSP14.client)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Client</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 71)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.client;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP14.client.controller.*;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP14.client.view.UI;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP14.client.view.UIFactory;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.io.IOException;
+<i>8</i>&nbsp;import java.net.Socket;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * This class is the entry point for the client, which handles the instancing of
+<i>12</i>&nbsp; * the match, setting the correct UI (CLI or GUI), connection to the server.
+<i>13</i>&nbsp; */
+<b class="nc"><i>14</i>&nbsp;public class Client {</b>
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    private static final int DEFAULT_PORT = 42069;
+<i>17</i>&nbsp;    private static final String DEFAULT_ADDRESS = &quot;127.0.0.1&quot;;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * 0 = CLI, 1 = GUI
+<i>21</i>&nbsp;     */
+<b class="nc"><i>22</i>&nbsp;    private static String clientMode = &quot;gui&quot;;</b>
+<b class="nc"><i>23</i>&nbsp;    private static int port = DEFAULT_PORT;</b>
+<b class="nc"><i>24</i>&nbsp;    private static String address = DEFAULT_ADDRESS;</b>
+<b class="nc"><i>25</i>&nbsp;    private static String settingsLocation = &quot;settings.txt&quot;;</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    public static void main(String[] args) throws InterruptedException {
+<i>28</i>&nbsp;        // Parse command line args
+<b class="nc"><i>29</i>&nbsp;        parseArgs(args);</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;        // starting user interface
+<i>32</i>&nbsp;        UI ui;
+<i>33</i>&nbsp;        try {
+<b class="nc"><i>34</i>&nbsp;            ui = UIFactory.getUI(clientMode);</b>
+<b class="nc"><i>35</i>&nbsp;        } catch (InvalidSettingsException e) {</b>
+<b class="nc"><i>36</i>&nbsp;            System.out.println(clientMode + &quot; is not a valid interface&quot;);</b>
+<b class="nc"><i>37</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>38</i>&nbsp;            return;</b>
+<b class="nc"><i>39</i>&nbsp;        }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;        // Start the UI and display a welcome message.
+<b class="nc"><i>42</i>&nbsp;        ui.welcome();</b>
+<i>43</i>&nbsp;
+<b class="nc"><i>44</i>&nbsp;        ui.showNotification(&quot;Connecting to &quot; + address +&quot;:&quot; + port + &quot;...&quot;);</b>
+<i>45</i>&nbsp;
+<b class="nc"><i>46</i>&nbsp;        Socket serverSocket = null;</b>
+<b class="nc"><i>47</i>&nbsp;        boolean connected = false;</b>
+<b class="nc"><i>48</i>&nbsp;        while (!connected) {</b>
+<i>49</i>&nbsp;            try {
+<b class="nc"><i>50</i>&nbsp;                serverSocket = new Socket(address, port);</b>
+<b class="nc"><i>51</i>&nbsp;                connected = true;</b>
+<b class="nc"><i>52</i>&nbsp;                ui.showNotification(&quot;Connected! Waiting for a game...&quot;);</b>
+<b class="nc"><i>53</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>54</i>&nbsp;                ui.showNotification(&quot;Could not connect to the server. Retrying...&quot;);</b>
+<b class="nc"><i>55</i>&nbsp;            }</b>
+<i>56</i>&nbsp;        }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;        ServerConnection connection;
+<i>59</i>&nbsp;        try {
+<b class="nc"><i>60</i>&nbsp;            connection = new TCPServerConnection(serverSocket);</b>
+<b class="nc"><i>61</i>&nbsp;        } catch(IOException e) {</b>
+<b class="nc"><i>62</i>&nbsp;            ui.showNotification(&quot;Error connecting to the server.&quot;);</b>
+<b class="nc"><i>63</i>&nbsp;            return;</b>
+<b class="nc"><i>64</i>&nbsp;        }</b>
+<i>65</i>&nbsp;
+<b class="nc"><i>66</i>&nbsp;        ClientMatch match = new ClientMatch(connection, ui);</b>
+<b class="nc"><i>67</i>&nbsp;        Thread mainThread = new Thread(match);</b>
+<b class="nc"><i>68</i>&nbsp;        mainThread.start();</b>
+<i>69</i>&nbsp;        //mainThread.join();
+<b class="nc"><i>70</i>&nbsp;    }</b>
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    /**
+<i>73</i>&nbsp;     * By default, the client tries to read a file called settings.txt in the same folder of the jar file.
+<i>74</i>&nbsp;     * There are additional flags documented below. Flags override the default value/the one specified in settings.txt: for example, if you have specified the interface as GUI and launch the jar with the —cli flag, it will start as CLI.
+<i>75</i>&nbsp;     *
+<i>76</i>&nbsp;     *     --gui # Starts the GUI
+<i>77</i>&nbsp;     *     --cli # Starts the CLI
+<i>78</i>&nbsp;     *     --address &lt;address&gt; # Specify the server address (IP or URL)
+<i>79</i>&nbsp;     *     --port &lt;port&gt; # Speficy the server port (a number)
+<i>80</i>&nbsp;     *     --config &lt;path to config&gt; # Specify a custom path to a config file.
+<i>81</i>&nbsp;     *
+<i>82</i>&nbsp;     * A possible config file is the following:
+<i>83</i>&nbsp;     *
+<i>84</i>&nbsp;     *     interface: gui
+<i>85</i>&nbsp;     *     hostname: 127.0.0.1
+<i>86</i>&nbsp;     *     port: 42069
+<i>87</i>&nbsp;     * @param args an array of arguments, usually the one provided by the  main method.
+<i>88</i>&nbsp;     */
+<i>89</i>&nbsp;    private static void parseArgs(String[] args) {
+<b class="nc"><i>90</i>&nbsp;        boolean overrideMode = false;</b>
+<b class="nc"><i>91</i>&nbsp;        boolean overridePort = false;</b>
+<b class="nc"><i>92</i>&nbsp;        boolean overrideAddr = false;</b>
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;        // Parse cli settings
+<b class="nc"><i>95</i>&nbsp;        for (int i = 0; i &lt; args.length; i++) {</b>
+<b class="nc"><i>96</i>&nbsp;            String arg = args[i];</b>
+<b class="nc"><i>97</i>&nbsp;            switch (arg) {</b>
+<i>98</i>&nbsp;                case &quot;--cli&quot;:
+<b class="nc"><i>99</i>&nbsp;                    clientMode = &quot;cli&quot;;</b>
+<b class="nc"><i>100</i>&nbsp;                    overrideMode = true;</b>
+<b class="nc"><i>101</i>&nbsp;                    break;</b>
+<i>102</i>&nbsp;                case &quot;--gui&quot;:
+<b class="nc"><i>103</i>&nbsp;                    clientMode = &quot;gui&quot;;</b>
+<b class="nc"><i>104</i>&nbsp;                    overrideMode = true;</b>
+<b class="nc"><i>105</i>&nbsp;                    break;</b>
+<i>106</i>&nbsp;                case &quot;--port&quot;:
+<b class="nc"><i>107</i>&nbsp;                    overridePort = true;</b>
+<b class="nc"><i>108</i>&nbsp;                    if (i &lt; args.length - 1) {</b>
+<i>109</i>&nbsp;                        try {
+<b class="nc"><i>110</i>&nbsp;                            port = Integer.valueOf(args[++i]);</b>
+<b class="nc"><i>111</i>&nbsp;                        } catch (NumberFormatException e) {</b>
+<b class="nc"><i>112</i>&nbsp;                            port = DEFAULT_PORT;</b>
+<b class="nc"><i>113</i>&nbsp;                        }</b>
+<i>114</i>&nbsp;                    }
+<i>115</i>&nbsp;                    break;
+<i>116</i>&nbsp;                case &quot;--address&quot;:
+<b class="nc"><i>117</i>&nbsp;                    overrideAddr = true;</b>
+<b class="nc"><i>118</i>&nbsp;                    if (i &lt; args.length - 1) {</b>
+<b class="nc"><i>119</i>&nbsp;                        address = args[++i];</b>
+<i>120</i>&nbsp;                    }
+<i>121</i>&nbsp;                case &quot;--config&quot;:
+<b class="nc"><i>122</i>&nbsp;                    if (i &lt; args.length - 1) {</b>
+<b class="nc"><i>123</i>&nbsp;                        settingsLocation = args[++i];</b>
+<i>124</i>&nbsp;                    }
+<i>125</i>&nbsp;            }
+<i>126</i>&nbsp;        }
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;        // Parse settings file
+<i>129</i>&nbsp;        // getting settings
+<i>130</i>&nbsp;        SettingsParser settings;
+<i>131</i>&nbsp;        try {
+<b class="nc"><i>132</i>&nbsp;            settings = new SettingsParser(settingsLocation);</b>
+<b class="nc"><i>133</i>&nbsp;        } catch(IOException e) {</b>
+<b class="nc"><i>134</i>&nbsp;            System.out.println(&quot;Could not find settings file:\n\tsettings.txt\n\nUsing default settings...&quot;);</b>
+<i>135</i>&nbsp;            // e.printStackTrace();
+<b class="nc"><i>136</i>&nbsp;            settings = null;</b>
+<b class="nc"><i>137</i>&nbsp;        }</b>
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;        // Apply correct parameters
+<b class="nc"><i>140</i>&nbsp;        if (settings != null) {</b>
+<b class="nc"><i>141</i>&nbsp;            if (!overrideMode)</b>
+<b class="nc"><i>142</i>&nbsp;                clientMode = settings.get(&quot;interface&quot;);</b>
+<b class="nc"><i>143</i>&nbsp;            if (!overrideAddr)</b>
+<b class="nc"><i>144</i>&nbsp;                address = settings.get(&quot;hostname&quot;);</b>
+<b class="nc"><i>145</i>&nbsp;            if (!overridePort)</b>
+<i>146</i>&nbsp;                try {
+<b class="nc"><i>147</i>&nbsp;                    port = Integer.valueOf(settings.get(&quot;port&quot;));</b>
+<b class="nc"><i>148</i>&nbsp;                } catch (NumberFormatException e) {</b>
+<b class="nc"><i>149</i>&nbsp;                    port = DEFAULT_PORT;</b>
+<b class="nc"><i>150</i>&nbsp;                }</b>
+<i>151</i>&nbsp;        }
+<b class="nc"><i>152</i>&nbsp;    }</b>
+<i>153</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-18 16:44</div>
+</div>
+</body>
+</html>

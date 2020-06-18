@@ -1,0 +1,129 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ClientMatch</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP14.client.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ClientMatch (it.polimi.ingsw.PSP14.client.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientMatch</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.client.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP14.client.view.UI;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP14.core.messages.ClientExecutableMessage;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.io.IOException;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * This class handles the basic logic behind a match on the client,
+<i>10</i>&nbsp; * processing commands received from the server, and sending
+<i>11</i>&nbsp; * back responses to it.
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public class ClientMatch implements Runnable {
+<i>14</i>&nbsp;    private ServerConnection serverConnection;
+<i>15</i>&nbsp;    private UI ui;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     * Constructor for ClientMatch.
+<i>19</i>&nbsp;     * @param serverConnection a connection to send and receive messages.
+<i>20</i>&nbsp;     * @param ui a UI to represent the game state
+<i>21</i>&nbsp;     */
+<b class="nc"><i>22</i>&nbsp;    public ClientMatch(ServerConnection serverConnection, UI ui) {</b>
+<b class="nc"><i>23</i>&nbsp;        this.serverConnection = serverConnection;</b>
+<b class="nc"><i>24</i>&nbsp;        this.ui = ui;</b>
+<b class="nc"><i>25</i>&nbsp;    }</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    @Override
+<i>28</i>&nbsp;    public void run() {
+<i>29</i>&nbsp;        // Execute every new message that the client receives
+<i>30</i>&nbsp;        while(true) {
+<i>31</i>&nbsp;            try {
+<b class="nc"><i>32</i>&nbsp;                ClientExecutableMessage inMessage  = (ClientExecutableMessage) serverConnection.receiveMessage();</b>
+<b class="nc"><i>33</i>&nbsp;                inMessage.execute(ui, serverConnection);</b>
+<b class="nc"><i>34</i>&nbsp;            } catch (IOException | InterruptedException e) {</b>
+<b class="nc"><i>35</i>&nbsp;                System.out.println(&quot;Connection lost. Closing...&quot;);</b>
+<i>36</i>&nbsp;                try {
+<b class="nc"><i>37</i>&nbsp;                    serverConnection.close();</b>
+<b class="nc"><i>38</i>&nbsp;                } catch(IOException ioe) {</b>
+<b class="nc"><i>39</i>&nbsp;                    System.out.println(&quot;Could not close. Terminating...&quot;);</b>
+<b class="nc"><i>40</i>&nbsp;                }</b>
+<b class="nc"><i>41</i>&nbsp;                System.exit(-1);</b>
+<b class="nc"><i>42</i>&nbsp;                return;</b>
+<b class="nc"><i>43</i>&nbsp;            }</b>
+<i>44</i>&nbsp;        }
+<i>45</i>&nbsp;    }
+<i>46</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-18 16:44</div>
+</div>
+</body>
+</html>
