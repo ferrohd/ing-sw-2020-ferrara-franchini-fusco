@@ -6,6 +6,10 @@ package it.polimi.ingsw.PSP14.server.model.board;
 public class Worker {
     private Point pos;
 
+    /**
+     * Constructs a worker at specified position
+     * @param pos the position
+     */
     public Worker(Point pos) {
         this.pos = pos;
     }

@@ -142,7 +142,7 @@ public class MatchModel implements Runnable {
     /**
      * @return an array containing all player models.
      */
-    protected ArrayList<Player> getPlayerMap() {
+    public ArrayList<Player> getPlayerMap() {
         return new ArrayList<>(playerMap.values());
     }
 
@@ -283,7 +283,7 @@ public class MatchModel implements Runnable {
         return playerMap.get(username);
     }
 
-    protected Board getBoard() {
+    public Board getBoard() {
         return board;
     }
 
@@ -322,7 +322,7 @@ public class MatchModel implements Runnable {
      * @param worker     index of worker to move
      * @return the array of possible MoveActions
      */
-    protected List<MoveAction> getMovements(String playerName, int worker) {
+    public List<MoveAction> getMovements(String playerName, int worker) {
         ArrayList<MoveAction> legalMoves = new ArrayList<>();
 
         Player currPlayer = getPlayerByUsername(playerName);

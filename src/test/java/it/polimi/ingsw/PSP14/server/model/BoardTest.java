@@ -19,7 +19,7 @@ public class BoardTest {
 
     @BeforeEach
     void reset() throws IOException {
-        board = new Board();
+        board = new Board(new MatchController(new ArrayList<>()));
     }
 
     @Test

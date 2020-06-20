@@ -13,7 +13,6 @@ import java.io.IOException;
 public class MoveAction extends Action implements Proposable {
     private Point from;
     private Point to;
-    private int workerId = -1;
 
     public MoveAction(String user, Point from, Point to) {
         super(user);
@@ -30,7 +29,6 @@ public class MoveAction extends Action implements Proposable {
         for(Player p: model.getPlayerMap()) {
             for(int i = 0; i < 2; ++i) {
                 if(p.getWorkerPos(i).equals(from)) {
-                    workerId = i;
                     p.setWorker(i, to);
                     if(model.getBoard().getTowerSize(to) == 3 && model.getBoard().getTowerSize(from) < 3) {
                         model.end(getUser());
@@ -54,7 +52,7 @@ public class MoveAction extends Action implements Proposable {
      * @return true if they match
      */
     public boolean equals(MoveAction obj) {
-        return this.user.equals(obj.getUser()) &&
+        return getUser().equals(obj.getUser()) &&
             this.from.equals(obj.getFrom()) &&
             this.to.equals(obj.getTo());
     }
@@ -64,7 +62,7 @@ public class MoveAction extends Action implements Proposable {
         return "MoveAction{" +
                 "from=" + from +
                 ", to=" + to +
-                ", user='" + user + '\'' +
+                ", user='" + getUser() + '\'' +
                 '}';
     }
 }

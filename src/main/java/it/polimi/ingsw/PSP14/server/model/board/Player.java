@@ -16,14 +16,13 @@ public class Player {
     private final MatchController controller;
 
     /**
-     * Constructor.
+     * Default constructor.
      * @param username username of the player to display in game
      * @param god this player's god
      * @param controller current match controller
      * @throws IOException if it can't register the player
      */
     public Player(String username, God god, MatchController controller) throws IOException {
-        if (username == null || username.equals("")) throw new NullPointerException();
         this.username = username;
         this.god = god;
         this.controller = controller;
@@ -31,10 +30,21 @@ public class Player {
         controller.registerPlayer(username);
     }
 
+    /**
+     * Constructs a Player with a dummy MatchController.
+     * @param username username of the player to display in game
+     * @param god this player's god
+     * @throws IOException if it can't register the player
+     */
     public Player(String username, God god) throws IOException {
         this(username, god, new MatchController(new ArrayList<>()));
     }
 
+    /**
+     * Constructs a Player with a dummy God and MatchController.
+     * @param username username of the player to display in game
+     * @throws IOException if it can't register the player
+     */
     public Player(String username) throws IOException {
         this(username, new God(username));
     }
@@ -54,6 +64,7 @@ public class Player {
     /**
      * Create, or update position, of a worker, by specifying its index
      * (0 or 1) and a new position.
+     *
      * @param index {0, 1} the index of the worker
      * @param position the position of the worker
      * @throws IOException if it can't register the worker
@@ -77,8 +88,8 @@ public class Player {
     }
 
     /**
-     * Get the index-esim worker position.
-     * @param index worker to find position
+     * Get the position of the worker of a particular index.
+     * @param index {0, 1} worker to find position
      * @return the position of the selected worker
      */
     public Point getWorkerPos(int index) {

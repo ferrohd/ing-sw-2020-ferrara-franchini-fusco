@@ -35,6 +35,12 @@ public class Point implements Serializable {
         return this.x == point.x && this.y == point.y;
     }
 
+    /**
+     * Create a new point from a current one with an offset specified by a Direction.
+     *
+     * @param dir the direction
+     * @return the new moved point
+     */
     public Point move(Direction dir) {
         return new Point(
                 x + dir.getXOffset(),
@@ -42,6 +48,12 @@ public class Point implements Serializable {
         );
     }
 
+    /**
+     * Finds the manhattan distance between two points
+     *
+     * @param p the other point
+     * @return the distance
+     */
     public int distance(Point p) {
         return Math.abs(x - p.x) + Math.abs(y - p.y);
     }
