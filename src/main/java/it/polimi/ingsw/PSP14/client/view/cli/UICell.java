@@ -41,13 +41,6 @@ public class UICell {
     }
 
     /**
-     * Decrease the height of the tower by 1.
-     */
-    public void decrementTowerHeight() {
-        this.towerHeight -= 1;
-    }
-
-    /**
      * Check whether the tower has a dome on it.
      * @return true if there's a dome, false if there is not one
      */
@@ -112,7 +105,7 @@ public class UICell {
     }
 
     /**
-     * @return a Point where the cell is situated
+     * @return a Point where the cell is located
      */
     public Point getPoint() { return new Point(x, y); }
 }

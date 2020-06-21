@@ -13,7 +13,7 @@ import java.util.List;
  * A view that allows a player to choose the player who goes first in the match.
  */
 public class GUIFirstPlayerScene implements Runnable {
-    List<String> names;
+    private final List<String> names;
 
     public GUIFirstPlayerScene(List<String> names) {
         this.names = names;

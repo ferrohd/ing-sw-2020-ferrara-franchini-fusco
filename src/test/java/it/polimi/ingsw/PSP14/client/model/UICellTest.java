@@ -38,7 +38,6 @@ class UICellTest {
     void decrementTowerHeight() {
         cell.incrementTowerHeight();
         cell.incrementTowerHeight();
-        cell.decrementTowerHeight();
         assertEquals(1, cell.getTowerHeight());
     }
 

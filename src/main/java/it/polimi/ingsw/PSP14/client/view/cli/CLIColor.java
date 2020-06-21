@@ -1,5 +1,9 @@
 package it.polimi.ingsw.PSP14.client.view.cli;
 
+/**
+ * Enum representing available colors to be shown in the CLI.
+ * Every color has a corresponding escape sequence.
+ */
 enum CLIColor implements UIColor {
     RESET("\033[0m"),
     RED("\033[0;31m"),
@@ -9,12 +13,15 @@ enum CLIColor implements UIColor {
     MAGENTA("\033[0;35m"),
     CYAN("\033[0;36m");
 
-    private String code;
+    private final String code;
 
     CLIColor(String code) {
         this.code = code;
     }
 
+    /**
+     * @return the escape sequence to be printed.
+     */
     public String toString() {
         return code;
     }

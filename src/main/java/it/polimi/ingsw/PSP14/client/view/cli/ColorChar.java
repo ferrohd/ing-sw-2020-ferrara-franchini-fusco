@@ -25,6 +25,10 @@ public class ColorChar {
 
     public CLIColor getColor() { return color; }
 
+    /**
+     * @return a string sequence made up of the character if no color is set, and the
+     * color escape sequence + character + reset color escape sequences if a color is set.
+     */
     @Override
     public String toString() {
         if (color == null)

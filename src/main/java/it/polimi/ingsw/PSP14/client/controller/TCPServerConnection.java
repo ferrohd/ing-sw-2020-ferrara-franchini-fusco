@@ -13,8 +13,8 @@ import java.net.Socket;
  * ServerConnection implemented using TCP sockets.
  */
 public class TCPServerConnection implements ServerConnection {
-    private TCPOut serverOutput;
-    private TCPIn serverInput;
+    private final TCPOut serverOutput;
+    private final TCPIn serverInput;
 
     /**
      * Constructor of the connection.
@@ -26,10 +26,6 @@ public class TCPServerConnection implements ServerConnection {
         serverInput = new TCPIn(new ObjectInputStream(socket.getInputStream()));
         new Thread(serverInput).start();
         new Thread(serverOutput).start();
-    }
-
-    public void sendFatalError() {
-        // TODO
     }
 
     @Override
