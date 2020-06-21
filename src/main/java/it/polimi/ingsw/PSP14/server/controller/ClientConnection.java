@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
  * Exposes the functions for bidirectional communication with a client.
  */
 public abstract class ClientConnection {
-    public void notifyGod(String player, String god) throws IOException {
+    protected void notifyGod(String player, String god) throws IOException {
         sendMessage(new GodUpdateMessage(player, god));
     }
 
-    public void ping() throws IOException {
+    protected void ping() throws IOException {
         sendMessage(new PingMessage());
     }
     /**
@@ -36,7 +36,7 @@ public abstract class ClientConnection {
      */
     protected abstract Message receiveMessage() throws IOException;
 
-    public void notifyGameStart() throws IOException {
+    protected void notifyGameStart() throws IOException {
         sendMessage(new GameStartMessage());
     }
 
@@ -45,7 +45,7 @@ public abstract class ClientConnection {
      * @return the player username
      * @throws IOException if there's a connection error
      */
-    public String getUsername() throws IOException {
+    protected String getUsername() throws IOException {
         Message message = new UsernameMessage();
         sendMessage(message);
         return receiveString();
@@ -58,7 +58,7 @@ public abstract class ClientConnection {
      * @return a list of god names representing the chosen gods
      * @throws IOException if there's a connection error
      */
-    public List<String> selectGameGods(List<String> availableGods, int n) throws IOException {
+    protected List<String> selectGameGods(List<String> availableGods, int n) throws IOException {
         List<String> selectedGods = new ArrayList<>();
 
         for (int i = 0; i < n; i++) {
@@ -79,7 +79,7 @@ public abstract class ClientConnection {
      * @return the god selected
      * @throws IOException if there's a connection error
      */
-    public String selectGod(List<String> gods) throws IOException {
+    protected String selectGod(List<String> gods) throws IOException {
         List<GodProposal> godProposals = gods.stream().map(GodProposal::new).collect(Collectors.toList());
         GodChoiceProposalMessage message = new GodChoiceProposalMessage(godProposals);
         sendMessage(message);
@@ -99,7 +99,7 @@ public abstract class ClientConnection {
      * @return selected player
      * @throws IOException if there's a connection error
      */
-    public String selectFirstPlayer(List<String> players) throws IOException {
+    protected String selectFirstPlayer(List<String> players) throws IOException {
         List<PlayerProposal> playerProposals = players.stream().map(PlayerProposal::new).collect(Collectors.toList());
         FirstPlayerProposalMessage message = new FirstPlayerProposalMessage(playerProposals);
 
@@ -120,7 +120,7 @@ public abstract class ClientConnection {
      * @return the index of the chosen worker
      * @throws IOException if there's a connection error
      */
-    public int getWorkerIndex(List<Integer> choices) throws IOException {
+    protected int getWorkerIndex(List<Integer> choices) throws IOException {
         Message message = new WorkerIndexMessage(choices);
         sendMessage(message);
         int workerIndex = receiveChoice();
@@ -138,7 +138,7 @@ public abstract class ClientConnection {
      * @return a Point where to place the worker
      * @throws IOException if there's a connection error
      */
-    public Point placeWorker() throws IOException {
+    protected Point placeWorker() throws IOException {
         Message message = new WorkerInitialPositionMessage();
         sendMessage(message);
         int[] coord = new int[2];
@@ -159,7 +159,7 @@ public abstract class ClientConnection {
      * @param p the name of the player
      * @throws IOException if there's a connection error
      */
-    public void registerPlayer(String p) throws IOException {
+    protected void registerPlayer(String p) throws IOException {
         sendMessage(new PlayerRegisterMessage(p));
     }
 
@@ -170,7 +170,7 @@ public abstract class ClientConnection {
      * @param workerIndex the index of the worker
      * @throws IOException if there's a connection error
      */
-    public void registerWorker(Point pos, String player, int workerIndex) throws IOException {
+    protected void registerWorker(Point pos, String player, int workerIndex) throws IOException {
         sendMessage(new WorkerAddMessage(pos, player, workerIndex));
     }
 
@@ -179,7 +179,7 @@ public abstract class ClientConnection {
      * @param p the target position
      * @throws IOException if there's a connection error
      */
-    public void notifyDome(Point p) throws IOException {
+    protected void notifyDome(Point p) throws IOException {
         sendMessage(new DomeBuildMessage(p));
     }
 
@@ -188,7 +188,7 @@ public abstract class ClientConnection {
      * @param p position (Point) of the build
      * @throws IOException if there's a connection error
      */
-    public void notifyBuild(Point p) throws IOException {
+    protected void notifyBuild(Point p) throws IOException {
         sendMessage(new TowerIncrementMessage(p));
     }
 
@@ -199,7 +199,7 @@ public abstract class ClientConnection {
      * @param workerId the worker's id
      * @throws IOException if there's a connection error
      */
-    public void notifyWorkerMove(Point p, String user, int workerId) throws IOException {
+    protected void notifyWorkerMove(Point p, String user, int workerId) throws IOException {
         sendMessage(new WorkerMoveMessage(p, user, workerId));
     }
 
@@ -208,7 +208,7 @@ public abstract class ClientConnection {
      * @param player the player to unregister
      * @throws IOException if there's a connection error
      */
-    public void notifyUnregisterPlayer(String player) throws IOException {
+    protected void notifyUnregisterPlayer(String player) throws IOException {
         sendMessage(new UnregisterPlayerMessage(player));
     }
 
@@ -219,7 +219,7 @@ public abstract class ClientConnection {
      * @return choice of the player (between 0 and size)
      * @throws IOException if there's a connection error
      */
-    private int askProposalMessage(ProposalMessage<? extends Proposal> message, int size) throws IOException {
+    protected int askProposalMessage(ProposalMessage<? extends Proposal> message, int size) throws IOException {
         sendMessage(message);
         int choice = receiveChoice();
         while(choice < 0 || choice >= size) {
@@ -237,7 +237,7 @@ public abstract class ClientConnection {
      * @return the index of the chosen move
      * @throws IOException if there's a connection error
      */
-    public int askBuild(List<BuildProposal> proposals) throws IOException {
+    protected int askBuild(List<BuildProposal> proposals) throws IOException {
         return askProposalMessage(new BuildProposalMessage(proposals), proposals.size());
     }
 
@@ -247,7 +247,7 @@ public abstract class ClientConnection {
      * @return the index of the chosen move
      * @throws IOException if there's a connection error
      */
-    public int askMove(List<MoveProposal> proposals) throws IOException {
+    protected int askMove(List<MoveProposal> proposals) throws IOException {
         return askProposalMessage(new MoveProposalMessage(proposals), proposals.size());
     }
 
@@ -256,7 +256,7 @@ public abstract class ClientConnection {
      * @return the size of the lobby
      * @throws IOException if there's a connection error
      */
-    public int askLobbySize() throws IOException {
+    protected int askLobbySize() throws IOException {
         Message message = new LobbySizeMessage();
         sendMessage(message);
         int choice = receiveChoice();
@@ -275,7 +275,7 @@ public abstract class ClientConnection {
      * @param s the content of the notification
      * @throws IOException if there's a connection error
      */
-    public void sendNotification(String s) throws IOException {
+    protected void sendNotification(String s) throws IOException {
         sendMessage(new NotificationMessage(s));
     }
 
@@ -285,7 +285,7 @@ public abstract class ClientConnection {
      * @return the answer
      * @throws IOException if there's a connection error
      */
-    public boolean askQuestion(String s) throws IOException {
+    protected boolean askQuestion(String s) throws IOException {
         Message message = new YesNoMessage(s);
         sendMessage(message);
 
@@ -304,7 +304,7 @@ public abstract class ClientConnection {
      * @param winner winner of the game
      * @throws IOException if there's a connectione error
      */
-    public void endGame(String winner) throws IOException {
+    protected void endGame(String winner) throws IOException {
         sendMessage(new GameEndMessage(winner));
     }
 
@@ -317,7 +317,7 @@ public abstract class ClientConnection {
      * @param player the name of that player
      * @throws IOException if there's a connection error
      */
-    public void notifyWorkerChoicePhase(String player) throws IOException {
+    protected void notifyWorkerChoicePhase(String player) throws IOException {
         sendMessage(new WorkerChoicePhaseMessage(player));
     }
 
@@ -326,7 +326,7 @@ public abstract class ClientConnection {
      * @param player the name of that player
      * @throws IOException if there's a connection error
      */
-    public void notifyMovePhase(String player) throws IOException {
+    protected void notifyMovePhase(String player) throws IOException {
         sendMessage(new MovePhaseMessage(player));
     }
 
@@ -335,7 +335,7 @@ public abstract class ClientConnection {
      * @param player the name of that player
      * @throws IOException if there's a connection error
      */
-    public void notifyBuildPhase(String player) throws IOException {
+    protected void notifyBuildPhase(String player) throws IOException {
         sendMessage(new BuildPhaseMessage(player));
     }
 
@@ -344,7 +344,7 @@ public abstract class ClientConnection {
      * @param player the name of that player
      * @throws IOException if there's a connection error
      */
-    public void notifyWorkerPlacementPhase(String player) throws IOException {
+    protected void notifyWorkerPlacementPhase(String player) throws IOException {
         sendMessage(new WorkerPlacementPhaseMessage(player));
     }
 
@@ -352,5 +352,5 @@ public abstract class ClientConnection {
      * Close the connection with the client.
      * @throws IOException if there's a connection error.
      */
-    public abstract void close() throws IOException;
+    protected abstract void close() throws IOException;
 }

@@ -21,7 +21,7 @@ public class GodfileParser {
      * Obtain the list of all available gods, by parsing the associated XML file.
      * The function use a memoizer to reduce the I/O.
      * https://en.wikipedia.org/wiki/Memoization
-     * @param godsFile The path of the XML file where gods are declared.
+     * @param godsFile input stream obtained from the XML file where gods are declared.
      * @param gamesize the number of players in this match
      * @return An ArrayList containing the names of the available gods to play.
      * @throws IOException If there's an error reading the godlist file

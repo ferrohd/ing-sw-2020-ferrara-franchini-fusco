@@ -17,6 +17,12 @@ public class TCPClientConnectionFactory implements ClientConnectionFactory {
         serverSocket = new ServerSocket(port);
     }
 
+    /**
+     * Main method of the class.
+     * it continuously checks for incoming connection requests. If a connection succeeds it wraps
+     * the client socket in a TCPClientConnection object and puts it in an internal queue to be
+     * retrieved later with getClientConnection.
+     */
     public void run() {
         while(true) {
             Socket newConnectionSocket;
@@ -36,6 +42,7 @@ public class TCPClientConnectionFactory implements ClientConnectionFactory {
         }
     }
 
+    @Override
     public ClientConnection getClientConnection() throws InterruptedException {
         return clientQueue.take();
     }
