@@ -10,9 +10,9 @@ import java.io.IOException;
  * Message that tells the client that a new worker has been added to the match.
  */
 public class WorkerAddMessage implements UIUpdateMessage {
-    private Point pos;
-    private String player;
-    private int workerId;
+    private final Point pos;
+    private final String player;
+    private final int workerId;
 
     public WorkerAddMessage(Point pos, String player, int workerId) {
         this.pos = pos;

@@ -9,8 +9,8 @@ import java.io.IOException;
  * Message that tells the client that a player has chosen a certain god.
  */
 public class GodUpdateMessage implements UIUpdateMessage {
-    private String player;
-    private String god;
+    private final String player;
+    private final String god;
 
     public GodUpdateMessage(String player, String god) {
         this.player = player;

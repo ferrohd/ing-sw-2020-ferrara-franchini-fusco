@@ -9,7 +9,7 @@ import java.io.IOException;
  * Message that tells the client to register a new player.
  */
 public class PlayerRegisterMessage implements UIUpdateMessage {
-    private String username;
+    private final String username;
 
     public PlayerRegisterMessage(String username) {
         this.username = username;

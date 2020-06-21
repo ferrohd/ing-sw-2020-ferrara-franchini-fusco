@@ -5,7 +5,7 @@ package it.polimi.ingsw.PSP14.core.messages;
  * Usually used to return the client's selection to the server.
  */
 public class ChoiceMessage implements Message {
-    private int index;
+    private final int index;
 
     public ChoiceMessage(int index) {
         this.index = index;

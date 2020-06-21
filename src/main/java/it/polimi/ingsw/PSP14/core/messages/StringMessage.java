@@ -4,7 +4,7 @@ package it.polimi.ingsw.PSP14.core.messages;
  * Message that contains only text.
  */
 public class StringMessage implements Message {
-    private String string;
+    private final String string;
 
     /**
      * Constructor of the message. You've got to set

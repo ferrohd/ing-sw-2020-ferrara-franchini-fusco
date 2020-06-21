@@ -15,14 +15,18 @@ import java.util.concurrent.TimeUnit;
  * A task that handles the incoming messages.
  */
 public class TCPIn implements Runnable {
-    private BlockingQueue<Message> queue = new LinkedBlockingQueue<>();
-    private ObjectInputStream in;
+    private final BlockingQueue<Message> queue = new LinkedBlockingQueue<>();
+    private final ObjectInputStream in;
     private Instant lastTimestamp = Instant.now();
 
     public TCPIn(ObjectInputStream in) {
         this.in = in;
     }
 
+    /**
+     * Indefinitely reads objects from the socket until an exception occurs.
+     * Detects ping messages and discards them, updating the lastTimestamp attribute.
+     */
     @Override
     public void run() {
         while(true) {
@@ -39,6 +43,12 @@ public class TCPIn implements Runnable {
         }
     }
 
+    /**
+     * Function called to receive a message.
+     * It takes a message from the internal queue and returns it.
+     * @return the first message in the internal queue
+     * @throws IOException if interrupted or too much time has elapsed since the last Ping
+     */
     public Message receiveMessage() throws IOException {
         try {
             Message message;
@@ -50,6 +60,10 @@ public class TCPIn implements Runnable {
         } catch(InterruptedException e) {throw new IOException();}
     }
 
+    /**
+     * Closes the connection.
+     * @throws IOException if the connection can't be closed.
+     */
     public void close() throws IOException {
         in.close();
     }
