@@ -11,9 +11,8 @@ import java.io.IOException;
  * The implementation of a the move action.
  */
 public class MoveAction extends Action implements Proposable {
-    private Point from;
-    private Point to;
-    private int workerId = -1;
+    private final Point from;
+    private final Point to;
 
     public MoveAction(String user, Point from, Point to) {
         super(user);
@@ -30,7 +29,6 @@ public class MoveAction extends Action implements Proposable {
         for(Player p: model.getPlayerMap()) {
             for(int i = 0; i < 2; ++i) {
                 if(p.getWorkerPos(i).equals(from)) {
-                    workerId = i;
                     p.setWorker(i, to);
                     if(model.getBoard().getTowerSize(to) == 3 && model.getBoard().getTowerSize(from) < 3) {
                         model.end(getUser());
