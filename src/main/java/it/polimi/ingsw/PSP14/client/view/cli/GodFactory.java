@@ -8,7 +8,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Returns GodModel instances found in the godsFile.
@@ -27,7 +29,7 @@ public class GodFactory {
 
     /**
      * Constructs a GodModelFactory using a specific file.
-     * @param godsFile file containing gods data
+     * @param godsFile name of the file containing gods data
      * @throws IOException for errors with opening, reading, or parsing the file
      */
     private GodFactory(String godsFile) throws IOException {
@@ -70,8 +72,7 @@ public class GodFactory {
     }
 
     /**
-     * Return the GodModel map
-     * @return the godMap
+     * @return a Set of String containing all god names
      */
-    public Map<String, UIGod> getGodsMap() { return godMap; }
+    public Set<String> getGodNames() { return godMap.keySet(); }
 }

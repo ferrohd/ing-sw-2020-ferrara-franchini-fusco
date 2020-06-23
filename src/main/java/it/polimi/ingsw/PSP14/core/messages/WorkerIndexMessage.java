@@ -11,7 +11,7 @@ import java.util.List;
  * it back to the server.
  */
 public class WorkerIndexMessage implements ClientExecutableMessage {
-    private List<Integer> choosable;
+    private final List<Integer> choosable;
 
     public WorkerIndexMessage(List<Integer> choosable) {
         this.choosable = choosable;

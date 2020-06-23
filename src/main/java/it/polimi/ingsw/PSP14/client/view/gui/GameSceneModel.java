@@ -32,28 +32,29 @@ import javafx.util.Duration;
  * from the server, through a series of utility methods.
  */
 public class GameSceneModel {
-    private static final double WALLS_X = 8.65;
-    private static final double WALLS_SCALE = 1;
-    private static final double WALLS_Y = 3.5;
-    private static final double WALLS_Z = 8.65;
-    private static final double BLOCK_X = -0.3;
-    private static final double BLOCK_Z = -0.1;
-    private static final double BLOCK_Y_1 = 1.2; // lv 1
-    private static final double BLOCK_Y_2 = 0; // lv2
-    private static final double BLOCK_Y_3 = -1.9; //lv 3
-    private static final double BLOCK_Y_4 = -3; // dome
-    private static final double BLOCK_Y_HIDE = 5; // dome
-    private static final double BLOCK_SCALE = 0.35;
-    private static final double WORKER_Y_HIDE = 5;
-    private static final double WORKER_Y_1 = -1; // ground
-    private static final double WORKER_Y_2 = -2.3; // lv 1
-    private static final double WORKER_Y_3 = -3.4; // lv 2
-    private static final double WORKER_Y_4 = -4.25; // lv 3
-    private static final double SELECT_HEIGHT = 0.4;
-    private static final double SELECT_Y_1 = 0 - SELECT_HEIGHT/2; // ground
-    private static final double SELECT_Y_2 = -1.5 - SELECT_HEIGHT/2; // lv 1
-    private static final double SELECT_Y_3 = -2.5 - SELECT_HEIGHT/2; // lv 2
-    private static final double SELECT_Y_4 = -3.5 - SELECT_HEIGHT/2; // lv 3
+    private static final double
+            WALLS_X = 8.65,
+            WALLS_SCALE = 1,
+            WALLS_Y = 3.5,
+            WALLS_Z = 8.65,
+            BLOCK_X = -0.3,
+            BLOCK_Z = -0.1,
+            BLOCK_Y_1 = 1.2, // lv 1
+            BLOCK_Y_2 = 0, // lv2
+            BLOCK_Y_3 = -1.9, //lv 3
+            BLOCK_Y_4 = -3, // dome
+            BLOCK_Y_HIDE = 5, // dome
+            BLOCK_SCALE = 0.35,
+            WORKER_Y_HIDE = 5,
+            WORKER_Y_1 = -1, // ground
+            WORKER_Y_2 = -2.3, // lv 1
+            WORKER_Y_3 = -3.4, // lv 2
+            WORKER_Y_4 = -4.25, // lv 3
+            SELECT_HEIGHT = 0.4,
+            SELECT_Y_1 = 0 - SELECT_HEIGHT/2, // ground
+            SELECT_Y_2 = -1.5 - SELECT_HEIGHT/2, // lv 1
+            SELECT_Y_3 = -2.5 - SELECT_HEIGHT/2, // lv 2
+            SELECT_Y_4 = -3.5 - SELECT_HEIGHT/2; // lv 3
 
     // Contains all actors, accessible with an ID
     private final Map<String, Node> actors = new HashMap<>();
@@ -289,36 +290,29 @@ public class GameSceneModel {
         if (worker != null) {
             Point3D finalPosition = getSceneCoordinates(position).add(0, getWorkerHeight(position), 0),
                     diff = finalPosition.subtract(getSceneCoordinates(worker));
-            Timeline xTimeline = new Timeline(
-                    new KeyFrame(
-                            Duration.millis(diff.getX() != 0 ? 250 : 0),
-                            new KeyValue(worker.translateXProperty(), finalPosition.getX())
-                    )
-            ),
+            Timeline xzTimeline = new Timeline(
+                        new KeyFrame(
+                                Duration.millis(250),
+                                new KeyValue(worker.translateXProperty(), finalPosition.getX()),
+                                new KeyValue(worker.translateZProperty(), finalPosition.getZ())
+                        )
+                    ),
                     yTimeline = new Timeline(
                             new KeyFrame(
                                     Duration.millis(diff.getY() != 0 ? 250 : 0),
                                     new KeyValue(worker.translateYProperty(), finalPosition.getY())
                             )
-                    ),
-                    zTimeline = new Timeline(
-                            new KeyFrame(
-                                    Duration.millis(diff.getZ() != 0 ? 250 : 0),
-                                    new KeyValue(worker.translateZProperty(), finalPosition.getZ())
-                            )
                     );
-            xTimeline.setCycleCount(1);
+            xzTimeline.setCycleCount(1);
             yTimeline.setCycleCount(1);
-            zTimeline.setCycleCount(1);
-            xTimeline.setOnFinished(event -> zTimeline.play());
             if(diff.getY() < 0) {
-                yTimeline.setOnFinished(event -> xTimeline.play());
-                zTimeline.setOnFinished(event -> latch.countDown());
+                yTimeline.setOnFinished(event -> xzTimeline.play());
+                xzTimeline.setOnFinished(event -> latch.countDown());
                 yTimeline.play();
             } else {
-                zTimeline.setOnFinished(event -> yTimeline.play());
+                xzTimeline.setOnFinished(event -> yTimeline.play());
                 yTimeline.setOnFinished(event -> latch.countDown());
-                xTimeline.play();
+                xzTimeline.play();
             }
         } else {
             latch.countDown();

@@ -14,7 +14,7 @@ import java.util.Map;
  * The left hand side represents the name of the setting. The right hand side represents the setting value.
  */
 public class SettingsParser {
-    private Map<String, String> settingsMap;
+    private final Map<String, String> settingsMap;
 
     /**
      * @param filename the path of the setting file

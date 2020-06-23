@@ -11,8 +11,8 @@ import java.io.IOException;
  * back responses to it.
  */
 public class ClientMatch implements Runnable {
-    private ServerConnection serverConnection;
-    private UI ui;
+    private final ServerConnection serverConnection;
+    private final UI ui;
 
     /**
      * Constructor for ClientMatch.
@@ -24,6 +24,11 @@ public class ClientMatch implements Runnable {
         this.ui = ui;
     }
 
+    /**
+     * Run main method of the ClientMatch class.
+     * Recieves messages from the server and executes them in an infinite loop.
+     * Exits if an IOException is caught (meaning a connection error has occurred).
+     */
     @Override
     public void run() {
         // Execute every new message that the client receives

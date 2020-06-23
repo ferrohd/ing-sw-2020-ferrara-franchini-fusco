@@ -82,6 +82,11 @@ public class GameInfoPanelModel {
         this.hud = hud;
     }
 
+    /**
+     * Adds a player to the 2D info overlay in the game scene.
+     * @param player the name of the player
+     * @param god the god id of the player
+     */
     public void registerPlayerInfo(String player, String god) {
         // Get god data
         UIGod _god;

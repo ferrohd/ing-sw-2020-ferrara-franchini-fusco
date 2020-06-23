@@ -8,20 +8,18 @@ import java.io.IOException;
  * ServerConnection implemented using TCP sockets.
  */
 public interface ServerConnection {
-    /**
-     * Used when an error occurs and the match has to be terminated.
-     */
-    void sendFatalError();
 
     /**
      * Allows to send a message to the server.
+     * The call is synchronous.
      * @param message the message to send
-     * @throws IOException if the sending of the message fails
+     * @throws IOException if sending the message fails
      */
     void sendMessage(Message message) throws IOException;
 
     /**
      * Allows to receive a message from the server.
+     * The call is synchronous.
      * @return the received message
      * @throws IOException if the message reception fails
      */

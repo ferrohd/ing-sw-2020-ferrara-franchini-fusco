@@ -8,6 +8,7 @@ import java.io.IOException;
 
 /**
  * The entry point of the server.
+ * Sets up a ClientConnectionFactory and a GameFactory thread.
  */
 public class Server {
     public static void main(String[] args) throws InterruptedException, IOException {

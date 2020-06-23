@@ -10,7 +10,7 @@ import java.io.IOException;
  * Message that tells the client that a tower size has been increased.
  */
 public class TowerIncrementMessage implements UIUpdateMessage {
-    private Point pos;
+    private final Point pos;
 
     public TowerIncrementMessage(Point pos) {
         this.pos = pos;

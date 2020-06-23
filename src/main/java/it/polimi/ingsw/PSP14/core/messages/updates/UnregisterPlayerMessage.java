@@ -10,7 +10,7 @@ import java.io.IOException;
  * Message that tells the client to unregister a player from the match.
  */
 public class UnregisterPlayerMessage implements ClientExecutableMessage {
-    private String toRemove;
+    private final String toRemove;
 
     public UnregisterPlayerMessage(String toRemove) {
         this.toRemove = toRemove;

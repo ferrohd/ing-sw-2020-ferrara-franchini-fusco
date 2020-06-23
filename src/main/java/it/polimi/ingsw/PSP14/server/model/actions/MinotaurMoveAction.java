@@ -10,9 +10,6 @@ import java.io.IOException;
  * The implementation of a custom move of Minotaur.
  */
 public class MinotaurMoveAction extends MoveAction {
-    private Point opponentNewPos;
-    private int opponentWorkerIndex;
-    private String opponent;
 
     public MinotaurMoveAction(String user, Point from, Point to) {
         super(user, from, to);
@@ -29,9 +26,6 @@ public class MinotaurMoveAction extends MoveAction {
                             2*getTo().getX() - getFrom().getX(),
                             2*getTo().getY() - getFrom().getY()
                     );
-                    opponentNewPos = newPos;
-                    opponentWorkerIndex = i;
-                    opponent = p.getUsername();
                     p.setWorker(i, newPos);
                 }
             }

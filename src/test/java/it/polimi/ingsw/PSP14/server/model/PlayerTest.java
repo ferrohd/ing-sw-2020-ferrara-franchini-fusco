@@ -31,20 +31,6 @@ public class PlayerTest {
     }
 
     @Test
-    void playerShouldNotInstantiate() {
-        assertThrows(NullPointerException.class, () -> {
-            testPlayer = new Player(null, new God("Ada"), new MatchController());
-        });
-    }
-
-//    @Test
-//    void getWorkerShouldFailOutOfBounds() {
-//        assertThrows(NullPointerException.class, () -> {
-//            testPlayer.getWorker(3);
-//        });
-//    }
-
-    @Test
     void moveWorker() throws IOException {
         testPlayer.moveWorker(0, Direction.N);
         assertTrue(testPlayer.getWorkerPos(0).equals(new Point(0,1)));

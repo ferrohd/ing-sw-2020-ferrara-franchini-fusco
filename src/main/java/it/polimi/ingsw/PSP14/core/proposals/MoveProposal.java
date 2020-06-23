@@ -6,7 +6,7 @@ import it.polimi.ingsw.PSP14.server.model.board.Point;
  * Proposal representing a possible move.
  */
 public class MoveProposal implements Proposal {
-    private Point point;
+    private final Point point;
 
     public MoveProposal(Point point) {
         this.point = point;

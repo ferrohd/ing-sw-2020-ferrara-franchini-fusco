@@ -12,7 +12,12 @@ public class Board {
     private final Cell[][] board = new Cell[5][5];
     private final MatchController controller;
 
-    public Board(MatchController controller) throws IOException {
+    /**
+     * Constructs a board of empty cells.
+     *
+     * @param controller the controller of the current match
+     */
+    public Board(MatchController controller) {
         for(int i = 0; i < 5; ++i) {
             for(int j = 0; j < 5; ++j) {
                 board[j][i] = new Cell();
@@ -22,12 +27,9 @@ public class Board {
         this.controller = controller;
     }
 
-    public Board() throws IOException {
-        this(new MatchController(new ArrayList<>()));
-    }
-
     /**
      * Get the height of a tower, in number of levels.
+     *
      * @param pos the coordinates of the cell
      * @return the tower size of the selected cell
      */
@@ -39,7 +41,6 @@ public class Board {
      * Increase by one level the height of a tower.
      * @param pos the coordinates of the cell
      * @throws TowerSizeException when you can't increase a tower size
-     * @throws TowerSizeException if the tower is higher than 3 levels
      * @throws IOException if it cant notify the controller
      */
     public void incrementTowerSize(Point pos) throws TowerSizeException, IOException {
@@ -50,6 +51,7 @@ public class Board {
     /**
      * Mark the selected tower as complete, meaning it has to be treated as
      * if there was a dome on it.
+     *
      * @param pos the coordinates of the cell
      * @throws IOException if it can't notify the controller
      */
@@ -60,6 +62,7 @@ public class Board {
 
     /**
      * Returns true if the tower is completed (has a dome on it), false otherwise.
+     *
      * @param pos the coordinates of the cell
      * @return whether the tower is complete
      * @throws IndexOutOfBoundsException if the cell is outside the board

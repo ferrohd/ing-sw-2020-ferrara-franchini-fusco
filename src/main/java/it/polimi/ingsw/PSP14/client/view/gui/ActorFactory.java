@@ -25,24 +25,26 @@ import javafx.util.Duration;
 public class ActorFactory {
     private static final double BLOCK_SCALE = 0.35;
 
-    private static Mesh BLOCK_1_MESH = getMesh("/assets/BuildingBlock01.obj");
-    private static Mesh BLOCK_2_MESH = getMesh("/assets/BuildingBlock02.obj");
-    private static Mesh BLOCK_3_MESH = getMesh("/assets/BuildingBlock03.obj");
-    private static Mesh DOME_MESH = getMesh("/assets/Dome.obj");
-    private static Mesh WORKER_M_MESH = getMesh("/assets/MaleBuilder.obj");
-    private static Mesh WORKER_F_MESH = getMesh("/assets/FemaleBuilder.obj");
+    private static final Mesh
+            BLOCK_1_MESH = getMesh("/assets/BuildingBlock01.obj"),
+            BLOCK_2_MESH = getMesh("/assets/BuildingBlock02.obj"),
+            BLOCK_3_MESH = getMesh("/assets/BuildingBlock03.obj"),
+            DOME_MESH = getMesh("/assets/Dome.obj"),
+            WORKER_M_MESH = getMesh("/assets/MaleBuilder.obj"),
+            WORKER_F_MESH = getMesh("/assets/FemaleBuilder.obj");
 
-    private static PhongMaterial BLOCK_1_MAT = getMaterial("/assets/BuildingBlock01_v001.png");
-    private static PhongMaterial BLOCK_2_MAT = getMaterial("/assets/BuildingBlock02_v001.png");
-    private static PhongMaterial BLOCK_3_MAT = getMaterial("/assets/BuildingBlock03_v001.png");
-    private static PhongMaterial DOME_MAT = getColor(Color.MIDNIGHTBLUE);
-    private static PhongMaterial WORKER_M_BLUE_MAT = getMaterial("/assets/MaleBuilder_Blue_v001.png");
-    private static PhongMaterial WORKER_F_BLUE_MAT = getMaterial("/assets/FemaleBuilder_Blue_v001.png");
-    private static PhongMaterial WORKER_M_ORANGE_MAT = getMaterial("/assets/MaleBuilder_Orange_v001.png");
-    private static PhongMaterial WORKER_F_ORANGE_MAT = getMaterial("/assets/FemaleBuilder_Orange_v001.png");
-    private static PhongMaterial WORKER_M_PINK_MAT = getMaterial("/assets/MaleBuilder_Pink_v001.png");
-    private static PhongMaterial WORKER_F_PINK_MAT = getMaterial("/assets/FemaleBuilder_Pink_v001.png");
-    private static PhongMaterial SELECTABLE_MAT = getMaterial("/assets/selectable2.png");
+    private static final PhongMaterial
+            BLOCK_1_MAT = getMaterial("/assets/BuildingBlock01_v001.png"),
+            BLOCK_2_MAT = getMaterial("/assets/BuildingBlock02_v001.png"),
+            BLOCK_3_MAT = getMaterial("/assets/BuildingBlock03_v001.png"),
+            DOME_MAT = getColor(Color.MIDNIGHTBLUE),
+            WORKER_M_BLUE_MAT = getMaterial("/assets/MaleBuilder_Blue_v001.png"),
+            WORKER_F_BLUE_MAT = getMaterial("/assets/FemaleBuilder_Blue_v001.png"),
+            WORKER_M_ORANGE_MAT = getMaterial("/assets/MaleBuilder_Orange_v001.png"),
+            WORKER_F_ORANGE_MAT = getMaterial("/assets/FemaleBuilder_Orange_v001.png"),
+            WORKER_M_PINK_MAT = getMaterial("/assets/MaleBuilder_Pink_v001.png"),
+            WORKER_F_PINK_MAT = getMaterial("/assets/FemaleBuilder_Pink_v001.png"),
+            SELECTABLE_MAT = getMaterial("/assets/selectable2.png");
 
     static Mesh getMesh(String meshUrl) {
         // Import 3D resource
@@ -60,13 +62,13 @@ public class ActorFactory {
         return meshView.getMesh();
     }
 
-    static PhongMaterial getColor(Color color) {
+    private static PhongMaterial getColor(Color color) {
         PhongMaterial texturedMaterial = new PhongMaterial();
         texturedMaterial.setDiffuseColor(color);
         return texturedMaterial;
     }
 
-    static PhongMaterial getMaterial(String textureUrl) {
+    private static PhongMaterial getMaterial(String textureUrl) {
         // This looks up to /resources/
         Image texture = new Image(textureUrl);
         PhongMaterial texturedMaterial = new PhongMaterial();
@@ -75,6 +77,10 @@ public class ActorFactory {
         return texturedMaterial;
     }
 
+    /**
+     * @param height tower height of the block
+     * @return a meshview of a towerblock of a particular height
+     */
     public static Node getBlock(int height) {
         MeshView block = new MeshView();
         switch (height) {
@@ -113,6 +119,11 @@ public class ActorFactory {
         return block;
     }
 
+    /**
+     * @param playerNumber id number of the player
+     * @param workerNumber {0, 1} id number of the worker
+     * @return a meshview of the worker of right gender and color
+     */
     public static Node getWorker(int playerNumber, int workerNumber) {
         MeshView worker = new MeshView();
         // Assign Mesh
@@ -151,6 +162,9 @@ public class ActorFactory {
         return worker;
     }
 
+    /**
+     * @return a select box to be used to detect selection
+     */
     public static Node getSelectable() {
         // Spawn a flat rectangle
         Box rect = new Box(2, 0.5, 2);

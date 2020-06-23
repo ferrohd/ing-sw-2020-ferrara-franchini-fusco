@@ -59,7 +59,7 @@ public class UICache {
 
     /**
      * Remove a player from the match. This will effectively wipe
-     * the player and all of it's workers from the game.
+     * the player and all of its workers from the game.
      * @param username the username of the player to remove
      */
     public void removePlayer(String username) {
@@ -71,7 +71,7 @@ public class UICache {
     }
 
     /**
-     * @return a List of all Players
+     * @return an ordered List of all Players
      */
     public List<UIPlayer> getPlayers() {
         List<UIPlayer> _list = new ArrayList<>(this.players.values());

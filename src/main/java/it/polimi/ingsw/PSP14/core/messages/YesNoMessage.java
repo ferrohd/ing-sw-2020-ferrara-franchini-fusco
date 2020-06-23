@@ -10,7 +10,7 @@ import java.io.IOException;
  * boolean value to the server.
  */
 public class YesNoMessage implements ClientExecutableMessage {
-    private String question;
+    private final String question;
 
     public YesNoMessage(String question) {
         this.question = question;

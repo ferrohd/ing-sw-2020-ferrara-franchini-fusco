@@ -14,7 +14,7 @@ import java.util.List;
  * @param <T> the sub-type of Proposal used in this ProposalMessage
  */
 public abstract class ProposalMessage<T extends Proposal> implements Message, ClientExecutableMessage {
-    private List<T> proposals;
+    private final List<T> proposals;
     // Set the proposals when this class is instantiated.
     public ProposalMessage(Collection<T> p) {
         proposals = new ArrayList<T>(p);
