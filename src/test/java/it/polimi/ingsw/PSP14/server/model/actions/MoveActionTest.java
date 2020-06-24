@@ -1,11 +1,13 @@
 package it.polimi.ingsw.PSP14.server.model.actions;
 
+import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.server.model.EndGameException;
 import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.board.Board;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchModel;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
@@ -16,15 +18,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MoveActionTest {
-    @Test
-    public void moveActionTest() throws IOException {
-        FakeMatchModel model = new FakeMatchModel() {
+    private static FakeMatchModel model;
+
+    @BeforeEach
+    public void reset() throws IOException {
+        model = new FakeMatchModel() {
             @Override
-            public ArrayList<Player> getPlayerMap() {
-                ArrayList<Player> players = new ArrayList<>();
+            public void resetPlayers() {
+                this.players = new ArrayList<>();
                 try {
                     Player p = new Player("resu");
-                    p.setWorker(0, new Point(2, 2));
+                    p.setWorker(0, new Point(0, 1));
                     p.setWorker(1, new Point(5, 1));
                     players.add(p);
                     p = new Player("user");
@@ -32,20 +36,15 @@ public class MoveActionTest {
                     p.setWorker(1, new Point(0, 0));
                     players.add(p);
                 } catch (IOException ignore) {}
-
-                return players;
             }
 
             @Override
-            public Board getBoard() {
+            public void resetBoard() {
                 try {
-                    Board b = new Board();
+                    board = new Board();
                     for (int i = 0; i < 3; ++i)
-                        b.incrementTowerSize(new Point(1, 1));
-                    return b;
-                } catch (Exception e) {
-                    return null;
-                }
+                        board.incrementTowerSize(new Point(1, 1));
+                } catch (Exception ignored) {}
             }
 
             @Override
@@ -53,10 +52,39 @@ public class MoveActionTest {
                 s = winningPlayer;
             }
         };
+    }
+
+    @Test
+    public void moveActionTest() throws IOException {
         MoveAction action = new MoveAction("user", new Point(0,0), new Point(1,1));
 
         model.executeAction(action);
         assertEquals("user", model.s);
+        assertTrue(model.getPlayerByUsername("user").getWorkerPos(1).equals(new Point(1, 1)));
+    }
 
+    @Test
+    public void apolloMoveActionTest() throws IOException {
+        MoveAction action = new ApolloMoveAction("user", new Point(0,0), new Point(0,1));
+
+        model.executeAction(action);
+        assertTrue(model.getPlayerByUsername("user").getWorkerPos(1).equals(new Point(0, 1)));
+        assertTrue(model.getPlayerByUsername("resu").getWorkerPos(0).equals(new Point(0, 0)));
+    }
+
+    @Test
+    public void minotaurMoveActionTest() throws IOException {
+        MoveAction action = new MinotaurMoveAction("user", new Point(0,0), new Point(0,1));
+
+        model.executeAction(action);
+        assertTrue(model.getPlayerByUsername("user").getWorkerPos(1).equals(new Point(0, 1)));
+        assertTrue(model.getPlayerByUsername("resu").getWorkerPos(0).equals(new Point(0, 2)));
+    }
+
+    @Test
+    public void proposalTest() {
+        MoveAction action = new MoveAction("foo", new Point(0, 0), new Point(1, 1));
+        MoveProposal proposal = action.getProposal();
+        assertTrue(action.getTo().equals(proposal.getPoint()));
     }
 }

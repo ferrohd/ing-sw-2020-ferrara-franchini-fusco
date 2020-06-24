@@ -11,6 +11,7 @@ import java.util.List;
 public class FakeMatchController extends MatchController {
     private List<Message> messages;
     private int messageId;
+    public boolean flag = false;
 
     public FakeMatchController() throws IOException {
     }

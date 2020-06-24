@@ -45,24 +45,4 @@ public class MoveAction extends Action implements Proposable {
     public Point getTo() {
         return to;
     }
-
-    /**
-     * Compare two MoveActions
-     * @param obj the action
-     * @return true if they match
-     */
-    public boolean equals(MoveAction obj) {
-        return this.user.equals(obj.getUser()) &&
-            this.from.equals(obj.getFrom()) &&
-            this.to.equals(obj.getTo());
-    }
-
-    @Override
-    public String toString() {
-        return "MoveAction{" +
-                "from=" + from +
-                ", to=" + to +
-                ", user='" + user + '\'' +
-                '}';
-    }
 }

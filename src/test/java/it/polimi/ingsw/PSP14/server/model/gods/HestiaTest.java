@@ -39,6 +39,7 @@ public class HestiaTest {
             }
         };
 
+        hestia.beforeTurn("hestiaOwner", new FakeMatchController(), model);
         hestia.afterBuild("hestiaOwner", 0, new FakeMatchController(), model);
     }
 }

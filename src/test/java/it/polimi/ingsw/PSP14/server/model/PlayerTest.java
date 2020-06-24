@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP14.server.controller.MatchController;
 import it.polimi.ingsw.PSP14.server.model.board.Direction;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
+import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchController;
 import it.polimi.ingsw.PSP14.server.model.gods.God;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,25 +25,15 @@ public class PlayerTest {
 
     @Test
     void playerShouldInstantiate() {
-        assertDoesNotThrow(() -> {
-            testPlayer = new Player("Ada", new God("Ada"), new MatchController());
-        });
         assertEquals("Ada", testPlayer.getUsername());
     }
 
     @Test
     void playerShouldNotInstantiate() {
         assertThrows(NullPointerException.class, () -> {
-            testPlayer = new Player(null, new God("Ada"), new MatchController());
+            testPlayer = new Player(null, new God("Ada"), new FakeMatchController());
         });
     }
-
-//    @Test
-//    void getWorkerShouldFailOutOfBounds() {
-//        assertThrows(NullPointerException.class, () -> {
-//            testPlayer.getWorker(3);
-//        });
-//    }
 
     @Test
     void moveWorker() throws IOException {
@@ -58,5 +49,19 @@ public class PlayerTest {
     @Test
     void getGod() {
         assertNotEquals(null, testPlayer.getGod());
+    }
+
+    @Test
+    public void shouldRemove() throws IOException {
+        FakeMatchController controller = new FakeMatchController() {
+            @Override
+            public void notifyUnregisterPlayer(String player) throws IOException {
+                assertEquals("Ada", player);
+                flag = true;
+            }
+        };
+        testPlayer = new Player("Ada", new God("Ada"), controller);
+        testPlayer.clear();
+        assertTrue(controller.flag);
     }
 }

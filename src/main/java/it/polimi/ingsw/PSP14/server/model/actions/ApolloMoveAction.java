@@ -10,9 +10,6 @@ import java.io.IOException;
  * The implementation of a custom move of Apollo.
  */
 public class ApolloMoveAction extends MoveAction {
-    private Point opponentNewPos;
-    private int opponentWorkerIndex;
-    private String opponent;
 
     public ApolloMoveAction(String user, Point from, Point to) {
         super(user, from, to);
@@ -26,9 +23,6 @@ public class ApolloMoveAction extends MoveAction {
                 if(p.getWorkerPos(i).equals(getTo())) {
                     // moves the worker at "from" to  "to"
                     super.execute(model);
-                    opponentNewPos = getFrom();
-                    opponentWorkerIndex = i;
-                    opponent = p.getUsername();
                     p.setWorker(i, getFrom());
                     return;
                 }
