@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 /**
  * The model represents the state of a match.
+ * It contains the data representing the board and the players and the main logic of the game.
  */
 public class MatchModel implements Runnable {
     private final Board board;
@@ -41,6 +42,8 @@ public class MatchModel implements Runnable {
 
     /**
      * Entry point for MatchController logic.
+     * Sets up the game and runs indefinitely the gameloop.
+     * It terminates on game end or if a connection exception occurs.
      */
     @Override
     public void run() {
@@ -118,10 +121,6 @@ public class MatchModel implements Runnable {
         }
     }
 
-    public List<Action> getHistory() {
-        return new ArrayList<>(history);
-    }
-
     /**
      * @return the last action executed
      */
@@ -140,6 +139,9 @@ public class MatchModel implements Runnable {
         history.add(action);
     }
 
+    /**
+     * @return an array containing all player models.
+     */
     public ArrayList<Player> getPlayerMap() {
         return new ArrayList<>(playerMap.values());
     }
@@ -194,7 +196,8 @@ public class MatchModel implements Runnable {
 
     /**
      * Function that implements all logic relative to the move phase. In order: -
-     * gets all valid move actions - gets the choice from the client - executes the
+     * - calls the beforeMove effect of all gods - gets all valid move actions -
+     * gets the choice from the client - executes the
      * chosen action - calls the afterMove effects of all gods
      * 
      * @param player      the moving player
@@ -218,7 +221,8 @@ public class MatchModel implements Runnable {
 
     /**
      * Function that implements all logic relative to the build phase. In order: -
-     * gets all valid build actions - gets the choice from the client - executes the
+     * calls the beforeBuild effect of all gods - gets all valid build actions -
+     * gets the choice from the client - executes the
      * chosen action - calls the afterBuild effects of all gods
      * 
      * @param player      the building player
@@ -254,6 +258,12 @@ public class MatchModel implements Runnable {
         throw new EndGameException();
     }
 
+    /**
+     * Removes a losing player and its workers, and calls end if only one player is left.
+     *
+     * @param losingPlayer the losing player
+     * @throws IOException if a connection error occurs
+     */
     public void lose(String losingPlayer) throws IOException {
         controller.lose(losingPlayer);
         userNames.remove(losingPlayer);
@@ -282,7 +292,7 @@ public class MatchModel implements Runnable {
      * 
      * @return an array containing the workers' positions
      */
-    public ArrayList<Point> getWorkerPositions() {
+    private ArrayList<Point> getWorkerPositions() {
         ArrayList<Point> workerPositions = new ArrayList<>();
         for (Player p : playerMap.values())
             for (int i = 0; i < 2; ++i)
@@ -310,8 +320,8 @@ public class MatchModel implements Runnable {
      * 
      * @param playerName player to move
      * @param worker     index of worker to move
-     * @return an array of Points to move to
      * @throws IOException if a connection error occurs
+     * @return the array of possible MoveActions
      */
     public List<MoveAction> getMovements(String playerName, int worker) throws IOException {
         ArrayList<MoveAction> legalMoves = new ArrayList<>();
@@ -343,9 +353,8 @@ public class MatchModel implements Runnable {
      * 
      * @param player player who builds
      * @param worker index of worker who builds
-     * @return an array of Points where building is possible (including
-     *         dome-building)
      * @throws IOException if a connection error occurs
+     * @return the array of possible MoveActions
      */
     public List<BuildAction> getBuildable(String player, int worker) throws IOException {
         ArrayList<Point> buildablePositions = new ArrayList<>();

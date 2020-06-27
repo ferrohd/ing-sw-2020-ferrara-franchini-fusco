@@ -12,13 +12,16 @@ import java.util.concurrent.LinkedBlockingQueue;
  * A task that handles the outgoing messages.
  */
 public class TCPOut implements Runnable {
-    private BlockingQueue<Message> queue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<Message> queue = new LinkedBlockingQueue<>();
     private final ObjectOutputStream out;
 
     public TCPOut(ObjectOutputStream out) {
         this.out = out;
     }
 
+    /**
+     * Indefinitely sends ping messages until an exception occurs.
+     */
     @Override
     public void run() {
         while(true) {
@@ -33,12 +36,21 @@ public class TCPOut implements Runnable {
         }
     }
 
+    /**
+     * Sends a message.
+     * @param message the message to be sent
+     * @throws IOException if the message can't be sent
+     */
     public void sendMessage(Message message) throws IOException {
         synchronized (out) {
             out.writeObject(message);
         }
     }
 
+    /**
+     * Closes the connection.
+     * @throws IOException if the connection can't be closed.
+     */
     public void close() throws IOException {
         out.close();
     }

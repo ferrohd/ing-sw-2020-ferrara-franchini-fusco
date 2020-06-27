@@ -12,8 +12,8 @@ import java.time.Instant;
 public abstract class Action implements Serializable {
     // DO NOT TOUCH!
     private static final long serialVersionUID = 1L;
-    private Instant timestamp;
-    String user;
+    private final Instant timestamp;
+    private final String user;
 
     public Action(String user) {
         this.timestamp = Instant.now();
@@ -32,5 +32,10 @@ public abstract class Action implements Serializable {
      */
     public String getUser() { return user; }
 
+    /**
+     * Executes the message on the current model
+     * @param model the current model
+     * @throws IOException if a connection error occurs
+     */
     public abstract void execute(MatchModel model) throws IOException;
 }

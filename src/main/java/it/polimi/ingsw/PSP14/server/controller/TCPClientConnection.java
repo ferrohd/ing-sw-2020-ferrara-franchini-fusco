@@ -15,8 +15,8 @@ import java.net.Socket;
  * ClientConnection implemented using TCP sockets.
  */
 public class TCPClientConnection extends ClientConnection {
-    private TCPOut clientOutput;
-    private TCPIn clientInput;
+    private final TCPOut clientOutput;
+    private final TCPIn clientInput;
 
     public TCPClientConnection(final Socket socket) throws IOException {
         clientOutput = new TCPOut(new ObjectOutputStream(socket.getOutputStream()));

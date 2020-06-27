@@ -9,9 +9,9 @@ import it.polimi.ingsw.PSP14.server.model.board.Point;
  * the tower has to be marked as completed or not.
  */
 public class BuildProposal implements Proposal {
-    private Point point;
-    private boolean dome;
-    private int amount;
+    private final Point point;
+    private final boolean dome;
+    private final int amount;
 
     public BuildProposal(Point point, boolean dome, int amount) {
         this.point = point;

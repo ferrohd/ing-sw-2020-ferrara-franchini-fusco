@@ -10,9 +10,9 @@ import java.io.IOException;
  * Message that tells the client that a player is choosing where to move a worker.
  */
 public class WorkerMoveMessage implements UIUpdateMessage {
-    private Point newPos;
-    private String player;
-    private int workerId;
+    private final Point newPos;
+    private final String player;
+    private final int workerId;
 
     public WorkerMoveMessage(Point newPos, String player, int workerId) {
         this.newPos = newPos;

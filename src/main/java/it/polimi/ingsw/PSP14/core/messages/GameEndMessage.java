@@ -9,7 +9,7 @@ import java.io.IOException;
  * Message that notifies the players that the game has ended, and announcing the winner.
  */
 public class GameEndMessage implements ClientExecutableMessage {
-    private String winner;
+    private final String winner;
 
     public GameEndMessage(String winner) {
         this.winner = winner;

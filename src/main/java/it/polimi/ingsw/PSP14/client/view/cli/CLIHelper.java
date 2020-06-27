@@ -21,12 +21,11 @@ public class CLIHelper {
             PANEL_WIDTH = CANVAS_WIDTH - BOARD_WIDTH - 10;
 
 
-    int height, width;
-    UICache cache;
-    ColorChar[][] canvas;
+    final int height, width;
+    private final UICache cache;
+    private final ColorChar[][] canvas;
 
     private void initCanvas() {
-        canvas = new ColorChar[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 canvas[i][j] = new ColorChar('*', null);
@@ -46,6 +45,7 @@ public class CLIHelper {
         this.width = CANVAS_WIDTH;
         this.height = CANVAS_HEIGHT;
         this.cache = cache;
+        this.canvas = new ColorChar[height][width];
         initCanvas();
     }
 
@@ -61,6 +61,7 @@ public class CLIHelper {
         this.height = height;
         this.width = CANVAS_WIDTH;
         this.cache = cache;
+        this.canvas = new ColorChar[height][width];
         initCanvas();
     }
 

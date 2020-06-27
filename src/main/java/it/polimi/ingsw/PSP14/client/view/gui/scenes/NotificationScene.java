@@ -11,7 +11,7 @@ import org.controlsfx.control.NotificationPane;
  */
 public class NotificationScene implements Runnable {
 
-    final String textMessage;
+    private final String textMessage;
 
     public NotificationScene(String textMessage) {
         this.textMessage = textMessage;

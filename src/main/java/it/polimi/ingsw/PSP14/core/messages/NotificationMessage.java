@@ -9,7 +9,7 @@ import java.io.IOException;
  * Message containing a custom notification for the player.
  */
 public class NotificationMessage implements ClientExecutableMessage {
-    private String content;
+    private final String content;
 
     public NotificationMessage(String content) {
         this.content = content;

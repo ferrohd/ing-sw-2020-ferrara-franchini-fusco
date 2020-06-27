@@ -12,7 +12,7 @@ import java.util.List;
  * Continuously creates and starts game threads with the connections provided by a ClientConnectionFactory.
  */
 public class GameFactory implements Runnable {
-    private ClientConnectionFactory clientConnectionFactory;
+    private final ClientConnectionFactory clientConnectionFactory;
 
     /**
      * @param clientConnectionFactory factory that provides the ClientConnection objects

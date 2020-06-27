@@ -11,9 +11,9 @@ import java.io.IOException;
  * The implementation of the build action.
  */
 public class BuildAction extends Action implements Proposable {
-    private Point point;
-    private boolean dome;
-    private int amount;
+    private final Point point;
+    private final boolean dome;
+    private final int amount;
 
     public BuildAction(String user, Point point, boolean dome, int amount) {
         super(user);

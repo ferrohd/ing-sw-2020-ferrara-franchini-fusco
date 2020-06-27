@@ -35,14 +35,6 @@ class UICellTest {
     }
 
     @Test
-    void decrementTowerHeight() {
-        cell.incrementTowerHeight();
-        cell.incrementTowerHeight();
-        cell.decrementTowerHeight();
-        assertEquals(1, cell.getTowerHeight());
-    }
-
-    @Test
     void hasDome() {
         assertFalse(cell.hasDome());
     }

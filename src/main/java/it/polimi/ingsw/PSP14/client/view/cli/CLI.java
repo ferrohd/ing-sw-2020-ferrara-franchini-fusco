@@ -144,8 +144,9 @@ public class CLI implements UI {
             callback.accept("");
             _input = in.nextLine();
             if (_input.equals("help")) {
-                Map<String, UIGod> godList = GodFactory.getInstance().getGodsMap();
-                godList.forEach( (name, god) -> { this.drawMessage(god.getName() + ": " + god.getDescription(), CLIColor.RED); } );
+                final GodFactory instance = GodFactory.getInstance();
+                instance.getGodNames().forEach((name) ->
+                        this.drawMessage(name + ": " + instance.getGod(name).getDescription(), CLIColor.RED));
             }
         } while (!_input.matches("^[a-e]|[A-E]\\s[0-4]$"));
         String[] _coords = _input.split(" ");
@@ -368,10 +369,5 @@ public class CLI implements UI {
     @Override
     public void updateGod(String player, String god) {
         // TODO: Should it do something?
-    }
-
-    // DEBUG:
-    public void debug_setPlayerUsername(String name) {
-        this.playerUsername = name;
     }
 }
