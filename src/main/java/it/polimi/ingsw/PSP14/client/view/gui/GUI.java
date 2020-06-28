@@ -167,6 +167,7 @@ public class GUI implements UI {
      */
     @Override
     public int getLobbySize() throws InterruptedException {
+        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(new GUILobbySizeScene());
         return  (int) GUIMain.getQueue().take();
     }
@@ -203,6 +204,7 @@ public class GUI implements UI {
      */
     @Override
     public int chooseGod(List<GodProposal> proposals) throws InterruptedException {
+        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(new GUIGodSelectScene("Choose your God", proposals.stream().map(GodProposal::getName).collect(Collectors.toList())));
         return (Integer) GUIMain.getQueue().take();
     }
@@ -215,6 +217,7 @@ public class GUI implements UI {
      */
     @Override
     public int chooseFirstPlayer(List<PlayerProposal> proposals) throws InterruptedException {
+        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(new GUIFirstPlayerScene(proposals.stream().map(PlayerProposal::getName).collect(Collectors.toList())));
         return (Integer) GUIMain.getQueue().take();
     }
@@ -236,6 +239,7 @@ public class GUI implements UI {
             validPoints.add(points.get(i));
         }
 
+        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(() -> gameScene.getModel().addAllSelectables(validPoints));
 
         int ret = (int) GUIMain.getQueue().take();
@@ -247,8 +251,9 @@ public class GUI implements UI {
 
     @Override
     public int chooseAvailableGods(List<GodProposal> gods) throws InterruptedException {
+        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(new GUIGodSelectScene("Choose available Gods", gods.stream().map(GodProposal::getName).collect(Collectors.toList())));
-        return (Integer) GUIMain.getQueue().take();
+        return (int) GUIMain.getQueue().take();
     }
 
     @Override
@@ -269,6 +274,7 @@ public class GUI implements UI {
                     points.add(newPoint);
             }
         }
+        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(() -> gameScene.getModel().addAllSelectables(points));
 
         int index = (Integer) GUIMain.getQueue().take();
@@ -292,6 +298,7 @@ public class GUI implements UI {
         gameScene.setIsSelectingCell(true);
         List<Point> points = moves.stream().map(MoveProposal::getPoint).collect(Collectors.toList());
 
+        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(() -> gameScene.getModel().addAllSelectables(points));
 
         int ret = (int) GUIMain.getQueue().take();
@@ -313,6 +320,7 @@ public class GUI implements UI {
         gameScene.setIsSelectingCell(true);
         List<Point> points = moves.stream().map(BuildProposal::getPoint).collect(Collectors.toList());
 
+        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(() -> gameScene.getModel().addAllSelectables(points));
 
         int ret = (int) GUIMain.getQueue().take();
@@ -331,6 +339,7 @@ public class GUI implements UI {
      */
     @Override
     public int chooseYesNo(String message) throws InterruptedException {
+        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(() -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.YES, ButtonType.NO);
             alert.setTitle("Confirmation Dialog");
