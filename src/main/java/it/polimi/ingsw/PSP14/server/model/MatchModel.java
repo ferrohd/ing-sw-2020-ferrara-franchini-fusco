@@ -172,12 +172,18 @@ public class MatchModel implements Runnable {
         applyBeforeTurnEffects(player);
 
         List<Integer> movableWorkers = getMovableWorkers(player);
+
+        int workerIndex;
+
         if (movableWorkers.size() == 0) {
             lose(player);
             return;
+        } else if (movableWorkers.size() == 1) {
+            workerIndex = movableWorkers.get(0);
+        } else {
+            workerIndex = controller.getWorkerIndex(player, movableWorkers);
         }
 
-        int workerIndex = controller.getWorkerIndex(player, movableWorkers);
 
         if (!move(player, workerIndex)) return;
         if (!build(player, workerIndex)) return;
