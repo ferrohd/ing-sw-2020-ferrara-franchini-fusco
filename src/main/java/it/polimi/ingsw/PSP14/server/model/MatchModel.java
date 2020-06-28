@@ -99,9 +99,11 @@ public class MatchModel implements Runnable {
      * @throws IOException if there's a connection error
      */
     private void gameLoop() throws IOException {
-        while (true)
-            for (String p : userNames)
+        while (true) {
+            ArrayList<String> playingUsers = new ArrayList<>(userNames);
+            for (String p : playingUsers)
                 turn(p);
+        }
     }
 
     /**
