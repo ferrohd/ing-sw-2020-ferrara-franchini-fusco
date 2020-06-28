@@ -339,10 +339,8 @@ public class GUI implements UI {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.YES){
-                System.out.println("Clicked on Yes");
                 GUIMain.getQueue().add(1);
             } else {
-                System.out.println("Clicked on No");
                 GUIMain.getQueue().add(0);
             }
         });

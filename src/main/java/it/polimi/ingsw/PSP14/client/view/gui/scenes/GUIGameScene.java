@@ -179,7 +179,6 @@ public class GUIGameScene implements Runnable {
             if (isSelectingCell.get()) {
                 if (node.getId().startsWith("sel")) {
                     int selectableId = Integer.parseInt(node.getId().substring(3));
-                    System.out.println(selectableId);
                     GUIMain.getQueue().add(selectableId);
                 } else if (node.getId().startsWith("worker")) {
                     List<Node> selectables = model.getAllSelectables();
