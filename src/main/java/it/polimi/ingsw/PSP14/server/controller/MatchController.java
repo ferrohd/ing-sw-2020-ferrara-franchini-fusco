@@ -246,7 +246,7 @@ public class MatchController {
     /**
      * Asks a player to choose between a list of BuildAction
      * @param player the choosing player
-     * @param movements list of possible BuildAction
+     * @param builds list of possible BuildAction
      * @return the chosen BuildAction
      * @throws IOException on communication errors
      */

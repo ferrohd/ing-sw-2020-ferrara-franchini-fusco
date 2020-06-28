@@ -177,8 +177,8 @@ public class MatchModel implements Runnable {
 
         int workerIndex = controller.getWorkerIndex(player, movableWorkers);
 
-        move(player, workerIndex);
-        build(player, workerIndex);
+        if (!move(player, workerIndex)) return;
+        if (!build(player, workerIndex)) return;
 
         applyAfterTurnEffects(player, workerIndex);
     }
@@ -203,20 +203,25 @@ public class MatchModel implements Runnable {
      * @param player      the moving player
      * @param workerIndex the index of the moving worker
      * @throws IOException if a connection error occurs
+     * @return true if the move succeeded, false if the player lost
      */
-    public void move(String player, int workerIndex) throws IOException {
+    public boolean move(String player, int workerIndex) throws IOException {
         for (Player p : playerMap.values())
             p.getGod().beforeMove(player, workerIndex, controller, this);
 
         List<MoveAction> movements = getMovements(player, workerIndex);
-        if (movements.size() == 0)
+        if (movements.size() == 0) {
             lose(player);
+            return false;
+        }
 
         MoveAction action = controller.askMove(player, movements);
         executeAction(action);
 
         for (Player p : playerMap.values())
             p.getGod().afterMove(player, workerIndex, controller, this);
+
+        return true;
     }
 
     /**
@@ -228,20 +233,25 @@ public class MatchModel implements Runnable {
      * @param player      the building player
      * @param workerIndex the index of the building worker
      * @throws IOException if a connection error occurs
+     * @return true if the build succeeded, false if the player lost
      */
-    public void build(String player, int workerIndex) throws IOException {
+    public boolean build(String player, int workerIndex) throws IOException {
         for (Player p : playerMap.values())
             p.getGod().beforeBuild(player, workerIndex, controller, this);
 
         List<BuildAction> builds = getBuildable(player, workerIndex);
-        if (builds.size() == 0)
+        if (builds.size() == 0) {
             lose(player);
+            return false;
+        }
 
         BuildAction action = controller.askBuild(player, builds);
         executeAction(action);
 
         for (Player p : playerMap.values())
             p.getGod().afterBuild(player, workerIndex, controller, this);
+
+        return true;
     }
 
     /**
