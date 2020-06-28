@@ -9,9 +9,7 @@ import java.time.Instant;
 /**
  * A game action which provides the base for custom actions.
  */
-public abstract class Action implements Serializable {
-    // DO NOT TOUCH!
-    private static final long serialVersionUID = 1L;
+public abstract class Action {
     private final Instant timestamp;
     private final String user;
 

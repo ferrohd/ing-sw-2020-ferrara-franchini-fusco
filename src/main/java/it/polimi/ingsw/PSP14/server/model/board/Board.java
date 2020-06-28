@@ -27,6 +27,10 @@ public class Board {
         this.controller = controller;
     }
 
+    public Board() throws IOException {
+        this(new MatchController(new ArrayList<>()));
+    }
+
     /**
      * Get the height of a tower, in number of levels.
      *

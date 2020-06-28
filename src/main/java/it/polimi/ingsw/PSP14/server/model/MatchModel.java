@@ -26,7 +26,6 @@ public class MatchModel implements Runnable {
     private final List<String> userNames = new ArrayList<>();
     private final MatchController controller;
     private final HashMap<String, Player> playerMap = new HashMap<>();
-    private final Map<String, God> godMap = new HashMap<>();
 
     /**
      * Constructor of Match. Since players don't require any previous data except
@@ -68,6 +67,7 @@ public class MatchModel implements Runnable {
      */
     private void setupGame() throws IOException {
         List<String> availableGods;
+        Map<String, God> godMap = new HashMap<>();
 
         availableGods = controller.getMatchGods(userNames.get(0));
 
