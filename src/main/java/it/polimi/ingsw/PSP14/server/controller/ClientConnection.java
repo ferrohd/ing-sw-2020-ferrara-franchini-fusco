@@ -124,7 +124,7 @@ public abstract class ClientConnection {
         Message message = new WorkerIndexMessage(choices);
         sendMessage(message);
         int workerIndex = receiveChoice();
-        while(workerIndex != 0 && workerIndex != 1) {
+        while(!choices.contains(workerIndex)) {
             sendNotification("Out of Range!");
             sendMessage(message);
             workerIndex = receiveChoice();

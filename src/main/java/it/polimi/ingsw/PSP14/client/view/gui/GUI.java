@@ -242,7 +242,7 @@ public class GUI implements UI {
         gameScene.setIsSelectingCell(false);
         runLaterSynchronized(() -> gameScene.getModel().removeAllSelectables());
 
-        return ret;
+        return choices.get(ret);
     }
 
     @Override
