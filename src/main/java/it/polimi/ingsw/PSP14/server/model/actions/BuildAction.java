@@ -44,10 +44,4 @@ public class BuildAction extends Action implements Proposable {
             }
         }
     }
-
-    public boolean equals(BuildAction obj) {
-        return getUser().equals(obj.getUser()) &&
-                dome == obj.dome &&
-                point.equals(obj.point);
-    }
 }

@@ -11,8 +11,8 @@ import java.io.IOException;
  * The implementation of a the move action.
  */
 public class MoveAction extends Action implements Proposable {
-    private Point from;
-    private Point to;
+    private final Point from;
+    private final Point to;
 
     public MoveAction(String user, Point from, Point to) {
         super(user);
@@ -44,25 +44,5 @@ public class MoveAction extends Action implements Proposable {
 
     public Point getTo() {
         return to;
-    }
-
-    /**
-     * Compare two MoveActions
-     * @param obj the action
-     * @return true if they match
-     */
-    public boolean equals(MoveAction obj) {
-        return getUser().equals(obj.getUser()) &&
-            this.from.equals(obj.getFrom()) &&
-            this.to.equals(obj.getTo());
-    }
-
-    @Override
-    public String toString() {
-        return "MoveAction{" +
-                "from=" + from +
-                ", to=" + to +
-                ", user='" + getUser() + '\'' +
-                '}';
     }
 }

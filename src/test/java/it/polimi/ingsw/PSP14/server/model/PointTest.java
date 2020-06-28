@@ -14,6 +14,7 @@ public class PointTest {
     void coordinatesAreCorrect() {
         assertEquals(0, point.getX());
         assertEquals(0, point.getY());
+        assertEquals("(0, 0)", point.toString());
     }
 
     @Test

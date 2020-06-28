@@ -1,11 +1,13 @@
 package it.polimi.ingsw.PSP14.server.model.actions;
 
 import it.polimi.ingsw.PSP14.server.model.MatchModel;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class ActionTest {
@@ -22,10 +24,14 @@ public class ActionTest {
     }
 
     private final MyAction myAction = new MyAction();
-    private final Instant time = Instant.now();
 
     @Test
     public void actionShouldReturnCorrectUsername() {
         assertEquals("user", myAction.getUser());
+    }
+
+    @Test
+    public void correctTimestamp() {
+        assertTrue(myAction.getTimestamp().isBefore(Instant.now()));
     }
 }

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP14.server.model;
+package it.polimi.ingsw.PSP14.server.model.fake;
 
 import it.polimi.ingsw.PSP14.core.messages.ChoiceMessage;
 import it.polimi.ingsw.PSP14.core.messages.Message;
@@ -11,6 +11,7 @@ import java.util.List;
 public class FakeMatchController extends MatchController {
     private List<Message> messages;
     private int messageId;
+    public boolean flag = false;
 
     public FakeMatchController() throws IOException {
     }

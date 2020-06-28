@@ -183,7 +183,7 @@ public class MatchModel implements Runnable {
         applyAfterTurnEffects(player, workerIndex);
     }
 
-    private List<Integer> getMovableWorkers(String player) {
+    private List<Integer> getMovableWorkers(String player) throws IOException {
         List<Integer> workerIndexes = new ArrayList<>();
         for (int i = 0; i < 2; ++i) {
             if (getMovements(player, i).size() > 0) {
@@ -320,9 +320,10 @@ public class MatchModel implements Runnable {
      * 
      * @param playerName player to move
      * @param worker     index of worker to move
+     * @throws IOException if a connection error occurs
      * @return the array of possible MoveActions
      */
-    public List<MoveAction> getMovements(String playerName, int worker) {
+    public List<MoveAction> getMovements(String playerName, int worker) throws IOException {
         ArrayList<MoveAction> legalMoves = new ArrayList<>();
 
         Player currPlayer = getPlayerByUsername(playerName);
@@ -339,18 +340,10 @@ public class MatchModel implements Runnable {
         }
 
         for (Player p : playerMap.values())
-            try {
                 p.getGod().addMoves(legalMoves, playerName, worker, this);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
         for (Player p : playerMap.values())
-            try {
                 p.getGod().removeMoves(legalMoves, playerName, worker, this);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
         return legalMoves;
     }
@@ -360,9 +353,10 @@ public class MatchModel implements Runnable {
      * 
      * @param player player who builds
      * @param worker index of worker who builds
+     * @throws IOException if a connection error occurs
      * @return the array of possible MoveActions
      */
-    public List<BuildAction> getBuildable(String player, int worker) {
+    public List<BuildAction> getBuildable(String player, int worker) throws IOException {
         ArrayList<Point> buildablePositions = new ArrayList<>();
 
         Point currentPos = getPlayerByUsername(player).getWorkerPos(worker);
@@ -377,18 +371,10 @@ public class MatchModel implements Runnable {
                 .map(p -> new BuildAction(player, p, board.getTowerSize(p) == 3, 1)).collect(Collectors.toList());
 
         for (Player p : playerMap.values())
-            try {
                 p.getGod().addBuilds(buildActions, player, worker, this);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
         for (Player p : playerMap.values())
-            try {
                 p.getGod().removeBuilds(buildActions, player, worker, this);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
         return buildActions;
     }

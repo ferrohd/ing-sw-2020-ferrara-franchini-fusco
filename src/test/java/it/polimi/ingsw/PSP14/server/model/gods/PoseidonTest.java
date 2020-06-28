@@ -1,8 +1,8 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.MatchController;
-import it.polimi.ingsw.PSP14.server.model.FakeMatchController;
-import it.polimi.ingsw.PSP14.server.model.FakeMatchModel;
+import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchController;
+import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchModel;
 import it.polimi.ingsw.PSP14.server.model.board.Board;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
