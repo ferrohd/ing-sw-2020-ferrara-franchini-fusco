@@ -19,7 +19,13 @@ public class WorkerIndexMessage implements ClientExecutableMessage {
 
     @Override
     public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
-        int index = ui.chooseWorker(choosable);
-        serverConnection.sendMessage(new ChoiceMessage(index));
+        while(true) {
+            try {
+                int workerId = ui.chooseWorker(choosable);
+                serverConnection.sendMessage(new ChoiceMessage(workerId));
+                return;
+            } catch (IndexOutOfBoundsException ignore) {
+            }
+        }
     }
 }

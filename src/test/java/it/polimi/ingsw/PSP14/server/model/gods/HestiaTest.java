@@ -19,7 +19,7 @@ public class HestiaTest {
         God hestia = new Hestia("hestiaOwner");
         MatchModel model = new FakeMatchModel() {
             @Override
-            public void build(String player, int workerIndex) throws IOException {
+            public boolean build(String player, int workerIndex) throws IOException {
                 List<BuildAction> builds = new ArrayList<>();
                 builds.add(new BuildAction("hestiaOwner", new Point(0,0), false, 1));
                 builds.add(new BuildAction("hestiaOwner", new Point(1,1), false, 1));
@@ -27,6 +27,8 @@ public class HestiaTest {
                 hestia.removeBuilds(builds, "hestiaOwner", workerIndex, this);
 
                 assertEquals(builds.size(), 1);
+
+                return true;
             }
 
             @Override

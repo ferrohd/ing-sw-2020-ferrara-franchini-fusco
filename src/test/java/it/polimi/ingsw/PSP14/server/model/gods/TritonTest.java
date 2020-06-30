@@ -25,9 +25,11 @@ public class TritonTest {
         };
         FakeMatchModel match = new FakeMatchModel() {
             @Override
-            public void move(String player, int workerIndex) throws IOException {
+            public boolean move(String player, int workerIndex) throws IOException {
                 num++;
                 god.afterMove(player, workerIndex, controller, this);
+
+                return true;
             }
 
             @Override

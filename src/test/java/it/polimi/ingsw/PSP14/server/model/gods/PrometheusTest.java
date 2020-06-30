@@ -21,8 +21,10 @@ public class PrometheusTest {
     public void functionalityTest() throws IOException, TowerSizeException {
         FakeMatchModel match = new FakeMatchModel() {
             @Override
-            public void build(String player, int workerIndex) throws IOException {
+            public boolean build(String player, int workerIndex) throws IOException {
                 num++;
+
+                return true;
             }
         };
         MatchController controller = new FakeMatchController() {
