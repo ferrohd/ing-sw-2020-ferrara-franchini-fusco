@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
  * Your Worker may build a dome at any level.
  */
 public class Atlas extends God {
+    public static final String MESSAGE = "ATLAS: DOMEEEEEES???!!!?!?!??";
     private boolean activated = false;
 
     public Atlas(String owner) {
@@ -26,7 +27,7 @@ public class Atlas extends God {
     public void beforeBuild(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
         if(!player.equals(getOwner())) return;
 
-        activated = controller.askQuestion(player, "ATLAS: DOMEEEEEES???!!!?!?!??");
+        activated = controller.askQuestion(player, MESSAGE);
     }
 
     @Override

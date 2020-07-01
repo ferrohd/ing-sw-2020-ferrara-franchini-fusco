@@ -11,6 +11,9 @@ import java.io.IOException;
  * Each time your Worker moves into a perimeter space, it may immediately move again.
  */
 public class Triton extends God {
+
+    public static final String MESSAGE = "TRITON: Hey! How about riding another wave?";
+
     public Triton(String owner) {
         super(owner);
     }
@@ -24,7 +27,7 @@ public class Triton extends God {
         if(lastMove.getTo().getX() == 0 || lastMove.getTo().getX() == 4 ||
                 lastMove.getTo().getY() == 0 || lastMove.getTo().getY() == 4) {
 
-            boolean choice = controller.askQuestion(player, "TRITON: Hey! How about riding another wave?");
+            boolean choice = controller.askQuestion(player, MESSAGE);
 
             if(choice) {
                 model.move(player, workerIndex);

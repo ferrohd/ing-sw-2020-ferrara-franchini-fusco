@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
  * Your Worker may build one additional time, but this cannot be on a perimeter space.
  */
 public class Hestia extends God {
+    public static final String MESSAGE = "HESTIA: Do you want to build again, my dear?";
     private boolean activated = false;
 
     public Hestia(String owner) {
@@ -33,7 +34,7 @@ public class Hestia extends God {
             activated = true;
             List<BuildAction> buildable = model.getBuildable(player, workerIndex);
             if(buildable.size() > 0) {
-                boolean choice = controller.askQuestion(player, "HESTIA: Do you want to build again, my dear?");
+                boolean choice = controller.askQuestion(player, MESSAGE);
                 if (choice) {
                     model.build(player, workerIndex);
                 }

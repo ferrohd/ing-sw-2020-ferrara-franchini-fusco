@@ -13,6 +13,9 @@ import java.util.stream.Collectors;
  * Your Worker may move one additional time, but not back to its initial space.
  */
 public class Artemis extends God {
+
+    public static final String MESSAGE = "ARTEMIS: Do you want get closer to the prey?";
+
     public Artemis(String owner) {
         super(owner);
     }
@@ -21,13 +24,12 @@ public class Artemis extends God {
     public void afterMove(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
         if(!player.equals(getOwner())) return;
 
-
         List<MoveAction> movements = model.getMovements(player, workerIndex);
         MoveAction lastMove = (MoveAction) model.getLastAction();
         movements = movements.stream().filter(m -> !m.getTo().equals(lastMove.getFrom())).collect(Collectors.toList());
 
         if(movements.size() > 0) {
-            boolean choice = controller.askQuestion(player, "ARTEMIS: Do you want get closer to the prey?");
+            boolean choice = controller.askQuestion(player, MESSAGE);
             if (choice) {
                 MoveAction action = controller.askMove(player, movements);
                 model.executeAction(action);
