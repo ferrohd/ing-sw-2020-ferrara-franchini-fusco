@@ -10,6 +10,9 @@ import java.io.IOException;
  * If your unmoved Worker is on the ground level, it may build up to three times.
  */
 public class Poseidon extends God {
+
+    public static final String MESSAGE = "POSEIDON: Why don't you let the other guy build as well?";
+
     public Poseidon(String owner) {
         super(owner);
     }
@@ -23,7 +26,7 @@ public class Poseidon extends God {
         if(model.getBoard().getTowerSize(model.getPlayerByUsername(player).getWorkerPos(otherWorker)) == 0) {
             for(int i = 0; i < 3; ++i) {
                 if(model.getBuildable(player, otherWorker).size() > 0) {
-                    boolean choice = controller.askQuestion(player, "POSEIDON: Why don't you let the other guy build as well?");
+                    boolean choice = controller.askQuestion(player, MESSAGE);
 
                     if (!choice) break;
 

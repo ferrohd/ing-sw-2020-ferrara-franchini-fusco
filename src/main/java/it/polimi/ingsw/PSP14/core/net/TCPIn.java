@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 /**
  * A task that handles the incoming messages.
@@ -18,6 +19,7 @@ public class TCPIn implements Runnable {
     private final BlockingQueue<Message> queue = new LinkedBlockingQueue<>();
     private final ObjectInputStream in;
     private Instant lastTimestamp = Instant.now();
+    private final Object timestampLock = new Object();
 
     public TCPIn(ObjectInputStream in) {
         this.in = in;
@@ -33,7 +35,9 @@ public class TCPIn implements Runnable {
             try {
                 Message message = (Message) in.readObject();
                 if(message instanceof PingMessage)
-                    lastTimestamp = ((PingMessage)message).getTimestamp();
+                    synchronized(timestampLock) {
+                        lastTimestamp = Instant.now();
+                    }
                 else
                     queue.add(message);
             } catch(ClassNotFoundException | IOException e) {
@@ -53,7 +57,10 @@ public class TCPIn implements Runnable {
         try {
             Message message;
             do {
-                if (Duration.between(lastTimestamp, Instant.now()).toMillis() > 5000) throw new IOException("Too much time elapsed!");
+                synchronized (timestampLock) {
+                    if (Duration.between(lastTimestamp, Instant.now()).toMillis() > 5000)
+                        throw new IOException("Too much time elapsed!");
+                }
                 message = queue.poll(100, TimeUnit.MILLISECONDS);
             } while(message == null);
             return message;

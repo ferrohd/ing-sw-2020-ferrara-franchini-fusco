@@ -11,6 +11,9 @@ import java.io.IOException;
  * Your Worker may build one additional block (not dome) on top of your first block.
  */
 public class Hephaestus extends God {
+
+    public static final String MESSAGE = "HEPHAESTUS: Build on build will ya?";
+
     public Hephaestus(String owner) {
         super(owner);
     }
@@ -22,7 +25,7 @@ public class Hephaestus extends God {
         BuildAction lastBuild = (BuildAction) model.getLastAction();
 
         if(!model.getBoard().getIsCompleted(lastBuild.getPoint()) && model.getBoard().getTowerSize(lastBuild.getPoint()) < 3) {
-            boolean choice = controller.askQuestion(player, "HEPHAESTUS: Build on build will ya?");
+            boolean choice = controller.askQuestion(player, MESSAGE);
 
             if(choice) {
                 model.executeAction(new BuildAction(player, lastBuild.getPoint(), false, 1));

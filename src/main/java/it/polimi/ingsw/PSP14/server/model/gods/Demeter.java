@@ -13,6 +13,9 @@ import java.util.stream.Collectors;
  * Your Worker may build one additional time, but not on the same space.
  */
 public class Demeter extends God {
+
+    public static final String MESSAGE = "DEMETER: By my blessing, will you build again?";
+
     public Demeter(String owner) {
         super(owner);
     }
@@ -26,7 +29,7 @@ public class Demeter extends God {
         builds = builds.stream().filter(m -> !m.getPoint().equals(lastBuild.getPoint())).collect(Collectors.toList());
 
         if(builds.size() > 0) {
-            boolean choice = controller.askQuestion(player, "DEMETER: By my blessing, will you build again?");
+            boolean choice = controller.askQuestion(player, MESSAGE);
             if (choice) {
                 BuildAction action = controller.askBuild(player, builds);
                 model.executeAction(action);

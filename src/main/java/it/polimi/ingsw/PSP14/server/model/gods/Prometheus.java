@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
  * If your Worker does not move up, it may build both before and after moving.
  */
 public class Prometheus extends God {
+    public static final String MESSAGE = "PROMETHEUS: Do not move up and build twice. Art thou willing to accept my deal?";
     private boolean activated = false;
 
     public Prometheus(String owner) {
@@ -23,7 +24,7 @@ public class Prometheus extends God {
     public void beforeMove(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
         if(!player.equals(getOwner())) return;
 
-        boolean choice = controller.askQuestion(player, "PROMETHEUS: Do not move up and build twice. Art thou willing to accept my deal?");
+        boolean choice = controller.askQuestion(player, MESSAGE);
 
         if (choice) {
             activated = true;
