@@ -17,6 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class DemeterTest {
+    /**
+     * checks if demeter correctly removes last build position from its build proposals
+     */
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
         FakeMatchModel match = new FakeMatchModel() {

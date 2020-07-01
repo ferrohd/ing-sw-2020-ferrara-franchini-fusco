@@ -60,4 +60,22 @@ class UIPlayerTest {
         player.removeWorker(_w.getId());
         assertNull(player.getWorker(0));
     }
+
+    @Test
+    void testGetNumber() {
+        assertEquals(0, player.getNumber());
+    }
+
+
+    /**
+     * The setGod only raises an exception when a godfile.xml isn't found.
+     * If it's provided with a god name not existing, it will simply return a
+     * God (no abilities).
+     */
+    @Test
+    void setGodShouldThrow() {
+        assertDoesNotThrow(() -> {
+            player.setGod("XXX");
+        });
+    }
 }

@@ -14,6 +14,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HestiaTest {
+    /**
+     * checks if hestia correctly removes perimeter spaces from its build proposals
+     */
     @Test
     public void functionalityTest() throws IOException {
         God hestia = new Hestia("hestiaOwner");

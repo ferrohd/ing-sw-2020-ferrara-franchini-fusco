@@ -15,6 +15,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ApolloTest {
+    /**
+     * checks if apollo correctly adds moves to busy cells, discarding cells occupied by the other allied worker
+     */
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
         MatchModel model = new FakeMatchModel() {

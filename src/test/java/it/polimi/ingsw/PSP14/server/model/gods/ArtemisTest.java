@@ -18,6 +18,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ArtemisTest {
+    /**
+     * checks if original position is present in new targets and if additional move is correctly executed
+     */
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
         MatchModel model = new FakeMatchModel() {

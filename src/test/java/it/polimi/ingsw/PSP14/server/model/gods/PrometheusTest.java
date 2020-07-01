@@ -17,6 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PrometheusTest {
+    /**
+     * checks if prometheus correctly builds and removes upward moves
+     */
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
         FakeMatchModel match = new FakeMatchModel() {

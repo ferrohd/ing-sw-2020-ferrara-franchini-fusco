@@ -14,6 +14,9 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PoseidonTest {
+    /**
+     * checks if poseidon checks other worker's height and can build no more than three times
+     */
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
         FakeMatchModel match = new FakeMatchModel() {

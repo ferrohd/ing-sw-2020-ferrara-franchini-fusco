@@ -6,6 +6,8 @@ import it.polimi.ingsw.PSP14.client.view.cli.UIWorker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class UICellTest {
@@ -72,5 +74,11 @@ class UICellTest {
         assertNotNull(cell.getWorker());
         cell.unsetWorker();
         assertNull(cell.getWorker());
+    }
+
+    @Test
+    void getPoint() {
+        assertEquals(0, cell.getPoint().getX());
+        assertEquals(0, cell.getPoint().getY());
     }
 }

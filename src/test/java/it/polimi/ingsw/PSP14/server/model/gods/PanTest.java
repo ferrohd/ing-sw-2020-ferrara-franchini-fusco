@@ -16,6 +16,9 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PanTest {
+    /**
+     * checks if pan correctly identifies tower size of starting position of last MoveAction
+     */
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
         FakeMatchModel match = new FakeMatchModel() {
