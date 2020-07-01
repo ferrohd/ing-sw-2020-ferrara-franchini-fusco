@@ -16,6 +16,9 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HephaestusTest {
+    /**
+     * checks if hephaestus builds twice
+     */
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
         MatchModel model = new FakeMatchModel() {

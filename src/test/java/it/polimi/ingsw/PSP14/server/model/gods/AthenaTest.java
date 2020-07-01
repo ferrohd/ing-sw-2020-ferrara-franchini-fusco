@@ -18,6 +18,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AthenaTest {
+    /**
+     * activates athena and checks if rising moves are correctly removed
+     */
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
         MatchModel model = new FakeMatchModel() {

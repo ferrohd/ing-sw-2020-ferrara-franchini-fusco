@@ -14,6 +14,9 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TritonTest {
+    /**
+     * checks if triton moves as long as it is allowed to
+     */
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
         God god = new Triton("owner");

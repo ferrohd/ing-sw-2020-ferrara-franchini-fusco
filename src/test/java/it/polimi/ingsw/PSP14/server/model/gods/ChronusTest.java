@@ -14,6 +14,9 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ChronusTest {
+    /**
+     * checks if chronus correctly recognizes valid boards for its effect
+     */
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
         FakeMatchModel match = new FakeMatchModel() {

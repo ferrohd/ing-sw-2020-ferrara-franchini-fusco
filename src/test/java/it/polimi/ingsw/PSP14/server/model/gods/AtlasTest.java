@@ -17,6 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AtlasTest {
+    /**
+     * checks if atlas adds dome building BuildActions at the same position of already existing BuildActions
+     */
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
         MatchModel model = new FakeMatchModel();

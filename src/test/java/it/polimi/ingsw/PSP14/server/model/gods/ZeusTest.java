@@ -15,6 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ZeusTest {
+    /**
+     * checks if zeus correctly adds its BuildAction
+     */
     @Test
     public void functionalityTest() throws IOException, TowerSizeException {
         God god = new Zeus("owner");
