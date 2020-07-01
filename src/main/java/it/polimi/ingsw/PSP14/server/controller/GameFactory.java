@@ -78,25 +78,8 @@ public class GameFactory implements Runnable {
                 System.out.println(STARTING_GAME);
                 newGame.start();
             } catch(InterruptedException | IOException e) {
-                System.out.println(IN_QUEUE);
-                e.printStackTrace();
-                recycleConnections(players);
-            }
-        }
-    }
-
-    private void recycleConnections(List<ClientConnection> clients) {
-        for(ClientConnection c : clients) {
-            try {
-                c.ping();
-                c.sendNotification(BACK_IN_QUEUE);
-                clientConnectionFactory.addClientConnection(c);
-            } catch(IOException e) {
-                System.out.println(ERROR_WHILE_RECYCLING_CLIENTS);
                 e.printStackTrace();
             }
         }
     }
-
-
 }
