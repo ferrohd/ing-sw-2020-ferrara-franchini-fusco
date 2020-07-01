@@ -183,9 +183,10 @@ public class GUIGameScene implements Runnable {
                 } else if (node.getId().startsWith("worker")) {
                     List<Node> selectables = model.getAllSelectables();
                     Point workerPos = GameSceneModel.getBoardCoordinates(node);
-                    for (int i = 0; i < selectables.size(); ++i) {
-                        if (GameSceneModel.getBoardCoordinates(selectables.get(i)).equals(workerPos)) {
-                            GUIMain.getQueue().add(i);
+                    for (Node s : selectables) {
+                        if (model.getRoot().getChildren().contains(s) &&
+                                GameSceneModel.getBoardCoordinates(s).equals(workerPos)) {
+                            GUIMain.getQueue().add(Integer.parseInt(s.getId().substring(3)));
                             return;
                         }
                     }
