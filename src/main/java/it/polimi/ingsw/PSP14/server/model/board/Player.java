@@ -17,8 +17,9 @@ public class Player {
 
     /**
      * Default constructor.
-     * @param username username of the player to display in game
-     * @param god this player's god
+     *
+     * @param username   username of the player to display in game
+     * @param god        this player's god
      * @param controller current match controller
      * @throws IOException if it can't register the player
      */
@@ -32,8 +33,9 @@ public class Player {
 
     /**
      * Constructs a Player with a dummy MatchController.
+     *
      * @param username username of the player to display in game
-     * @param god this player's god
+     * @param god      this player's god
      * @throws IOException if it can't register the player
      */
     public Player(String username, God god) throws IOException {
@@ -42,6 +44,7 @@ public class Player {
 
     /**
      * Constructs a Player with a dummy God and MatchController.
+     *
      * @param username username of the player to display in game
      * @throws IOException if it can't register the player
      */
@@ -51,10 +54,11 @@ public class Player {
 
     /**
      * Move the worker in the specified direction.
+     *
      * @param index index of the worker to move
-     * @param dir direction of movement
+     * @param dir   direction of movement
      * @throws IndexOutOfBoundsException if the index does not correspond to any worker
-     * @throws IOException if it can't notify the controller
+     * @throws IOException               if it can't notify the controller
      */
     public void moveWorker(int index, Direction dir) throws IndexOutOfBoundsException, IOException {
         workers[index].move(dir);
@@ -65,7 +69,7 @@ public class Player {
      * Create, or update position, of a worker, by specifying its index
      * (0 or 1) and a new position.
      *
-     * @param index {0, 1} the index of the worker
+     * @param index    {0, 1} the index of the worker
      * @param position the position of the worker
      * @throws IOException if it can't register the worker
      */
@@ -81,6 +85,7 @@ public class Player {
 
     /**
      * Unregister player from the match.
+     *
      * @throws IOException if it fails to notify the controller
      */
     public void clear() throws IOException {
@@ -89,6 +94,7 @@ public class Player {
 
     /**
      * Get the position of the worker of a particular index.
+     *
      * @param index {0, 1} worker to find position
      * @return the position of the selected worker
      */
@@ -98,6 +104,7 @@ public class Player {
 
     /**
      * Get the player's username.
+     *
      * @return the username
      */
     public String getUsername() {
@@ -106,6 +113,7 @@ public class Player {
 
     /**
      * Get the player's god.
+     *
      * @return the god of the player
      */
     public God getGod() {

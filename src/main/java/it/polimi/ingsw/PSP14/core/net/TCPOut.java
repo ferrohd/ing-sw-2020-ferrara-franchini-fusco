@@ -5,8 +5,6 @@ import it.polimi.ingsw.PSP14.core.messages.PingMessage;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * A task that handles the outgoing messages.
@@ -23,13 +21,13 @@ public class TCPOut implements Runnable {
      */
     @Override
     public void run() {
-        while(true) {
+        while (true) {
             try {
-                synchronized(out) {
+                synchronized (out) {
                     out.writeObject(new PingMessage());
                 }
                 Thread.sleep(1000);
-            } catch(IOException | InterruptedException e) {
+            } catch (IOException | InterruptedException e) {
                 return;
             }
         }
@@ -37,6 +35,7 @@ public class TCPOut implements Runnable {
 
     /**
      * Sends a message.
+     *
      * @param message the message to be sent
      * @throws IOException if the message can't be sent
      */
@@ -48,6 +47,7 @@ public class TCPOut implements Runnable {
 
     /**
      * Closes the connection.
+     *
      * @throws IOException if the connection can't be closed.
      */
     public void close() throws IOException {

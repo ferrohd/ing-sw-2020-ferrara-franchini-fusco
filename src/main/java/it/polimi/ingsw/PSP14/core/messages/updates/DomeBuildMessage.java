@@ -10,7 +10,7 @@ import java.io.IOException;
  * Message that tells the client that a dome has been built.
  */
 public class DomeBuildMessage implements UIUpdateMessage {
-    private Point pos;
+    private final Point pos;
 
     public DomeBuildMessage(Point pos) {
         this.pos = pos;

@@ -117,7 +117,7 @@ public class GUI implements UI {
 
         // Display gods info for each player
         for (String player : players) {
-            runLaterSynchronized( () ->
+            runLaterSynchronized(() ->
                     gameScene.getInfoPanelModel().registerPlayerInfo(player, gods.get(player)));
         }
 
@@ -126,7 +126,7 @@ public class GUI implements UI {
 
     @Override
     public void startWorkerChoice(String player) throws InterruptedException {
-        if(player.equals(currentPlayerId)) {
+        if (player.equals(currentPlayerId)) {
             GUIMain.getInfoText().setText("Choose the worker you would like to move");
         } else {
             GUIMain.getInfoText().setText(player + " is choosing the worker to move");
@@ -135,7 +135,7 @@ public class GUI implements UI {
 
     @Override
     public void startMove(String player) throws InterruptedException {
-        if(player.equals(currentPlayerId)) {
+        if (player.equals(currentPlayerId)) {
             GUIMain.getInfoText().setText("Choose where to move");
         } else {
             GUIMain.getInfoText().setText(player + " is choosing where to move");
@@ -144,7 +144,7 @@ public class GUI implements UI {
 
     @Override
     public void startBuild(String player) throws InterruptedException {
-        if(player.equals(currentPlayerId)) {
+        if (player.equals(currentPlayerId)) {
             GUIMain.getInfoText().setText("Choose where to build");
         } else {
             GUIMain.getInfoText().setText(player + " is choosing where to build");
@@ -153,7 +153,7 @@ public class GUI implements UI {
 
     @Override
     public void startWorkerPlacement(String player) throws InterruptedException {
-        if(player.equals(currentPlayerId)) {
+        if (player.equals(currentPlayerId)) {
             GUIMain.getInfoText().setText("Choose where to place your workers");
         } else {
             GUIMain.getInfoText().setText(player + " is choosing where to place their workers");
@@ -167,9 +167,9 @@ public class GUI implements UI {
      */
     @Override
     public int getLobbySize() throws InterruptedException {
-        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
+        while (!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(new GUILobbySizeScene());
-        return  (int) GUIMain.getQueue().take();
+        return (int) GUIMain.getQueue().take();
     }
 
     /**
@@ -181,7 +181,8 @@ public class GUI implements UI {
     public void showNotification(String s) {
         try {
             runLaterSynchronized(new NotificationScene(s));
-        } catch(InterruptedException ignored) {}
+        } catch (InterruptedException ignored) {
+        }
     }
 
     /**
@@ -204,7 +205,7 @@ public class GUI implements UI {
      */
     @Override
     public int chooseGod(List<GodProposal> proposals) throws InterruptedException {
-        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
+        while (!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(new GUIGodSelectScene("Choose your God", proposals.stream().map(GodProposal::getName).collect(Collectors.toList())));
         return (Integer) GUIMain.getQueue().take();
     }
@@ -217,7 +218,7 @@ public class GUI implements UI {
      */
     @Override
     public int chooseFirstPlayer(List<PlayerProposal> proposals) throws InterruptedException {
-        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
+        while (!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(new GUIFirstPlayerScene(proposals.stream().map(PlayerProposal::getName).collect(Collectors.toList())));
         return (Integer) GUIMain.getQueue().take();
     }
@@ -235,11 +236,11 @@ public class GUI implements UI {
         gameScene.setPlayerId(players.indexOf(currentPlayerId));
 
         List<Point> validPoints = new ArrayList<>();
-        for(int i : choices) {
+        for (int i : choices) {
             validPoints.add(points.get(i));
         }
 
-        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
+        while (!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(() -> gameScene.getModel().addAllSelectables(validPoints));
 
         int ret = (int) GUIMain.getQueue().take();
@@ -251,7 +252,7 @@ public class GUI implements UI {
 
     @Override
     public int chooseAvailableGods(List<GodProposal> gods) throws InterruptedException {
-        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
+        while (!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(new GUIGodSelectScene("Choose available Gods", gods.stream().map(GodProposal::getName).collect(Collectors.toList())));
         return (int) GUIMain.getQueue().take();
     }
@@ -265,8 +266,8 @@ public class GUI implements UI {
             for (int y = 0; y <= 4; y++) {
                 Point newPoint = new Point(x, y);
                 boolean flag = true;
-                for(Point p : invalid)
-                    if(p.equals(newPoint)) {
+                for (Point p : invalid)
+                    if (p.equals(newPoint)) {
                         flag = false;
                         break;
                     }
@@ -274,7 +275,7 @@ public class GUI implements UI {
                     points.add(newPoint);
             }
         }
-        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
+        while (!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(() -> gameScene.getModel().addAllSelectables(points));
 
         int index = (Integer) GUIMain.getQueue().take();
@@ -298,7 +299,7 @@ public class GUI implements UI {
         gameScene.setIsSelectingCell(true);
         List<Point> points = moves.stream().map(MoveProposal::getPoint).collect(Collectors.toList());
 
-        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
+        while (!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(() -> gameScene.getModel().addAllSelectables(points));
 
         int ret = (int) GUIMain.getQueue().take();
@@ -320,7 +321,7 @@ public class GUI implements UI {
         gameScene.setIsSelectingCell(true);
         List<Point> points = moves.stream().map(BuildProposal::getPoint).collect(Collectors.toList());
 
-        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
+        while (!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(() -> gameScene.getModel().addAllSelectables(points));
 
         int ret = (int) GUIMain.getQueue().take();
@@ -339,7 +340,7 @@ public class GUI implements UI {
      */
     @Override
     public int chooseYesNo(String message) throws InterruptedException {
-        while(!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
+        while (!GUIMain.getQueue().isEmpty()) GUIMain.getQueue().take();
         runLaterSynchronized(() -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.YES, ButtonType.NO);
             alert.setTitle("Confirmation Dialog");
@@ -347,7 +348,7 @@ public class GUI implements UI {
             alert.setHeaderText(null);
 
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.YES){
+            if (result.get() == ButtonType.YES) {
                 GUIMain.getQueue().add(1);
             } else {
                 GUIMain.getQueue().add(0);

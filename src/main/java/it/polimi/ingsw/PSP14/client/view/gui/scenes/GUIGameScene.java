@@ -114,7 +114,7 @@ public class GUIGameScene implements Runnable {
         Camera pCamera = new PerspectiveCamera(true);
 
         // We change the pivot of the camera object
-        pCamera.getTransforms().addAll (
+        pCamera.getTransforms().addAll(
                 pivot,
                 yRotate,
                 xRotate,
@@ -136,8 +136,8 @@ public class GUIGameScene implements Runnable {
                     double deltaMouseX = (ev.getSceneX() - lastMouseX.get()) * MOUSE_SPEED;
                     double deltaMouseY = (ev.getSceneY() - lastMouseY.get()) * MOUSE_SPEED;
 
-                    double newXAngle= clamp(CAMERA_ANGLE_MAX,xRotate.getAngle() - deltaMouseY, CAMERA_ANGLE_MIN);
-                    double newYAngle= yRotate.getAngle() + deltaMouseX;
+                    double newXAngle = clamp(CAMERA_ANGLE_MAX, xRotate.getAngle() - deltaMouseY, CAMERA_ANGLE_MIN);
+                    double newYAngle = yRotate.getAngle() + deltaMouseX;
 //                    getRotationTimeline(xRotate, xRotate.getAngle(), newXAngle, 20).play();
 //                    getRotationTimeline(yRotate, yRotate.getAngle(), newYAngle, 20).play();
                     xRotate.setAngle(newXAngle);
@@ -153,7 +153,7 @@ public class GUIGameScene implements Runnable {
         // Handle Zoom
         scene.addEventHandler(ScrollEvent.SCROLL, scrollEvent -> {
             // Zoom in
-            double newZoom = clamp(ZOOM_MAX,zoom.getZ() + 10 * Math.signum(scrollEvent.getDeltaY()),  ZOOM_MIN);
+            double newZoom = clamp(ZOOM_MAX, zoom.getZ() + 10 * Math.signum(scrollEvent.getDeltaY()), ZOOM_MIN);
             Timeline zoomTimeline = new Timeline(
                     new KeyFrame(
                             Duration.seconds(0),
@@ -197,7 +197,9 @@ public class GUIGameScene implements Runnable {
         GUIMain.updateScene();
     }
 
-    public GameSceneModel getModel() { return model; }
+    public GameSceneModel getModel() {
+        return model;
+    }
 
     public GameInfoPanelModel getInfoPanelModel() {
         return infoPanelModel;

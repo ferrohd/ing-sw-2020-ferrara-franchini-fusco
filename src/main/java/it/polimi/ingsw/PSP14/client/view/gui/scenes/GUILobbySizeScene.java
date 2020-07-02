@@ -10,7 +10,7 @@ import java.io.IOException;
  * This scene asks the user who created the lobby to define the size of the lobby (2 or 3 players)
  */
 public class GUILobbySizeScene implements Runnable {
-        @Override
+    @Override
     public void run() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/scenes/LobbySize.fxml"));

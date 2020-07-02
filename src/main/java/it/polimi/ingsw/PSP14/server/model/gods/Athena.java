@@ -21,26 +21,26 @@ public class Athena extends God {
 
     @Override
     public void beforeTurn(String player, MatchController controller, MatchModel model) throws IOException {
-        if(!player.equals(getOwner())) return;
+        if (!player.equals(getOwner())) return;
 
         activated = false;
     }
 
     @Override
     public void afterMove(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
-        if(!player.equals(getOwner())) return;
+        if (!player.equals(getOwner())) return;
 
         MoveAction lastAction = (MoveAction) model.getLastAction();
-        if(model.getBoard().getTowerSize(lastAction.getFrom()) < model.getBoard().getTowerSize(lastAction.getTo())) {
+        if (model.getBoard().getTowerSize(lastAction.getFrom()) < model.getBoard().getTowerSize(lastAction.getTo())) {
             activated = true;
         }
     }
 
     @Override
     public void removeMoves(List<MoveAction> moves, String player, int workerIndex, MatchModel model) throws IOException {
-        if(player.equals(getOwner())) return;
+        if (player.equals(getOwner())) return;
 
-        if(activated) {
+        if (activated) {
             List<MoveAction> illegalMoves = moves.stream().filter(m ->
                     model.getBoard().getTowerSize(m.getFrom()) < model.getBoard().getTowerSize(m.getTo())
             ).collect(Collectors.toList());

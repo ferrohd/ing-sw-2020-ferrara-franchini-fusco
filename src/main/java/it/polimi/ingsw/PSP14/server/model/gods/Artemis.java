@@ -22,13 +22,13 @@ public class Artemis extends God {
 
     @Override
     public void afterMove(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
-        if(!player.equals(getOwner())) return;
+        if (!player.equals(getOwner())) return;
 
         List<MoveAction> movements = model.getMovements(player, workerIndex);
         MoveAction lastMove = (MoveAction) model.getLastAction();
         movements = movements.stream().filter(m -> !m.getTo().equals(lastMove.getFrom())).collect(Collectors.toList());
 
-        if(movements.size() > 0) {
+        if (movements.size() > 0) {
             boolean choice = controller.askQuestion(player, MESSAGE);
             if (choice) {
                 MoveAction action = controller.askMove(player, movements);

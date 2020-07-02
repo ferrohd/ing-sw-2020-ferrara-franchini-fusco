@@ -22,13 +22,13 @@ public class Demeter extends God {
 
     @Override
     public void afterBuild(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
-        if(!player.equals(getOwner())) return;
+        if (!player.equals(getOwner())) return;
 
         List<BuildAction> builds = model.getBuildable(player, workerIndex);
         BuildAction lastBuild = (BuildAction) model.getLastAction();
         builds = builds.stream().filter(m -> !m.getPoint().equals(lastBuild.getPoint())).collect(Collectors.toList());
 
-        if(builds.size() > 0) {
+        if (builds.size() > 0) {
             boolean choice = controller.askQuestion(player, MESSAGE);
             if (choice) {
                 BuildAction action = controller.askBuild(player, builds);

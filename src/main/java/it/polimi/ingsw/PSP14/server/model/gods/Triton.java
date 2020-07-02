@@ -20,16 +20,16 @@ public class Triton extends God {
 
     @Override
     public void afterMove(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
-        if(!player.equals(getOwner())) return;
+        if (!player.equals(getOwner())) return;
 
         MoveAction lastMove = (MoveAction) model.getLastAction();
 
-        if(lastMove.getTo().getX() == 0 || lastMove.getTo().getX() == 4 ||
+        if (lastMove.getTo().getX() == 0 || lastMove.getTo().getX() == 4 ||
                 lastMove.getTo().getY() == 0 || lastMove.getTo().getY() == 4) {
 
             boolean choice = controller.askQuestion(player, MESSAGE);
 
-            if(choice) {
+            if (choice) {
                 model.move(player, workerIndex);
             }
         }

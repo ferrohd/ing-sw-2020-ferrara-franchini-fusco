@@ -17,10 +17,12 @@ import java.util.ArrayList;
  */
 public class GodfileParser {
     private static ArrayList<String> godIdList = new ArrayList<>();
+
     /**
      * Obtain the list of all available gods, by parsing the associated XML file.
      * The function use a memoizer to reduce the I/O.
      * https://en.wikipedia.org/wiki/Memoization
+     *
      * @param godsFile input stream obtained from the XML file where gods are declared.
      * @param gamesize the number of players in this match
      * @return An ArrayList containing the names of the available gods to play.
@@ -28,7 +30,7 @@ public class GodfileParser {
      */
     public static ArrayList<String> getGodIdList(InputStream godsFile, int gamesize) throws IOException {
         // If godIdList isn't set OR the file to parse has changed
-        if ( godIdList.isEmpty() ) {
+        if (godIdList.isEmpty()) {
             // Initialise the list
             godIdList = new ArrayList<>();
             // Parse the XML and generate a new godIdList.
@@ -48,7 +50,7 @@ public class GodfileParser {
                 Element element = (Element) gods.item(i);
                 String godName = element.getElementsByTagName("name").item(0).getTextContent();
                 int max = Integer.parseInt(element.getElementsByTagName("max").item(0).getTextContent());
-                if(max >= gamesize)
+                if (max >= gamesize)
                     godIdList.add(godName);
             }
         }

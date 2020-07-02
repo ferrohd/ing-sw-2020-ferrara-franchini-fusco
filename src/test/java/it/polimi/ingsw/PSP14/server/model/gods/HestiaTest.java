@@ -1,10 +1,10 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchController;
-import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchModel;
 import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
+import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchController;
+import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchModel;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -24,8 +24,8 @@ public class HestiaTest {
             @Override
             public boolean build(String player, int workerIndex) throws IOException {
                 List<BuildAction> builds = new ArrayList<>();
-                builds.add(new BuildAction("hestiaOwner", new Point(0,0), false, 1));
-                builds.add(new BuildAction("hestiaOwner", new Point(1,1), false, 1));
+                builds.add(new BuildAction("hestiaOwner", new Point(0, 0), false, 1));
+                builds.add(new BuildAction("hestiaOwner", new Point(1, 1), false, 1));
 
                 hestia.removeBuilds(builds, "hestiaOwner", workerIndex, this);
 
@@ -37,8 +37,8 @@ public class HestiaTest {
             @Override
             public List<BuildAction> getBuildable(String player, int worker) {
                 List<BuildAction> builds = new ArrayList<>();
-                builds.add(new BuildAction("hestiaOwner", new Point(0,0), false, 1));
-                builds.add(new BuildAction("hestiaOwner", new Point(1,1), false, 1));
+                builds.add(new BuildAction("hestiaOwner", new Point(0, 0), false, 1));
+                builds.add(new BuildAction("hestiaOwner", new Point(1, 1), false, 1));
 
                 return builds;
             }

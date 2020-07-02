@@ -6,7 +6,8 @@ package it.polimi.ingsw.PSP14.server.model.gods;
 public class GodFactory {
     /**
      * Generate a new god with an assigned player.
-     * @param name the name of the god
+     *
+     * @param name  the name of the god
      * @param owner the player that has chosen this god
      * @return the god
      */
@@ -29,7 +30,7 @@ public class GodFactory {
             case "Pan":
                 return new Pan(owner);
             case "Prometheus":
-               return new Prometheus(owner);
+                return new Prometheus(owner);
             // ADVANCED
             case "Chronus":
                 return new Chronus(owner);

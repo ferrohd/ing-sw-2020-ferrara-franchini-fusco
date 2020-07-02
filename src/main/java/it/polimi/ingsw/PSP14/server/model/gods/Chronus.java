@@ -20,15 +20,15 @@ public class Chronus extends God {
     public void afterBuild(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
         int nComplete = 0;
 
-        for(int i = 0; i < 5; ++i) {
-            for(int j = 0; j < 5; ++j) {
+        for (int i = 0; i < 5; ++i) {
+            for (int j = 0; j < 5; ++j) {
                 Point p = new Point(i, j);
                 Board b = model.getBoard();
-                if(b.getTowerSize(p) == 3 && b.getIsCompleted(p)) ++nComplete;
+                if (b.getTowerSize(p) == 3 && b.getIsCompleted(p)) ++nComplete;
             }
         }
 
-        if(nComplete >= 5)
+        if (nComplete >= 5)
             model.end(getOwner());
     }
 }

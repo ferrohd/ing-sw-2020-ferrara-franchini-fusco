@@ -27,13 +27,13 @@ public class Hestia extends God {
 
     @Override
     public void afterBuild(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
-        if(!player.equals(getOwner())) return;
+        if (!player.equals(getOwner())) return;
 
 
-        if(!activated) {
+        if (!activated) {
             activated = true;
             List<BuildAction> buildable = model.getBuildable(player, workerIndex);
-            if(buildable.size() > 0) {
+            if (buildable.size() > 0) {
                 boolean choice = controller.askQuestion(player, MESSAGE);
                 if (choice) {
                     model.build(player, workerIndex);
@@ -44,7 +44,7 @@ public class Hestia extends God {
 
     @Override
     public void removeBuilds(List<BuildAction> builds, String player, int workerIndex, MatchModel model) throws IOException {
-        if(!activated || !player.equals(getOwner())) return;
+        if (!activated || !player.equals(getOwner())) return;
 
         List<BuildAction> toRemove = builds.stream().filter(b ->
                 b.getPoint().getX() == 0 || b.getPoint().getX() == 4 ||

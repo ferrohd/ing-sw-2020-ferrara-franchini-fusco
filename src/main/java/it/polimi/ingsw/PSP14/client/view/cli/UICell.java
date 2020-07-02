@@ -27,6 +27,7 @@ public class UICell {
 
     /**
      * Get the tower height on this cell.
+     *
      * @return the height of the tower
      */
     public int getTowerHeight() {
@@ -42,6 +43,7 @@ public class UICell {
 
     /**
      * Check whether the tower has a dome on it.
+     *
      * @return true if there's a dome, false if there is not one
      */
     public boolean hasDome() {
@@ -50,6 +52,7 @@ public class UICell {
 
     /**
      * Pass a boolean to mark this cell tower as completed or not.
+     *
      * @param dome whether the tower is completed or not
      */
     public void setDome(boolean dome) {
@@ -58,6 +61,7 @@ public class UICell {
 
     /**
      * Get the worker assigned to this cell.
+     *
      * @return the worker (<code>null</code> if there's no worker)
      */
     public UIWorker getWorker() {
@@ -66,6 +70,7 @@ public class UICell {
 
     /**
      * Check whether there's a worker assigned to this cell.
+     *
      * @return false if there's no worker, true if there is one.
      */
     public boolean hasWorker() {
@@ -74,6 +79,7 @@ public class UICell {
 
     /**
      * Assign a player's worker to this cell.
+     *
      * @param worker a reference to a player's worker.
      */
     public void setWorker(UIWorker worker) {
@@ -107,5 +113,7 @@ public class UICell {
     /**
      * @return a Point where the cell is located
      */
-    public Point getPoint() { return new Point(x, y); }
+    public Point getPoint() {
+        return new Point(x, y);
+    }
 }

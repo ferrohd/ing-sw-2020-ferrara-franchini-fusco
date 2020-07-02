@@ -25,20 +25,20 @@ public class Atlas extends God {
 
     @Override
     public void beforeBuild(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
-        if(!player.equals(getOwner())) return;
+        if (!player.equals(getOwner())) return;
 
         activated = controller.askQuestion(player, MESSAGE);
     }
 
     @Override
     public void addBuilds(List<BuildAction> builds, String player, int workerIndex, MatchModel model) throws IOException {
-        if(!player.equals(getOwner()) || !activated) return;
+        if (!player.equals(getOwner()) || !activated) return;
 
         ArrayList<BuildAction> newBuilds = new ArrayList<>();
 
-        for(BuildAction b: builds) {
+        for (BuildAction b : builds) {
             BuildProposal proposal = b.getProposal();
-            if(!proposal.hasDome()) {
+            if (!proposal.hasDome()) {
                 BuildAction newBuild = new AtlasBuildAction(player, proposal.getPoint());
                 newBuilds.add(newBuild);
             }
@@ -49,7 +49,7 @@ public class Atlas extends God {
 
     @Override
     public void removeBuilds(List<BuildAction> builds, String player, int workerIndex, MatchModel model) throws IOException {
-        if(!player.equals(getOwner()) || !activated) return;
+        if (!player.equals(getOwner()) || !activated) return;
 
         activated = false;
 

@@ -32,13 +32,13 @@ public class BuildAction extends Action implements Proposable {
 
     @Override
     public void execute(MatchModel model) throws IOException {
-        if(dome) {
+        if (dome) {
             model.getBoard().setAsCompleted(point);
         } else {
             try {
-                for(int i = 0; i < amount; ++i)
+                for (int i = 0; i < amount; ++i)
                     model.getBoard().incrementTowerSize(point);
-            } catch(TowerSizeException e) {
+            } catch (TowerSizeException e) {
                 e.printStackTrace();
                 System.exit(-1);
             }

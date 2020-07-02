@@ -10,7 +10,6 @@ import java.time.Instant;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
 
 /**
  * A task that handles the incoming messages.
@@ -31,16 +30,16 @@ public class TCPIn implements Runnable {
      */
     @Override
     public void run() {
-        while(true) {
+        while (true) {
             try {
                 Message message = (Message) in.readObject();
-                if(message instanceof PingMessage)
-                    synchronized(timestampLock) {
+                if (message instanceof PingMessage)
+                    synchronized (timestampLock) {
                         lastTimestamp = Instant.now();
                     }
                 else
                     queue.add(message);
-            } catch(ClassNotFoundException | IOException e) {
+            } catch (ClassNotFoundException | IOException e) {
                 lastTimestamp = Instant.EPOCH;
                 return;
             }
@@ -50,6 +49,7 @@ public class TCPIn implements Runnable {
     /**
      * Function called to receive a message.
      * It takes a message from the internal queue and returns it.
+     *
      * @return the first message in the internal queue
      * @throws IOException if interrupted or too much time has elapsed since the last Ping
      */
@@ -62,13 +62,16 @@ public class TCPIn implements Runnable {
                         throw new IOException("Too much time elapsed!");
                 }
                 message = queue.poll(100, TimeUnit.MILLISECONDS);
-            } while(message == null);
+            } while (message == null);
             return message;
-        } catch(InterruptedException e) {throw new IOException();}
+        } catch (InterruptedException e) {
+            throw new IOException();
+        }
     }
 
     /**
      * Closes the connection.
+     *
      * @throws IOException if the connection can't be closed.
      */
     public void close() throws IOException {

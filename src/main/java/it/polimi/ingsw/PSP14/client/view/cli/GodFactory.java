@@ -8,7 +8,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,7 +19,7 @@ public class GodFactory {
     private static GodFactory instance = null;
 
     public static GodFactory getInstance() throws IOException {
-        if(instance == null) {
+        if (instance == null) {
             instance = new GodFactory("gods/godlist.xml");
         }
 
@@ -29,6 +28,7 @@ public class GodFactory {
 
     /**
      * Constructs a GodModelFactory using a specific file.
+     *
      * @param godsFile name of the file containing gods data
      * @throws IOException for errors with opening, reading, or parsing the file
      */
@@ -48,7 +48,7 @@ public class GodFactory {
         Element root = (Element) doc.getFirstChild();
         NodeList gods = root.getElementsByTagName("god");
 
-        for(int i = 0; i < gods.getLength(); ++i) {
+        for (int i = 0; i < gods.getLength(); ++i) {
             Element element = (Element) gods.item(i);
             String godName = element.getElementsByTagName("name").item(0).getTextContent();
             String godAlias = element.getElementsByTagName("alias").item(0).getTextContent();
@@ -64,6 +64,7 @@ public class GodFactory {
 
     /**
      * Returns a GodModel instance by god name.
+     *
      * @param godName the name of the god
      * @return the GodModel instance
      */
@@ -74,5 +75,7 @@ public class GodFactory {
     /**
      * @return a Set of String containing all god names
      */
-    public Set<String> getGodNames() { return godMap.keySet(); }
+    public Set<String> getGodNames() {
+        return godMap.keySet();
+    }
 }

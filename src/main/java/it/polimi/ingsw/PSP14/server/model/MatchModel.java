@@ -30,6 +30,7 @@ public class MatchModel implements Runnable {
     /**
      * Constructor of Match. Since players don't require any previous data except
      * for username, the order of setup doesn't matter.
+     *
      * @param controller the controller of the match
      * @throws IOException if there's a problem creating the board
      */
@@ -63,6 +64,7 @@ public class MatchModel implements Runnable {
      * usernames from players - asks the room leader to choose the gods of the game
      * - asks each player to choose their god - asks the room leader to choose the
      * game leader - asks each player to place their worker (twice)
+     *
      * @throws IOException if there's a connection error
      */
     private void setupGame() throws IOException {
@@ -93,9 +95,10 @@ public class MatchModel implements Runnable {
 
     /**
      * Main gameloop function.
-     *
+     * <p>
      * Consists of an infinite loop that plays the turn indefinitely until either a
      * connection error occurs or a end game event is detected.
+     *
      * @throws IOException if there's a connection error
      */
     private void gameLoop() throws IOException {
@@ -108,7 +111,7 @@ public class MatchModel implements Runnable {
 
     /**
      * Helper function of setupGame. Asks all players to place their workers
-     * 
+     *
      * @throws IOException a connection error occurs
      */
     private void playersPlaceWorkers() throws IOException {
@@ -132,7 +135,7 @@ public class MatchModel implements Runnable {
 
     /**
      * Executes an action on the Match and adds it to the history upon completion
-     * 
+     *
      * @param action the action to execute
      * @throws IOException if a connection error occurs
      */
@@ -162,7 +165,7 @@ public class MatchModel implements Runnable {
      * Main game logic functions. Executes the following: - calls the beforeTurn
      * effects of all gods - asks the player for the worker to move and build -
      * executes the move and build phases - calls the afterTurn effects of all gods
-     * 
+     *
      * @param player the player of the turn
      * @throws IOException if a connection error occurs
      */
@@ -207,11 +210,11 @@ public class MatchModel implements Runnable {
      * - calls the beforeMove effect of all gods - gets all valid move actions -
      * gets the choice from the client - executes the
      * chosen action - calls the afterMove effects of all gods
-     * 
+     *
      * @param player      the moving player
      * @param workerIndex the index of the moving worker
-     * @throws IOException if a connection error occurs
      * @return true if the move succeeded, false if the player lost
+     * @throws IOException if a connection error occurs
      */
     public boolean move(String player, int workerIndex) throws IOException {
         for (Player p : playerMap.values())
@@ -237,11 +240,11 @@ public class MatchModel implements Runnable {
      * calls the beforeBuild effect of all gods - gets all valid build actions -
      * gets the choice from the client - executes the
      * chosen action - calls the afterBuild effects of all gods
-     * 
+     *
      * @param player      the building player
      * @param workerIndex the index of the building worker
-     * @throws IOException if a connection error occurs
      * @return true if the build succeeded, false if the player lost
+     * @throws IOException if a connection error occurs
      */
     public boolean build(String player, int workerIndex) throws IOException {
         for (Player p : playerMap.values())
@@ -264,7 +267,7 @@ public class MatchModel implements Runnable {
 
     /**
      * Ends the game by throwing an EndGameException.
-     * 
+     *
      * @param winningPlayer the name of the winning player
      * @throws EndGameException always, to notify the turn function and terminate
      *                          the Match thread
@@ -293,7 +296,7 @@ public class MatchModel implements Runnable {
 
     /**
      * Retrieve a Player object by username.
-     * 
+     *
      * @param username the username of the Player
      * @return the associated Player
      */
@@ -307,7 +310,7 @@ public class MatchModel implements Runnable {
 
     /**
      * Retrieve the position of all workers (of all players).
-     * 
+     *
      * @return an array containing the workers' positions
      */
     private ArrayList<Point> getWorkerPositions() {
@@ -321,7 +324,7 @@ public class MatchModel implements Runnable {
 
     /**
      * Check if the target cell contains a worker.
-     * 
+     *
      * @param position the cell you want to check
      * @return true if the cell does not contain a worker
      */
@@ -335,11 +338,11 @@ public class MatchModel implements Runnable {
 
     /**
      * Retrieve a list of the possible move actions a player can do.
-     * 
+     *
      * @param playerName player to move
      * @param worker     index of worker to move
-     * @throws IOException if a connection error occurs
      * @return the array of possible MoveActions
+     * @throws IOException if a connection error occurs
      */
     public List<MoveAction> getMovements(String playerName, int worker) throws IOException {
         ArrayList<MoveAction> legalMoves = new ArrayList<>();
@@ -358,21 +361,21 @@ public class MatchModel implements Runnable {
         }
 
         for (Player p : playerMap.values())
-                p.getGod().addMoves(legalMoves, playerName, worker, this);
+            p.getGod().addMoves(legalMoves, playerName, worker, this);
 
         for (Player p : playerMap.values())
-                p.getGod().removeMoves(legalMoves, playerName, worker, this);
+            p.getGod().removeMoves(legalMoves, playerName, worker, this);
 
         return legalMoves;
     }
 
     /**
      * Retrieve a list of the possible build actions a player can do.
-     * 
+     *
      * @param player player who builds
      * @param worker index of worker who builds
-     * @throws IOException if a connection error occurs
      * @return the array of possible MoveActions
+     * @throws IOException if a connection error occurs
      */
     public List<BuildAction> getBuildable(String player, int worker) throws IOException {
         ArrayList<Point> buildablePositions = new ArrayList<>();
@@ -389,10 +392,10 @@ public class MatchModel implements Runnable {
                 .map(p -> new BuildAction(player, p, board.getTowerSize(p) == 3, 1)).collect(Collectors.toList());
 
         for (Player p : playerMap.values())
-                p.getGod().addBuilds(buildActions, player, worker, this);
+            p.getGod().addBuilds(buildActions, player, worker, this);
 
         for (Player p : playerMap.values())
-                p.getGod().removeBuilds(buildActions, player, worker, this);
+            p.getGod().removeBuilds(buildActions, player, worker, this);
 
         return buildActions;
     }

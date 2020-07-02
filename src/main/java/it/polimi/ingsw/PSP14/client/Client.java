@@ -41,7 +41,7 @@ public class Client {
         // Start the UI and display a welcome message.
         ui.welcome();
 
-        ui.showNotification("Connecting to " + address +":" + port + "...");
+        ui.showNotification("Connecting to " + address + ":" + port + "...");
 
         Socket serverSocket = null;
         boolean connected = false;
@@ -58,7 +58,7 @@ public class Client {
         ServerConnection connection;
         try {
             connection = new TCPServerConnection(serverSocket);
-        } catch(IOException e) {
+        } catch (IOException e) {
             ui.showNotification("Error connecting to the server.");
             return;
         }
@@ -72,18 +72,19 @@ public class Client {
     /**
      * By default, the client tries to read a file called settings.txt in the same folder of the jar file.
      * There are additional flags documented below. Flags override the default value/the one specified in settings.txt: for example, if you have specified the interface as GUI and launch the jar with the —cli flag, it will start as CLI.
-     *
-     *     --gui # Starts the GUI
-     *     --cli # Starts the CLI
-     *     --address example.com # Specify the server address (IP or URL)
-     *     --port 42069 # Specify the server port (a number)
-     *     --config path/to/settings.txt # Specify a custom path to a config file.
-     *
+     * <p>
+     * --gui # Starts the GUI
+     * --cli # Starts the CLI
+     * --address example.com # Specify the server address (IP or URL)
+     * --port 42069 # Specify the server port (a number)
+     * --config path/to/settings.txt # Specify a custom path to a config file.
+     * <p>
      * A possible config file is the following:
+     * <p>
+     * interface: gui
+     * hostname: 127.0.0.1
+     * port: 42069
      *
-     *     interface: gui
-     *     hostname: 127.0.0.1
-     *     port: 42069
      * @param args an array of arguments, usually the one provided by the  main method.
      */
     private static void parseArgs(String[] args) {
@@ -130,7 +131,7 @@ public class Client {
         SettingsParser settings;
         try {
             settings = new SettingsParser(settingsLocation);
-        } catch(IOException e) {
+        } catch (IOException e) {
             System.out.println("Could not find settings file:\n\tsettings.txt\n\nUsing default settings...");
             // e.printStackTrace();
             settings = null;

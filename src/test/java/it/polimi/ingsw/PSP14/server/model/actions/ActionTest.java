@@ -1,7 +1,6 @@
 package it.polimi.ingsw.PSP14.server.model.actions;
 
 import it.polimi.ingsw.PSP14.server.model.MatchModel;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
@@ -20,7 +19,8 @@ public class ActionTest {
         }
 
         @Override
-        public void execute(MatchModel model) {}
+        public void execute(MatchModel model) {
+        }
     }
 
     private final MyAction myAction = new MyAction();

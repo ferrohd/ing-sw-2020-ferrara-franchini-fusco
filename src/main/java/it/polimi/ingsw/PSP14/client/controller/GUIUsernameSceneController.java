@@ -10,10 +10,13 @@ import javafx.scene.control.TextField;
  * The controller of {@link it.polimi.ingsw.PSP14.client.view.gui.scenes.GUIUsernameScene} FXML view.
  */
 public class GUIUsernameSceneController {
-    @FXML private TextField usernameField;
-    @FXML private Button playBtn;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private Button playBtn;
 
-    @FXML protected void didClickPlay(ActionEvent event) throws InterruptedException {
+    @FXML
+    protected void didClickPlay(ActionEvent event) throws InterruptedException {
         System.out.println("HELLO " + usernameField.getText());
         if (usernameField.getText().length() > 0) {
             playBtn.setDisable(true);

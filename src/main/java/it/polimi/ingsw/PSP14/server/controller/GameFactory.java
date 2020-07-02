@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * Runnable to be run in a thread.
- *
+ * <p>
  * Continuously creates and starts game threads with the connections provided by a ClientConnectionFactory.
  */
 public class GameFactory implements Runnable {
@@ -49,7 +49,7 @@ public class GameFactory implements Runnable {
      */
     private void createGameLoop() {
         List<ClientConnection> players;
-        while(true) {
+        while (true) {
             System.out.println(NEW_ROOM);
             players = new ArrayList<>();
             try {
@@ -67,17 +67,17 @@ public class GameFactory implements Runnable {
                     players.add(clientConnectionFactory.getClientConnection());
                     players.get(2).sendNotification(GAME_FOUND);
                     System.out.println(FOUND_PLAYER_3);
-            }
+                }
 
                 // Starts a new game lobby/match with the players in the arrayList
                 System.out.println(CREATING_GAME);
-                for(ClientConnection c : players) c.ping();
+                for (ClientConnection c : players) c.ping();
                 MatchController controller = new MatchController(players);
                 Thread newGame = new Thread(new MatchModel(controller));
                 newGame.setName("Match");
                 System.out.println(STARTING_GAME);
                 newGame.start();
-            } catch(InterruptedException | IOException e) {
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         }

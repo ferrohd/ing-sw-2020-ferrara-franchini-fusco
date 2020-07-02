@@ -22,7 +22,7 @@ public class Prometheus extends God {
 
     @Override
     public void beforeMove(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
-        if(!player.equals(getOwner())) return;
+        if (!player.equals(getOwner())) return;
 
         boolean choice = controller.askQuestion(player, MESSAGE);
 
@@ -34,9 +34,9 @@ public class Prometheus extends God {
 
     @Override
     public void removeMoves(List<MoveAction> moves, String player, int workerIndex, MatchModel model) throws IOException {
-        if(!player.equals(getOwner())) return;
+        if (!player.equals(getOwner())) return;
 
-        if(activated) {
+        if (activated) {
             List<MoveAction> illegalMoves = moves.stream()
                     .filter(m -> model.getBoard().getTowerSize(m.getFrom()) < model.getBoard().getTowerSize(m.getTo()))
                     .collect(Collectors.toList());

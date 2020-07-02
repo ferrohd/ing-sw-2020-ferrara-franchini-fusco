@@ -1,12 +1,12 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.MatchController;
-import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchController;
-import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchModel;
 import it.polimi.ingsw.PSP14.server.model.board.Board;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import it.polimi.ingsw.PSP14.server.model.board.TowerSizeException;
+import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchController;
+import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchModel;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -32,12 +32,13 @@ public class PoseidonTest {
                 Player player = null;
                 try {
                     player = new Player("poseidonOwner");
-                    if(flag)
+                    if (flag)
                         player.setWorker(0, new Point(1, 0));
                     else
                         player.setWorker(0, new Point(0, 0));
                     player.setWorker(1, new Point(1, 1));
-                } catch (IOException e) {}
+                } catch (IOException e) {
+                }
 
                 return player;
             }

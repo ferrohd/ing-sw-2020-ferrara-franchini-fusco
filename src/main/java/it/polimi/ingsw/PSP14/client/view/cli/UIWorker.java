@@ -8,11 +8,13 @@ public class UIWorker {
     private final int id;
     private final UIPlayer player;
     private UICell cell;
+
     /**
      * Constructor of UIWorker.
      * Create a worker by passing an unique ID and
      * the Player that owns this worker.
-     * @param id the ID of this worker (typically 0 or 1)
+     *
+     * @param id     the ID of this worker (typically 0 or 1)
      * @param player reference to the owner
      */
     public UIWorker(int id, UIPlayer player) {
@@ -22,6 +24,7 @@ public class UIWorker {
 
     /**
      * Get the worker id.
+     *
      * @return the worker id
      */
     public int getId() {
@@ -31,6 +34,7 @@ public class UIWorker {
     /**
      * Get this worker owner (a player). It should
      * never be null. No Ronin Workers thanks.
+     *
      * @return the player that owns this worker
      */
     public UIPlayer getPlayer() {
@@ -42,6 +46,7 @@ public class UIWorker {
      * It may be <code>null</code> if this worker is being unset by
      * either the cell or the player, meaning it's
      * being moved, for example.
+     *
      * @return the cell
      */
     public UICell getCell() {
@@ -52,6 +57,7 @@ public class UIWorker {
      * Set the cell this worker should stand on.
      * It may be <code>null</code> if you want to unset this
      * worker, but to do that please use {@link #unsetCell()}.
+     *
      * @param cell the target cell
      */
     public void setCell(UICell cell) {
