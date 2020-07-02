@@ -67,7 +67,7 @@ public class GameFactory implements Runnable {
                     players.add(clientConnectionFactory.getClientConnection());
                     players.get(2).sendNotification(GAME_FOUND);
                     System.out.println(FOUND_PLAYER_3);
-            }
+                }
 
                 // Starts a new game lobby/match with the players in the arrayList
                 System.out.println(CREATING_GAME);
