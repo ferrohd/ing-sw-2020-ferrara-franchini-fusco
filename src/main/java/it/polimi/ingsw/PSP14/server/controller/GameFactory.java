@@ -78,7 +78,6 @@ public class GameFactory implements Runnable {
                 System.out.println(STARTING_GAME);
                 newGame.start();
             } catch(InterruptedException | IOException e) {
-                e.printStackTrace();
                 try {
                     for (ClientConnection c : players) c.close();
                 } catch (IOException ignore) {}
