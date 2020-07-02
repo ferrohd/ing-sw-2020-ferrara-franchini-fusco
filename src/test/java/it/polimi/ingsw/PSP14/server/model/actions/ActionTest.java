@@ -29,9 +29,4 @@ public class ActionTest {
     public void actionShouldReturnCorrectUsername() {
         assertEquals("user", myAction.getUser());
     }
-
-    @Test
-    public void correctTimestamp() {
-        assertTrue(myAction.getTimestamp().isBefore(Instant.now()));
-    }
 }
