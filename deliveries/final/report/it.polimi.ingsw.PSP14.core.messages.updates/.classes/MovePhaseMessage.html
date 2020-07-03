@@ -79,22 +79,25 @@
 <i>5</i>&nbsp;
 <i>6</i>&nbsp;import java.io.IOException;
 <i>7</i>&nbsp;
-<i>8</i>&nbsp;public class MovePhaseMessage extends PhaseMessage {
-<i>9</i>&nbsp;    public MovePhaseMessage(String player) {
-<b class="nc"><i>10</i>&nbsp;        super(player);</b>
-<b class="nc"><i>11</i>&nbsp;    }</b>
-<i>12</i>&nbsp;
-<i>13</i>&nbsp;    @Override
-<i>14</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException {
-<b class="nc"><i>15</i>&nbsp;        ui.startMove(getPlayer());</b>
-<b class="nc"><i>16</i>&nbsp;    }</b>
-<i>17</i>&nbsp;}
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Message that tells the client that a player move phase has started.
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;public class MovePhaseMessage extends PhaseMessage {
+<i>12</i>&nbsp;    public MovePhaseMessage(String player) {
+<b class="nc"><i>13</i>&nbsp;        super(player);</b>
+<b class="nc"><i>14</i>&nbsp;    }</b>
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    @Override
+<i>17</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException {
+<b class="nc"><i>18</i>&nbsp;        ui.startMove(getPlayer());</b>
+<b class="nc"><i>19</i>&nbsp;    }</b>
+<i>20</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

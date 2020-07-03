@@ -87,45 +87,46 @@
 <i>13</i>&nbsp; * If your Worker does not move up, it may build both before and after moving.
 <i>14</i>&nbsp; */
 <i>15</i>&nbsp;public class Prometheus extends God {
-<b class="fc"><i>16</i>&nbsp;    private boolean activated = false;</b>
-<i>17</i>&nbsp;
-<i>18</i>&nbsp;    public Prometheus(String owner) {
-<b class="fc"><i>19</i>&nbsp;        super(owner);</b>
-<b class="fc"><i>20</i>&nbsp;    }</b>
-<i>21</i>&nbsp;
-<i>22</i>&nbsp;    @Override
-<i>23</i>&nbsp;    public void beforeMove(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
-<b class="fc"><i>24</i>&nbsp;        if(!player.equals(getOwner())) return;</b>
-<i>25</i>&nbsp;
-<b class="fc"><i>26</i>&nbsp;        boolean choice = controller.askQuestion(player, &quot;PROMETHEUS: Do not move up and build twice. Art thou willing to accept my deal?&quot;);</b>
-<i>27</i>&nbsp;
-<b class="fc"><i>28</i>&nbsp;        if (choice) {</b>
-<b class="fc"><i>29</i>&nbsp;            activated = true;</b>
-<b class="fc"><i>30</i>&nbsp;            model.build(player, workerIndex);</b>
-<i>31</i>&nbsp;        }
-<b class="fc"><i>32</i>&nbsp;    }</b>
-<i>33</i>&nbsp;
-<i>34</i>&nbsp;    @Override
-<i>35</i>&nbsp;    public void removeMoves(List&lt;MoveAction&gt; moves, String player, int workerIndex, MatchModel model) throws IOException {
-<b class="fc"><i>36</i>&nbsp;        if(!player.equals(getOwner())) return;</b>
-<i>37</i>&nbsp;
-<b class="fc"><i>38</i>&nbsp;        if(activated) {</b>
-<b class="fc"><i>39</i>&nbsp;            List&lt;MoveAction&gt; illegalMoves = moves.stream()</b>
-<b class="fc"><i>40</i>&nbsp;                    .filter(m -&gt; model.getBoard().getTowerSize(m.getFrom()) &lt; model.getBoard().getTowerSize(m.getTo()))</b>
-<b class="fc"><i>41</i>&nbsp;                    .collect(Collectors.toList());</b>
-<i>42</i>&nbsp;
-<b class="fc"><i>43</i>&nbsp;            moves.removeAll(illegalMoves);</b>
-<i>44</i>&nbsp;
-<b class="fc"><i>45</i>&nbsp;            activated = false;</b>
-<i>46</i>&nbsp;        }
-<b class="fc"><i>47</i>&nbsp;    }</b>
-<i>48</i>&nbsp;}
+<i>16</i>&nbsp;    public static final String MESSAGE = &quot;PROMETHEUS: Do not move up and build twice. Art thou willing to accept my deal?&quot;;
+<b class="fc"><i>17</i>&nbsp;    private boolean activated = false;</b>
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    public Prometheus(String owner) {
+<b class="fc"><i>20</i>&nbsp;        super(owner);</b>
+<b class="fc"><i>21</i>&nbsp;    }</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @Override
+<i>24</i>&nbsp;    public void beforeMove(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
+<b class="fc"><i>25</i>&nbsp;        if(!player.equals(getOwner())) return;</b>
+<i>26</i>&nbsp;
+<b class="fc"><i>27</i>&nbsp;        boolean choice = controller.askQuestion(player, MESSAGE);</b>
+<i>28</i>&nbsp;
+<b class="fc"><i>29</i>&nbsp;        if (choice) {</b>
+<b class="fc"><i>30</i>&nbsp;            activated = true;</b>
+<b class="fc"><i>31</i>&nbsp;            model.build(player, workerIndex);</b>
+<i>32</i>&nbsp;        }
+<b class="fc"><i>33</i>&nbsp;    }</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    @Override
+<i>36</i>&nbsp;    public void removeMoves(List&lt;MoveAction&gt; moves, String player, int workerIndex, MatchModel model) throws IOException {
+<b class="fc"><i>37</i>&nbsp;        if(!player.equals(getOwner())) return;</b>
+<i>38</i>&nbsp;
+<b class="fc"><i>39</i>&nbsp;        if(activated) {</b>
+<b class="fc"><i>40</i>&nbsp;            List&lt;MoveAction&gt; illegalMoves = moves.stream()</b>
+<b class="fc"><i>41</i>&nbsp;                    .filter(m -&gt; model.getBoard().getTowerSize(m.getFrom()) &lt; model.getBoard().getTowerSize(m.getTo()))</b>
+<b class="fc"><i>42</i>&nbsp;                    .collect(Collectors.toList());</b>
+<i>43</i>&nbsp;
+<b class="fc"><i>44</i>&nbsp;            moves.removeAll(illegalMoves);</b>
+<i>45</i>&nbsp;
+<b class="fc"><i>46</i>&nbsp;            activated = false;</b>
+<i>47</i>&nbsp;        }
+<b class="fc"><i>48</i>&nbsp;    }</b>
+<i>49</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

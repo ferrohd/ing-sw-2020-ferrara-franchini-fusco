@@ -89,8 +89,8 @@
 <i>15</i>&nbsp; * ClientConnection implemented using TCP sockets.
 <i>16</i>&nbsp; */
 <i>17</i>&nbsp;public class TCPClientConnection extends ClientConnection {
-<i>18</i>&nbsp;    private TCPOut clientOutput;
-<i>19</i>&nbsp;    private TCPIn clientInput;
+<i>18</i>&nbsp;    private final TCPOut clientOutput;
+<i>19</i>&nbsp;    private final TCPIn clientInput;
 <i>20</i>&nbsp;
 <b class="nc"><i>21</i>&nbsp;    public TCPClientConnection(final Socket socket) throws IOException {</b>
 <b class="nc"><i>22</i>&nbsp;        clientOutput = new TCPOut(new ObjectOutputStream(socket.getOutputStream()));</b>
@@ -138,7 +138,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

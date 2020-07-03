@@ -50,18 +50,18 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    85.7%
+    100%
   </span>
   <span class="absValue">
-    (6/ 7)
+    (7/ 7)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    91.7%
+    100%
   </span>
   <span class="absValue">
-    (11/ 12)
+    (12/ 12)
   </span>
 </td>
 </tr>
@@ -109,28 +109,40 @@
 <b class="fc"><i>35</i>&nbsp;        return this.x == point.x &amp;&amp; this.y == point.y;</b>
 <i>36</i>&nbsp;    }
 <i>37</i>&nbsp;
-<i>38</i>&nbsp;    public Point move(Direction dir) {
-<b class="fc"><i>39</i>&nbsp;        return new Point(</b>
-<b class="fc"><i>40</i>&nbsp;                x + dir.getXOffset(),</b>
-<b class="fc"><i>41</i>&nbsp;                y + dir.getYOffset()</b>
-<i>42</i>&nbsp;        );
-<i>43</i>&nbsp;    }
-<i>44</i>&nbsp;
-<i>45</i>&nbsp;    public int distance(Point p) {
-<b class="fc"><i>46</i>&nbsp;        return Math.abs(x - p.x) + Math.abs(y - p.y);</b>
-<i>47</i>&nbsp;    }
-<i>48</i>&nbsp;
-<i>49</i>&nbsp;    @Override
-<i>50</i>&nbsp;    public String toString() {
-<b class="nc"><i>51</i>&nbsp;        return &quot;(&quot; + x + &quot;, &quot; + y + &quot;)&quot;;</b>
-<i>52</i>&nbsp;    }
-<i>53</i>&nbsp;}
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * Create a new point from a current one with an offset specified by a Direction.
+<i>40</i>&nbsp;     *
+<i>41</i>&nbsp;     * @param dir the direction
+<i>42</i>&nbsp;     * @return the new moved point
+<i>43</i>&nbsp;     */
+<i>44</i>&nbsp;    public Point move(Direction dir) {
+<b class="fc"><i>45</i>&nbsp;        return new Point(</b>
+<b class="fc"><i>46</i>&nbsp;                x + dir.getXOffset(),</b>
+<b class="fc"><i>47</i>&nbsp;                y + dir.getYOffset()</b>
+<i>48</i>&nbsp;        );
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    /**
+<i>52</i>&nbsp;     * Finds the manhattan distance between two points
+<i>53</i>&nbsp;     *
+<i>54</i>&nbsp;     * @param p the other point
+<i>55</i>&nbsp;     * @return the distance
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;    public int distance(Point p) {
+<b class="fc"><i>58</i>&nbsp;        return Math.abs(x - p.x) + Math.abs(y - p.y);</b>
+<i>59</i>&nbsp;    }
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    @Override
+<i>62</i>&nbsp;    public String toString() {
+<b class="fc"><i>63</i>&nbsp;        return &quot;(&quot; + x + &quot;, &quot; + y + &quot;)&quot;;</b>
+<i>64</i>&nbsp;    }
+<i>65</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

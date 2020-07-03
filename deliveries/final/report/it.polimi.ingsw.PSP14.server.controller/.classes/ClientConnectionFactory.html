@@ -39,18 +39,28 @@
 <div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.server.controller;
 <i>2</i>&nbsp;
 <i>3</i>&nbsp;/**
-<i>4</i>&nbsp; * Creates client connections.
+<i>4</i>&nbsp; * Class that continuously provides client connections.
 <i>5</i>&nbsp; */
 <i>6</i>&nbsp;public interface ClientConnectionFactory extends Runnable {
-<i>7</i>&nbsp;    public ClientConnection getClientConnection() throws InterruptedException;
-<i>8</i>&nbsp;    public void addClientConnection(ClientConnection clientConnection);
-<i>9</i>&nbsp;}
+<i>7</i>&nbsp;    /**
+<i>8</i>&nbsp;     * Main function, used to obtain client connections of client who try to connect to the server.
+<i>9</i>&nbsp;     * @return a valid client connection
+<i>10</i>&nbsp;     * @throws InterruptedException if synchronization errors occur
+<i>11</i>&nbsp;     */
+<i>12</i>&nbsp;    ClientConnection getClientConnection() throws InterruptedException;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    /**
+<i>15</i>&nbsp;     * Used to manually add connections to be later retrieved through getClientConnection.
+<i>16</i>&nbsp;     * @param clientConnection the client connection
+<i>17</i>&nbsp;     */
+<i>18</i>&nbsp;    void addClientConnection(ClientConnection clientConnection);
+<i>19</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

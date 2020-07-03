@@ -58,10 +58,10 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    17.6%
+    94.1%
   </span>
   <span class="absValue">
-    (3/ 17)
+    (16/ 17)
   </span>
 </td>
 </tr>
@@ -74,49 +74,58 @@
 
 <div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.server.model.gods;
 <i>2</i>&nbsp;
-<b class="nc"><i>3</i>&nbsp;public class GodFactory {</b>
-<i>4</i>&nbsp;    public static God getGod(String name, String owner) {
-<b class="fc"><i>5</i>&nbsp;        switch (name) {</b>
-<i>6</i>&nbsp;            case &quot;Apollo&quot;:
-<b class="fc"><i>7</i>&nbsp;                return new Apollo(owner);</b>
-<i>8</i>&nbsp;            case &quot;Artemis&quot;:
-<b class="nc"><i>9</i>&nbsp;                return new Artemis(owner);</b>
-<i>10</i>&nbsp;            case &quot;Athena&quot;:
-<b class="nc"><i>11</i>&nbsp;                return new Athena(owner);</b>
-<i>12</i>&nbsp;            case &quot;Atlas&quot;:
-<b class="nc"><i>13</i>&nbsp;                return new Atlas(owner);</b>
-<i>14</i>&nbsp;            case &quot;Demeter&quot;:
-<b class="nc"><i>15</i>&nbsp;                return new Demeter(owner);</b>
-<i>16</i>&nbsp;            case &quot;Hephaestus&quot;:
-<b class="nc"><i>17</i>&nbsp;                return new Hephaestus(owner);</b>
-<i>18</i>&nbsp;            case &quot;Minotaur&quot;:
-<b class="nc"><i>19</i>&nbsp;                return new Minotaur(owner);</b>
-<i>20</i>&nbsp;            case &quot;Pan&quot;:
-<b class="nc"><i>21</i>&nbsp;                return new Pan(owner);</b>
-<i>22</i>&nbsp;            case &quot;Prometheus&quot;:
-<b class="nc"><i>23</i>&nbsp;               return new Prometheus(owner);</b>
-<i>24</i>&nbsp;            // ADVANCED
-<i>25</i>&nbsp;            case &quot;Chronus&quot;:
-<b class="nc"><i>26</i>&nbsp;                return new Chronus(owner);</b>
-<i>27</i>&nbsp;            case &quot;Hestia&quot;:
-<b class="nc"><i>28</i>&nbsp;                return new Hestia(owner);</b>
-<i>29</i>&nbsp;            case &quot;Poseidon&quot;:
-<b class="nc"><i>30</i>&nbsp;                return new Poseidon(owner);</b>
-<i>31</i>&nbsp;            case &quot;Triton&quot;:
-<b class="nc"><i>32</i>&nbsp;                return new Triton(owner);</b>
-<i>33</i>&nbsp;            case &quot;Zeus&quot;:
-<b class="nc"><i>34</i>&nbsp;                return new Zeus(owner);</b>
-<i>35</i>&nbsp;            default:
-<b class="fc"><i>36</i>&nbsp;                return new God(owner);</b>
-<i>37</i>&nbsp;        }
-<i>38</i>&nbsp;    }
-<i>39</i>&nbsp;}
+<i>3</i>&nbsp;/**
+<i>4</i>&nbsp; * Contains methods to get an instance of a god with an assigned player.
+<i>5</i>&nbsp; */
+<b class="nc"><i>6</i>&nbsp;public class GodFactory {</b>
+<i>7</i>&nbsp;    /**
+<i>8</i>&nbsp;     * Generate a new god with an assigned player.
+<i>9</i>&nbsp;     * @param name the name of the god
+<i>10</i>&nbsp;     * @param owner the player that has chosen this god
+<i>11</i>&nbsp;     * @return the god
+<i>12</i>&nbsp;     */
+<i>13</i>&nbsp;    public static God getGod(String name, String owner) {
+<b class="fc"><i>14</i>&nbsp;        switch (name) {</b>
+<i>15</i>&nbsp;            case &quot;Apollo&quot;:
+<b class="fc"><i>16</i>&nbsp;                return new Apollo(owner);</b>
+<i>17</i>&nbsp;            case &quot;Artemis&quot;:
+<b class="fc"><i>18</i>&nbsp;                return new Artemis(owner);</b>
+<i>19</i>&nbsp;            case &quot;Athena&quot;:
+<b class="fc"><i>20</i>&nbsp;                return new Athena(owner);</b>
+<i>21</i>&nbsp;            case &quot;Atlas&quot;:
+<b class="fc"><i>22</i>&nbsp;                return new Atlas(owner);</b>
+<i>23</i>&nbsp;            case &quot;Demeter&quot;:
+<b class="fc"><i>24</i>&nbsp;                return new Demeter(owner);</b>
+<i>25</i>&nbsp;            case &quot;Hephaestus&quot;:
+<b class="fc"><i>26</i>&nbsp;                return new Hephaestus(owner);</b>
+<i>27</i>&nbsp;            case &quot;Minotaur&quot;:
+<b class="fc"><i>28</i>&nbsp;                return new Minotaur(owner);</b>
+<i>29</i>&nbsp;            case &quot;Pan&quot;:
+<b class="fc"><i>30</i>&nbsp;                return new Pan(owner);</b>
+<i>31</i>&nbsp;            case &quot;Prometheus&quot;:
+<b class="fc"><i>32</i>&nbsp;               return new Prometheus(owner);</b>
+<i>33</i>&nbsp;            // ADVANCED
+<i>34</i>&nbsp;            case &quot;Chronus&quot;:
+<b class="fc"><i>35</i>&nbsp;                return new Chronus(owner);</b>
+<i>36</i>&nbsp;            case &quot;Hestia&quot;:
+<b class="fc"><i>37</i>&nbsp;                return new Hestia(owner);</b>
+<i>38</i>&nbsp;            case &quot;Poseidon&quot;:
+<b class="fc"><i>39</i>&nbsp;                return new Poseidon(owner);</b>
+<i>40</i>&nbsp;            case &quot;Triton&quot;:
+<b class="fc"><i>41</i>&nbsp;                return new Triton(owner);</b>
+<i>42</i>&nbsp;            case &quot;Zeus&quot;:
+<b class="fc"><i>43</i>&nbsp;                return new Zeus(owner);</b>
+<i>44</i>&nbsp;            default:
+<b class="fc"><i>45</i>&nbsp;                return new God(owner);</b>
+<i>46</i>&nbsp;        }
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

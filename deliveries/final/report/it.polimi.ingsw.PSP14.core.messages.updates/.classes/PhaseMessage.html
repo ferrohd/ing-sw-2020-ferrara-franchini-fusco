@@ -74,23 +74,26 @@
 
 <div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.core.messages.updates;
 <i>2</i>&nbsp;
-<i>3</i>&nbsp;public abstract class PhaseMessage implements UIUpdateMessage {
-<i>4</i>&nbsp;    private String player;
-<i>5</i>&nbsp;
-<b class="nc"><i>6</i>&nbsp;    public PhaseMessage(String player) {</b>
-<b class="nc"><i>7</i>&nbsp;        this.player = player;</b>
-<b class="nc"><i>8</i>&nbsp;    }</b>
-<i>9</i>&nbsp;
-<i>10</i>&nbsp;    public String getPlayer() {
-<b class="nc"><i>11</i>&nbsp;        return player;</b>
-<i>12</i>&nbsp;    }
-<i>13</i>&nbsp;}
+<i>3</i>&nbsp;/**
+<i>4</i>&nbsp; * Blueprint for a message that tells the client that a phase has started.
+<i>5</i>&nbsp; */
+<i>6</i>&nbsp;public abstract class PhaseMessage implements UIUpdateMessage {
+<i>7</i>&nbsp;    private final String player;
+<i>8</i>&nbsp;
+<b class="nc"><i>9</i>&nbsp;    public PhaseMessage(String player) {</b>
+<b class="nc"><i>10</i>&nbsp;        this.player = player;</b>
+<b class="nc"><i>11</i>&nbsp;    }</b>
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    public String getPlayer() {
+<b class="nc"><i>14</i>&nbsp;        return player;</b>
+<i>15</i>&nbsp;    }
+<i>16</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

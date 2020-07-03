@@ -85,8 +85,8 @@
 <i>11</i>&nbsp; * back responses to it.
 <i>12</i>&nbsp; */
 <i>13</i>&nbsp;public class ClientMatch implements Runnable {
-<i>14</i>&nbsp;    private ServerConnection serverConnection;
-<i>15</i>&nbsp;    private UI ui;
+<i>14</i>&nbsp;    private final ServerConnection serverConnection;
+<i>15</i>&nbsp;    private final UI ui;
 <i>16</i>&nbsp;
 <i>17</i>&nbsp;    /**
 <i>18</i>&nbsp;     * Constructor for ClientMatch.
@@ -98,32 +98,37 @@
 <b class="nc"><i>24</i>&nbsp;        this.ui = ui;</b>
 <b class="nc"><i>25</i>&nbsp;    }</b>
 <i>26</i>&nbsp;
-<i>27</i>&nbsp;    @Override
-<i>28</i>&nbsp;    public void run() {
-<i>29</i>&nbsp;        // Execute every new message that the client receives
-<i>30</i>&nbsp;        while(true) {
-<i>31</i>&nbsp;            try {
-<b class="nc"><i>32</i>&nbsp;                ClientExecutableMessage inMessage  = (ClientExecutableMessage) serverConnection.receiveMessage();</b>
-<b class="nc"><i>33</i>&nbsp;                inMessage.execute(ui, serverConnection);</b>
-<b class="nc"><i>34</i>&nbsp;            } catch (IOException | InterruptedException e) {</b>
-<b class="nc"><i>35</i>&nbsp;                System.out.println(&quot;Connection lost. Closing...&quot;);</b>
-<i>36</i>&nbsp;                try {
-<b class="nc"><i>37</i>&nbsp;                    serverConnection.close();</b>
-<b class="nc"><i>38</i>&nbsp;                } catch(IOException ioe) {</b>
-<b class="nc"><i>39</i>&nbsp;                    System.out.println(&quot;Could not close. Terminating...&quot;);</b>
-<b class="nc"><i>40</i>&nbsp;                }</b>
-<b class="nc"><i>41</i>&nbsp;                System.exit(-1);</b>
-<b class="nc"><i>42</i>&nbsp;                return;</b>
-<b class="nc"><i>43</i>&nbsp;            }</b>
-<i>44</i>&nbsp;        }
-<i>45</i>&nbsp;    }
-<i>46</i>&nbsp;}
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * Run main method of the ClientMatch class.
+<i>29</i>&nbsp;     * Recieves messages from the server and executes them in an infinite loop.
+<i>30</i>&nbsp;     * Exits if an IOException is caught (meaning a connection error has occurred).
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    @Override
+<i>33</i>&nbsp;    public void run() {
+<i>34</i>&nbsp;        // Execute every new message that the client receives
+<i>35</i>&nbsp;        while(true) {
+<i>36</i>&nbsp;            try {
+<b class="nc"><i>37</i>&nbsp;                ClientExecutableMessage inMessage  = (ClientExecutableMessage) serverConnection.receiveMessage();</b>
+<b class="nc"><i>38</i>&nbsp;                inMessage.execute(ui, serverConnection);</b>
+<b class="nc"><i>39</i>&nbsp;            } catch (IOException | InterruptedException e) {</b>
+<b class="nc"><i>40</i>&nbsp;                System.out.println(&quot;Connection lost. Closing...&quot;);</b>
+<i>41</i>&nbsp;                try {
+<b class="nc"><i>42</i>&nbsp;                    serverConnection.close();</b>
+<b class="nc"><i>43</i>&nbsp;                } catch(IOException ioe) {</b>
+<b class="nc"><i>44</i>&nbsp;                    System.out.println(&quot;Could not close. Terminating...&quot;);</b>
+<b class="nc"><i>45</i>&nbsp;                }</b>
+<b class="nc"><i>46</i>&nbsp;                System.exit(-1);</b>
+<b class="nc"><i>47</i>&nbsp;                return;</b>
+<b class="nc"><i>48</i>&nbsp;            }</b>
+<i>49</i>&nbsp;        }
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

@@ -50,18 +50,18 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    66.7%
+    100%
   </span>
   <span class="absValue">
-    (2/ 3)
+    (3/ 3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    83.3%
+    100%
   </span>
   <span class="absValue">
-    (5/ 6)
+    (6/ 6)
   </span>
 </td>
 </tr>
@@ -81,39 +81,42 @@
 <i>7</i>&nbsp;import java.time.Instant;
 <i>8</i>&nbsp;
 <i>9</i>&nbsp;/**
-<i>10</i>&nbsp; * A game action.
+<i>10</i>&nbsp; * A game action which provides the base for custom actions.
 <i>11</i>&nbsp; */
-<i>12</i>&nbsp;public abstract class Action implements Serializable {
-<i>13</i>&nbsp;    // DO NOT TOUCH!
-<i>14</i>&nbsp;    private static final long serialVersionUID = 1L;
-<i>15</i>&nbsp;    private Instant timestamp;
-<i>16</i>&nbsp;    String user;
-<i>17</i>&nbsp;
-<b class="fc"><i>18</i>&nbsp;    public Action(String user) {</b>
-<b class="fc"><i>19</i>&nbsp;        this.timestamp = Instant.now();</b>
-<b class="fc"><i>20</i>&nbsp;        this.user = user;</b>
-<b class="fc"><i>21</i>&nbsp;    }</b>
-<i>22</i>&nbsp;
-<i>23</i>&nbsp;    /**
-<i>24</i>&nbsp;     * @return the timestamp at which the action was created.
-<i>25</i>&nbsp;     */
-<i>26</i>&nbsp;    public Instant getTimestamp() {
-<b class="nc"><i>27</i>&nbsp;        return timestamp;</b>
-<i>28</i>&nbsp;    }
-<i>29</i>&nbsp;
-<i>30</i>&nbsp;    /**
-<i>31</i>&nbsp;     * @return the player who made the action
-<i>32</i>&nbsp;     */
-<b class="fc"><i>33</i>&nbsp;    public String getUser() { return user; }</b>
-<i>34</i>&nbsp;
-<i>35</i>&nbsp;    public abstract void execute(MatchModel model) throws IOException;
-<i>36</i>&nbsp;}
+<i>12</i>&nbsp;public abstract class Action {
+<i>13</i>&nbsp;    private final Instant timestamp;
+<i>14</i>&nbsp;    private final String user;
+<i>15</i>&nbsp;
+<b class="fc"><i>16</i>&nbsp;    public Action(String user) {</b>
+<b class="fc"><i>17</i>&nbsp;        this.timestamp = Instant.now();</b>
+<b class="fc"><i>18</i>&nbsp;        this.user = user;</b>
+<b class="fc"><i>19</i>&nbsp;    }</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    /**
+<i>22</i>&nbsp;     * @return the timestamp at which the action was created.
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    public Instant getTimestamp() {
+<b class="fc"><i>25</i>&nbsp;        return timestamp;</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**
+<i>29</i>&nbsp;     * @return the player who made the action
+<i>30</i>&nbsp;     */
+<b class="fc"><i>31</i>&nbsp;    public String getUser() { return user; }</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    /**
+<i>34</i>&nbsp;     * Executes the message on the current model
+<i>35</i>&nbsp;     * @param model the current model
+<i>36</i>&nbsp;     * @throws IOException if a connection error occurs
+<i>37</i>&nbsp;     */
+<i>38</i>&nbsp;    public abstract void execute(MatchModel model) throws IOException;
+<i>39</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

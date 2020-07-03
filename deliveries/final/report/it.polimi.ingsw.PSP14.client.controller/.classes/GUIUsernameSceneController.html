@@ -80,25 +80,28 @@
 <i>6</i>&nbsp;import javafx.scene.control.Button;
 <i>7</i>&nbsp;import javafx.scene.control.TextField;
 <i>8</i>&nbsp;
-<b class="nc"><i>9</i>&nbsp;public class GUIUsernameSceneController {</b>
-<i>10</i>&nbsp;    @FXML private TextField usernameField;
-<i>11</i>&nbsp;    @FXML private Button playBtn;
-<i>12</i>&nbsp;
-<i>13</i>&nbsp;    @FXML protected void didClickPlay(ActionEvent event) throws InterruptedException {
-<b class="nc"><i>14</i>&nbsp;        System.out.println(&quot;HELLO &quot; + usernameField.getText());</b>
-<b class="nc"><i>15</i>&nbsp;        if (usernameField.getText().length() &gt; 0) {</b>
-<b class="nc"><i>16</i>&nbsp;            playBtn.setDisable(true);</b>
-<b class="nc"><i>17</i>&nbsp;            usernameField.setDisable(true);</b>
-<b class="nc"><i>18</i>&nbsp;            GUIMain.getQueue().put(usernameField.getText());</b>
-<i>19</i>&nbsp;        }
-<b class="nc"><i>20</i>&nbsp;    }</b>
-<i>21</i>&nbsp;}
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * The controller of {@link it.polimi.ingsw.PSP14.client.view.gui.scenes.GUIUsernameScene} FXML view.
+<i>11</i>&nbsp; */
+<b class="nc"><i>12</i>&nbsp;public class GUIUsernameSceneController {</b>
+<i>13</i>&nbsp;    @FXML private TextField usernameField;
+<i>14</i>&nbsp;    @FXML private Button playBtn;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    @FXML protected void didClickPlay(ActionEvent event) throws InterruptedException {
+<b class="nc"><i>17</i>&nbsp;        System.out.println(&quot;HELLO &quot; + usernameField.getText());</b>
+<b class="nc"><i>18</i>&nbsp;        if (usernameField.getText().length() &gt; 0) {</b>
+<b class="nc"><i>19</i>&nbsp;            playBtn.setDisable(true);</b>
+<b class="nc"><i>20</i>&nbsp;            usernameField.setDisable(true);</b>
+<b class="nc"><i>21</i>&nbsp;            GUIMain.getQueue().put(usernameField.getText());</b>
+<i>22</i>&nbsp;        }
+<b class="nc"><i>23</i>&nbsp;    }</b>
+<i>24</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

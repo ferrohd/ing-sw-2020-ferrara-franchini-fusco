@@ -80,22 +80,26 @@
 <i>6</i>&nbsp;
 <i>7</i>&nbsp;import java.io.IOException;
 <i>8</i>&nbsp;
-<b class="nc"><i>9</i>&nbsp;public class Server {</b>
-<i>10</i>&nbsp;    public static void main(String[] args) throws InterruptedException, IOException {
-<b class="nc"><i>11</i>&nbsp;        ClientConnectionFactory clientConnectionFactory = new TCPClientConnectionFactory(42069);</b>
-<b class="nc"><i>12</i>&nbsp;        GameFactory gameFactory = new GameFactory(clientConnectionFactory);</b>
-<b class="nc"><i>13</i>&nbsp;        Thread mainThread = new Thread(gameFactory);</b>
-<b class="nc"><i>14</i>&nbsp;        mainThread.setName(&quot;gameFactory&quot;);</b>
-<b class="nc"><i>15</i>&nbsp;        mainThread.start();</b>
-<b class="nc"><i>16</i>&nbsp;        mainThread.join();</b>
-<b class="nc"><i>17</i>&nbsp;    }</b>
-<i>18</i>&nbsp;}
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * The entry point of the server.
+<i>11</i>&nbsp; * Sets up a ClientConnectionFactory and a GameFactory thread.
+<i>12</i>&nbsp; */
+<b class="nc"><i>13</i>&nbsp;public class Server {</b>
+<i>14</i>&nbsp;    public static void main(String[] args) throws InterruptedException, IOException {
+<b class="nc"><i>15</i>&nbsp;        ClientConnectionFactory clientConnectionFactory = new TCPClientConnectionFactory(42069);</b>
+<b class="nc"><i>16</i>&nbsp;        GameFactory gameFactory = new GameFactory(clientConnectionFactory);</b>
+<b class="nc"><i>17</i>&nbsp;        Thread mainThread = new Thread(gameFactory);</b>
+<b class="nc"><i>18</i>&nbsp;        mainThread.setName(&quot;gameFactory&quot;);</b>
+<b class="nc"><i>19</i>&nbsp;        mainThread.start();</b>
+<b class="nc"><i>20</i>&nbsp;        mainThread.join();</b>
+<b class="nc"><i>21</i>&nbsp;    }</b>
+<i>22</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

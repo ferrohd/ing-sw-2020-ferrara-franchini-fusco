@@ -74,37 +74,49 @@
 
 <div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.client.view.cli;
 <i>2</i>&nbsp;
-<i>3</i>&nbsp;public class ColorChar {
-<i>4</i>&nbsp;    private final char character;
-<i>5</i>&nbsp;    private final CLIColor color;
-<i>6</i>&nbsp;
-<b class="nc"><i>7</i>&nbsp;    ColorChar(char c, CLIColor color) {</b>
-<b class="nc"><i>8</i>&nbsp;        this.character = c;</b>
-<b class="nc"><i>9</i>&nbsp;        this.color = color == CLIColor.RESET</b>
-<b class="nc"><i>10</i>&nbsp;                ? null</b>
-<b class="nc"><i>11</i>&nbsp;                : color;</b>
-<b class="nc"><i>12</i>&nbsp;    }</b>
-<i>13</i>&nbsp;
-<i>14</i>&nbsp;    public char getChar() {
-<b class="nc"><i>15</i>&nbsp;        return character;</b>
-<i>16</i>&nbsp;    }
-<i>17</i>&nbsp;
-<b class="nc"><i>18</i>&nbsp;    public CLIColor getColor() { return color; }</b>
-<i>19</i>&nbsp;
-<i>20</i>&nbsp;    @Override
-<i>21</i>&nbsp;    public String toString() {
-<b class="nc"><i>22</i>&nbsp;        if (color == null)</b>
-<b class="nc"><i>23</i>&nbsp;            return character + &quot;&quot;;</b>
-<i>24</i>&nbsp;        else
-<b class="nc"><i>25</i>&nbsp;            return color.toString() + character + CLIColor.RESET;</b>
-<i>26</i>&nbsp;    }
-<i>27</i>&nbsp;}
+<i>3</i>&nbsp;/**
+<i>4</i>&nbsp; * A class that offers a way to concatenate a char with a color escape sequence.
+<i>5</i>&nbsp; */
+<i>6</i>&nbsp;public class ColorChar {
+<i>7</i>&nbsp;    private final char character;
+<i>8</i>&nbsp;    private final CLIColor color;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    /**
+<i>11</i>&nbsp;     * Constructor.
+<i>12</i>&nbsp;     * @param c the char you want to add color to
+<i>13</i>&nbsp;     * @param color the color
+<i>14</i>&nbsp;     */
+<b class="nc"><i>15</i>&nbsp;    ColorChar(char c, CLIColor color) {</b>
+<b class="nc"><i>16</i>&nbsp;        this.character = c;</b>
+<b class="nc"><i>17</i>&nbsp;        this.color = color == CLIColor.RESET</b>
+<b class="nc"><i>18</i>&nbsp;                ? null</b>
+<b class="nc"><i>19</i>&nbsp;                : color;</b>
+<b class="nc"><i>20</i>&nbsp;    }</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    public char getChar() {
+<b class="nc"><i>23</i>&nbsp;        return character;</b>
+<i>24</i>&nbsp;    }
+<i>25</i>&nbsp;
+<b class="nc"><i>26</i>&nbsp;    public CLIColor getColor() { return color; }</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**
+<i>29</i>&nbsp;     * @return a string sequence made up of the character if no color is set, and the
+<i>30</i>&nbsp;     * color escape sequence + character + reset color escape sequences if a color is set.
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    @Override
+<i>33</i>&nbsp;    public String toString() {
+<b class="nc"><i>34</i>&nbsp;        if (color == null)</b>
+<b class="nc"><i>35</i>&nbsp;            return character + &quot;&quot;;</b>
+<i>36</i>&nbsp;        else
+<b class="nc"><i>37</i>&nbsp;            return color.toString() + character + CLIColor.RESET;</b>
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

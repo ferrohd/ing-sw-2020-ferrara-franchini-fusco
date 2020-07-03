@@ -79,33 +79,36 @@
 <i>5</i>&nbsp;import javafx.fxml.FXML;
 <i>6</i>&nbsp;import javafx.scene.control.Button;
 <i>7</i>&nbsp;
-<b class="nc"><i>8</i>&nbsp;public class GUILobbySizeSceneController {</b>
-<i>9</i>&nbsp;    @FXML private Button btn2;
-<i>10</i>&nbsp;    @FXML private Button btn3;
-<i>11</i>&nbsp;
-<i>12</i>&nbsp;    @FXML protected void didClickTwoPlayers(ActionEvent event) throws InterruptedException {
-<b class="nc"><i>13</i>&nbsp;        System.out.println(&quot;Set lobby with size 2&quot;);</b>
-<b class="nc"><i>14</i>&nbsp;        disableButtons();</b>
-<b class="nc"><i>15</i>&nbsp;        GUIMain.getQueue().put(2);</b>
-<b class="nc"><i>16</i>&nbsp;    }</b>
-<i>17</i>&nbsp;
-<i>18</i>&nbsp;    @FXML protected void didClickThreePlayers(ActionEvent event) throws InterruptedException {
-<b class="nc"><i>19</i>&nbsp;        System.out.println(&quot;Set lobby with size 3&quot;);</b>
-<b class="nc"><i>20</i>&nbsp;        disableButtons();</b>
-<b class="nc"><i>21</i>&nbsp;        GUIMain.getQueue().put(3);</b>
-<b class="nc"><i>22</i>&nbsp;    }</b>
-<i>23</i>&nbsp;
-<i>24</i>&nbsp;    private void disableButtons() {
-<b class="nc"><i>25</i>&nbsp;        btn2.setDisable(true);</b>
-<b class="nc"><i>26</i>&nbsp;        btn3.setDisable(true);</b>
-<b class="nc"><i>27</i>&nbsp;    }</b>
-<i>28</i>&nbsp;}
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * The controller of {@link it.polimi.ingsw.PSP14.client.view.gui.scenes.GUILobbySizeScene} FXML view.
+<i>10</i>&nbsp; */
+<b class="nc"><i>11</i>&nbsp;public class GUILobbySizeSceneController {</b>
+<i>12</i>&nbsp;    @FXML private Button btn2;
+<i>13</i>&nbsp;    @FXML private Button btn3;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    @FXML protected void didClickTwoPlayers(ActionEvent event) throws InterruptedException {
+<b class="nc"><i>16</i>&nbsp;        System.out.println(&quot;Set lobby with size 2&quot;);</b>
+<b class="nc"><i>17</i>&nbsp;        disableButtons();</b>
+<b class="nc"><i>18</i>&nbsp;        GUIMain.getQueue().put(2);</b>
+<b class="nc"><i>19</i>&nbsp;    }</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    @FXML protected void didClickThreePlayers(ActionEvent event) throws InterruptedException {
+<b class="nc"><i>22</i>&nbsp;        System.out.println(&quot;Set lobby with size 3&quot;);</b>
+<b class="nc"><i>23</i>&nbsp;        disableButtons();</b>
+<b class="nc"><i>24</i>&nbsp;        GUIMain.getQueue().put(3);</b>
+<b class="nc"><i>25</i>&nbsp;    }</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    private void disableButtons() {
+<b class="nc"><i>28</i>&nbsp;        btn2.setDisable(true);</b>
+<b class="nc"><i>29</i>&nbsp;        btn3.setDisable(true);</b>
+<b class="nc"><i>30</i>&nbsp;    }</b>
+<i>31</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

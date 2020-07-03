@@ -81,23 +81,26 @@
 <i>7</i>&nbsp;import java.io.IOException;
 <i>8</i>&nbsp;import java.util.Collection;
 <i>9</i>&nbsp;
-<i>10</i>&nbsp;public class MoveProposalMessage extends ProposalMessage&lt;MoveProposal&gt; {
-<i>11</i>&nbsp;    public MoveProposalMessage(Collection&lt;MoveProposal&gt; p) {
-<b class="nc"><i>12</i>&nbsp;        super(p);</b>
-<b class="nc"><i>13</i>&nbsp;    }</b>
-<i>14</i>&nbsp;
-<i>15</i>&nbsp;    @Override
-<i>16</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
-<b class="nc"><i>17</i>&nbsp;        int choice = ui.chooseMove(getProposals());</b>
-<b class="nc"><i>18</i>&nbsp;        serverConnection.sendMessage(new ChoiceMessage(choice));</b>
-<b class="nc"><i>19</i>&nbsp;    }</b>
-<i>20</i>&nbsp;}
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * Message containing the possible moves a client can perform.
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public class MoveProposalMessage extends ProposalMessage&lt;MoveProposal&gt; {
+<i>14</i>&nbsp;    public MoveProposalMessage(Collection&lt;MoveProposal&gt; p) {
+<b class="nc"><i>15</i>&nbsp;        super(p);</b>
+<b class="nc"><i>16</i>&nbsp;    }</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    @Override
+<i>19</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
+<b class="nc"><i>20</i>&nbsp;        int choice = ui.chooseMove(getProposals());</b>
+<b class="nc"><i>21</i>&nbsp;        serverConnection.sendMessage(new ChoiceMessage(choice));</b>
+<b class="nc"><i>22</i>&nbsp;    }</b>
+<i>23</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

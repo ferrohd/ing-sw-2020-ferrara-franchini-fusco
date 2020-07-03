@@ -79,20 +79,23 @@
 <i>5</i>&nbsp;
 <i>6</i>&nbsp;import java.io.IOException;
 <i>7</i>&nbsp;
-<b class="nc"><i>8</i>&nbsp;public class WorkerInitialPositionMessage implements ClientExecutableMessage {</b>
-<i>9</i>&nbsp;    @Override
-<i>10</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
-<b class="nc"><i>11</i>&nbsp;        int[] coordinates = ui.chooseWorkerInitialPosition();</b>
-<b class="nc"><i>12</i>&nbsp;        serverConnection.sendMessage(new ChoiceMessage(coordinates[0]));</b>
-<b class="nc"><i>13</i>&nbsp;        serverConnection.sendMessage(new ChoiceMessage(coordinates[1]));</b>
-<b class="nc"><i>14</i>&nbsp;    }</b>
-<i>15</i>&nbsp;}
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Message to retrieve the player chosen initial position for their workers.
+<i>10</i>&nbsp; */
+<b class="nc"><i>11</i>&nbsp;public class WorkerInitialPositionMessage implements ClientExecutableMessage {</b>
+<i>12</i>&nbsp;    @Override
+<i>13</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
+<b class="nc"><i>14</i>&nbsp;        int[] coordinates = ui.chooseWorkerInitialPosition();</b>
+<b class="nc"><i>15</i>&nbsp;        serverConnection.sendMessage(new ChoiceMessage(coordinates[0]));</b>
+<b class="nc"><i>16</i>&nbsp;        serverConnection.sendMessage(new ChoiceMessage(coordinates[1]));</b>
+<b class="nc"><i>17</i>&nbsp;    }</b>
+<i>18</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

@@ -79,25 +79,28 @@
 <i>5</i>&nbsp;
 <i>6</i>&nbsp;import java.io.IOException;
 <i>7</i>&nbsp;
-<i>8</i>&nbsp;public class PlayerRegisterMessage implements UIUpdateMessage {
-<i>9</i>&nbsp;    private String username;
-<i>10</i>&nbsp;
-<b class="nc"><i>11</i>&nbsp;    public PlayerRegisterMessage(String username) {</b>
-<b class="nc"><i>12</i>&nbsp;        this.username = username;</b>
-<b class="nc"><i>13</i>&nbsp;    }</b>
-<i>14</i>&nbsp;
-<i>15</i>&nbsp;    @Override
-<i>16</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
-<b class="nc"><i>17</i>&nbsp;        ui.registerPlayer(username);</b>
-<b class="nc"><i>18</i>&nbsp;        ui.update();</b>
-<b class="nc"><i>19</i>&nbsp;    }</b>
-<i>20</i>&nbsp;}
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Message that tells the client to register a new player.
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;public class PlayerRegisterMessage implements UIUpdateMessage {
+<i>12</i>&nbsp;    private final String username;
+<i>13</i>&nbsp;
+<b class="nc"><i>14</i>&nbsp;    public PlayerRegisterMessage(String username) {</b>
+<b class="nc"><i>15</i>&nbsp;        this.username = username;</b>
+<b class="nc"><i>16</i>&nbsp;    }</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    @Override
+<i>19</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
+<b class="nc"><i>20</i>&nbsp;        ui.registerPlayer(username);</b>
+<b class="nc"><i>21</i>&nbsp;        ui.update();</b>
+<b class="nc"><i>22</i>&nbsp;    }</b>
+<i>23</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

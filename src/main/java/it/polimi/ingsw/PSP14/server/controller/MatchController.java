@@ -302,8 +302,8 @@ public class MatchController {
      *
      * @param player  the player who has to respond
      * @param message the text message containing the question
-     * @return a boolean indicating the answer (yes -> true, no -> false)
-     * @throws IOException
+     * @return a boolean indicating the answer (yes = true, no = false)
+     * @throws IOException if there's a connection error
      */
     public boolean askQuestion(String player, String message) throws IOException {
         return connections.get(player).askQuestion(message);

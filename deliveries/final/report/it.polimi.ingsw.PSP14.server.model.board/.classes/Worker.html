@@ -75,40 +75,44 @@
 <div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP14.server.model.board;
 <i>2</i>&nbsp;
 <i>3</i>&nbsp;/**
-<i>4</i>&nbsp; * Model for a worker
+<i>4</i>&nbsp; * Model of a worker.
 <i>5</i>&nbsp; */
 <i>6</i>&nbsp;public class Worker {
 <i>7</i>&nbsp;    private Point pos;
 <i>8</i>&nbsp;
-<b class="fc"><i>9</i>&nbsp;    public Worker(Point pos) {</b>
-<b class="fc"><i>10</i>&nbsp;        this.pos = pos;</b>
-<b class="fc"><i>11</i>&nbsp;    }</b>
-<i>12</i>&nbsp;
-<i>13</i>&nbsp;    /**
-<i>14</i>&nbsp;     * @return the current position
-<i>15</i>&nbsp;     */
-<i>16</i>&nbsp;    public Point getPos() {
-<b class="fc"><i>17</i>&nbsp;        return pos;</b>
-<i>18</i>&nbsp;    }
-<i>19</i>&nbsp;
-<i>20</i>&nbsp;    /**
-<i>21</i>&nbsp;     * @param pos new position to set the worker to
-<i>22</i>&nbsp;     */
-<b class="fc"><i>23</i>&nbsp;    public void setPos(Point pos) { this.pos = pos; }</b>
-<i>24</i>&nbsp;
-<i>25</i>&nbsp;    /**
-<i>26</i>&nbsp;     * @param dir direction where to move the worker
-<i>27</i>&nbsp;     */
-<i>28</i>&nbsp;    public void move(Direction dir) {
-<b class="fc"><i>29</i>&nbsp;        pos = pos.move(dir);</b>
-<b class="fc"><i>30</i>&nbsp;    }</b>
-<i>31</i>&nbsp;}
+<i>9</i>&nbsp;    /**
+<i>10</i>&nbsp;     * Constructs a worker at specified position
+<i>11</i>&nbsp;     * @param pos the position
+<i>12</i>&nbsp;     */
+<b class="fc"><i>13</i>&nbsp;    public Worker(Point pos) {</b>
+<b class="fc"><i>14</i>&nbsp;        this.pos = pos;</b>
+<b class="fc"><i>15</i>&nbsp;    }</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     * @return the current position
+<i>19</i>&nbsp;     */
+<i>20</i>&nbsp;    public Point getPos() {
+<b class="fc"><i>21</i>&nbsp;        return pos;</b>
+<i>22</i>&nbsp;    }
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /**
+<i>25</i>&nbsp;     * @param pos new position to set the worker to
+<i>26</i>&nbsp;     */
+<b class="fc"><i>27</i>&nbsp;    public void setPos(Point pos) { this.pos = pos; }</b>
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * @param dir direction where to move the worker
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    public void move(Direction dir) {
+<b class="fc"><i>33</i>&nbsp;        pos = pos.move(dir);</b>
+<b class="fc"><i>34</i>&nbsp;    }</b>
+<i>35</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

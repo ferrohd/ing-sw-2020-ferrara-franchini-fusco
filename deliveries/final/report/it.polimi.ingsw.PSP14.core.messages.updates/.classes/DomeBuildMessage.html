@@ -80,25 +80,28 @@
 <i>6</i>&nbsp;
 <i>7</i>&nbsp;import java.io.IOException;
 <i>8</i>&nbsp;
-<i>9</i>&nbsp;public class DomeBuildMessage implements UIUpdateMessage {
-<i>10</i>&nbsp;    private Point pos;
-<i>11</i>&nbsp;
-<b class="nc"><i>12</i>&nbsp;    public DomeBuildMessage(Point pos) {</b>
-<b class="nc"><i>13</i>&nbsp;        this.pos = pos;</b>
-<b class="nc"><i>14</i>&nbsp;    }</b>
-<i>15</i>&nbsp;
-<i>16</i>&nbsp;    @Override
-<i>17</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
-<b class="nc"><i>18</i>&nbsp;        ui.setDome(pos);</b>
-<b class="nc"><i>19</i>&nbsp;        ui.update();</b>
-<b class="nc"><i>20</i>&nbsp;    }</b>
-<i>21</i>&nbsp;}
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * Message that tells the client that a dome has been built.
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public class DomeBuildMessage implements UIUpdateMessage {
+<i>13</i>&nbsp;    private Point pos;
+<i>14</i>&nbsp;
+<b class="nc"><i>15</i>&nbsp;    public DomeBuildMessage(Point pos) {</b>
+<b class="nc"><i>16</i>&nbsp;        this.pos = pos;</b>
+<b class="nc"><i>17</i>&nbsp;    }</b>
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    @Override
+<i>20</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
+<b class="nc"><i>21</i>&nbsp;        ui.setDome(pos);</b>
+<b class="nc"><i>22</i>&nbsp;        ui.update();</b>
+<b class="nc"><i>23</i>&nbsp;    }</b>
+<i>24</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

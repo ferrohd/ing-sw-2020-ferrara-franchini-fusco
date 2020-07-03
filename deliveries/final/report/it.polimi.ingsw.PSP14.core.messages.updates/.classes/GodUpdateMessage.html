@@ -79,27 +79,30 @@
 <i>5</i>&nbsp;
 <i>6</i>&nbsp;import java.io.IOException;
 <i>7</i>&nbsp;
-<i>8</i>&nbsp;public class GodUpdateMessage implements UIUpdateMessage {
-<i>9</i>&nbsp;    private String player;
-<i>10</i>&nbsp;    private String god;
-<i>11</i>&nbsp;
-<b class="nc"><i>12</i>&nbsp;    public GodUpdateMessage(String player, String god) {</b>
-<b class="nc"><i>13</i>&nbsp;        this.player = player;</b>
-<b class="nc"><i>14</i>&nbsp;        this.god = god;</b>
-<b class="nc"><i>15</i>&nbsp;    }</b>
-<i>16</i>&nbsp;
-<i>17</i>&nbsp;    @Override
-<i>18</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException {
-<b class="nc"><i>19</i>&nbsp;        ui.showNotification(player + &quot; chose &quot; + god + &quot;!&quot;);</b>
-<b class="nc"><i>20</i>&nbsp;        ui.updateGod(player, god);</b>
-<b class="nc"><i>21</i>&nbsp;    }</b>
-<i>22</i>&nbsp;}
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Message that tells the client that a player has chosen a certain god.
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;public class GodUpdateMessage implements UIUpdateMessage {
+<i>12</i>&nbsp;    private final String player;
+<i>13</i>&nbsp;    private final String god;
+<i>14</i>&nbsp;
+<b class="nc"><i>15</i>&nbsp;    public GodUpdateMessage(String player, String god) {</b>
+<b class="nc"><i>16</i>&nbsp;        this.player = player;</b>
+<b class="nc"><i>17</i>&nbsp;        this.god = god;</b>
+<b class="nc"><i>18</i>&nbsp;    }</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    @Override
+<i>21</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException {
+<b class="nc"><i>22</i>&nbsp;        ui.showNotification(player + &quot; chose &quot; + god + &quot;!&quot;);</b>
+<b class="nc"><i>23</i>&nbsp;        ui.updateGod(player, god);</b>
+<b class="nc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

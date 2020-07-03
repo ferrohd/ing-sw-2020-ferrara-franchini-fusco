@@ -61,7 +61,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 167)
+    (0/ 166)
   </span>
 </td>
 </tr>
@@ -86,372 +86,371 @@
 <i>12</i>&nbsp;import java.util.function.Consumer;
 <i>13</i>&nbsp;import java.util.stream.Collectors;
 <i>14</i>&nbsp;
-<b class="nc"><i>15</i>&nbsp;public class CLI implements UI {</b>
-<i>16</i>&nbsp;
-<b class="nc"><i>17</i>&nbsp;    private final UICache cache = new UICache();</b>
-<b class="nc"><i>18</i>&nbsp;    private final Set&lt;UIColor&gt; assignedColors = new HashSet&lt;&gt;();</b>
-<b class="nc"><i>19</i>&nbsp;    private int playerNumber = 1;</b>
-<b class="nc"><i>20</i>&nbsp;    private final CLIHelper ctx = new CLIHelper(cache);</b>
-<i>21</i>&nbsp;    private String playerUsername;
-<b class="nc"><i>22</i>&nbsp;    private final Scanner in = new Scanner(System.in);</b>
-<i>23</i>&nbsp;
-<i>24</i>&nbsp;    @Override
-<i>25</i>&nbsp;    public void gameStart() throws InterruptedException {
+<i>15</i>&nbsp;/**
+<i>16</i>&nbsp; * A Command Line Interface implementation of the {@link UI}.
+<i>17</i>&nbsp; */
+<b class="nc"><i>18</i>&nbsp;public class CLI implements UI {</b>
+<i>19</i>&nbsp;
+<b class="nc"><i>20</i>&nbsp;    private final UICache cache = new UICache();</b>
+<b class="nc"><i>21</i>&nbsp;    private final Set&lt;UIColor&gt; assignedColors = new HashSet&lt;&gt;();</b>
+<b class="nc"><i>22</i>&nbsp;    private int playerNumber = 1;</b>
+<b class="nc"><i>23</i>&nbsp;    private final CLIHelper ctx = new CLIHelper(cache);</b>
+<i>24</i>&nbsp;    private String playerUsername;
+<b class="nc"><i>25</i>&nbsp;    private final Scanner in = new Scanner(System.in);</b>
 <i>26</i>&nbsp;
-<b class="nc"><i>27</i>&nbsp;    }</b>
-<i>28</i>&nbsp;
-<i>29</i>&nbsp;    @Override
-<i>30</i>&nbsp;    public void startWorkerChoice(String player) throws InterruptedException {
-<b class="nc"><i>31</i>&nbsp;        if(player.equals(playerUsername)) {</b>
-<b class="nc"><i>32</i>&nbsp;            showNotification(&quot;Choose the worker you would like to move&quot;);</b>
-<i>33</i>&nbsp;        } else {
-<b class="nc"><i>34</i>&nbsp;            showNotification(player + &quot; is choosing the worker to move&quot;);</b>
-<i>35</i>&nbsp;        }
-<b class="nc"><i>36</i>&nbsp;    }</b>
-<i>37</i>&nbsp;
-<i>38</i>&nbsp;    @Override
-<i>39</i>&nbsp;    public void startMove(String player) throws InterruptedException {
-<b class="nc"><i>40</i>&nbsp;        if(player.equals(playerUsername)) {</b>
-<b class="nc"><i>41</i>&nbsp;            showNotification(&quot;Choose where to move&quot;);</b>
-<i>42</i>&nbsp;        } else {
-<b class="nc"><i>43</i>&nbsp;            showNotification(player + &quot; is choosing where to move&quot;);</b>
-<i>44</i>&nbsp;        }
-<b class="nc"><i>45</i>&nbsp;    }</b>
-<i>46</i>&nbsp;
-<i>47</i>&nbsp;    @Override
-<i>48</i>&nbsp;    public void startBuild(String player) throws InterruptedException {
-<b class="nc"><i>49</i>&nbsp;        if(player.equals(playerUsername)) {</b>
-<b class="nc"><i>50</i>&nbsp;            showNotification(&quot;Choose where to build&quot;);</b>
-<i>51</i>&nbsp;        } else {
-<b class="nc"><i>52</i>&nbsp;            showNotification(player + &quot; is choosing where to build&quot;);</b>
-<i>53</i>&nbsp;        }
-<b class="nc"><i>54</i>&nbsp;    }</b>
-<i>55</i>&nbsp;
-<i>56</i>&nbsp;    @Override
-<i>57</i>&nbsp;    public void startWorkerPlacement(String player) throws InterruptedException {
-<b class="nc"><i>58</i>&nbsp;        if(player.equals(playerUsername)) {</b>
-<b class="nc"><i>59</i>&nbsp;            showNotification(&quot;Choose where to place your workers&quot;);</b>
-<i>60</i>&nbsp;        } else {
-<b class="nc"><i>61</i>&nbsp;            showNotification(player + &quot; is choosing where to place their workers&quot;);</b>
-<i>62</i>&nbsp;        }
-<b class="nc"><i>63</i>&nbsp;    }</b>
-<i>64</i>&nbsp;
-<i>65</i>&nbsp;    @Override
-<i>66</i>&nbsp;    public void registerPlayer(String newPlayerUsername) {
-<b class="nc"><i>67</i>&nbsp;        UIColor _newPlayerColor = null;</b>
-<i>68</i>&nbsp;        // Prevent duplicate colors
-<b class="nc"><i>69</i>&nbsp;        while (_newPlayerColor == null ||</b>
-<b class="nc"><i>70</i>&nbsp;                assignedColors.contains(_newPlayerColor)) {</b>
-<b class="nc"><i>71</i>&nbsp;            _newPlayerColor = getColor(playerNumber);</b>
-<i>72</i>&nbsp;        }
-<b class="nc"><i>73</i>&nbsp;        assignedColors.add(_newPlayerColor);</b>
-<i>74</i>&nbsp;
-<b class="nc"><i>75</i>&nbsp;        cache.addPlayer(newPlayerUsername, playerNumber++, _newPlayerColor);</b>
-<b class="nc"><i>76</i>&nbsp;    }</b>
+<i>27</i>&nbsp;    @Override
+<i>28</i>&nbsp;    public void gameStart() throws InterruptedException {
+<i>29</i>&nbsp;
+<b class="nc"><i>30</i>&nbsp;    }</b>
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    @Override
+<i>33</i>&nbsp;    public void startWorkerChoice(String player) throws InterruptedException {
+<b class="nc"><i>34</i>&nbsp;        if(player.equals(playerUsername)) {</b>
+<b class="nc"><i>35</i>&nbsp;            showNotification(&quot;Choose the worker you would like to move&quot;);</b>
+<i>36</i>&nbsp;        } else {
+<b class="nc"><i>37</i>&nbsp;            showNotification(player + &quot; is choosing the worker to move&quot;);</b>
+<i>38</i>&nbsp;        }
+<b class="nc"><i>39</i>&nbsp;    }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    @Override
+<i>42</i>&nbsp;    public void startMove(String player) throws InterruptedException {
+<b class="nc"><i>43</i>&nbsp;        if(player.equals(playerUsername)) {</b>
+<b class="nc"><i>44</i>&nbsp;            showNotification(&quot;Choose where to move&quot;);</b>
+<i>45</i>&nbsp;        } else {
+<b class="nc"><i>46</i>&nbsp;            showNotification(player + &quot; is choosing where to move&quot;);</b>
+<i>47</i>&nbsp;        }
+<b class="nc"><i>48</i>&nbsp;    }</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    @Override
+<i>51</i>&nbsp;    public void startBuild(String player) throws InterruptedException {
+<b class="nc"><i>52</i>&nbsp;        if(player.equals(playerUsername)) {</b>
+<b class="nc"><i>53</i>&nbsp;            showNotification(&quot;Choose where to build&quot;);</b>
+<i>54</i>&nbsp;        } else {
+<b class="nc"><i>55</i>&nbsp;            showNotification(player + &quot; is choosing where to build&quot;);</b>
+<i>56</i>&nbsp;        }
+<b class="nc"><i>57</i>&nbsp;    }</b>
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    @Override
+<i>60</i>&nbsp;    public void startWorkerPlacement(String player) throws InterruptedException {
+<b class="nc"><i>61</i>&nbsp;        if(player.equals(playerUsername)) {</b>
+<b class="nc"><i>62</i>&nbsp;            showNotification(&quot;Choose where to place your workers&quot;);</b>
+<i>63</i>&nbsp;        } else {
+<b class="nc"><i>64</i>&nbsp;            showNotification(player + &quot; is choosing where to place their workers&quot;);</b>
+<i>65</i>&nbsp;        }
+<b class="nc"><i>66</i>&nbsp;    }</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    @Override
+<i>69</i>&nbsp;    public void registerPlayer(String newPlayerUsername) {
+<b class="nc"><i>70</i>&nbsp;        UIColor _newPlayerColor = null;</b>
+<i>71</i>&nbsp;        // Prevent duplicate colors
+<b class="nc"><i>72</i>&nbsp;        while (_newPlayerColor == null ||</b>
+<b class="nc"><i>73</i>&nbsp;                assignedColors.contains(_newPlayerColor)) {</b>
+<b class="nc"><i>74</i>&nbsp;            _newPlayerColor = getColor(playerNumber);</b>
+<i>75</i>&nbsp;        }
+<b class="nc"><i>76</i>&nbsp;        assignedColors.add(_newPlayerColor);</b>
 <i>77</i>&nbsp;
-<i>78</i>&nbsp;    @Override
-<i>79</i>&nbsp;    public void unregisterPlayer(String username) {
-<b class="nc"><i>80</i>&nbsp;        cache.removePlayer(username);</b>
-<b class="nc"><i>81</i>&nbsp;    }</b>
-<i>82</i>&nbsp;
-<i>83</i>&nbsp;    @Override
-<i>84</i>&nbsp;    public void setWorker(Point position, int workerId, String playerUsername) {
-<b class="nc"><i>85</i>&nbsp;        UIPlayer _player = cache.getPlayer(playerUsername);</b>
-<b class="nc"><i>86</i>&nbsp;        UIWorker _worker = _player.getWorker(workerId);</b>
-<i>87</i>&nbsp;        // Create a new worker if there isn&#39;t one
-<b class="nc"><i>88</i>&nbsp;        if (_worker == null) {</b>
-<b class="nc"><i>89</i>&nbsp;            _worker = new UIWorker(workerId, _player);</b>
-<i>90</i>&nbsp;        }
-<b class="nc"><i>91</i>&nbsp;        cache.setWorker(_worker, playerUsername, cache.getCell(position));</b>
-<b class="nc"><i>92</i>&nbsp;    }</b>
-<i>93</i>&nbsp;
-<i>94</i>&nbsp;    private void unsetWorker(int workerId, String playerUsername) {
-<b class="nc"><i>95</i>&nbsp;        UIPlayer _player = cache.getPlayer(playerUsername);</b>
-<b class="nc"><i>96</i>&nbsp;        cache.unsetWorker(_player.getWorker(workerId));</b>
-<b class="nc"><i>97</i>&nbsp;    }</b>
-<i>98</i>&nbsp;
-<i>99</i>&nbsp;    @Override
-<i>100</i>&nbsp;    public void moveWorker(Point newPosition, int workerId, String playerUsername) {
-<b class="nc"><i>101</i>&nbsp;        unsetWorker(workerId, playerUsername);</b>
-<b class="nc"><i>102</i>&nbsp;        setWorker(newPosition, workerId, playerUsername);</b>
-<b class="nc"><i>103</i>&nbsp;    }</b>
-<i>104</i>&nbsp;
-<i>105</i>&nbsp;    @Override
-<i>106</i>&nbsp;    public void incrementCell(Point position) {
-<b class="nc"><i>107</i>&nbsp;        cache.getCell(position).incrementTowerHeight();</b>
-<b class="nc"><i>108</i>&nbsp;    }</b>
-<i>109</i>&nbsp;
-<i>110</i>&nbsp;    @Override
-<i>111</i>&nbsp;    public void setDome(Point position) {
-<b class="nc"><i>112</i>&nbsp;        cache.getCell(position).setDome(true);</b>
-<b class="nc"><i>113</i>&nbsp;    }</b>
-<i>114</i>&nbsp;
-<i>115</i>&nbsp;    public UIColor getColor() {
-<b class="nc"><i>116</i>&nbsp;        CLIColor[] colorList = CLIColor.values();</b>
-<i>117</i>&nbsp;        CLIColor toRet;
-<b class="nc"><i>118</i>&nbsp;        while((toRet = colorList[new Random().nextInt(colorList.length)]) == CLIColor.RESET);</b>
-<b class="nc"><i>119</i>&nbsp;        return toRet;</b>
-<i>120</i>&nbsp;    }
-<i>121</i>&nbsp;
-<i>122</i>&nbsp;    private int parseInteger(Consumer&lt;String&gt; callback, int maxValue) {
-<i>123</i>&nbsp;        String _input;
-<b class="nc"><i>124</i>&nbsp;        int _i = 0;</b>
-<i>125</i>&nbsp;        do {
-<b class="nc"><i>126</i>&nbsp;            callback.accept(&quot;&quot;);</b>
-<b class="nc"><i>127</i>&nbsp;            _input = in.nextLine();</b>
-<b class="nc"><i>128</i>&nbsp;            if (_input.matches(&quot;^\\d+$&quot;)) {</b>
-<i>129</i>&nbsp;                try {
-<b class="nc"><i>130</i>&nbsp;                    _i = Integer.parseInt(_input);</b>
-<b class="nc"><i>131</i>&nbsp;                } catch (Exception ignored) {}</b>
-<b class="nc"><i>132</i>&nbsp;                if (_i &gt;= 1 &amp;&amp; _i &lt;= maxValue) break;</b>
-<i>133</i>&nbsp;            }
-<i>134</i>&nbsp;        } while (true);
-<b class="nc"><i>135</i>&nbsp;        return _i - 1;</b>
-<i>136</i>&nbsp;    }
-<i>137</i>&nbsp;
-<i>138</i>&nbsp;    private int parseCoordinates(Consumer&lt;String&gt; callback, List&lt;Point&gt; validCoordinates) throws IOException {
-<i>139</i>&nbsp;        String _input;
-<i>140</i>&nbsp;        do {
-<b class="nc"><i>141</i>&nbsp;            callback.accept(&quot;&quot;);</b>
-<b class="nc"><i>142</i>&nbsp;            _input = in.nextLine();</b>
-<b class="nc"><i>143</i>&nbsp;            if (_input.equals(&quot;help&quot;)) {</b>
-<b class="nc"><i>144</i>&nbsp;                Map&lt;String, UIGod&gt; godList = GodFactory.getInstance().getGodsMap();</b>
-<b class="nc"><i>145</i>&nbsp;                godList.forEach( (name, god) -&gt; { this.drawMessage(god.getName() + &quot;: &quot; + god.getDescription(), CLIColor.RED); } );</b>
-<i>146</i>&nbsp;            }
-<b class="nc"><i>147</i>&nbsp;        } while (!_input.matches(&quot;^[a-e]|[A-E]\\s[0-4]$&quot;));</b>
-<b class="nc"><i>148</i>&nbsp;        String[] _coords = _input.split(&quot; &quot;);</b>
-<b class="nc"><i>149</i>&nbsp;        int _x = _coords[1].charAt(0) - &#39;0&#39;;</b>
-<b class="nc"><i>150</i>&nbsp;        int _y = _coords[0].toLowerCase().charAt(0) - &#39;a&#39;;</b>
-<b class="nc"><i>151</i>&nbsp;        for (int i = 0; i &lt; validCoordinates.size(); i++) {</b>
-<b class="nc"><i>152</i>&nbsp;            Point coord = validCoordinates.get(i);</b>
-<b class="nc"><i>153</i>&nbsp;            if (coord.getX() == _x &amp;&amp; coord.getY() == _y) return i;</b>
-<i>154</i>&nbsp;        }
-<i>155</i>&nbsp;        // ask server to send again the command
-<b class="nc"><i>156</i>&nbsp;        return -1;</b>
-<i>157</i>&nbsp;    }
-<i>158</i>&nbsp;
-<i>159</i>&nbsp;    /**
-<i>160</i>&nbsp;     * Use this to draw a fullscreen message.
-<i>161</i>&nbsp;     * @param text the text to draw
-<i>162</i>&nbsp;     */
-<i>163</i>&nbsp;    private void drawMessage(String text) {
-<b class="nc"><i>164</i>&nbsp;        System.out.println(CLIColor.YELLOW + &quot;&gt; &quot; + text + CLIColor.RESET);</b>
-<b class="nc"><i>165</i>&nbsp;    }</b>
-<i>166</i>&nbsp;    
-<i>167</i>&nbsp;    /**
-<i>168</i>&nbsp;     * Use this to draw a fullscreen message.
-<i>169</i>&nbsp;     * @param text the text to draw
-<i>170</i>&nbsp;     * @param color color of the drawing
-<i>171</i>&nbsp;     */
-<i>172</i>&nbsp;    private void drawMessage(String text, CLIColor color) {
-<b class="nc"><i>173</i>&nbsp;        System.out.println(color + &quot;&gt; &quot; + text + CLIColor.RESET);</b>
-<b class="nc"><i>174</i>&nbsp;    }</b>
-<i>175</i>&nbsp;
-<i>176</i>&nbsp;    @Override
-<i>177</i>&nbsp;    public UIColor getColor(int playerNumber) {
-<i>178</i>&nbsp;        CLIColor _color;
-<b class="nc"><i>179</i>&nbsp;        switch (playerNumber) {</b>
-<i>180</i>&nbsp;            case 1:
-<b class="nc"><i>181</i>&nbsp;                _color = CLIColor.GREEN;</b>
-<b class="nc"><i>182</i>&nbsp;                break;</b>
-<i>183</i>&nbsp;            case 2:
-<b class="nc"><i>184</i>&nbsp;                _color = CLIColor.RED;</b>
-<b class="nc"><i>185</i>&nbsp;                break;</b>
-<i>186</i>&nbsp;            case 3:
-<b class="nc"><i>187</i>&nbsp;                _color = CLIColor.BLUE;</b>
-<b class="nc"><i>188</i>&nbsp;                break;</b>
-<i>189</i>&nbsp;            default:
-<b class="nc"><i>190</i>&nbsp;                _color = CLIColor.CYAN;</b>
-<i>191</i>&nbsp;                break;
-<i>192</i>&nbsp;        }
-<b class="nc"><i>193</i>&nbsp;        return _color;</b>
-<i>194</i>&nbsp;    }
-<i>195</i>&nbsp;
-<i>196</i>&nbsp;    /* UI Methods */
-<i>197</i>&nbsp;    @Override
-<i>198</i>&nbsp;    public void update() {
-<b class="nc"><i>199</i>&nbsp;        ctx.drawBoardAndPlayers();</b>
-<b class="nc"><i>200</i>&nbsp;        ctx.print();</b>
-<b class="nc"><i>201</i>&nbsp;    }</b>
-<i>202</i>&nbsp;
-<i>203</i>&nbsp;    @Override
-<i>204</i>&nbsp;    public void showVictory(String winner) {
-<b class="nc"><i>205</i>&nbsp;        showNotification(winner + &quot; won!&quot;);</b>
-<b class="nc"><i>206</i>&nbsp;    }</b>
-<i>207</i>&nbsp;
-<i>208</i>&nbsp;    @Override
-<i>209</i>&nbsp;    public void welcome() {
-<b class="nc"><i>210</i>&nbsp;        drawMessage(&quot;Welcome to SANTORINI!&quot;);</b>
-<b class="nc"><i>211</i>&nbsp;    }</b>
-<i>212</i>&nbsp;
-<i>213</i>&nbsp;    @Override
-<i>214</i>&nbsp;    public void showNotification(String text) {
-<b class="nc"><i>215</i>&nbsp;        drawMessage(text);</b>
-<b class="nc"><i>216</i>&nbsp;    }</b>
-<i>217</i>&nbsp;
-<i>218</i>&nbsp;    @Override
-<i>219</i>&nbsp;    public int getLobbySize() {
-<i>220</i>&nbsp;        String choice;
-<i>221</i>&nbsp;        do {
-<b class="nc"><i>222</i>&nbsp;            drawMessage(&quot;How many players you want in the match? {2, 3}&quot;);</b>
-<b class="nc"><i>223</i>&nbsp;            choice = in.nextLine();</b>
-<b class="nc"><i>224</i>&nbsp;        } while(!choice.equals(&quot;2&quot;) &amp;&amp; !choice.equals(&quot;3&quot;));</b>
-<i>225</i>&nbsp;
-<b class="nc"><i>226</i>&nbsp;        return Integer.parseInt(choice);</b>
-<i>227</i>&nbsp;    }
-<i>228</i>&nbsp;
-<i>229</i>&nbsp;    @Override
-<i>230</i>&nbsp;    public String askUsername() {
-<i>231</i>&nbsp;        String _username;
-<i>232</i>&nbsp;        do {
-<b class="nc"><i>233</i>&nbsp;            drawMessage(&quot;Insert your username:&quot;);</b>
-<b class="nc"><i>234</i>&nbsp;            _username = in.nextLine();</b>
-<b class="nc"><i>235</i>&nbsp;        } while (_username.length() &lt;= 1);</b>
-<i>236</i>&nbsp;
-<b class="nc"><i>237</i>&nbsp;        this.playerUsername = _username;</b>
-<b class="nc"><i>238</i>&nbsp;        return _username;</b>
-<i>239</i>&nbsp;    }
+<b class="nc"><i>78</i>&nbsp;        cache.addPlayer(newPlayerUsername, playerNumber++, _newPlayerColor);</b>
+<b class="nc"><i>79</i>&nbsp;    }</b>
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    @Override
+<i>82</i>&nbsp;    public void unregisterPlayer(String username) {
+<b class="nc"><i>83</i>&nbsp;        cache.removePlayer(username);</b>
+<b class="nc"><i>84</i>&nbsp;    }</b>
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    @Override
+<i>87</i>&nbsp;    public void setWorker(Point position, int workerId, String playerUsername) {
+<b class="nc"><i>88</i>&nbsp;        UIPlayer _player = cache.getPlayer(playerUsername);</b>
+<b class="nc"><i>89</i>&nbsp;        UIWorker _worker = _player.getWorker(workerId);</b>
+<i>90</i>&nbsp;        // Create a new worker if there isn&#39;t one
+<b class="nc"><i>91</i>&nbsp;        if (_worker == null) {</b>
+<b class="nc"><i>92</i>&nbsp;            _worker = new UIWorker(workerId, _player);</b>
+<i>93</i>&nbsp;        }
+<b class="nc"><i>94</i>&nbsp;        cache.setWorker(_worker, playerUsername, cache.getCell(position));</b>
+<b class="nc"><i>95</i>&nbsp;    }</b>
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;    private void unsetWorker(int workerId, String playerUsername) {
+<b class="nc"><i>98</i>&nbsp;        UIPlayer _player = cache.getPlayer(playerUsername);</b>
+<b class="nc"><i>99</i>&nbsp;        cache.unsetWorker(_player.getWorker(workerId));</b>
+<b class="nc"><i>100</i>&nbsp;    }</b>
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    @Override
+<i>103</i>&nbsp;    public void moveWorker(Point newPosition, int workerId, String playerUsername) {
+<b class="nc"><i>104</i>&nbsp;        unsetWorker(workerId, playerUsername);</b>
+<b class="nc"><i>105</i>&nbsp;        setWorker(newPosition, workerId, playerUsername);</b>
+<b class="nc"><i>106</i>&nbsp;    }</b>
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    @Override
+<i>109</i>&nbsp;    public void incrementCell(Point position) {
+<b class="nc"><i>110</i>&nbsp;        cache.getCell(position).incrementTowerHeight();</b>
+<b class="nc"><i>111</i>&nbsp;    }</b>
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;    @Override
+<i>114</i>&nbsp;    public void setDome(Point position) {
+<b class="nc"><i>115</i>&nbsp;        cache.getCell(position).setDome(true);</b>
+<b class="nc"><i>116</i>&nbsp;    }</b>
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    public UIColor getColor() {
+<b class="nc"><i>119</i>&nbsp;        CLIColor[] colorList = CLIColor.values();</b>
+<i>120</i>&nbsp;        CLIColor toRet;
+<b class="nc"><i>121</i>&nbsp;        while((toRet = colorList[new Random().nextInt(colorList.length)]) == CLIColor.RESET);</b>
+<b class="nc"><i>122</i>&nbsp;        return toRet;</b>
+<i>123</i>&nbsp;    }
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;    private int parseInteger(Consumer&lt;String&gt; callback, int maxValue) {
+<i>126</i>&nbsp;        String _input;
+<b class="nc"><i>127</i>&nbsp;        int _i = 0;</b>
+<i>128</i>&nbsp;        do {
+<b class="nc"><i>129</i>&nbsp;            callback.accept(&quot;&quot;);</b>
+<b class="nc"><i>130</i>&nbsp;            _input = in.nextLine();</b>
+<b class="nc"><i>131</i>&nbsp;            if (_input.matches(&quot;^\\d+$&quot;)) {</b>
+<i>132</i>&nbsp;                try {
+<b class="nc"><i>133</i>&nbsp;                    _i = Integer.parseInt(_input);</b>
+<b class="nc"><i>134</i>&nbsp;                } catch (Exception ignored) {}</b>
+<b class="nc"><i>135</i>&nbsp;                if (_i &gt;= 1 &amp;&amp; _i &lt;= maxValue) break;</b>
+<i>136</i>&nbsp;            }
+<i>137</i>&nbsp;        } while (true);
+<b class="nc"><i>138</i>&nbsp;        return _i - 1;</b>
+<i>139</i>&nbsp;    }
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;    private int parseCoordinates(Consumer&lt;String&gt; callback, List&lt;Point&gt; validCoordinates) throws IOException {
+<i>142</i>&nbsp;        String _input;
+<i>143</i>&nbsp;        do {
+<b class="nc"><i>144</i>&nbsp;            callback.accept(&quot;&quot;);</b>
+<b class="nc"><i>145</i>&nbsp;            _input = in.nextLine();</b>
+<b class="nc"><i>146</i>&nbsp;            if (_input.equals(&quot;help&quot;)) {</b>
+<b class="nc"><i>147</i>&nbsp;                final GodFactory instance = GodFactory.getInstance();</b>
+<b class="nc"><i>148</i>&nbsp;                instance.getGodNames().forEach((name) -&gt;</b>
+<b class="nc"><i>149</i>&nbsp;                        this.drawMessage(name + &quot;: &quot; + instance.getGod(name).getDescription(), CLIColor.RED));</b>
+<i>150</i>&nbsp;            }
+<b class="nc"><i>151</i>&nbsp;        } while (!_input.matches(&quot;^[a-e]|[A-E]\\s[0-4]$&quot;));</b>
+<b class="nc"><i>152</i>&nbsp;        String[] _coords = _input.split(&quot; &quot;);</b>
+<b class="nc"><i>153</i>&nbsp;        int _x = _coords[1].charAt(0) - &#39;0&#39;;</b>
+<b class="nc"><i>154</i>&nbsp;        int _y = _coords[0].toLowerCase().charAt(0) - &#39;a&#39;;</b>
+<b class="nc"><i>155</i>&nbsp;        for (int i = 0; i &lt; validCoordinates.size(); i++) {</b>
+<b class="nc"><i>156</i>&nbsp;            Point coord = validCoordinates.get(i);</b>
+<b class="nc"><i>157</i>&nbsp;            if (coord.getX() == _x &amp;&amp; coord.getY() == _y) return i;</b>
+<i>158</i>&nbsp;        }
+<i>159</i>&nbsp;        // ask server to send again the command
+<b class="nc"><i>160</i>&nbsp;        return -1;</b>
+<i>161</i>&nbsp;    }
+<i>162</i>&nbsp;
+<i>163</i>&nbsp;    /**
+<i>164</i>&nbsp;     * Use this to draw a fullscreen message.
+<i>165</i>&nbsp;     * @param text the text to draw
+<i>166</i>&nbsp;     */
+<i>167</i>&nbsp;    private void drawMessage(String text) {
+<b class="nc"><i>168</i>&nbsp;        System.out.println(CLIColor.YELLOW + &quot;&gt; &quot; + text + CLIColor.RESET);</b>
+<b class="nc"><i>169</i>&nbsp;    }</b>
+<i>170</i>&nbsp;    
+<i>171</i>&nbsp;    /**
+<i>172</i>&nbsp;     * Use this to draw a fullscreen message.
+<i>173</i>&nbsp;     * @param text the text to draw
+<i>174</i>&nbsp;     * @param color color of the drawing
+<i>175</i>&nbsp;     */
+<i>176</i>&nbsp;    private void drawMessage(String text, CLIColor color) {
+<b class="nc"><i>177</i>&nbsp;        System.out.println(color + &quot;&gt; &quot; + text + CLIColor.RESET);</b>
+<b class="nc"><i>178</i>&nbsp;    }</b>
+<i>179</i>&nbsp;
+<i>180</i>&nbsp;    @Override
+<i>181</i>&nbsp;    public UIColor getColor(int playerNumber) {
+<i>182</i>&nbsp;        CLIColor _color;
+<b class="nc"><i>183</i>&nbsp;        switch (playerNumber) {</b>
+<i>184</i>&nbsp;            case 1:
+<b class="nc"><i>185</i>&nbsp;                _color = CLIColor.GREEN;</b>
+<b class="nc"><i>186</i>&nbsp;                break;</b>
+<i>187</i>&nbsp;            case 2:
+<b class="nc"><i>188</i>&nbsp;                _color = CLIColor.RED;</b>
+<b class="nc"><i>189</i>&nbsp;                break;</b>
+<i>190</i>&nbsp;            case 3:
+<b class="nc"><i>191</i>&nbsp;                _color = CLIColor.BLUE;</b>
+<b class="nc"><i>192</i>&nbsp;                break;</b>
+<i>193</i>&nbsp;            default:
+<b class="nc"><i>194</i>&nbsp;                _color = CLIColor.CYAN;</b>
+<i>195</i>&nbsp;                break;
+<i>196</i>&nbsp;        }
+<b class="nc"><i>197</i>&nbsp;        return _color;</b>
+<i>198</i>&nbsp;    }
+<i>199</i>&nbsp;
+<i>200</i>&nbsp;    /* UI Methods */
+<i>201</i>&nbsp;    @Override
+<i>202</i>&nbsp;    public void update() {
+<b class="nc"><i>203</i>&nbsp;        ctx.drawBoardAndPlayers();</b>
+<b class="nc"><i>204</i>&nbsp;        ctx.print();</b>
+<b class="nc"><i>205</i>&nbsp;    }</b>
+<i>206</i>&nbsp;
+<i>207</i>&nbsp;    @Override
+<i>208</i>&nbsp;    public void showVictory(String winner) {
+<b class="nc"><i>209</i>&nbsp;        showNotification(winner + &quot; won!&quot;);</b>
+<b class="nc"><i>210</i>&nbsp;    }</b>
+<i>211</i>&nbsp;
+<i>212</i>&nbsp;    @Override
+<i>213</i>&nbsp;    public void welcome() {
+<b class="nc"><i>214</i>&nbsp;        drawMessage(&quot;Welcome to SANTORINI!&quot;);</b>
+<b class="nc"><i>215</i>&nbsp;    }</b>
+<i>216</i>&nbsp;
+<i>217</i>&nbsp;    @Override
+<i>218</i>&nbsp;    public void showNotification(String text) {
+<b class="nc"><i>219</i>&nbsp;        drawMessage(text);</b>
+<b class="nc"><i>220</i>&nbsp;    }</b>
+<i>221</i>&nbsp;
+<i>222</i>&nbsp;    @Override
+<i>223</i>&nbsp;    public int getLobbySize() {
+<i>224</i>&nbsp;        String choice;
+<i>225</i>&nbsp;        do {
+<b class="nc"><i>226</i>&nbsp;            drawMessage(&quot;How many players you want in the match? {2, 3}&quot;);</b>
+<b class="nc"><i>227</i>&nbsp;            choice = in.nextLine();</b>
+<b class="nc"><i>228</i>&nbsp;        } while(!choice.equals(&quot;2&quot;) &amp;&amp; !choice.equals(&quot;3&quot;));</b>
+<i>229</i>&nbsp;
+<b class="nc"><i>230</i>&nbsp;        return Integer.parseInt(choice);</b>
+<i>231</i>&nbsp;    }
+<i>232</i>&nbsp;
+<i>233</i>&nbsp;    @Override
+<i>234</i>&nbsp;    public String askUsername() {
+<i>235</i>&nbsp;        String _username;
+<i>236</i>&nbsp;        do {
+<b class="nc"><i>237</i>&nbsp;            drawMessage(&quot;Insert your username:&quot;);</b>
+<b class="nc"><i>238</i>&nbsp;            _username = in.nextLine();</b>
+<b class="nc"><i>239</i>&nbsp;        } while (_username.length() &lt;= 1);</b>
 <i>240</i>&nbsp;
-<i>241</i>&nbsp;    @Override
-<i>242</i>&nbsp;    public int chooseFirstPlayer(List&lt;PlayerProposal&gt; proposals) {
-<b class="nc"><i>243</i>&nbsp;        List&lt;String&gt; names = proposals.stream().map(PlayerProposal::getName).collect(Collectors.toList());</b>
-<i>244</i>&nbsp;        // TODO: Add colors?
-<b class="nc"><i>245</i>&nbsp;        return parseInteger((err) -&gt; ctx.drawListFullscreen(err + &quot;Choose the player who goes first:&quot;, names), names.size());</b>
-<i>246</i>&nbsp;    }
-<i>247</i>&nbsp;
-<i>248</i>&nbsp;    @Override
-<i>249</i>&nbsp;    public int chooseGod(List&lt;GodProposal&gt; proposals) {
-<b class="nc"><i>250</i>&nbsp;        List&lt;String&gt; godNames = proposals.stream().map(GodProposal::getName).collect(Collectors.toList());</b>
+<b class="nc"><i>241</i>&nbsp;        this.playerUsername = _username;</b>
+<b class="nc"><i>242</i>&nbsp;        return _username;</b>
+<i>243</i>&nbsp;    }
+<i>244</i>&nbsp;
+<i>245</i>&nbsp;    @Override
+<i>246</i>&nbsp;    public int chooseFirstPlayer(List&lt;PlayerProposal&gt; proposals) {
+<b class="nc"><i>247</i>&nbsp;        List&lt;String&gt; names = proposals.stream().map(PlayerProposal::getName).collect(Collectors.toList());</b>
+<i>248</i>&nbsp;        // TODO: Add colors?
+<b class="nc"><i>249</i>&nbsp;        return parseInteger((err) -&gt; ctx.drawListFullscreen(err + &quot;Choose the player who goes first:&quot;, names), names.size());</b>
+<i>250</i>&nbsp;    }
 <i>251</i>&nbsp;
-<b class="nc"><i>252</i>&nbsp;        return parseInteger((err) -&gt; ctx.drawListFullscreen(err + &quot;Select your god:&quot;, godNames), godNames.size());</b>
-<i>253</i>&nbsp;    }
-<i>254</i>&nbsp;
-<i>255</i>&nbsp;    @Override
-<i>256</i>&nbsp;    public int chooseAvailableGods(List&lt;GodProposal&gt; gods) {
-<b class="nc"><i>257</i>&nbsp;        List&lt;String&gt; godNames = gods.stream().map(GodProposal::getName).collect(Collectors.toList());</b>
+<i>252</i>&nbsp;    @Override
+<i>253</i>&nbsp;    public int chooseGod(List&lt;GodProposal&gt; proposals) {
+<b class="nc"><i>254</i>&nbsp;        List&lt;String&gt; godNames = proposals.stream().map(GodProposal::getName).collect(Collectors.toList());</b>
+<i>255</i>&nbsp;
+<b class="nc"><i>256</i>&nbsp;        return parseInteger((err) -&gt; ctx.drawListFullscreen(err + &quot;Select your god:&quot;, godNames), godNames.size());</b>
+<i>257</i>&nbsp;    }
 <i>258</i>&nbsp;
-<b class="nc"><i>259</i>&nbsp;        return parseInteger((err) -&gt; ctx.drawListFullscreen(err + &quot;Select available gods to pick for the match:&quot;, godNames), godNames.size());</b>
-<i>260</i>&nbsp;    }
-<i>261</i>&nbsp;
-<i>262</i>&nbsp;    @Override
-<i>263</i>&nbsp;    public int[] chooseWorkerInitialPosition() {
-<b class="nc"><i>264</i>&nbsp;        int[] coordinates = new int[2];</b>
-<b class="nc"><i>265</i>&nbsp;        String _msg = &quot;&quot;;</b>
-<i>266</i>&nbsp;        do {
-<b class="nc"><i>267</i>&nbsp;            ctx.drawBoardAndPlayers();</b>
-<b class="nc"><i>268</i>&nbsp;            ctx.print();</b>
-<b class="nc"><i>269</i>&nbsp;            drawMessage(&quot;Select worker initial position: &quot;</b>
-<i>270</i>&nbsp;                    + CLIColor.CYAN
-<i>271</i>&nbsp;                    + &quot;[insert coordinates like \&quot;A 0\&quot;]&quot;
-<i>272</i>&nbsp;                    + &quot;\n&quot; + CLIColor.RED + _msg + CLIColor.RESET);
-<i>273</i>&nbsp;            try {
-<b class="nc"><i>274</i>&nbsp;                String line = in.nextLine().toLowerCase();</b>
-<b class="nc"><i>275</i>&nbsp;                String[] tokens = line.split(&quot; &quot;);</b>
-<b class="nc"><i>276</i>&nbsp;                coordinates[1] = tokens[0].charAt(0) - &#39;a&#39;; // Y (char) goes to coordinates[1]</b>
-<b class="nc"><i>277</i>&nbsp;                coordinates[0] = Integer.parseInt(tokens[1]); // X (number) goes to coordinates[0]</b>
-<b class="nc"><i>278</i>&nbsp;                if (coordinates[0] &gt;= 0 &amp;&amp; coordinates[0] &lt;= 4 // 0 &lt;= X &lt;= 4</b>
-<i>279</i>&nbsp;                        &amp;&amp; coordinates[1] &gt;= 0 &amp;&amp; coordinates[1] &lt;= 4) {
-<b class="nc"><i>280</i>&nbsp;                    break;</b>
-<i>281</i>&nbsp;                } else {
-<b class="nc"><i>282</i>&nbsp;                    _msg = &quot;Coordinates out of range! (Choose between 0 &lt; x|y &lt; 4)&quot;;</b>
-<i>283</i>&nbsp;                }
-<b class="nc"><i>284</i>&nbsp;            } catch (Exception e) {</b>
-<b class="nc"><i>285</i>&nbsp;                _msg = &quot;Invalid Input! Try to insert only two numbers separated by a whitespace.&quot;;</b>
-<b class="nc"><i>286</i>&nbsp;            }</b>
-<b class="nc"><i>287</i>&nbsp;        } while (true);</b>
-<i>288</i>&nbsp;
-<b class="nc"><i>289</i>&nbsp;        return coordinates;</b>
-<i>290</i>&nbsp;    }
-<i>291</i>&nbsp;
-<i>292</i>&nbsp;    @Override
-<i>293</i>&nbsp;    public int chooseWorker(List&lt;Integer&gt; choices) throws IOException {
-<i>294</i>&nbsp;        // Get this player name and get his worker details
-<b class="nc"><i>295</i>&nbsp;        List&lt;UIWorker&gt; _pw = cache.getPlayer(this.playerUsername).getWorkers();</b>
-<b class="nc"><i>296</i>&nbsp;        List&lt;Point&gt; workersPosition = _pw.stream().map(w -&gt; w.getCell().getPoint()).collect(Collectors.toList());</b>
-<b class="nc"><i>297</i>&nbsp;        List&lt;String&gt; _workers = _pw.stream()</b>
-<b class="nc"><i>298</i>&nbsp;                .filter(w -&gt; choices.contains(w.getId()))</b>
-<b class="nc"><i>299</i>&nbsp;                .map(w -&gt; &quot;[&quot; + (char)(w.getCell().getY()+&#39;A&#39;) + &quot; &quot; + w.getCell().getX() + &quot;]&quot;)</b>
-<b class="nc"><i>300</i>&nbsp;                .collect(Collectors.toList());</b>
-<i>301</i>&nbsp;
-<b class="nc"><i>302</i>&nbsp;        ctx.drawBoardAndPlayers();</b>
-<b class="nc"><i>303</i>&nbsp;        ctx.drawPanelChoices(&quot;WORKERS&quot;, _workers);</b>
-<b class="nc"><i>304</i>&nbsp;        ctx.print();</b>
-<b class="nc"><i>305</i>&nbsp;        return parseCoordinates((err) -&gt; drawMessage(err</b>
-<i>306</i>&nbsp;                        + &quot;Choose the worker you want to move: &quot;
-<i>307</i>&nbsp;                        + CLIColor.CYAN
-<i>308</i>&nbsp;                        + &quot;[insert coordinates like \&quot;A 0\&quot;]&quot;),
-<i>309</i>&nbsp;                workersPosition);
-<i>310</i>&nbsp;    }
-<i>311</i>&nbsp;
-<i>312</i>&nbsp;    @Override
-<i>313</i>&nbsp;    public int chooseMove(List&lt;MoveProposal&gt; moves) throws IOException {
-<b class="nc"><i>314</i>&nbsp;        List&lt;String&gt; moveStrings = moves.stream()</b>
-<b class="nc"><i>315</i>&nbsp;                .map(m -&gt; &quot;[&quot; + (char)(m.getPoint().getY() +&#39;A&#39;) + &quot; &quot; + m.getPoint().getX() + &quot;]&quot;)</b>
-<b class="nc"><i>316</i>&nbsp;                .collect(Collectors.toList());</b>
-<b class="nc"><i>317</i>&nbsp;        List&lt;Point&gt; validMoves = moves.stream().map(m -&gt; m.getPoint()).collect(Collectors.toList());</b>
-<i>318</i>&nbsp;
-<b class="nc"><i>319</i>&nbsp;        ctx.drawBoardAndPlayers();</b>
-<b class="nc"><i>320</i>&nbsp;        ctx.drawPanelChoices(&quot;MOVES&quot;, moveStrings);</b>
-<b class="nc"><i>321</i>&nbsp;        ctx.print();</b>
-<b class="nc"><i>322</i>&nbsp;        return parseCoordinates((err) -&gt; drawMessage(err</b>
-<i>323</i>&nbsp;                        + &quot;Choose where to move: &quot;
-<i>324</i>&nbsp;                        + CLIColor.CYAN
-<i>325</i>&nbsp;                        + &quot;[insert coordinates like \&quot;A 0\&quot;]&quot;),
-<i>326</i>&nbsp;                validMoves);
-<i>327</i>&nbsp;    }
-<i>328</i>&nbsp;
-<i>329</i>&nbsp;    @Override
-<i>330</i>&nbsp;    public int chooseBuild(List&lt;BuildProposal&gt; moves) throws IOException {
-<b class="nc"><i>331</i>&nbsp;        List&lt;String&gt; buildStrings = moves.stream()</b>
-<b class="nc"><i>332</i>&nbsp;                .map(m -&gt; &quot;[&quot; + (char)(m.getPoint().getY() +&#39;A&#39;) + &quot; &quot; + m.getPoint().getX() + &quot;]&quot; + (m.hasDome() ? &quot; (dome)&quot; : &quot;&quot;))</b>
-<b class="nc"><i>333</i>&nbsp;                .collect(Collectors.toList());</b>
-<b class="nc"><i>334</i>&nbsp;        List&lt;Point&gt; buildPositions = moves.stream().map(m -&gt; m.getPoint()).collect(Collectors.toList());</b>
-<i>335</i>&nbsp;
-<b class="nc"><i>336</i>&nbsp;        ctx.drawBoardAndPlayers();</b>
-<b class="nc"><i>337</i>&nbsp;        ctx.drawPanelChoices(&quot;BUILDING OPTIONS&quot;, buildStrings);</b>
-<b class="nc"><i>338</i>&nbsp;        ctx.print();</b>
-<b class="nc"><i>339</i>&nbsp;        return parseCoordinates((err) -&gt; drawMessage(err</b>
-<i>340</i>&nbsp;                        + &quot;Choose where to build: &quot;
-<i>341</i>&nbsp;                        + CLIColor.CYAN
-<i>342</i>&nbsp;                        + &quot;[insert coordinates like \&quot;A 0\&quot;]&quot;),
-<i>343</i>&nbsp;                    buildPositions);
-<i>344</i>&nbsp;    }
-<i>345</i>&nbsp;
-<i>346</i>&nbsp;    @Override
-<i>347</i>&nbsp;    public int chooseYesNo(String message) {
-<b class="nc"><i>348</i>&nbsp;        drawMessage(message + CLIColor.CYAN + &quot; [Answer \&quot;Yes\&quot; or \&quot;No\&quot;]&quot;);</b>
-<b class="nc"><i>349</i>&nbsp;        int output = -1;</b>
-<i>350</i>&nbsp;        do {
-<b class="nc"><i>351</i>&nbsp;            String input = in.nextLine();</b>
-<b class="nc"><i>352</i>&nbsp;            String[] tokens = input.toLowerCase().split(&quot; &quot;);</b>
-<b class="nc"><i>353</i>&nbsp;            if (tokens.length &gt;= 1) {</b>
-<b class="nc"><i>354</i>&nbsp;                output = tokens[0].equals(&quot;yes&quot;) || tokens[0].equals(&quot;y&quot;)</b>
-<b class="nc"><i>355</i>&nbsp;                        ? 1</b>
-<b class="nc"><i>356</i>&nbsp;                        : tokens[0].equals(&quot;no&quot;) || tokens[0].equals(&quot;n&quot;)</b>
-<b class="nc"><i>357</i>&nbsp;                        ? 0</b>
-<b class="nc"><i>358</i>&nbsp;                        : -1;</b>
-<i>359</i>&nbsp;            }
-<b class="nc"><i>360</i>&nbsp;        } while (output &lt; 0);</b>
-<i>361</i>&nbsp;
-<b class="nc"><i>362</i>&nbsp;        return output;</b>
-<i>363</i>&nbsp;    }
-<i>364</i>&nbsp;
-<i>365</i>&nbsp;    @Override
-<i>366</i>&nbsp;    public void updateGod(String player, String god) {
-<i>367</i>&nbsp;        // TODO: Should it do something?
-<b class="nc"><i>368</i>&nbsp;    }</b>
-<i>369</i>&nbsp;
-<i>370</i>&nbsp;    // DEBUG:
-<i>371</i>&nbsp;    public void debug_setPlayerUsername(String name) {
-<b class="nc"><i>372</i>&nbsp;        this.playerUsername = name;</b>
-<b class="nc"><i>373</i>&nbsp;    }</b>
-<i>374</i>&nbsp;}
+<i>259</i>&nbsp;    @Override
+<i>260</i>&nbsp;    public int chooseAvailableGods(List&lt;GodProposal&gt; gods) {
+<b class="nc"><i>261</i>&nbsp;        List&lt;String&gt; godNames = gods.stream().map(GodProposal::getName).collect(Collectors.toList());</b>
+<i>262</i>&nbsp;
+<b class="nc"><i>263</i>&nbsp;        return parseInteger((err) -&gt; ctx.drawListFullscreen(err + &quot;Select available gods to pick for the match:&quot;, godNames), godNames.size());</b>
+<i>264</i>&nbsp;    }
+<i>265</i>&nbsp;
+<i>266</i>&nbsp;    @Override
+<i>267</i>&nbsp;    public int[] chooseWorkerInitialPosition() {
+<b class="nc"><i>268</i>&nbsp;        int[] coordinates = new int[2];</b>
+<b class="nc"><i>269</i>&nbsp;        String _msg = &quot;&quot;;</b>
+<i>270</i>&nbsp;        do {
+<b class="nc"><i>271</i>&nbsp;            ctx.drawBoardAndPlayers();</b>
+<b class="nc"><i>272</i>&nbsp;            ctx.print();</b>
+<b class="nc"><i>273</i>&nbsp;            drawMessage(&quot;Select worker initial position: &quot;</b>
+<i>274</i>&nbsp;                    + CLIColor.CYAN
+<i>275</i>&nbsp;                    + &quot;[insert coordinates like \&quot;A 0\&quot;]&quot;
+<i>276</i>&nbsp;                    + &quot;\n&quot; + CLIColor.RED + _msg + CLIColor.RESET);
+<i>277</i>&nbsp;            try {
+<b class="nc"><i>278</i>&nbsp;                String line = in.nextLine().toLowerCase();</b>
+<b class="nc"><i>279</i>&nbsp;                String[] tokens = line.split(&quot; &quot;);</b>
+<b class="nc"><i>280</i>&nbsp;                coordinates[1] = tokens[0].charAt(0) - &#39;a&#39;; // Y (char) goes to coordinates[1]</b>
+<b class="nc"><i>281</i>&nbsp;                coordinates[0] = Integer.parseInt(tokens[1]); // X (number) goes to coordinates[0]</b>
+<b class="nc"><i>282</i>&nbsp;                if (coordinates[0] &gt;= 0 &amp;&amp; coordinates[0] &lt;= 4 // 0 &lt;= X &lt;= 4</b>
+<i>283</i>&nbsp;                        &amp;&amp; coordinates[1] &gt;= 0 &amp;&amp; coordinates[1] &lt;= 4) {
+<b class="nc"><i>284</i>&nbsp;                    break;</b>
+<i>285</i>&nbsp;                } else {
+<b class="nc"><i>286</i>&nbsp;                    _msg = &quot;Coordinates out of range! (Choose between 0 &lt; x|y &lt; 4)&quot;;</b>
+<i>287</i>&nbsp;                }
+<b class="nc"><i>288</i>&nbsp;            } catch (Exception e) {</b>
+<b class="nc"><i>289</i>&nbsp;                _msg = &quot;Invalid Input! Try to insert only two numbers separated by a whitespace.&quot;;</b>
+<b class="nc"><i>290</i>&nbsp;            }</b>
+<b class="nc"><i>291</i>&nbsp;        } while (true);</b>
+<i>292</i>&nbsp;
+<b class="nc"><i>293</i>&nbsp;        return coordinates;</b>
+<i>294</i>&nbsp;    }
+<i>295</i>&nbsp;
+<i>296</i>&nbsp;    @Override
+<i>297</i>&nbsp;    public int chooseWorker(List&lt;Integer&gt; choices) throws IOException {
+<i>298</i>&nbsp;        // Get this player name and get his worker details
+<b class="nc"><i>299</i>&nbsp;        List&lt;UIWorker&gt; _pw = cache.getPlayer(this.playerUsername).getWorkers();</b>
+<b class="nc"><i>300</i>&nbsp;        List&lt;Point&gt; workersPosition = _pw.stream().map(w -&gt; w.getCell().getPoint()).collect(Collectors.toList());</b>
+<b class="nc"><i>301</i>&nbsp;        List&lt;String&gt; _workers = _pw.stream()</b>
+<b class="nc"><i>302</i>&nbsp;                .filter(w -&gt; choices.contains(w.getId()))</b>
+<b class="nc"><i>303</i>&nbsp;                .map(w -&gt; &quot;[&quot; + (char)(w.getCell().getY()+&#39;A&#39;) + &quot; &quot; + w.getCell().getX() + &quot;]&quot;)</b>
+<b class="nc"><i>304</i>&nbsp;                .collect(Collectors.toList());</b>
+<i>305</i>&nbsp;
+<b class="nc"><i>306</i>&nbsp;        ctx.drawBoardAndPlayers();</b>
+<b class="nc"><i>307</i>&nbsp;        ctx.drawPanelChoices(&quot;WORKERS&quot;, _workers);</b>
+<b class="nc"><i>308</i>&nbsp;        ctx.print();</b>
+<b class="nc"><i>309</i>&nbsp;        return parseCoordinates((err) -&gt; drawMessage(err</b>
+<i>310</i>&nbsp;                        + &quot;Choose the worker you want to move: &quot;
+<i>311</i>&nbsp;                        + CLIColor.CYAN
+<i>312</i>&nbsp;                        + &quot;[insert coordinates like \&quot;A 0\&quot;]&quot;),
+<i>313</i>&nbsp;                workersPosition);
+<i>314</i>&nbsp;    }
+<i>315</i>&nbsp;
+<i>316</i>&nbsp;    @Override
+<i>317</i>&nbsp;    public int chooseMove(List&lt;MoveProposal&gt; moves) throws IOException {
+<b class="nc"><i>318</i>&nbsp;        List&lt;String&gt; moveStrings = moves.stream()</b>
+<b class="nc"><i>319</i>&nbsp;                .map(m -&gt; &quot;[&quot; + (char)(m.getPoint().getY() +&#39;A&#39;) + &quot; &quot; + m.getPoint().getX() + &quot;]&quot;)</b>
+<b class="nc"><i>320</i>&nbsp;                .collect(Collectors.toList());</b>
+<b class="nc"><i>321</i>&nbsp;        List&lt;Point&gt; validMoves = moves.stream().map(m -&gt; m.getPoint()).collect(Collectors.toList());</b>
+<i>322</i>&nbsp;
+<b class="nc"><i>323</i>&nbsp;        ctx.drawBoardAndPlayers();</b>
+<b class="nc"><i>324</i>&nbsp;        ctx.drawPanelChoices(&quot;MOVES&quot;, moveStrings);</b>
+<b class="nc"><i>325</i>&nbsp;        ctx.print();</b>
+<b class="nc"><i>326</i>&nbsp;        return parseCoordinates((err) -&gt; drawMessage(err</b>
+<i>327</i>&nbsp;                        + &quot;Choose where to move: &quot;
+<i>328</i>&nbsp;                        + CLIColor.CYAN
+<i>329</i>&nbsp;                        + &quot;[insert coordinates like \&quot;A 0\&quot;]&quot;),
+<i>330</i>&nbsp;                validMoves);
+<i>331</i>&nbsp;    }
+<i>332</i>&nbsp;
+<i>333</i>&nbsp;    @Override
+<i>334</i>&nbsp;    public int chooseBuild(List&lt;BuildProposal&gt; moves) throws IOException {
+<b class="nc"><i>335</i>&nbsp;        List&lt;String&gt; buildStrings = moves.stream()</b>
+<b class="nc"><i>336</i>&nbsp;                .map(m -&gt; &quot;[&quot; + (char)(m.getPoint().getY() +&#39;A&#39;) + &quot; &quot; + m.getPoint().getX() + &quot;]&quot; + (m.hasDome() ? &quot; (dome)&quot; : &quot;&quot;))</b>
+<b class="nc"><i>337</i>&nbsp;                .collect(Collectors.toList());</b>
+<b class="nc"><i>338</i>&nbsp;        List&lt;Point&gt; buildPositions = moves.stream().map(m -&gt; m.getPoint()).collect(Collectors.toList());</b>
+<i>339</i>&nbsp;
+<b class="nc"><i>340</i>&nbsp;        ctx.drawBoardAndPlayers();</b>
+<b class="nc"><i>341</i>&nbsp;        ctx.drawPanelChoices(&quot;BUILDING OPTIONS&quot;, buildStrings);</b>
+<b class="nc"><i>342</i>&nbsp;        ctx.print();</b>
+<b class="nc"><i>343</i>&nbsp;        return parseCoordinates((err) -&gt; drawMessage(err</b>
+<i>344</i>&nbsp;                        + &quot;Choose where to build: &quot;
+<i>345</i>&nbsp;                        + CLIColor.CYAN
+<i>346</i>&nbsp;                        + &quot;[insert coordinates like \&quot;A 0\&quot;]&quot;),
+<i>347</i>&nbsp;                    buildPositions);
+<i>348</i>&nbsp;    }
+<i>349</i>&nbsp;
+<i>350</i>&nbsp;    @Override
+<i>351</i>&nbsp;    public int chooseYesNo(String message) {
+<b class="nc"><i>352</i>&nbsp;        drawMessage(message + CLIColor.CYAN + &quot; [Answer \&quot;Yes\&quot; or \&quot;No\&quot;]&quot;);</b>
+<b class="nc"><i>353</i>&nbsp;        int output = -1;</b>
+<i>354</i>&nbsp;        do {
+<b class="nc"><i>355</i>&nbsp;            String input = in.nextLine();</b>
+<b class="nc"><i>356</i>&nbsp;            String[] tokens = input.toLowerCase().split(&quot; &quot;);</b>
+<b class="nc"><i>357</i>&nbsp;            if (tokens.length &gt;= 1) {</b>
+<b class="nc"><i>358</i>&nbsp;                output = tokens[0].equals(&quot;yes&quot;) || tokens[0].equals(&quot;y&quot;)</b>
+<b class="nc"><i>359</i>&nbsp;                        ? 1</b>
+<b class="nc"><i>360</i>&nbsp;                        : tokens[0].equals(&quot;no&quot;) || tokens[0].equals(&quot;n&quot;)</b>
+<b class="nc"><i>361</i>&nbsp;                        ? 0</b>
+<b class="nc"><i>362</i>&nbsp;                        : -1;</b>
+<i>363</i>&nbsp;            }
+<b class="nc"><i>364</i>&nbsp;        } while (output &lt; 0);</b>
+<i>365</i>&nbsp;
+<b class="nc"><i>366</i>&nbsp;        return output;</b>
+<i>367</i>&nbsp;    }
+<i>368</i>&nbsp;
+<i>369</i>&nbsp;    @Override
+<i>370</i>&nbsp;    public void updateGod(String player, String god) {
+<i>371</i>&nbsp;        // TODO: Should it do something?
+<b class="nc"><i>372</i>&nbsp;    }</b>
+<i>373</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

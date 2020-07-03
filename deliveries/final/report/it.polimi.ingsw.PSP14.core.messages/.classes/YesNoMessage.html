@@ -79,25 +79,29 @@
 <i>5</i>&nbsp;
 <i>6</i>&nbsp;import java.io.IOException;
 <i>7</i>&nbsp;
-<i>8</i>&nbsp;public class YesNoMessage implements ClientExecutableMessage {
-<i>9</i>&nbsp;    private String question;
-<i>10</i>&nbsp;
-<b class="nc"><i>11</i>&nbsp;    public YesNoMessage(String question) {</b>
-<b class="nc"><i>12</i>&nbsp;        this.question = question;</b>
-<b class="nc"><i>13</i>&nbsp;    }</b>
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Message of a terribly named class that returns a player&#39;s choice as a
+<i>10</i>&nbsp; * boolean value to the server.
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public class YesNoMessage implements ClientExecutableMessage {
+<i>13</i>&nbsp;    private final String question;
 <i>14</i>&nbsp;
-<i>15</i>&nbsp;    @Override
-<i>16</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
-<b class="nc"><i>17</i>&nbsp;        Message message = new ChoiceMessage(ui.chooseYesNo(question));</b>
-<b class="nc"><i>18</i>&nbsp;        serverConnection.sendMessage(message);</b>
-<b class="nc"><i>19</i>&nbsp;    }</b>
-<i>20</i>&nbsp;}
+<b class="nc"><i>15</i>&nbsp;    public YesNoMessage(String question) {</b>
+<b class="nc"><i>16</i>&nbsp;        this.question = question;</b>
+<b class="nc"><i>17</i>&nbsp;    }</b>
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    @Override
+<i>20</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
+<b class="nc"><i>21</i>&nbsp;        Message message = new ChoiceMessage(ui.chooseYesNo(question));</b>
+<b class="nc"><i>22</i>&nbsp;        serverConnection.sendMessage(message);</b>
+<b class="nc"><i>23</i>&nbsp;    }</b>
+<i>24</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

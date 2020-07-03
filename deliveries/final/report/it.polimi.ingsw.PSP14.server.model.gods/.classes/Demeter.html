@@ -87,33 +87,36 @@
 <i>13</i>&nbsp; * Your Worker may build one additional time, but not on the same space.
 <i>14</i>&nbsp; */
 <i>15</i>&nbsp;public class Demeter extends God {
-<i>16</i>&nbsp;    public Demeter(String owner) {
-<b class="fc"><i>17</i>&nbsp;        super(owner);</b>
-<b class="fc"><i>18</i>&nbsp;    }</b>
-<i>19</i>&nbsp;
-<i>20</i>&nbsp;    @Override
-<i>21</i>&nbsp;    public void afterBuild(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
-<b class="fc"><i>22</i>&nbsp;        if(!player.equals(getOwner())) return;</b>
-<i>23</i>&nbsp;
-<b class="fc"><i>24</i>&nbsp;        List&lt;BuildAction&gt; builds = model.getBuildable(player, workerIndex);</b>
-<b class="fc"><i>25</i>&nbsp;        BuildAction lastBuild = (BuildAction) model.getLastAction();</b>
-<b class="fc"><i>26</i>&nbsp;        builds = builds.stream().filter(m -&gt; !m.getPoint().equals(lastBuild.getPoint())).collect(Collectors.toList());</b>
-<i>27</i>&nbsp;
-<b class="fc"><i>28</i>&nbsp;        if(builds.size() &gt; 0) {</b>
-<b class="fc"><i>29</i>&nbsp;            boolean choice = controller.askQuestion(player, &quot;DEMETER: By my blessing, will you build again?&quot;);</b>
-<b class="fc"><i>30</i>&nbsp;            if (choice) {</b>
-<b class="fc"><i>31</i>&nbsp;                BuildAction action = controller.askBuild(player, builds);</b>
-<b class="fc"><i>32</i>&nbsp;                model.executeAction(action);</b>
-<i>33</i>&nbsp;            }
-<i>34</i>&nbsp;        }
-<b class="fc"><i>35</i>&nbsp;    }</b>
-<i>36</i>&nbsp;}
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    public static final String MESSAGE = &quot;DEMETER: By my blessing, will you build again?&quot;;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    public Demeter(String owner) {
+<b class="fc"><i>20</i>&nbsp;        super(owner);</b>
+<b class="fc"><i>21</i>&nbsp;    }</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @Override
+<i>24</i>&nbsp;    public void afterBuild(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
+<b class="fc"><i>25</i>&nbsp;        if(!player.equals(getOwner())) return;</b>
+<i>26</i>&nbsp;
+<b class="fc"><i>27</i>&nbsp;        List&lt;BuildAction&gt; builds = model.getBuildable(player, workerIndex);</b>
+<b class="fc"><i>28</i>&nbsp;        BuildAction lastBuild = (BuildAction) model.getLastAction();</b>
+<b class="fc"><i>29</i>&nbsp;        builds = builds.stream().filter(m -&gt; !m.getPoint().equals(lastBuild.getPoint())).collect(Collectors.toList());</b>
+<i>30</i>&nbsp;
+<b class="fc"><i>31</i>&nbsp;        if(builds.size() &gt; 0) {</b>
+<b class="fc"><i>32</i>&nbsp;            boolean choice = controller.askQuestion(player, MESSAGE);</b>
+<b class="fc"><i>33</i>&nbsp;            if (choice) {</b>
+<b class="fc"><i>34</i>&nbsp;                BuildAction action = controller.askBuild(player, builds);</b>
+<b class="fc"><i>35</i>&nbsp;                model.executeAction(action);</b>
+<i>36</i>&nbsp;            }
+<i>37</i>&nbsp;        }
+<b class="fc"><i>38</i>&nbsp;    }</b>
+<i>39</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

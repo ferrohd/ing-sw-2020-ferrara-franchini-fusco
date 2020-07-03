@@ -42,26 +42,26 @@
   <td class="name">MoveProposal</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/ 1)
+    (1/ 1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/ 2)
+    (2/ 2)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/ 4)
+    (4/ 4)
   </span>
 </td>
 </tr>
@@ -80,14 +80,14 @@
 <i>6</i>&nbsp; * Proposal representing a possible move.
 <i>7</i>&nbsp; */
 <i>8</i>&nbsp;public class MoveProposal implements Proposal {
-<i>9</i>&nbsp;    private Point point;
+<i>9</i>&nbsp;    private final Point point;
 <i>10</i>&nbsp;
-<b class="nc"><i>11</i>&nbsp;    public MoveProposal(Point point) {</b>
-<b class="nc"><i>12</i>&nbsp;        this.point = point;</b>
-<b class="nc"><i>13</i>&nbsp;    }</b>
+<b class="fc"><i>11</i>&nbsp;    public MoveProposal(Point point) {</b>
+<b class="fc"><i>12</i>&nbsp;        this.point = point;</b>
+<b class="fc"><i>13</i>&nbsp;    }</b>
 <i>14</i>&nbsp;
 <i>15</i>&nbsp;    public Point getPoint() {
-<b class="nc"><i>16</i>&nbsp;        return point;</b>
+<b class="fc"><i>16</i>&nbsp;        return point;</b>
 <i>17</i>&nbsp;    }
 <i>18</i>&nbsp;}
 </div>
@@ -95,7 +95,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

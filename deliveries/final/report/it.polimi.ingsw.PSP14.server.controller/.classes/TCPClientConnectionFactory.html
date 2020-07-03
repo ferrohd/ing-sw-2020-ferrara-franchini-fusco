@@ -91,40 +91,47 @@
 <b class="nc"><i>17</i>&nbsp;        serverSocket = new ServerSocket(port);</b>
 <b class="nc"><i>18</i>&nbsp;    }</b>
 <i>19</i>&nbsp;
-<i>20</i>&nbsp;    public void run() {
-<i>21</i>&nbsp;        while(true) {
-<i>22</i>&nbsp;            Socket newConnectionSocket;
-<i>23</i>&nbsp;            try {
-<b class="nc"><i>24</i>&nbsp;                newConnectionSocket = serverSocket.accept();</b>
-<b class="nc"><i>25</i>&nbsp;                System.out.println(&quot;New client connected!&quot;);</b>
-<b class="nc"><i>26</i>&nbsp;            } catch(IOException e) {</b>
-<b class="nc"><i>27</i>&nbsp;                continue;</b>
-<b class="nc"><i>28</i>&nbsp;            }</b>
+<i>20</i>&nbsp;    /**
+<i>21</i>&nbsp;     * Main method of the class.
+<i>22</i>&nbsp;     * it continuously checks for incoming connection requests. If a connection succeeds it wraps
+<i>23</i>&nbsp;     * the client socket in a TCPClientConnection object and puts it in an internal queue to be
+<i>24</i>&nbsp;     * retrieved later with getClientConnection.
+<i>25</i>&nbsp;     */
+<i>26</i>&nbsp;    public void run() {
+<i>27</i>&nbsp;        while(true) {
+<i>28</i>&nbsp;            Socket newConnectionSocket;
 <i>29</i>&nbsp;            try {
-<b class="nc"><i>30</i>&nbsp;                ClientConnection newConnection = new TCPClientConnection(newConnectionSocket);</b>
-<b class="nc"><i>31</i>&nbsp;                clientQueue.put(newConnection);</b>
-<b class="nc"><i>32</i>&nbsp;            } catch(InterruptedException | IOException e) {</b>
-<b class="nc"><i>33</i>&nbsp;                e.printStackTrace();</b>
-<b class="nc"><i>34</i>&nbsp;                System.exit(-1);</b>
-<b class="nc"><i>35</i>&nbsp;            }</b>
-<b class="nc"><i>36</i>&nbsp;        }</b>
-<i>37</i>&nbsp;    }
-<i>38</i>&nbsp;
-<i>39</i>&nbsp;    public ClientConnection getClientConnection() throws InterruptedException {
-<b class="nc"><i>40</i>&nbsp;        return clientQueue.take();</b>
-<i>41</i>&nbsp;    }
-<i>42</i>&nbsp;
-<i>43</i>&nbsp;    @Override
-<i>44</i>&nbsp;    public void addClientConnection(ClientConnection clientConnection) {
-<b class="nc"><i>45</i>&nbsp;        clientQueue.add(clientConnection);</b>
-<b class="nc"><i>46</i>&nbsp;    }</b>
-<i>47</i>&nbsp;}
+<b class="nc"><i>30</i>&nbsp;                newConnectionSocket = serverSocket.accept();</b>
+<b class="nc"><i>31</i>&nbsp;                System.out.println(&quot;New client connected!&quot;);</b>
+<b class="nc"><i>32</i>&nbsp;            } catch(IOException e) {</b>
+<b class="nc"><i>33</i>&nbsp;                continue;</b>
+<b class="nc"><i>34</i>&nbsp;            }</b>
+<i>35</i>&nbsp;            try {
+<b class="nc"><i>36</i>&nbsp;                ClientConnection newConnection = new TCPClientConnection(newConnectionSocket);</b>
+<b class="nc"><i>37</i>&nbsp;                clientQueue.put(newConnection);</b>
+<b class="nc"><i>38</i>&nbsp;            } catch(InterruptedException | IOException e) {</b>
+<b class="nc"><i>39</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>40</i>&nbsp;                System.exit(-1);</b>
+<b class="nc"><i>41</i>&nbsp;            }</b>
+<b class="nc"><i>42</i>&nbsp;        }</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    @Override
+<i>46</i>&nbsp;    public ClientConnection getClientConnection() throws InterruptedException {
+<b class="nc"><i>47</i>&nbsp;        return clientQueue.take();</b>
+<i>48</i>&nbsp;    }
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    @Override
+<i>51</i>&nbsp;    public void addClientConnection(ClientConnection clientConnection) {
+<b class="nc"><i>52</i>&nbsp;        clientQueue.add(clientConnection);</b>
+<b class="nc"><i>53</i>&nbsp;    }</b>
+<i>54</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

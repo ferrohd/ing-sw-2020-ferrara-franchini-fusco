@@ -79,25 +79,28 @@
 <i>5</i>&nbsp;
 <i>6</i>&nbsp;import java.io.IOException;
 <i>7</i>&nbsp;
-<i>8</i>&nbsp;public class GameEndMessage implements ClientExecutableMessage {
-<i>9</i>&nbsp;    private String winner;
-<i>10</i>&nbsp;
-<b class="nc"><i>11</i>&nbsp;    public GameEndMessage(String winner) {</b>
-<b class="nc"><i>12</i>&nbsp;        this.winner = winner;</b>
-<b class="nc"><i>13</i>&nbsp;    }</b>
-<i>14</i>&nbsp;
-<i>15</i>&nbsp;    @Override
-<i>16</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
-<b class="nc"><i>17</i>&nbsp;        ui.showVictory(winner);</b>
-<b class="nc"><i>18</i>&nbsp;        System.exit(0);</b>
-<b class="nc"><i>19</i>&nbsp;    }</b>
-<i>20</i>&nbsp;}
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Message that notifies the players that the game has ended, and announcing the winner.
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;public class GameEndMessage implements ClientExecutableMessage {
+<i>12</i>&nbsp;    private final String winner;
+<i>13</i>&nbsp;
+<b class="nc"><i>14</i>&nbsp;    public GameEndMessage(String winner) {</b>
+<b class="nc"><i>15</i>&nbsp;        this.winner = winner;</b>
+<b class="nc"><i>16</i>&nbsp;    }</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    @Override
+<i>19</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
+<b class="nc"><i>20</i>&nbsp;        ui.showVictory(winner);</b>
+<b class="nc"><i>21</i>&nbsp;        System.exit(0);</b>
+<b class="nc"><i>22</i>&nbsp;    }</b>
+<i>23</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

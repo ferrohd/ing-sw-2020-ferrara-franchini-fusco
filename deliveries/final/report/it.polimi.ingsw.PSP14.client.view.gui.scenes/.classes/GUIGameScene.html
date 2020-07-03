@@ -61,7 +61,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 95)
+    (0/ 96)
   </span>
 </td>
 </tr>
@@ -100,186 +100,189 @@
 <i>26</i>&nbsp;
 <i>27</i>&nbsp;import static com.sun.javafx.util.Utils.clamp;
 <i>28</i>&nbsp;
-<b class="nc"><i>29</i>&nbsp;public class GUIGameScene implements Runnable {</b>
-<i>30</i>&nbsp;
-<i>31</i>&nbsp;    private static final int VIEWPORT_X = 800;
-<i>32</i>&nbsp;    private static final int VIEWPORT_Y = 600;
-<b class="nc"><i>33</i>&nbsp;    private final double CAMERA_ANGLE_MIN = -20;</b>
-<b class="nc"><i>34</i>&nbsp;    private final double CAMERA_ANGLE_MAX = -90;</b>
-<b class="nc"><i>35</i>&nbsp;    private final double MOUSE_SPEED = 0.2;</b>
-<b class="nc"><i>36</i>&nbsp;    private final double ZOOM_MIN = -20;</b>
-<b class="nc"><i>37</i>&nbsp;    private final double ZOOM_MAX = -60;</b>
-<b class="nc"><i>38</i>&nbsp;    private final double ZOOM_TIME = 200;</b>
-<i>39</i>&nbsp;
-<b class="nc"><i>40</i>&nbsp;    private Rotate xRotate, yRotate = null;</b>
-<b class="nc"><i>41</i>&nbsp;    private Translate zoom = null;</b>
+<i>29</i>&nbsp;/**
+<i>30</i>&nbsp; * A view representing the board, player info, gods info. This is where the game takes place.
+<i>31</i>&nbsp; */
+<b class="nc"><i>32</i>&nbsp;public class GUIGameScene implements Runnable {</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    private static final int VIEWPORT_X = 800;
+<i>35</i>&nbsp;    private static final int VIEWPORT_Y = 600;
+<b class="nc"><i>36</i>&nbsp;    private final double CAMERA_ANGLE_MIN = -20;</b>
+<b class="nc"><i>37</i>&nbsp;    private final double CAMERA_ANGLE_MAX = -90;</b>
+<b class="nc"><i>38</i>&nbsp;    private final double MOUSE_SPEED = 0.2;</b>
+<b class="nc"><i>39</i>&nbsp;    private final double ZOOM_MIN = -20;</b>
+<b class="nc"><i>40</i>&nbsp;    private final double ZOOM_MAX = -60;</b>
+<b class="nc"><i>41</i>&nbsp;    private final double ZOOM_TIME = 200;</b>
 <i>42</i>&nbsp;
-<b class="nc"><i>43</i>&nbsp;    SimpleBooleanProperty isDragging = new SimpleBooleanProperty(false);</b>
-<b class="nc"><i>44</i>&nbsp;    SimpleDoubleProperty lastMouseX = new SimpleDoubleProperty(VIEWPORT_X * 0.5);</b>
-<b class="nc"><i>45</i>&nbsp;    SimpleDoubleProperty lastMouseY = new SimpleDoubleProperty(VIEWPORT_Y * 0.5);</b>
-<b class="nc"><i>46</i>&nbsp;    SimpleBooleanProperty isSelectingCell = new SimpleBooleanProperty(false);</b>
-<b class="nc"><i>47</i>&nbsp;    SimpleIntegerProperty playerId = new SimpleIntegerProperty(0);</b>
-<i>48</i>&nbsp;
-<i>49</i>&nbsp;    public void setIsDragging(boolean isDragging) {
-<b class="nc"><i>50</i>&nbsp;        this.isDragging.set(isDragging);</b>
-<b class="nc"><i>51</i>&nbsp;    }</b>
-<i>52</i>&nbsp;
-<i>53</i>&nbsp;    public void setLastMouseX(double lastMouseX) {
-<b class="nc"><i>54</i>&nbsp;        this.lastMouseX.set(lastMouseX);</b>
-<b class="nc"><i>55</i>&nbsp;    }</b>
-<i>56</i>&nbsp;
-<i>57</i>&nbsp;    public void setLastMouseY(double lastMouseY) {
-<b class="nc"><i>58</i>&nbsp;        this.lastMouseY.set(lastMouseY);</b>
-<b class="nc"><i>59</i>&nbsp;    }</b>
-<i>60</i>&nbsp;
-<i>61</i>&nbsp;    public void setIsSelectingCell(boolean isSelectingCell) {
-<b class="nc"><i>62</i>&nbsp;        this.isSelectingCell.set(isSelectingCell);</b>
-<b class="nc"><i>63</i>&nbsp;    }</b>
-<i>64</i>&nbsp;
-<i>65</i>&nbsp;    public void setPlayerId(int playerId) {
-<b class="nc"><i>66</i>&nbsp;        this.playerId.set(playerId);</b>
-<b class="nc"><i>67</i>&nbsp;    }</b>
-<i>68</i>&nbsp;
-<i>69</i>&nbsp;    private GameSceneModel model;
-<i>70</i>&nbsp;    private GameInfoPanelModel infoPanelModel;
+<b class="nc"><i>43</i>&nbsp;    private Rotate xRotate, yRotate = null;</b>
+<b class="nc"><i>44</i>&nbsp;    private Translate zoom = null;</b>
+<i>45</i>&nbsp;
+<b class="nc"><i>46</i>&nbsp;    SimpleBooleanProperty isDragging = new SimpleBooleanProperty(false);</b>
+<b class="nc"><i>47</i>&nbsp;    SimpleDoubleProperty lastMouseX = new SimpleDoubleProperty(VIEWPORT_X * 0.5);</b>
+<b class="nc"><i>48</i>&nbsp;    SimpleDoubleProperty lastMouseY = new SimpleDoubleProperty(VIEWPORT_Y * 0.5);</b>
+<b class="nc"><i>49</i>&nbsp;    SimpleBooleanProperty isSelectingCell = new SimpleBooleanProperty(false);</b>
+<b class="nc"><i>50</i>&nbsp;    SimpleIntegerProperty playerId = new SimpleIntegerProperty(0);</b>
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    public void setIsDragging(boolean isDragging) {
+<b class="nc"><i>53</i>&nbsp;        this.isDragging.set(isDragging);</b>
+<b class="nc"><i>54</i>&nbsp;    }</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    public void setLastMouseX(double lastMouseX) {
+<b class="nc"><i>57</i>&nbsp;        this.lastMouseX.set(lastMouseX);</b>
+<b class="nc"><i>58</i>&nbsp;    }</b>
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    public void setLastMouseY(double lastMouseY) {
+<b class="nc"><i>61</i>&nbsp;        this.lastMouseY.set(lastMouseY);</b>
+<b class="nc"><i>62</i>&nbsp;    }</b>
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    public void setIsSelectingCell(boolean isSelectingCell) {
+<b class="nc"><i>65</i>&nbsp;        this.isSelectingCell.set(isSelectingCell);</b>
+<b class="nc"><i>66</i>&nbsp;    }</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    public void setPlayerId(int playerId) {
+<b class="nc"><i>69</i>&nbsp;        this.playerId.set(playerId);</b>
+<b class="nc"><i>70</i>&nbsp;    }</b>
 <i>71</i>&nbsp;
-<i>72</i>&nbsp;    @Override
-<i>73</i>&nbsp;    public void run() {
-<b class="nc"><i>74</i>&nbsp;        model = new GameSceneModel();</b>
-<b class="nc"><i>75</i>&nbsp;        infoPanelModel = new GameInfoPanelModel();</b>
-<i>76</i>&nbsp;
-<i>77</i>&nbsp;        // Re-enable resize
-<b class="nc"><i>78</i>&nbsp;        GUIMain.getStage().setResizable(true);</b>
+<i>72</i>&nbsp;    private GameSceneModel model;
+<i>73</i>&nbsp;    private GameInfoPanelModel infoPanelModel;
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    @Override
+<i>76</i>&nbsp;    public void run() {
+<b class="nc"><i>77</i>&nbsp;        model = new GameSceneModel();</b>
+<b class="nc"><i>78</i>&nbsp;        infoPanelModel = new GameInfoPanelModel();</b>
 <i>79</i>&nbsp;
-<i>80</i>&nbsp;        // Create container for 3D scene and HUD
-<b class="nc"><i>81</i>&nbsp;        BorderPane main = new BorderPane();</b>
-<i>82</i>&nbsp;        //hBox.setAlignment(Pos.BOTTOM_LEFT);
-<i>83</i>&nbsp;
-<i>84</i>&nbsp;        // Create a scene object
-<b class="nc"><i>85</i>&nbsp;        SubScene scene = new SubScene(model.getRoot(), VIEWPORT_X, VIEWPORT_Y, true, SceneAntialiasing.BALANCED);</b>
-<b class="nc"><i>86</i>&nbsp;        Pane sceneContainer = new Pane(scene);</b>
-<b class="nc"><i>87</i>&nbsp;        scene.widthProperty().bind(sceneContainer.widthProperty());</b>
-<b class="nc"><i>88</i>&nbsp;        scene.heightProperty().bind(sceneContainer.heightProperty());</b>
-<i>89</i>&nbsp;
-<i>90</i>&nbsp;        // Create an info panel (infoPanel)
-<b class="nc"><i>91</i>&nbsp;        VBox infoPanel = infoPanelModel.getRoot();</b>
+<i>80</i>&nbsp;        // Re-enable resize
+<b class="nc"><i>81</i>&nbsp;        GUIMain.getStage().setResizable(true);</b>
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;        // Create container for 3D scene and HUD
+<b class="nc"><i>84</i>&nbsp;        BorderPane main = new BorderPane();</b>
+<i>85</i>&nbsp;        //hBox.setAlignment(Pos.BOTTOM_LEFT);
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;        // Create a scene object
+<b class="nc"><i>88</i>&nbsp;        SubScene scene = new SubScene(model.getRoot(), VIEWPORT_X, VIEWPORT_Y, true, SceneAntialiasing.BALANCED);</b>
+<b class="nc"><i>89</i>&nbsp;        Pane sceneContainer = new Pane(scene);</b>
+<b class="nc"><i>90</i>&nbsp;        scene.widthProperty().bind(sceneContainer.widthProperty());</b>
+<b class="nc"><i>91</i>&nbsp;        scene.heightProperty().bind(sceneContainer.heightProperty());</b>
 <i>92</i>&nbsp;
-<b class="nc"><i>93</i>&nbsp;        main.setLeft(infoPanel);</b>
-<b class="nc"><i>94</i>&nbsp;        main.setCenter(sceneContainer);</b>
+<i>93</i>&nbsp;        // Create an info panel (infoPanel)
+<b class="nc"><i>94</i>&nbsp;        VBox infoPanel = infoPanelModel.getRoot();</b>
 <i>95</i>&nbsp;
-<b class="nc"><i>96</i>&nbsp;        scene.heightProperty().bind(sceneContainer.heightProperty());</b>
-<b class="nc"><i>97</i>&nbsp;        scene.widthProperty().bind(sceneContainer.widthProperty());</b>
+<b class="nc"><i>96</i>&nbsp;        main.setLeft(infoPanel);</b>
+<b class="nc"><i>97</i>&nbsp;        main.setCenter(sceneContainer);</b>
 <i>98</i>&nbsp;
-<b class="nc"><i>99</i>&nbsp;        GUIMain.getMainPane().setContent(main);</b>
-<b class="nc"><i>100</i>&nbsp;        GUIMain.getStage().setHeight(VIEWPORT_Y);</b>
-<b class="nc"><i>101</i>&nbsp;        GUIMain.getStage().setWidth(VIEWPORT_X + infoPanel.getWidth());</b>
-<i>102</i>&nbsp;
-<i>103</i>&nbsp;        // Set background
-<b class="nc"><i>104</i>&nbsp;        scene.setFill(Paint.valueOf(&quot;#21c8de&quot;));</b>
+<b class="nc"><i>99</i>&nbsp;        scene.heightProperty().bind(sceneContainer.heightProperty());</b>
+<b class="nc"><i>100</i>&nbsp;        scene.widthProperty().bind(sceneContainer.widthProperty());</b>
+<i>101</i>&nbsp;
+<b class="nc"><i>102</i>&nbsp;        GUIMain.getMainPane().setContent(main);</b>
+<b class="nc"><i>103</i>&nbsp;        GUIMain.getStage().setHeight(VIEWPORT_Y);</b>
+<b class="nc"><i>104</i>&nbsp;        GUIMain.getStage().setWidth(VIEWPORT_X + infoPanel.getWidth());</b>
 <i>105</i>&nbsp;
-<i>106</i>&nbsp;        // Create a camera with its transforms.
-<b class="nc"><i>107</i>&nbsp;        Translate pivot = new Translate(0, 0, 0);</b>
-<b class="nc"><i>108</i>&nbsp;        xRotate = new Rotate(-30, Rotate.X_AXIS);</b>
-<b class="nc"><i>109</i>&nbsp;        yRotate = new Rotate(0, Rotate.Y_AXIS);</b>
-<b class="nc"><i>110</i>&nbsp;        zoom = new Translate(0, 0, -50);</b>
-<b class="nc"><i>111</i>&nbsp;        Camera pCamera = new PerspectiveCamera(true);</b>
-<i>112</i>&nbsp;
-<i>113</i>&nbsp;        // We change the pivot of the camera object
-<b class="nc"><i>114</i>&nbsp;        pCamera.getTransforms().addAll (</b>
-<i>115</i>&nbsp;                pivot,
-<i>116</i>&nbsp;                yRotate,
-<i>117</i>&nbsp;                xRotate,
-<i>118</i>&nbsp;                zoom
-<i>119</i>&nbsp;        );
-<b class="nc"><i>120</i>&nbsp;        scene.setCamera(pCamera);</b>
-<i>121</i>&nbsp;
-<i>122</i>&nbsp;        // Handle Camera
-<b class="nc"><i>123</i>&nbsp;        scene.addEventHandler(MouseEvent.ANY, ev -&gt; {</b>
-<b class="nc"><i>124</i>&nbsp;            if (ev.getSceneX() &lt; 0 || ev.getSceneX() &gt; scene.getWidth() || ev.getSceneY() &lt; 0 || ev.getSceneY() &gt; scene.getHeight())</b>
-<b class="nc"><i>125</i>&nbsp;                return;</b>
-<i>126</i>&nbsp;            // Start dragging the camera if mouse button is down
-<b class="nc"><i>127</i>&nbsp;            if (ev.isSecondaryButtonDown() || ev.isPrimaryButtonDown()) {</b>
-<i>128</i>&nbsp;                // If I&#39;m not yet dragging
-<b class="nc"><i>129</i>&nbsp;                if (!isDragging.get()) {</b>
-<b class="nc"><i>130</i>&nbsp;                    setIsDragging(true);</b>
-<i>131</i>&nbsp;                } else {
-<i>132</i>&nbsp;                    // If I&#39;m dragging
-<b class="nc"><i>133</i>&nbsp;                    double deltaMouseX = (ev.getSceneX() - lastMouseX.get()) * MOUSE_SPEED;</b>
-<b class="nc"><i>134</i>&nbsp;                    double deltaMouseY = (ev.getSceneY() - lastMouseY.get()) * MOUSE_SPEED;</b>
-<i>135</i>&nbsp;
-<b class="nc"><i>136</i>&nbsp;                    double newXAngle= clamp(CAMERA_ANGLE_MAX,xRotate.getAngle() - deltaMouseY, CAMERA_ANGLE_MIN);</b>
-<b class="nc"><i>137</i>&nbsp;                    double newYAngle= yRotate.getAngle() + deltaMouseX;</b>
-<i>138</i>&nbsp;//                    getRotationTimeline(xRotate, xRotate.getAngle(), newXAngle, 20).play();
-<i>139</i>&nbsp;//                    getRotationTimeline(yRotate, yRotate.getAngle(), newYAngle, 20).play();
-<b class="nc"><i>140</i>&nbsp;                    xRotate.setAngle(newXAngle);</b>
-<b class="nc"><i>141</i>&nbsp;                    yRotate.setAngle(newYAngle);</b>
-<i>142</i>&nbsp;                }
-<b class="nc"><i>143</i>&nbsp;                setLastMouseX(ev.getSceneX());</b>
-<b class="nc"><i>144</i>&nbsp;                setLastMouseY(ev.getSceneY());</b>
-<i>145</i>&nbsp;            } else {
-<b class="nc"><i>146</i>&nbsp;                setIsDragging(false);</b>
-<i>147</i>&nbsp;            }
-<b class="nc"><i>148</i>&nbsp;        });</b>
-<i>149</i>&nbsp;
-<i>150</i>&nbsp;        // Handle Zoom
-<b class="nc"><i>151</i>&nbsp;        scene.addEventHandler(ScrollEvent.SCROLL, scrollEvent -&gt; {</b>
-<i>152</i>&nbsp;            // Zoom in
-<b class="nc"><i>153</i>&nbsp;            double newZoom = clamp(ZOOM_MAX,zoom.getZ() + 10 * Math.signum(scrollEvent.getDeltaY()),  ZOOM_MIN);</b>
-<b class="nc"><i>154</i>&nbsp;            Timeline zoomTimeline = new Timeline(</b>
-<i>155</i>&nbsp;                    new KeyFrame(
-<b class="nc"><i>156</i>&nbsp;                            Duration.seconds(0),</b>
-<b class="nc"><i>157</i>&nbsp;                            new KeyValue(zoom.zProperty(), zoom.getZ())</b>
-<i>158</i>&nbsp;                    ),
-<i>159</i>&nbsp;                    new KeyFrame(
-<b class="nc"><i>160</i>&nbsp;                            Duration.millis(ZOOM_TIME),</b>
-<b class="nc"><i>161</i>&nbsp;                            new KeyValue(zoom.zProperty(), newZoom)</b>
-<i>162</i>&nbsp;                    )
-<i>163</i>&nbsp;            );
-<b class="nc"><i>164</i>&nbsp;            zoomTimeline.setCycleCount(1);</b>
-<b class="nc"><i>165</i>&nbsp;            zoomTimeline.play();</b>
-<b class="nc"><i>166</i>&nbsp;        });</b>
-<i>167</i>&nbsp;
-<i>168</i>&nbsp;        // Handle Selection
-<b class="nc"><i>169</i>&nbsp;        scene.addEventHandler(MouseEvent.MOUSE_PRESSED, event -&gt; {</b>
-<b class="nc"><i>170</i>&nbsp;            PickResult res = event.getPickResult();</b>
-<b class="nc"><i>171</i>&nbsp;            Node node = res.getIntersectedNode();</b>
-<i>172</i>&nbsp;            // Stop doing stuff if I clicked on nothing
-<b class="nc"><i>173</i>&nbsp;            if (node == null) return;</b>
-<i>174</i>&nbsp;
-<i>175</i>&nbsp;            // If I should handle picking cells
-<b class="nc"><i>176</i>&nbsp;            if (isSelectingCell.get()) {</b>
-<b class="nc"><i>177</i>&nbsp;                if (node.getId().startsWith(&quot;sel&quot;)) {</b>
-<b class="nc"><i>178</i>&nbsp;                    int selectableId = Integer.parseInt(node.getId().substring(3));</b>
-<b class="nc"><i>179</i>&nbsp;                    System.out.println(selectableId);</b>
-<b class="nc"><i>180</i>&nbsp;                    GUIMain.getQueue().add(selectableId);</b>
-<b class="nc"><i>181</i>&nbsp;                } else if (node.getId().startsWith(&quot;worker&quot;)) {</b>
-<b class="nc"><i>182</i>&nbsp;                    List&lt;Node&gt; selectables = model.getAllSelectables();</b>
-<b class="nc"><i>183</i>&nbsp;                    Point workerPos = GameSceneModel.getBoardCoordinates(node);</b>
-<b class="nc"><i>184</i>&nbsp;                    for (int i = 0; i &lt; selectables.size(); ++i) {</b>
-<b class="nc"><i>185</i>&nbsp;                        if (GameSceneModel.getBoardCoordinates(selectables.get(i)).equals(workerPos)) {</b>
-<b class="nc"><i>186</i>&nbsp;                            GUIMain.getQueue().add(i);</b>
-<b class="nc"><i>187</i>&nbsp;                            return;</b>
-<i>188</i>&nbsp;                        }
-<i>189</i>&nbsp;                    }
-<i>190</i>&nbsp;                }
-<i>191</i>&nbsp;            }
-<b class="nc"><i>192</i>&nbsp;        });</b>
-<i>193</i>&nbsp;
-<b class="nc"><i>194</i>&nbsp;        GUIMain.updateScene();</b>
-<b class="nc"><i>195</i>&nbsp;    }</b>
+<i>106</i>&nbsp;        // Set background
+<b class="nc"><i>107</i>&nbsp;        scene.setFill(Paint.valueOf(&quot;#21c8de&quot;));</b>
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;        // Create a camera with its transforms.
+<b class="nc"><i>110</i>&nbsp;        Translate pivot = new Translate(0, 0, 0);</b>
+<b class="nc"><i>111</i>&nbsp;        xRotate = new Rotate(-30, Rotate.X_AXIS);</b>
+<b class="nc"><i>112</i>&nbsp;        yRotate = new Rotate(0, Rotate.Y_AXIS);</b>
+<b class="nc"><i>113</i>&nbsp;        zoom = new Translate(0, 0, -50);</b>
+<b class="nc"><i>114</i>&nbsp;        Camera pCamera = new PerspectiveCamera(true);</b>
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;        // We change the pivot of the camera object
+<b class="nc"><i>117</i>&nbsp;        pCamera.getTransforms().addAll (</b>
+<i>118</i>&nbsp;                pivot,
+<i>119</i>&nbsp;                yRotate,
+<i>120</i>&nbsp;                xRotate,
+<i>121</i>&nbsp;                zoom
+<i>122</i>&nbsp;        );
+<b class="nc"><i>123</i>&nbsp;        scene.setCamera(pCamera);</b>
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;        // Handle Camera
+<b class="nc"><i>126</i>&nbsp;        scene.addEventHandler(MouseEvent.ANY, ev -&gt; {</b>
+<b class="nc"><i>127</i>&nbsp;            if (ev.getSceneX() &lt; 0 || ev.getSceneX() &gt; scene.getWidth() || ev.getSceneY() &lt; 0 || ev.getSceneY() &gt; scene.getHeight())</b>
+<b class="nc"><i>128</i>&nbsp;                return;</b>
+<i>129</i>&nbsp;            // Start dragging the camera if mouse button is down
+<b class="nc"><i>130</i>&nbsp;            if (ev.isSecondaryButtonDown() || ev.isPrimaryButtonDown()) {</b>
+<i>131</i>&nbsp;                // If I&#39;m not yet dragging
+<b class="nc"><i>132</i>&nbsp;                if (!isDragging.get()) {</b>
+<b class="nc"><i>133</i>&nbsp;                    setIsDragging(true);</b>
+<i>134</i>&nbsp;                } else {
+<i>135</i>&nbsp;                    // If I&#39;m dragging
+<b class="nc"><i>136</i>&nbsp;                    double deltaMouseX = (ev.getSceneX() - lastMouseX.get()) * MOUSE_SPEED;</b>
+<b class="nc"><i>137</i>&nbsp;                    double deltaMouseY = (ev.getSceneY() - lastMouseY.get()) * MOUSE_SPEED;</b>
+<i>138</i>&nbsp;
+<b class="nc"><i>139</i>&nbsp;                    double newXAngle= clamp(CAMERA_ANGLE_MAX,xRotate.getAngle() - deltaMouseY, CAMERA_ANGLE_MIN);</b>
+<b class="nc"><i>140</i>&nbsp;                    double newYAngle= yRotate.getAngle() + deltaMouseX;</b>
+<i>141</i>&nbsp;//                    getRotationTimeline(xRotate, xRotate.getAngle(), newXAngle, 20).play();
+<i>142</i>&nbsp;//                    getRotationTimeline(yRotate, yRotate.getAngle(), newYAngle, 20).play();
+<b class="nc"><i>143</i>&nbsp;                    xRotate.setAngle(newXAngle);</b>
+<b class="nc"><i>144</i>&nbsp;                    yRotate.setAngle(newYAngle);</b>
+<i>145</i>&nbsp;                }
+<b class="nc"><i>146</i>&nbsp;                setLastMouseX(ev.getSceneX());</b>
+<b class="nc"><i>147</i>&nbsp;                setLastMouseY(ev.getSceneY());</b>
+<i>148</i>&nbsp;            } else {
+<b class="nc"><i>149</i>&nbsp;                setIsDragging(false);</b>
+<i>150</i>&nbsp;            }
+<b class="nc"><i>151</i>&nbsp;        });</b>
+<i>152</i>&nbsp;
+<i>153</i>&nbsp;        // Handle Zoom
+<b class="nc"><i>154</i>&nbsp;        scene.addEventHandler(ScrollEvent.SCROLL, scrollEvent -&gt; {</b>
+<i>155</i>&nbsp;            // Zoom in
+<b class="nc"><i>156</i>&nbsp;            double newZoom = clamp(ZOOM_MAX,zoom.getZ() + 10 * Math.signum(scrollEvent.getDeltaY()),  ZOOM_MIN);</b>
+<b class="nc"><i>157</i>&nbsp;            Timeline zoomTimeline = new Timeline(</b>
+<i>158</i>&nbsp;                    new KeyFrame(
+<b class="nc"><i>159</i>&nbsp;                            Duration.seconds(0),</b>
+<b class="nc"><i>160</i>&nbsp;                            new KeyValue(zoom.zProperty(), zoom.getZ())</b>
+<i>161</i>&nbsp;                    ),
+<i>162</i>&nbsp;                    new KeyFrame(
+<b class="nc"><i>163</i>&nbsp;                            Duration.millis(ZOOM_TIME),</b>
+<b class="nc"><i>164</i>&nbsp;                            new KeyValue(zoom.zProperty(), newZoom)</b>
+<i>165</i>&nbsp;                    )
+<i>166</i>&nbsp;            );
+<b class="nc"><i>167</i>&nbsp;            zoomTimeline.setCycleCount(1);</b>
+<b class="nc"><i>168</i>&nbsp;            zoomTimeline.play();</b>
+<b class="nc"><i>169</i>&nbsp;        });</b>
+<i>170</i>&nbsp;
+<i>171</i>&nbsp;        // Handle Selection
+<b class="nc"><i>172</i>&nbsp;        scene.addEventHandler(MouseEvent.MOUSE_PRESSED, event -&gt; {</b>
+<b class="nc"><i>173</i>&nbsp;            PickResult res = event.getPickResult();</b>
+<b class="nc"><i>174</i>&nbsp;            Node node = res.getIntersectedNode();</b>
+<i>175</i>&nbsp;            // Stop doing stuff if I clicked on nothing
+<b class="nc"><i>176</i>&nbsp;            if (node == null) return;</b>
+<i>177</i>&nbsp;
+<i>178</i>&nbsp;            // If I should handle picking cells
+<b class="nc"><i>179</i>&nbsp;            if (isSelectingCell.get()) {</b>
+<b class="nc"><i>180</i>&nbsp;                if (node.getId().startsWith(&quot;sel&quot;)) {</b>
+<b class="nc"><i>181</i>&nbsp;                    int selectableId = Integer.parseInt(node.getId().substring(3));</b>
+<b class="nc"><i>182</i>&nbsp;                    GUIMain.getQueue().add(selectableId);</b>
+<b class="nc"><i>183</i>&nbsp;                } else if (node.getId().startsWith(&quot;worker&quot;)) {</b>
+<b class="nc"><i>184</i>&nbsp;                    List&lt;Node&gt; selectables = model.getAllSelectables();</b>
+<b class="nc"><i>185</i>&nbsp;                    Point workerPos = GameSceneModel.getBoardCoordinates(node);</b>
+<b class="nc"><i>186</i>&nbsp;                    for (Node s : selectables) {</b>
+<b class="nc"><i>187</i>&nbsp;                        if (model.getRoot().getChildren().contains(s) &amp;&amp;</b>
+<b class="nc"><i>188</i>&nbsp;                                GameSceneModel.getBoardCoordinates(s).equals(workerPos)) {</b>
+<b class="nc"><i>189</i>&nbsp;                            GUIMain.getQueue().add(Integer.parseInt(s.getId().substring(3)));</b>
+<b class="nc"><i>190</i>&nbsp;                            return;</b>
+<i>191</i>&nbsp;                        }
+<b class="nc"><i>192</i>&nbsp;                    }</b>
+<i>193</i>&nbsp;                }
+<i>194</i>&nbsp;            }
+<b class="nc"><i>195</i>&nbsp;        });</b>
 <i>196</i>&nbsp;
-<b class="nc"><i>197</i>&nbsp;    public GameSceneModel getModel() { return model; }</b>
-<i>198</i>&nbsp;
-<i>199</i>&nbsp;    public GameInfoPanelModel getInfoPanelModel() {
-<b class="nc"><i>200</i>&nbsp;        return infoPanelModel;</b>
-<i>201</i>&nbsp;    }
-<i>202</i>&nbsp;}
+<b class="nc"><i>197</i>&nbsp;        GUIMain.updateScene();</b>
+<b class="nc"><i>198</i>&nbsp;    }</b>
+<i>199</i>&nbsp;
+<b class="nc"><i>200</i>&nbsp;    public GameSceneModel getModel() { return model; }</b>
+<i>201</i>&nbsp;
+<i>202</i>&nbsp;    public GameInfoPanelModel getInfoPanelModel() {
+<b class="nc"><i>203</i>&nbsp;        return infoPanelModel;</b>
+<i>204</i>&nbsp;    }
+<i>205</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>
