@@ -44,7 +44,15 @@ public class TCPClientConnectionFactory implements ClientConnectionFactory {
 
     @Override
     public ClientConnection getClientConnection() throws InterruptedException {
-        return clientQueue.take();
+        while (true) {
+            try {
+                ClientConnection toReturn = clientQueue.take();
+                toReturn.ping();
+                return toReturn;
+            } catch (IOException e)  {
+                System.out.println("Discarded bad connection!");
+            }
+        }
     }
 
     @Override
