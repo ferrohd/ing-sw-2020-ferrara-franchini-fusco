@@ -83,48 +83,51 @@
 <i>9</i>&nbsp;import java.util.ArrayList;
 <i>10</i>&nbsp;import java.util.List;
 <i>11</i>&nbsp;
-<i>12</i>&nbsp;public class GUIFirstPlayerScene implements Runnable {
-<i>13</i>&nbsp;    List&lt;String&gt; names;
-<i>14</i>&nbsp;
-<b class="nc"><i>15</i>&nbsp;    public GUIFirstPlayerScene(List&lt;String&gt; names) {</b>
-<b class="nc"><i>16</i>&nbsp;        this.names = names;</b>
-<b class="nc"><i>17</i>&nbsp;    }</b>
-<i>18</i>&nbsp;
-<i>19</i>&nbsp;    @Override
-<i>20</i>&nbsp;    public void run() {
-<i>21</i>&nbsp;        try {
-<b class="nc"><i>22</i>&nbsp;            AnchorPane root = FXMLLoader.load(getClass().getResource(&quot;/scenes/FirstPlayer.fxml&quot;));</b>
-<i>23</i>&nbsp;
-<b class="nc"><i>24</i>&nbsp;            GUIMain.getMainPane().setContent(root);</b>
-<i>25</i>&nbsp;
-<b class="nc"><i>26</i>&nbsp;            List&lt;Button&gt; buttons = new ArrayList&lt;&gt;(3);</b>
-<b class="nc"><i>27</i>&nbsp;            for (int i = 0; i &lt; names.size(); ++i) buttons.add((Button) root.lookup(&quot;#button&quot; + i));</b>
-<b class="nc"><i>28</i>&nbsp;            for (int i = 0; i &lt; names.size(); ++i) {</b>
-<b class="nc"><i>29</i>&nbsp;                Integer index = i;</b>
-<b class="nc"><i>30</i>&nbsp;                buttons.get(i).setText(names.get(i));</b>
-<b class="nc"><i>31</i>&nbsp;                buttons.get(i).setOnMouseClicked((event) -&gt; {</b>
-<b class="nc"><i>32</i>&nbsp;                    for(Button b : buttons) b.setDisable(true);</b>
-<b class="nc"><i>33</i>&nbsp;                    GUIMain.getQueue().add(index);</b>
-<b class="nc"><i>34</i>&nbsp;                });</b>
-<i>35</i>&nbsp;            }
-<i>36</i>&nbsp;
-<b class="nc"><i>37</i>&nbsp;            if(names.size() == 2) {</b>
-<b class="nc"><i>38</i>&nbsp;                root.lookup(&quot;#button2&quot;).setVisible(false);</b>
-<b class="nc"><i>39</i>&nbsp;                root.lookup(&quot;#button2&quot;).setManaged(false);</b>
-<i>40</i>&nbsp;            }
-<i>41</i>&nbsp;
-<b class="nc"><i>42</i>&nbsp;            GUIMain.updateScene();</b>
-<b class="nc"><i>43</i>&nbsp;        } catch (IOException e) {</b>
-<b class="nc"><i>44</i>&nbsp;            e.printStackTrace();</b>
-<b class="nc"><i>45</i>&nbsp;        }</b>
-<b class="nc"><i>46</i>&nbsp;    }</b>
-<i>47</i>&nbsp;}
+<i>12</i>&nbsp;/**
+<i>13</i>&nbsp; * A view that allows a player to choose the player who goes first in the match.
+<i>14</i>&nbsp; */
+<i>15</i>&nbsp;public class GUIFirstPlayerScene implements Runnable {
+<i>16</i>&nbsp;    private final List&lt;String&gt; names;
+<i>17</i>&nbsp;
+<b class="nc"><i>18</i>&nbsp;    public GUIFirstPlayerScene(List&lt;String&gt; names) {</b>
+<b class="nc"><i>19</i>&nbsp;        this.names = names;</b>
+<b class="nc"><i>20</i>&nbsp;    }</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    @Override
+<i>23</i>&nbsp;    public void run() {
+<i>24</i>&nbsp;        try {
+<b class="nc"><i>25</i>&nbsp;            AnchorPane root = FXMLLoader.load(getClass().getResource(&quot;/scenes/FirstPlayer.fxml&quot;));</b>
+<i>26</i>&nbsp;
+<b class="nc"><i>27</i>&nbsp;            GUIMain.getMainPane().setContent(root);</b>
+<i>28</i>&nbsp;
+<b class="nc"><i>29</i>&nbsp;            List&lt;Button&gt; buttons = new ArrayList&lt;&gt;(3);</b>
+<b class="nc"><i>30</i>&nbsp;            for (int i = 0; i &lt; names.size(); ++i) buttons.add((Button) root.lookup(&quot;#button&quot; + i));</b>
+<b class="nc"><i>31</i>&nbsp;            for (int i = 0; i &lt; names.size(); ++i) {</b>
+<b class="nc"><i>32</i>&nbsp;                Integer index = i;</b>
+<b class="nc"><i>33</i>&nbsp;                buttons.get(i).setText(names.get(i));</b>
+<b class="nc"><i>34</i>&nbsp;                buttons.get(i).setOnMouseClicked((event) -&gt; {</b>
+<b class="nc"><i>35</i>&nbsp;                    for(Button b : buttons) b.setDisable(true);</b>
+<b class="nc"><i>36</i>&nbsp;                    GUIMain.getQueue().add(index);</b>
+<b class="nc"><i>37</i>&nbsp;                });</b>
+<i>38</i>&nbsp;            }
+<i>39</i>&nbsp;
+<b class="nc"><i>40</i>&nbsp;            if(names.size() == 2) {</b>
+<b class="nc"><i>41</i>&nbsp;                root.lookup(&quot;#button2&quot;).setVisible(false);</b>
+<b class="nc"><i>42</i>&nbsp;                root.lookup(&quot;#button2&quot;).setManaged(false);</b>
+<i>43</i>&nbsp;            }
+<i>44</i>&nbsp;
+<b class="nc"><i>45</i>&nbsp;            GUIMain.updateScene();</b>
+<b class="nc"><i>46</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>47</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>48</i>&nbsp;        }</b>
+<b class="nc"><i>49</i>&nbsp;    }</b>
+<i>50</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

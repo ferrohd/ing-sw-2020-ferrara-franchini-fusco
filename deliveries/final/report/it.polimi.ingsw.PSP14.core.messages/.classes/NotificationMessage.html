@@ -79,23 +79,26 @@
 <i>5</i>&nbsp;
 <i>6</i>&nbsp;import java.io.IOException;
 <i>7</i>&nbsp;
-<i>8</i>&nbsp;public class NotificationMessage implements ClientExecutableMessage {
-<i>9</i>&nbsp;    private String content;
-<i>10</i>&nbsp;
-<b class="nc"><i>11</i>&nbsp;    public NotificationMessage(String content) {</b>
-<b class="nc"><i>12</i>&nbsp;        this.content = content;</b>
-<b class="nc"><i>13</i>&nbsp;    }</b>
-<i>14</i>&nbsp;
-<i>15</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
-<b class="nc"><i>16</i>&nbsp;        ui.showNotification(content);</b>
-<b class="nc"><i>17</i>&nbsp;    }</b>
-<i>18</i>&nbsp;}
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Message containing a custom notification for the player.
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;public class NotificationMessage implements ClientExecutableMessage {
+<i>12</i>&nbsp;    private final String content;
+<i>13</i>&nbsp;
+<b class="nc"><i>14</i>&nbsp;    public NotificationMessage(String content) {</b>
+<b class="nc"><i>15</i>&nbsp;        this.content = content;</b>
+<b class="nc"><i>16</i>&nbsp;    }</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException {
+<b class="nc"><i>19</i>&nbsp;        ui.showNotification(content);</b>
+<b class="nc"><i>20</i>&nbsp;    }</b>
+<i>21</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

@@ -84,35 +84,38 @@
 <i>10</i>&nbsp; * If your unmoved Worker is on the ground level, it may build up to three times.
 <i>11</i>&nbsp; */
 <i>12</i>&nbsp;public class Poseidon extends God {
-<i>13</i>&nbsp;    public Poseidon(String owner) {
-<b class="fc"><i>14</i>&nbsp;        super(owner);</b>
-<b class="fc"><i>15</i>&nbsp;    }</b>
-<i>16</i>&nbsp;
-<i>17</i>&nbsp;    @Override
-<i>18</i>&nbsp;    public void afterTurn(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
-<b class="fc"><i>19</i>&nbsp;        if(!player.equals(getOwner())) return;</b>
-<i>20</i>&nbsp;
-<b class="fc"><i>21</i>&nbsp;        int otherWorker = workerIndex == 1 ? 0 : 1;</b>
-<i>22</i>&nbsp;
-<b class="fc"><i>23</i>&nbsp;        if(model.getBoard().getTowerSize(model.getPlayerByUsername(player).getWorkerPos(otherWorker)) == 0) {</b>
-<b class="fc"><i>24</i>&nbsp;            for(int i = 0; i &lt; 3; ++i) {</b>
-<b class="fc"><i>25</i>&nbsp;                if(model.getBuildable(player, otherWorker).size() &gt; 0) {</b>
-<b class="fc"><i>26</i>&nbsp;                    boolean choice = controller.askQuestion(player, &quot;POSEIDON: Why don&#39;t you let the other guy build as well?&quot;);</b>
-<i>27</i>&nbsp;
-<b class="fc"><i>28</i>&nbsp;                    if (!choice) break;</b>
-<i>29</i>&nbsp;
-<b class="fc"><i>30</i>&nbsp;                    model.build(player, otherWorker);</b>
-<i>31</i>&nbsp;                } else break;
-<i>32</i>&nbsp;            }
-<i>33</i>&nbsp;        }
-<b class="fc"><i>34</i>&nbsp;    }</b>
-<i>35</i>&nbsp;}
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    public static final String MESSAGE = &quot;POSEIDON: Why don&#39;t you let the other guy build as well?&quot;;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    public Poseidon(String owner) {
+<b class="fc"><i>17</i>&nbsp;        super(owner);</b>
+<b class="fc"><i>18</i>&nbsp;    }</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    @Override
+<i>21</i>&nbsp;    public void afterTurn(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
+<b class="fc"><i>22</i>&nbsp;        if(!player.equals(getOwner())) return;</b>
+<i>23</i>&nbsp;
+<b class="fc"><i>24</i>&nbsp;        int otherWorker = workerIndex == 1 ? 0 : 1;</b>
+<i>25</i>&nbsp;
+<b class="fc"><i>26</i>&nbsp;        if(model.getBoard().getTowerSize(model.getPlayerByUsername(player).getWorkerPos(otherWorker)) == 0) {</b>
+<b class="fc"><i>27</i>&nbsp;            for(int i = 0; i &lt; 3; ++i) {</b>
+<b class="fc"><i>28</i>&nbsp;                if(model.getBuildable(player, otherWorker).size() &gt; 0) {</b>
+<b class="fc"><i>29</i>&nbsp;                    boolean choice = controller.askQuestion(player, MESSAGE);</b>
+<i>30</i>&nbsp;
+<b class="fc"><i>31</i>&nbsp;                    if (!choice) break;</b>
+<i>32</i>&nbsp;
+<b class="fc"><i>33</i>&nbsp;                    model.build(player, otherWorker);</b>
+<i>34</i>&nbsp;                } else break;
+<i>35</i>&nbsp;            }
+<i>36</i>&nbsp;        }
+<b class="fc"><i>37</i>&nbsp;    }</b>
+<i>38</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

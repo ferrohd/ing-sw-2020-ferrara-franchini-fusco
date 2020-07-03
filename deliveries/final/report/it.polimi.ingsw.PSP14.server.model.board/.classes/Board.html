@@ -80,85 +80,91 @@
 <i>6</i>&nbsp;import java.util.ArrayList;
 <i>7</i>&nbsp;
 <i>8</i>&nbsp;/**
-<i>9</i>&nbsp; * A board for the game.
-<i>10</i>&nbsp; * Contains information about all the cells and exposes functions to get and update their state.
-<i>11</i>&nbsp; */
-<i>12</i>&nbsp;public class Board {
-<b class="fc"><i>13</i>&nbsp;    private final Cell[][] board = new Cell[5][5];</b>
-<i>14</i>&nbsp;    private final MatchController controller;
-<i>15</i>&nbsp;
-<b class="fc"><i>16</i>&nbsp;    public Board(MatchController controller) throws IOException {</b>
-<b class="fc"><i>17</i>&nbsp;        for(int i = 0; i &lt; 5; ++i) {</b>
-<b class="fc"><i>18</i>&nbsp;            for(int j = 0; j &lt; 5; ++j) {</b>
-<b class="fc"><i>19</i>&nbsp;                board[j][i] = new Cell();</b>
-<i>20</i>&nbsp;            }
-<i>21</i>&nbsp;        }
-<i>22</i>&nbsp;
-<b class="fc"><i>23</i>&nbsp;        this.controller = controller;</b>
-<b class="fc"><i>24</i>&nbsp;    }</b>
-<i>25</i>&nbsp;
-<i>26</i>&nbsp;    public Board() throws IOException {
-<b class="fc"><i>27</i>&nbsp;        this(new MatchController(new ArrayList&lt;&gt;()));</b>
+<i>9</i>&nbsp; * The board of the game containing information about all the cells and exposing functions to get and update their state.
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;public class Board {
+<b class="fc"><i>12</i>&nbsp;    private final Cell[][] board = new Cell[5][5];</b>
+<i>13</i>&nbsp;    private final MatchController controller;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * Constructs a board of empty cells.
+<i>17</i>&nbsp;     *
+<i>18</i>&nbsp;     * @param controller the controller of the current match
+<i>19</i>&nbsp;     */
+<b class="fc"><i>20</i>&nbsp;    public Board(MatchController controller) {</b>
+<b class="fc"><i>21</i>&nbsp;        for(int i = 0; i &lt; 5; ++i) {</b>
+<b class="fc"><i>22</i>&nbsp;            for(int j = 0; j &lt; 5; ++j) {</b>
+<b class="fc"><i>23</i>&nbsp;                board[j][i] = new Cell();</b>
+<i>24</i>&nbsp;            }
+<i>25</i>&nbsp;        }
+<i>26</i>&nbsp;
+<b class="fc"><i>27</i>&nbsp;        this.controller = controller;</b>
 <b class="fc"><i>28</i>&nbsp;    }</b>
 <i>29</i>&nbsp;
-<i>30</i>&nbsp;    /**
-<i>31</i>&nbsp;     * Get the height of a tower, in number of levels.
-<i>32</i>&nbsp;     * @param pos the coordinates of the cell
-<i>33</i>&nbsp;     * @return the tower size of the selected cell
-<i>34</i>&nbsp;     */
-<i>35</i>&nbsp;    public int getTowerSize(Point pos) {
-<b class="fc"><i>36</i>&nbsp;        return board[pos.getY()][pos.getX()].getTowerSize();</b>
-<i>37</i>&nbsp;    }
-<i>38</i>&nbsp;
-<i>39</i>&nbsp;    /**
-<i>40</i>&nbsp;     * Increase by one level the height of a tower.
-<i>41</i>&nbsp;     * @param pos the coordinates of the cell
-<i>42</i>&nbsp;     * @throws TowerSizeException when you can&#39;t increase a tower size
-<i>43</i>&nbsp;     * @throws TowerSizeException if the tower is higher than 3 levels
-<i>44</i>&nbsp;     * @throws IOException if it cant notify the controller
-<i>45</i>&nbsp;     */
-<i>46</i>&nbsp;    public void incrementTowerSize(Point pos) throws TowerSizeException, IOException {
-<b class="fc"><i>47</i>&nbsp;        board[pos.getY()][pos.getX()].incrementTowerSize();</b>
-<b class="fc"><i>48</i>&nbsp;        controller.notifyBuild(pos);</b>
-<b class="fc"><i>49</i>&nbsp;    }</b>
-<i>50</i>&nbsp;
-<i>51</i>&nbsp;    /**
-<i>52</i>&nbsp;     * Mark the selected tower as complete, meaning it has to be treated as
-<i>53</i>&nbsp;     * if there was a dome on it.
-<i>54</i>&nbsp;     * @param pos the coordinates of the cell
-<i>55</i>&nbsp;     * @throws IOException if it can&#39;t notify the controller
-<i>56</i>&nbsp;     */
-<i>57</i>&nbsp;    public void setAsCompleted(Point pos) throws IOException {
-<b class="fc"><i>58</i>&nbsp;        board[pos.getY()][pos.getX()].setAsCompleted();</b>
-<b class="fc"><i>59</i>&nbsp;        controller.notifyDome(pos);</b>
-<b class="fc"><i>60</i>&nbsp;    }</b>
-<i>61</i>&nbsp;
-<i>62</i>&nbsp;    /**
-<i>63</i>&nbsp;     * Returns true if the tower is completed (has a dome on it), false otherwise.
-<i>64</i>&nbsp;     * @param pos the coordinates of the cell
-<i>65</i>&nbsp;     * @return whether the tower is complete
-<i>66</i>&nbsp;     * @throws IndexOutOfBoundsException if the cell is outside the board
-<i>67</i>&nbsp;     */
-<i>68</i>&nbsp;    public boolean getIsCompleted(Point pos) {
-<b class="fc"><i>69</i>&nbsp;        return board[pos.getY()][pos.getX()].getIsCompleted();</b>
-<i>70</i>&nbsp;    }
-<i>71</i>&nbsp;
-<i>72</i>&nbsp;    /**
-<i>73</i>&nbsp;     * Tells if the provided Point is inside the board
-<i>74</i>&nbsp;     * @param pos the Point to check
-<i>75</i>&nbsp;     * @return the validity of the point
-<i>76</i>&nbsp;     */
-<i>77</i>&nbsp;    public static boolean isValidPos(Point pos) {
-<b class="fc"><i>78</i>&nbsp;        return pos.getX() &gt;= 0 &amp;&amp; pos.getX() &lt; 5 &amp;&amp;</b>
-<b class="fc"><i>79</i>&nbsp;                pos.getY() &gt;= 0 &amp;&amp; pos.getY() &lt; 5;</b>
-<i>80</i>&nbsp;    }
-<i>81</i>&nbsp;}
+<i>30</i>&nbsp;    public Board() throws IOException {
+<b class="fc"><i>31</i>&nbsp;        this(new MatchController(new ArrayList&lt;&gt;()));</b>
+<b class="fc"><i>32</i>&nbsp;    }</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * Get the height of a tower, in number of levels.
+<i>36</i>&nbsp;     *
+<i>37</i>&nbsp;     * @param pos the coordinates of the cell
+<i>38</i>&nbsp;     * @return the tower size of the selected cell
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    public int getTowerSize(Point pos) {
+<b class="fc"><i>41</i>&nbsp;        return board[pos.getY()][pos.getX()].getTowerSize();</b>
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    /**
+<i>45</i>&nbsp;     * Increase by one level the height of a tower.
+<i>46</i>&nbsp;     * @param pos the coordinates of the cell
+<i>47</i>&nbsp;     * @throws TowerSizeException when you can&#39;t increase a tower size
+<i>48</i>&nbsp;     * @throws IOException if it cant notify the controller
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    public void incrementTowerSize(Point pos) throws TowerSizeException, IOException {
+<b class="fc"><i>51</i>&nbsp;        board[pos.getY()][pos.getX()].incrementTowerSize();</b>
+<b class="fc"><i>52</i>&nbsp;        controller.notifyBuild(pos);</b>
+<b class="fc"><i>53</i>&nbsp;    }</b>
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    /**
+<i>56</i>&nbsp;     * Mark the selected tower as complete, meaning it has to be treated as
+<i>57</i>&nbsp;     * if there was a dome on it.
+<i>58</i>&nbsp;     *
+<i>59</i>&nbsp;     * @param pos the coordinates of the cell
+<i>60</i>&nbsp;     * @throws IOException if it can&#39;t notify the controller
+<i>61</i>&nbsp;     */
+<i>62</i>&nbsp;    public void setAsCompleted(Point pos) throws IOException {
+<b class="fc"><i>63</i>&nbsp;        board[pos.getY()][pos.getX()].setAsCompleted();</b>
+<b class="fc"><i>64</i>&nbsp;        controller.notifyDome(pos);</b>
+<b class="fc"><i>65</i>&nbsp;    }</b>
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    /**
+<i>68</i>&nbsp;     * Returns true if the tower is completed (has a dome on it), false otherwise.
+<i>69</i>&nbsp;     *
+<i>70</i>&nbsp;     * @param pos the coordinates of the cell
+<i>71</i>&nbsp;     * @return whether the tower is complete
+<i>72</i>&nbsp;     * @throws IndexOutOfBoundsException if the cell is outside the board
+<i>73</i>&nbsp;     */
+<i>74</i>&nbsp;    public boolean getIsCompleted(Point pos) {
+<b class="fc"><i>75</i>&nbsp;        return board[pos.getY()][pos.getX()].getIsCompleted();</b>
+<i>76</i>&nbsp;    }
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    /**
+<i>79</i>&nbsp;     * Tells if the provided Point is inside the board
+<i>80</i>&nbsp;     * @param pos the Point to check
+<i>81</i>&nbsp;     * @return the validity of the point
+<i>82</i>&nbsp;     */
+<i>83</i>&nbsp;    public static boolean isValidPos(Point pos) {
+<b class="fc"><i>84</i>&nbsp;        return pos.getX() &gt;= 0 &amp;&amp; pos.getX() &lt; 5 &amp;&amp;</b>
+<b class="fc"><i>85</i>&nbsp;                pos.getY() &gt;= 0 &amp;&amp; pos.getY() &lt; 5;</b>
+<i>86</i>&nbsp;    }
+<i>87</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

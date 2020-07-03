@@ -61,7 +61,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 6)
+    (0/ 8)
   </span>
 </td>
 </tr>
@@ -81,27 +81,34 @@
 <i>7</i>&nbsp;import java.util.List;
 <i>8</i>&nbsp;
 <i>9</i>&nbsp;/**
-<i>10</i>&nbsp; * This class purpose is to retrieve a
-<i>11</i>&nbsp; */
-<i>12</i>&nbsp;public class WorkerIndexMessage implements ClientExecutableMessage {
-<i>13</i>&nbsp;    private List&lt;Integer&gt; choosable;
-<i>14</i>&nbsp;
-<b class="nc"><i>15</i>&nbsp;    public WorkerIndexMessage(List&lt;Integer&gt; choosable) {</b>
-<b class="nc"><i>16</i>&nbsp;        this.choosable = choosable;</b>
-<b class="nc"><i>17</i>&nbsp;    }</b>
-<i>18</i>&nbsp;
-<i>19</i>&nbsp;    @Override
-<i>20</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
-<b class="nc"><i>21</i>&nbsp;        int index = ui.chooseWorker(choosable);</b>
-<b class="nc"><i>22</i>&nbsp;        serverConnection.sendMessage(new ChoiceMessage(index));</b>
-<b class="nc"><i>23</i>&nbsp;    }</b>
-<i>24</i>&nbsp;}
+<i>10</i>&nbsp; * This class purpose is to retrieve the chosen worker index from a player and send
+<i>11</i>&nbsp; * it back to the server.
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public class WorkerIndexMessage implements ClientExecutableMessage {
+<i>14</i>&nbsp;    private final List&lt;Integer&gt; choosable;
+<i>15</i>&nbsp;
+<b class="nc"><i>16</i>&nbsp;    public WorkerIndexMessage(List&lt;Integer&gt; choosable) {</b>
+<b class="nc"><i>17</i>&nbsp;        this.choosable = choosable;</b>
+<b class="nc"><i>18</i>&nbsp;    }</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    @Override
+<i>21</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
+<i>22</i>&nbsp;        while(true) {
+<i>23</i>&nbsp;            try {
+<b class="nc"><i>24</i>&nbsp;                int workerId = ui.chooseWorker(choosable);</b>
+<b class="nc"><i>25</i>&nbsp;                serverConnection.sendMessage(new ChoiceMessage(workerId));</b>
+<b class="nc"><i>26</i>&nbsp;                return;</b>
+<b class="nc"><i>27</i>&nbsp;            } catch (IndexOutOfBoundsException ignore) {</b>
+<b class="nc"><i>28</i>&nbsp;            }</b>
+<i>29</i>&nbsp;        }
+<i>30</i>&nbsp;    }
+<i>31</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

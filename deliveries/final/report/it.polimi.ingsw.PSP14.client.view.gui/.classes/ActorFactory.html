@@ -92,173 +92,191 @@
 <i>18</i>&nbsp;import javafx.scene.shape.MeshView;
 <i>19</i>&nbsp;import javafx.util.Duration;
 <i>20</i>&nbsp;
-<b class="nc"><i>21</i>&nbsp;public class ActorFactory {</b>
-<i>22</i>&nbsp;    private static final double BLOCK_SCALE = 0.35;
-<i>23</i>&nbsp;
-<b class="nc"><i>24</i>&nbsp;    private static Mesh BLOCK_1_MESH = getMesh(&quot;/assets/BuildingBlock01.obj&quot;);</b>
-<b class="nc"><i>25</i>&nbsp;    private static Mesh BLOCK_2_MESH = getMesh(&quot;/assets/BuildingBlock02.obj&quot;);</b>
-<b class="nc"><i>26</i>&nbsp;    private static Mesh BLOCK_3_MESH = getMesh(&quot;/assets/BuildingBlock03.obj&quot;);</b>
-<b class="nc"><i>27</i>&nbsp;    private static Mesh DOME_MESH = getMesh(&quot;/assets/Dome.obj&quot;);</b>
-<b class="nc"><i>28</i>&nbsp;    private static Mesh WORKER_M_MESH = getMesh(&quot;/assets/MaleBuilder.obj&quot;);</b>
-<b class="nc"><i>29</i>&nbsp;    private static Mesh WORKER_F_MESH = getMesh(&quot;/assets/FemaleBuilder.obj&quot;);</b>
-<i>30</i>&nbsp;
-<b class="nc"><i>31</i>&nbsp;    private static PhongMaterial BLOCK_1_MAT = getMaterial(&quot;/assets/BuildingBlock01_v001.png&quot;);</b>
-<b class="nc"><i>32</i>&nbsp;    private static PhongMaterial BLOCK_2_MAT = getMaterial(&quot;/assets/BuildingBlock02_v001.png&quot;);</b>
-<b class="nc"><i>33</i>&nbsp;    private static PhongMaterial BLOCK_3_MAT = getMaterial(&quot;/assets/BuildingBlock03_v001.png&quot;);</b>
-<b class="nc"><i>34</i>&nbsp;    private static PhongMaterial DOME_MAT = getColor(Color.MIDNIGHTBLUE);</b>
-<b class="nc"><i>35</i>&nbsp;    private static PhongMaterial WORKER_M_BLUE_MAT = getMaterial(&quot;/assets/MaleBuilder_Blue_v001.png&quot;);</b>
-<b class="nc"><i>36</i>&nbsp;    private static PhongMaterial WORKER_F_BLUE_MAT = getMaterial(&quot;/assets/FemaleBuilder_Blue_v001.png&quot;);</b>
-<b class="nc"><i>37</i>&nbsp;    private static PhongMaterial WORKER_M_ORANGE_MAT = getMaterial(&quot;/assets/MaleBuilder_Orange_v001.png&quot;);</b>
-<b class="nc"><i>38</i>&nbsp;    private static PhongMaterial WORKER_F_ORANGE_MAT = getMaterial(&quot;/assets/FemaleBuilder_Orange_v001.png&quot;);</b>
-<b class="nc"><i>39</i>&nbsp;    private static PhongMaterial WORKER_M_PINK_MAT = getMaterial(&quot;/assets/MaleBuilder_Pink_v001.png&quot;);</b>
-<b class="nc"><i>40</i>&nbsp;    private static PhongMaterial WORKER_F_PINK_MAT = getMaterial(&quot;/assets/FemaleBuilder_Pink_v001.png&quot;);</b>
-<b class="nc"><i>41</i>&nbsp;    private static PhongMaterial SELECTABLE_MAT = getMaterial(&quot;/assets/selectable2.png&quot;);</b>
-<i>42</i>&nbsp;
-<i>43</i>&nbsp;    static Mesh getMesh(String meshUrl) {
-<i>44</i>&nbsp;        // Import 3D resource
-<b class="nc"><i>45</i>&nbsp;        URL modelUrl = ActorFactory.class.getResource(meshUrl);</b>
-<b class="nc"><i>46</i>&nbsp;        ObjModelImporter objImporter = new ObjModelImporter();</b>
-<i>47</i>&nbsp;
-<b class="nc"><i>48</i>&nbsp;        objImporter.read(modelUrl);</b>
-<b class="nc"><i>49</i>&nbsp;        MeshView[] meshViews = objImporter.getImport();</b>
-<b class="nc"><i>50</i>&nbsp;        objImporter.close();</b>
-<i>51</i>&nbsp;
-<i>52</i>&nbsp;        // Get the first mesh (there should not be multiple meshes)
-<b class="nc"><i>53</i>&nbsp;        MeshView meshView = meshViews[0];</b>
-<b class="nc"><i>54</i>&nbsp;        meshView.setCullFace(CullFace.BACK);</b>
-<i>55</i>&nbsp;
-<b class="nc"><i>56</i>&nbsp;        return meshView.getMesh();</b>
-<i>57</i>&nbsp;    }
-<i>58</i>&nbsp;
-<i>59</i>&nbsp;    static PhongMaterial getColor(Color color) {
-<b class="nc"><i>60</i>&nbsp;        PhongMaterial texturedMaterial = new PhongMaterial();</b>
-<b class="nc"><i>61</i>&nbsp;        texturedMaterial.setDiffuseColor(color);</b>
-<b class="nc"><i>62</i>&nbsp;        return texturedMaterial;</b>
+<i>21</i>&nbsp;/**
+<i>22</i>&nbsp; * Utility class with methods to create and handle 3D models in a 3D context.
+<i>23</i>&nbsp; * It uses the flyweight pattern to minimally improve performances.
+<i>24</i>&nbsp; */
+<b class="nc"><i>25</i>&nbsp;public class ActorFactory {</b>
+<i>26</i>&nbsp;    private static final double BLOCK_SCALE = 0.35;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    private static final Mesh
+<b class="nc"><i>29</i>&nbsp;            BLOCK_1_MESH = getMesh(&quot;/assets/BuildingBlock01.obj&quot;),</b>
+<b class="nc"><i>30</i>&nbsp;            BLOCK_2_MESH = getMesh(&quot;/assets/BuildingBlock02.obj&quot;),</b>
+<b class="nc"><i>31</i>&nbsp;            BLOCK_3_MESH = getMesh(&quot;/assets/BuildingBlock03.obj&quot;),</b>
+<b class="nc"><i>32</i>&nbsp;            DOME_MESH = getMesh(&quot;/assets/Dome.obj&quot;),</b>
+<b class="nc"><i>33</i>&nbsp;            WORKER_M_MESH = getMesh(&quot;/assets/MaleBuilder.obj&quot;),</b>
+<b class="nc"><i>34</i>&nbsp;            WORKER_F_MESH = getMesh(&quot;/assets/FemaleBuilder.obj&quot;);</b>
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    private static final PhongMaterial
+<b class="nc"><i>37</i>&nbsp;            BLOCK_1_MAT = getMaterial(&quot;/assets/BuildingBlock01_v001.png&quot;),</b>
+<b class="nc"><i>38</i>&nbsp;            BLOCK_2_MAT = getMaterial(&quot;/assets/BuildingBlock02_v001.png&quot;),</b>
+<b class="nc"><i>39</i>&nbsp;            BLOCK_3_MAT = getMaterial(&quot;/assets/BuildingBlock03_v001.png&quot;),</b>
+<b class="nc"><i>40</i>&nbsp;            DOME_MAT = getColor(Color.MIDNIGHTBLUE),</b>
+<b class="nc"><i>41</i>&nbsp;            WORKER_M_BLUE_MAT = getMaterial(&quot;/assets/MaleBuilder_Blue_v001.png&quot;),</b>
+<b class="nc"><i>42</i>&nbsp;            WORKER_F_BLUE_MAT = getMaterial(&quot;/assets/FemaleBuilder_Blue_v001.png&quot;),</b>
+<b class="nc"><i>43</i>&nbsp;            WORKER_M_ORANGE_MAT = getMaterial(&quot;/assets/MaleBuilder_Orange_v001.png&quot;),</b>
+<b class="nc"><i>44</i>&nbsp;            WORKER_F_ORANGE_MAT = getMaterial(&quot;/assets/FemaleBuilder_Orange_v001.png&quot;),</b>
+<b class="nc"><i>45</i>&nbsp;            WORKER_M_PINK_MAT = getMaterial(&quot;/assets/MaleBuilder_Pink_v001.png&quot;),</b>
+<b class="nc"><i>46</i>&nbsp;            WORKER_F_PINK_MAT = getMaterial(&quot;/assets/FemaleBuilder_Pink_v001.png&quot;),</b>
+<b class="nc"><i>47</i>&nbsp;            SELECTABLE_MAT = getMaterial(&quot;/assets/selectable2.png&quot;);</b>
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    static Mesh getMesh(String meshUrl) {
+<i>50</i>&nbsp;        // Import 3D resource
+<b class="nc"><i>51</i>&nbsp;        URL modelUrl = ActorFactory.class.getResource(meshUrl);</b>
+<b class="nc"><i>52</i>&nbsp;        ObjModelImporter objImporter = new ObjModelImporter();</b>
+<i>53</i>&nbsp;
+<b class="nc"><i>54</i>&nbsp;        objImporter.read(modelUrl);</b>
+<b class="nc"><i>55</i>&nbsp;        MeshView[] meshViews = objImporter.getImport();</b>
+<b class="nc"><i>56</i>&nbsp;        objImporter.close();</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;        // Get the first mesh (there should not be multiple meshes)
+<b class="nc"><i>59</i>&nbsp;        MeshView meshView = meshViews[0];</b>
+<b class="nc"><i>60</i>&nbsp;        meshView.setCullFace(CullFace.BACK);</b>
+<i>61</i>&nbsp;
+<b class="nc"><i>62</i>&nbsp;        return meshView.getMesh();</b>
 <i>63</i>&nbsp;    }
 <i>64</i>&nbsp;
-<i>65</i>&nbsp;    static PhongMaterial getMaterial(String textureUrl) {
-<i>66</i>&nbsp;        // This looks up to /resources/
-<b class="nc"><i>67</i>&nbsp;        Image texture = new Image(textureUrl);</b>
-<b class="nc"><i>68</i>&nbsp;        PhongMaterial texturedMaterial = new PhongMaterial();</b>
-<b class="nc"><i>69</i>&nbsp;        texturedMaterial.setDiffuseMap(texture);</b>
+<i>65</i>&nbsp;    private static PhongMaterial getColor(Color color) {
+<b class="nc"><i>66</i>&nbsp;        PhongMaterial texturedMaterial = new PhongMaterial();</b>
+<b class="nc"><i>67</i>&nbsp;        texturedMaterial.setDiffuseColor(color);</b>
+<b class="nc"><i>68</i>&nbsp;        return texturedMaterial;</b>
+<i>69</i>&nbsp;    }
 <i>70</i>&nbsp;
-<b class="nc"><i>71</i>&nbsp;        return texturedMaterial;</b>
-<i>72</i>&nbsp;    }
-<i>73</i>&nbsp;
-<i>74</i>&nbsp;    public static Node getBlock(int height) {
-<b class="nc"><i>75</i>&nbsp;        MeshView block = new MeshView();</b>
-<b class="nc"><i>76</i>&nbsp;        switch (height) {</b>
-<i>77</i>&nbsp;            case 0:
-<b class="nc"><i>78</i>&nbsp;                block.setMesh(BLOCK_1_MESH);</b>
-<b class="nc"><i>79</i>&nbsp;                block.setMaterial(BLOCK_1_MAT);</b>
-<b class="nc"><i>80</i>&nbsp;                break;</b>
-<i>81</i>&nbsp;            case 1:
-<b class="nc"><i>82</i>&nbsp;                block.setMesh(BLOCK_2_MESH);</b>
-<b class="nc"><i>83</i>&nbsp;                block.setMaterial(BLOCK_2_MAT);</b>
-<b class="nc"><i>84</i>&nbsp;                break;</b>
-<i>85</i>&nbsp;            case 2:
-<b class="nc"><i>86</i>&nbsp;                block.setMesh(BLOCK_3_MESH);</b>
-<b class="nc"><i>87</i>&nbsp;                block.setMaterial(BLOCK_3_MAT);</b>
-<b class="nc"><i>88</i>&nbsp;                break;</b>
-<i>89</i>&nbsp;            case 3:
-<b class="nc"><i>90</i>&nbsp;                block.setMesh(DOME_MESH);</b>
-<b class="nc"><i>91</i>&nbsp;                block.setMaterial(DOME_MAT);</b>
-<b class="nc"><i>92</i>&nbsp;                break;</b>
-<i>93</i>&nbsp;            default:
-<b class="nc"><i>94</i>&nbsp;                throw new IndexOutOfBoundsException(height + &quot; should be in range 0 - 3&quot;);</b>
-<i>95</i>&nbsp;        }
-<i>96</i>&nbsp;        // Fill triangles
-<b class="nc"><i>97</i>&nbsp;        block.setDrawMode(DrawMode.FILL);</b>
-<i>98</i>&nbsp;
-<i>99</i>&nbsp;        // Set position
-<b class="nc"><i>100</i>&nbsp;        block.setTranslateX(0);</b>
-<b class="nc"><i>101</i>&nbsp;        block.setTranslateY(10);</b>
-<b class="nc"><i>102</i>&nbsp;        block.setTranslateZ(0);</b>
-<i>103</i>&nbsp;
-<i>104</i>&nbsp;        // Set scale (unified)
-<b class="nc"><i>105</i>&nbsp;        block.setScaleX(BLOCK_SCALE);</b>
-<b class="nc"><i>106</i>&nbsp;        block.setScaleY(BLOCK_SCALE);</b>
-<b class="nc"><i>107</i>&nbsp;        block.setScaleZ(BLOCK_SCALE);</b>
+<i>71</i>&nbsp;    private static PhongMaterial getMaterial(String textureUrl) {
+<i>72</i>&nbsp;        // This looks up to /resources/
+<b class="nc"><i>73</i>&nbsp;        Image texture = new Image(textureUrl);</b>
+<b class="nc"><i>74</i>&nbsp;        PhongMaterial texturedMaterial = new PhongMaterial();</b>
+<b class="nc"><i>75</i>&nbsp;        texturedMaterial.setDiffuseMap(texture);</b>
+<i>76</i>&nbsp;
+<b class="nc"><i>77</i>&nbsp;        return texturedMaterial;</b>
+<i>78</i>&nbsp;    }
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    /**
+<i>81</i>&nbsp;     * @param height tower height of the block
+<i>82</i>&nbsp;     * @return a meshview of a towerblock of a particular height
+<i>83</i>&nbsp;     */
+<i>84</i>&nbsp;    public static Node getBlock(int height) {
+<b class="nc"><i>85</i>&nbsp;        MeshView block = new MeshView();</b>
+<b class="nc"><i>86</i>&nbsp;        switch (height) {</b>
+<i>87</i>&nbsp;            case 0:
+<b class="nc"><i>88</i>&nbsp;                block.setMesh(BLOCK_1_MESH);</b>
+<b class="nc"><i>89</i>&nbsp;                block.setMaterial(BLOCK_1_MAT);</b>
+<b class="nc"><i>90</i>&nbsp;                break;</b>
+<i>91</i>&nbsp;            case 1:
+<b class="nc"><i>92</i>&nbsp;                block.setMesh(BLOCK_2_MESH);</b>
+<b class="nc"><i>93</i>&nbsp;                block.setMaterial(BLOCK_2_MAT);</b>
+<b class="nc"><i>94</i>&nbsp;                break;</b>
+<i>95</i>&nbsp;            case 2:
+<b class="nc"><i>96</i>&nbsp;                block.setMesh(BLOCK_3_MESH);</b>
+<b class="nc"><i>97</i>&nbsp;                block.setMaterial(BLOCK_3_MAT);</b>
+<b class="nc"><i>98</i>&nbsp;                break;</b>
+<i>99</i>&nbsp;            case 3:
+<b class="nc"><i>100</i>&nbsp;                block.setMesh(DOME_MESH);</b>
+<b class="nc"><i>101</i>&nbsp;                block.setMaterial(DOME_MAT);</b>
+<b class="nc"><i>102</i>&nbsp;                break;</b>
+<i>103</i>&nbsp;            default:
+<b class="nc"><i>104</i>&nbsp;                throw new IndexOutOfBoundsException(height + &quot; should be in range 0 - 3&quot;);</b>
+<i>105</i>&nbsp;        }
+<i>106</i>&nbsp;        // Fill triangles
+<b class="nc"><i>107</i>&nbsp;        block.setDrawMode(DrawMode.FILL);</b>
 <i>108</i>&nbsp;
-<b class="nc"><i>109</i>&nbsp;        return block;</b>
-<i>110</i>&nbsp;    }
-<i>111</i>&nbsp;
-<i>112</i>&nbsp;    public static Node getWorker(int playerNumber, int workerNumber) {
-<b class="nc"><i>113</i>&nbsp;        MeshView worker = new MeshView();</b>
-<i>114</i>&nbsp;        // Assign Mesh
-<b class="nc"><i>115</i>&nbsp;        switch (workerNumber) {</b>
-<i>116</i>&nbsp;            case 0:
-<b class="nc"><i>117</i>&nbsp;                worker.setMesh(WORKER_M_MESH);</b>
-<b class="nc"><i>118</i>&nbsp;                break;</b>
-<i>119</i>&nbsp;            case 1:
-<b class="nc"><i>120</i>&nbsp;                worker.setMesh(WORKER_F_MESH);</b>
-<i>121</i>&nbsp;        }
-<i>122</i>&nbsp;        // Assign Texture
-<b class="nc"><i>123</i>&nbsp;        switch (playerNumber) {</b>
-<i>124</i>&nbsp;            case 0:
-<b class="nc"><i>125</i>&nbsp;                worker.setMaterial(workerNumber == 0 ? WORKER_M_BLUE_MAT : WORKER_F_BLUE_MAT);</b>
-<b class="nc"><i>126</i>&nbsp;                break;</b>
-<i>127</i>&nbsp;            case 1:
-<b class="nc"><i>128</i>&nbsp;                worker.setMaterial(workerNumber == 0 ? WORKER_M_ORANGE_MAT : WORKER_F_ORANGE_MAT);</b>
-<b class="nc"><i>129</i>&nbsp;                break;</b>
-<i>130</i>&nbsp;            case 2:
-<b class="nc"><i>131</i>&nbsp;                worker.setMaterial(workerNumber == 0 ? WORKER_M_PINK_MAT : WORKER_F_PINK_MAT);</b>
-<i>132</i>&nbsp;                break;
-<i>133</i>&nbsp;        }
-<i>134</i>&nbsp;        // Fill triangles
-<b class="nc"><i>135</i>&nbsp;        worker.setDrawMode(DrawMode.FILL);</b>
-<i>136</i>&nbsp;
-<i>137</i>&nbsp;        // Set position
-<b class="nc"><i>138</i>&nbsp;        worker.setTranslateX(0);</b>
-<b class="nc"><i>139</i>&nbsp;        worker.setTranslateY(10);</b>
-<b class="nc"><i>140</i>&nbsp;        worker.setTranslateZ(0);</b>
-<i>141</i>&nbsp;
-<i>142</i>&nbsp;        // Set scale (unified)
-<b class="nc"><i>143</i>&nbsp;        worker.setScaleX(1);</b>
-<b class="nc"><i>144</i>&nbsp;        worker.setScaleY(1);</b>
-<b class="nc"><i>145</i>&nbsp;        worker.setScaleZ(1);</b>
-<i>146</i>&nbsp;
-<b class="nc"><i>147</i>&nbsp;        return worker;</b>
-<i>148</i>&nbsp;    }
-<i>149</i>&nbsp;
-<i>150</i>&nbsp;    public static Node getSelectable() {
-<i>151</i>&nbsp;        // Spawn a flat rectangle
-<b class="nc"><i>152</i>&nbsp;        Box rect = new Box(2, 0.5, 2);</b>
-<i>153</i>&nbsp;        // Set material
-<i>154</i>&nbsp;        // PhongMaterial mat = new PhongMaterial();
-<i>155</i>&nbsp;        // mat.setDiffuseColor(Color.valueOf(&quot;f9d854aa&quot;));
+<i>109</i>&nbsp;        // Set position
+<b class="nc"><i>110</i>&nbsp;        block.setTranslateX(0);</b>
+<b class="nc"><i>111</i>&nbsp;        block.setTranslateY(10);</b>
+<b class="nc"><i>112</i>&nbsp;        block.setTranslateZ(0);</b>
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;        // Set scale (unified)
+<b class="nc"><i>115</i>&nbsp;        block.setScaleX(BLOCK_SCALE);</b>
+<b class="nc"><i>116</i>&nbsp;        block.setScaleY(BLOCK_SCALE);</b>
+<b class="nc"><i>117</i>&nbsp;        block.setScaleZ(BLOCK_SCALE);</b>
+<i>118</i>&nbsp;
+<b class="nc"><i>119</i>&nbsp;        return block;</b>
+<i>120</i>&nbsp;    }
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    /**
+<i>123</i>&nbsp;     * @param playerNumber id number of the player
+<i>124</i>&nbsp;     * @param workerNumber {0, 1} id number of the worker
+<i>125</i>&nbsp;     * @return a meshview of the worker of right gender and color
+<i>126</i>&nbsp;     */
+<i>127</i>&nbsp;    public static Node getWorker(int playerNumber, int workerNumber) {
+<b class="nc"><i>128</i>&nbsp;        MeshView worker = new MeshView();</b>
+<i>129</i>&nbsp;        // Assign Mesh
+<b class="nc"><i>130</i>&nbsp;        switch (workerNumber) {</b>
+<i>131</i>&nbsp;            case 0:
+<b class="nc"><i>132</i>&nbsp;                worker.setMesh(WORKER_M_MESH);</b>
+<b class="nc"><i>133</i>&nbsp;                break;</b>
+<i>134</i>&nbsp;            case 1:
+<b class="nc"><i>135</i>&nbsp;                worker.setMesh(WORKER_F_MESH);</b>
+<i>136</i>&nbsp;        }
+<i>137</i>&nbsp;        // Assign Texture
+<b class="nc"><i>138</i>&nbsp;        switch (playerNumber) {</b>
+<i>139</i>&nbsp;            case 0:
+<b class="nc"><i>140</i>&nbsp;                worker.setMaterial(workerNumber == 0 ? WORKER_M_BLUE_MAT : WORKER_F_BLUE_MAT);</b>
+<b class="nc"><i>141</i>&nbsp;                break;</b>
+<i>142</i>&nbsp;            case 1:
+<b class="nc"><i>143</i>&nbsp;                worker.setMaterial(workerNumber == 0 ? WORKER_M_ORANGE_MAT : WORKER_F_ORANGE_MAT);</b>
+<b class="nc"><i>144</i>&nbsp;                break;</b>
+<i>145</i>&nbsp;            case 2:
+<b class="nc"><i>146</i>&nbsp;                worker.setMaterial(workerNumber == 0 ? WORKER_M_PINK_MAT : WORKER_F_PINK_MAT);</b>
+<i>147</i>&nbsp;                break;
+<i>148</i>&nbsp;        }
+<i>149</i>&nbsp;        // Fill triangles
+<b class="nc"><i>150</i>&nbsp;        worker.setDrawMode(DrawMode.FILL);</b>
+<i>151</i>&nbsp;
+<i>152</i>&nbsp;        // Set position
+<b class="nc"><i>153</i>&nbsp;        worker.setTranslateX(0);</b>
+<b class="nc"><i>154</i>&nbsp;        worker.setTranslateY(10);</b>
+<b class="nc"><i>155</i>&nbsp;        worker.setTranslateZ(0);</b>
 <i>156</i>&nbsp;
-<b class="nc"><i>157</i>&nbsp;        rect.setMaterial(SELECTABLE_MAT);</b>
-<i>158</i>&nbsp;        // Animate it
-<b class="nc"><i>159</i>&nbsp;        Timeline timeline = new Timeline(</b>
-<b class="nc"><i>160</i>&nbsp;                new KeyFrame(Duration.millis(0),</b>
-<b class="nc"><i>161</i>&nbsp;                        new KeyValue(rect.scaleXProperty(), 1),</b>
-<b class="nc"><i>162</i>&nbsp;                        new KeyValue(rect.scaleZProperty(), 1)</b>
-<i>163</i>&nbsp;
-<i>164</i>&nbsp;                ),
-<b class="nc"><i>165</i>&nbsp;                new KeyFrame(Duration.millis(1500),</b>
-<b class="nc"><i>166</i>&nbsp;                        new KeyValue(rect.scaleXProperty(), 1.1),</b>
-<b class="nc"><i>167</i>&nbsp;                        new KeyValue(rect.scaleZProperty(), 1.1)</b>
-<i>168</i>&nbsp;                ),
-<b class="nc"><i>169</i>&nbsp;                new KeyFrame(Duration.millis(3000),</b>
-<b class="nc"><i>170</i>&nbsp;                        new KeyValue(rect.scaleXProperty(), 1),</b>
-<b class="nc"><i>171</i>&nbsp;                        new KeyValue(rect.scaleZProperty(), 1)</b>
-<i>172</i>&nbsp;
-<i>173</i>&nbsp;                )
-<i>174</i>&nbsp;        );
-<b class="nc"><i>175</i>&nbsp;        timeline.setCycleCount(Timeline.INDEFINITE);</b>
-<b class="nc"><i>176</i>&nbsp;        timeline.play();</b>
-<i>177</i>&nbsp;
-<b class="nc"><i>178</i>&nbsp;        return rect;</b>
-<i>179</i>&nbsp;    }
-<i>180</i>&nbsp;}
+<i>157</i>&nbsp;        // Set scale (unified)
+<b class="nc"><i>158</i>&nbsp;        worker.setScaleX(1);</b>
+<b class="nc"><i>159</i>&nbsp;        worker.setScaleY(1);</b>
+<b class="nc"><i>160</i>&nbsp;        worker.setScaleZ(1);</b>
+<i>161</i>&nbsp;
+<b class="nc"><i>162</i>&nbsp;        return worker;</b>
+<i>163</i>&nbsp;    }
+<i>164</i>&nbsp;
+<i>165</i>&nbsp;    /**
+<i>166</i>&nbsp;     * @return a select box to be used to detect selection
+<i>167</i>&nbsp;     */
+<i>168</i>&nbsp;    public static Node getSelectable() {
+<i>169</i>&nbsp;        // Spawn a flat rectangle
+<b class="nc"><i>170</i>&nbsp;        Box rect = new Box(2, 0.5, 2);</b>
+<i>171</i>&nbsp;        // Set material
+<i>172</i>&nbsp;        // PhongMaterial mat = new PhongMaterial();
+<i>173</i>&nbsp;        // mat.setDiffuseColor(Color.valueOf(&quot;f9d854aa&quot;));
+<i>174</i>&nbsp;
+<b class="nc"><i>175</i>&nbsp;        rect.setMaterial(SELECTABLE_MAT);</b>
+<i>176</i>&nbsp;        // Animate it
+<b class="nc"><i>177</i>&nbsp;        Timeline timeline = new Timeline(</b>
+<b class="nc"><i>178</i>&nbsp;                new KeyFrame(Duration.millis(0),</b>
+<b class="nc"><i>179</i>&nbsp;                        new KeyValue(rect.scaleXProperty(), 1),</b>
+<b class="nc"><i>180</i>&nbsp;                        new KeyValue(rect.scaleZProperty(), 1)</b>
 <i>181</i>&nbsp;
+<i>182</i>&nbsp;                ),
+<b class="nc"><i>183</i>&nbsp;                new KeyFrame(Duration.millis(1500),</b>
+<b class="nc"><i>184</i>&nbsp;                        new KeyValue(rect.scaleXProperty(), 1.1),</b>
+<b class="nc"><i>185</i>&nbsp;                        new KeyValue(rect.scaleZProperty(), 1.1)</b>
+<i>186</i>&nbsp;                ),
+<b class="nc"><i>187</i>&nbsp;                new KeyFrame(Duration.millis(3000),</b>
+<b class="nc"><i>188</i>&nbsp;                        new KeyValue(rect.scaleXProperty(), 1),</b>
+<b class="nc"><i>189</i>&nbsp;                        new KeyValue(rect.scaleZProperty(), 1)</b>
+<i>190</i>&nbsp;
+<i>191</i>&nbsp;                )
+<i>192</i>&nbsp;        );
+<b class="nc"><i>193</i>&nbsp;        timeline.setCycleCount(Timeline.INDEFINITE);</b>
+<b class="nc"><i>194</i>&nbsp;        timeline.play();</b>
+<i>195</i>&nbsp;
+<b class="nc"><i>196</i>&nbsp;        return rect;</b>
+<i>197</i>&nbsp;    }
+<i>198</i>&nbsp;}
+<i>199</i>&nbsp;
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

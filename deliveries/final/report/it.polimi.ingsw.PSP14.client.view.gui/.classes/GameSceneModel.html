@@ -61,7 +61,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 209)
+    (0/ 205)
   </span>
 </td>
 </tr>
@@ -100,293 +100,293 @@
 <i>26</i>&nbsp;import javafx.scene.shape.MeshView;
 <i>27</i>&nbsp;import javafx.util.Duration;
 <i>28</i>&nbsp;
-<i>29</i>&nbsp;public class GameSceneModel {
-<i>30</i>&nbsp;    private static final double WALLS_X = 8.65;
-<i>31</i>&nbsp;    private static final double WALLS_SCALE = 1;
-<i>32</i>&nbsp;    private static final double WALLS_Y = 3.5;
-<i>33</i>&nbsp;    private static final double WALLS_Z = 8.65;
-<i>34</i>&nbsp;    private static final double BLOCK_X = -0.3;
-<i>35</i>&nbsp;    private static final double BLOCK_Z = -0.1;
-<i>36</i>&nbsp;    private static final double BLOCK_Y_1 = 1.2; // lv 1
-<i>37</i>&nbsp;    private static final double BLOCK_Y_2 = 0; // lv2
-<i>38</i>&nbsp;    private static final double BLOCK_Y_3 = -1.9; //lv 3
-<i>39</i>&nbsp;    private static final double BLOCK_Y_4 = -3; // dome
-<i>40</i>&nbsp;    private static final double BLOCK_Y_HIDE = 5; // dome
-<i>41</i>&nbsp;    private static final double BLOCK_SCALE = 0.35;
-<i>42</i>&nbsp;    private static final double WORKER_Y_HIDE = 5;
-<i>43</i>&nbsp;    private static final double WORKER_Y_1 = -1; // ground
-<i>44</i>&nbsp;    private static final double WORKER_Y_2 = -2.3; // lv 1
-<i>45</i>&nbsp;    private static final double WORKER_Y_3 = -3.4; // lv 2
-<i>46</i>&nbsp;    private static final double WORKER_Y_4 = -4.25; // lv 3
-<i>47</i>&nbsp;    private static final double SELECT_HEIGHT = 0.4;
-<i>48</i>&nbsp;    private static final double SELECT_Y_1 = 0 - SELECT_HEIGHT/2; // ground
-<i>49</i>&nbsp;    private static final double SELECT_Y_2 = -1.5 - SELECT_HEIGHT/2; // lv 1
-<i>50</i>&nbsp;    private static final double SELECT_Y_3 = -2.5 - SELECT_HEIGHT/2; // lv 2
-<i>51</i>&nbsp;    private static final double SELECT_Y_4 = -3.5 - SELECT_HEIGHT/2; // lv 3
-<i>52</i>&nbsp;
-<i>53</i>&nbsp;    // Contains all actors, accessible with an ID
-<b class="nc"><i>54</i>&nbsp;    private final Map&lt;String, Node&gt; actors = new HashMap&lt;&gt;();</b>
-<b class="nc"><i>55</i>&nbsp;    private final Group root = new Group();</b>
-<i>56</i>&nbsp;
-<b class="nc"><i>57</i>&nbsp;    public GameSceneModel() {</b>
-<b class="nc"><i>58</i>&nbsp;        setupScenery();</b>
-<b class="nc"><i>59</i>&nbsp;    }</b>
-<i>60</i>&nbsp;
-<b class="nc"><i>61</i>&nbsp;    public Group getRoot() { return root; }</b>
+<i>29</i>&nbsp;/**
+<i>30</i>&nbsp; * This class manages the actors in a 3D context,
+<i>31</i>&nbsp; * bridging the viewable content with the abstract data
+<i>32</i>&nbsp; * from the server, through a series of utility methods.
+<i>33</i>&nbsp; */
+<i>34</i>&nbsp;public class GameSceneModel {
+<i>35</i>&nbsp;    private static final double
+<i>36</i>&nbsp;            WALLS_X = 8.65,
+<i>37</i>&nbsp;            WALLS_SCALE = 1,
+<i>38</i>&nbsp;            WALLS_Y = 3.5,
+<i>39</i>&nbsp;            WALLS_Z = 8.65,
+<i>40</i>&nbsp;            BLOCK_X = -0.3,
+<i>41</i>&nbsp;            BLOCK_Z = -0.1,
+<i>42</i>&nbsp;            BLOCK_Y_1 = 1.2, // lv 1
+<i>43</i>&nbsp;            BLOCK_Y_2 = 0, // lv2
+<i>44</i>&nbsp;            BLOCK_Y_3 = -1.9, //lv 3
+<i>45</i>&nbsp;            BLOCK_Y_4 = -3, // dome
+<i>46</i>&nbsp;            BLOCK_Y_HIDE = 5, // dome
+<i>47</i>&nbsp;            BLOCK_SCALE = 0.35,
+<i>48</i>&nbsp;            WORKER_Y_HIDE = 5,
+<i>49</i>&nbsp;            WORKER_Y_1 = -1, // ground
+<i>50</i>&nbsp;            WORKER_Y_2 = -2.3, // lv 1
+<i>51</i>&nbsp;            WORKER_Y_3 = -3.4, // lv 2
+<i>52</i>&nbsp;            WORKER_Y_4 = -4.25, // lv 3
+<i>53</i>&nbsp;            SELECT_HEIGHT = 0.4,
+<i>54</i>&nbsp;            SELECT_Y_1 = 0 - SELECT_HEIGHT/2, // ground
+<i>55</i>&nbsp;            SELECT_Y_2 = -1.5 - SELECT_HEIGHT/2, // lv 1
+<i>56</i>&nbsp;            SELECT_Y_3 = -2.5 - SELECT_HEIGHT/2, // lv 2
+<i>57</i>&nbsp;            SELECT_Y_4 = -3.5 - SELECT_HEIGHT/2; // lv 3
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    // Contains all actors, accessible with an ID
+<b class="nc"><i>60</i>&nbsp;    private final Map&lt;String, Node&gt; actors = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>61</i>&nbsp;    private final Group root = new Group();</b>
 <i>62</i>&nbsp;
-<i>63</i>&nbsp;    /**
-<i>64</i>&nbsp;     * Init the scenery (sea, board, cliff, all the cosmetic stuff).
-<i>65</i>&nbsp;     */
-<i>66</i>&nbsp;    public void setupScenery() {
-<b class="nc"><i>67</i>&nbsp;        addActor(&quot;sea&quot;, &quot;/assets/Sea.obj&quot;, &quot;/assets/Sea.png&quot;, new Point3D(0, 3, 0), 1);</b>
-<b class="nc"><i>68</i>&nbsp;        addActor(&quot;cliff&quot;, &quot;/assets/Cliff.obj&quot;, &quot;/assets/Cliff_v001.png&quot;, new Point3D(-0.1, 1.4, 0), 7.9);</b>
-<b class="nc"><i>69</i>&nbsp;        addActor(&quot;board&quot;, &quot;/assets/Board.obj&quot;, &quot;/assets/Cliff_v001.png&quot;, new Point3D(0, 0, 0), 1);</b>
-<b class="nc"><i>70</i>&nbsp;        addActor(&quot;outerWall&quot;, &quot;/assets/OuterWall.obj&quot;, &quot;/assets/Cliff_v001.png&quot;, new Point3D(WALLS_X, WALLS_Y, WALLS_Z), WALLS_SCALE);</b>
-<b class="nc"><i>71</i>&nbsp;        addActor(&quot;innerWall&quot;, &quot;/assets/InnerWalls.obj&quot;, &quot;/assets/Cliff_v001.png&quot;, new Point3D(WALLS_X, WALLS_Y, WALLS_Z), WALLS_SCALE);</b>
-<i>72</i>&nbsp;
-<b class="nc"><i>73</i>&nbsp;        AmbientLight ambientLight = new AmbientLight();</b>
-<b class="nc"><i>74</i>&nbsp;        ambientLight.setColor(Color.LIGHTYELLOW);</b>
-<b class="nc"><i>75</i>&nbsp;        actors.put(&quot;light&quot;, ambientLight);</b>
-<b class="nc"><i>76</i>&nbsp;        root.getChildren().add(ambientLight);</b>
-<b class="nc"><i>77</i>&nbsp;    }</b>
+<b class="nc"><i>63</i>&nbsp;    public GameSceneModel() {</b>
+<b class="nc"><i>64</i>&nbsp;        setupScenery();</b>
+<b class="nc"><i>65</i>&nbsp;    }</b>
+<i>66</i>&nbsp;
+<b class="nc"><i>67</i>&nbsp;    public Group getRoot() { return root; }</b>
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    /**
+<i>70</i>&nbsp;     * Init the scenery (sea, board, cliff, all the cosmetic stuff).
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;    public void setupScenery() {
+<b class="nc"><i>73</i>&nbsp;        addActor(&quot;sea&quot;, &quot;/assets/Sea.obj&quot;, &quot;/assets/Sea.png&quot;, new Point3D(0, 3, 0), 1);</b>
+<b class="nc"><i>74</i>&nbsp;        addActor(&quot;cliff&quot;, &quot;/assets/Cliff.obj&quot;, &quot;/assets/Cliff_v001.png&quot;, new Point3D(-0.1, 1.4, 0), 7.9);</b>
+<b class="nc"><i>75</i>&nbsp;        addActor(&quot;board&quot;, &quot;/assets/Board.obj&quot;, &quot;/assets/Cliff_v001.png&quot;, new Point3D(0, 0, 0), 1);</b>
+<b class="nc"><i>76</i>&nbsp;        addActor(&quot;outerWall&quot;, &quot;/assets/OuterWall.obj&quot;, &quot;/assets/Cliff_v001.png&quot;, new Point3D(WALLS_X, WALLS_Y, WALLS_Z), WALLS_SCALE);</b>
+<b class="nc"><i>77</i>&nbsp;        addActor(&quot;innerWall&quot;, &quot;/assets/InnerWalls.obj&quot;, &quot;/assets/Cliff_v001.png&quot;, new Point3D(WALLS_X, WALLS_Y, WALLS_Z), WALLS_SCALE);</b>
 <i>78</i>&nbsp;
-<i>79</i>&nbsp;    /**
-<i>80</i>&nbsp;     * Add an actor to the scene
-<i>81</i>&nbsp;     * @param id the id of the actor
-<i>82</i>&nbsp;     * @param meshUrl an absolute path relative to the resource
-<i>83</i>&nbsp;     *                folder where the OBJ model resides.
-<i>84</i>&nbsp;     * @param textureUrl an absolute path relative to the resource
-<i>85</i>&nbsp; *                    folder where the PNG texture resides.
-<i>86</i>&nbsp;     * @param position the position of the actor
-<i>87</i>&nbsp;     * @param scale the scale of the actor
-<i>88</i>&nbsp;     */
-<i>89</i>&nbsp;    public void addActor(String id, String meshUrl, String textureUrl, Point3D position, double scale) {
-<i>90</i>&nbsp;        // Import 3D resource
-<b class="nc"><i>91</i>&nbsp;        URL modelUrl = ActorFactory.class.getResource(meshUrl);</b>
-<b class="nc"><i>92</i>&nbsp;        ObjModelImporter objImporter = new ObjModelImporter();</b>
-<i>93</i>&nbsp;
-<b class="nc"><i>94</i>&nbsp;        objImporter.read(modelUrl);</b>
-<b class="nc"><i>95</i>&nbsp;        MeshView[] meshViews = objImporter.getImport();</b>
-<b class="nc"><i>96</i>&nbsp;        objImporter.close();</b>
-<i>97</i>&nbsp;
-<i>98</i>&nbsp;        // Get the first mesh (there should not be multiple meshes)
-<b class="nc"><i>99</i>&nbsp;        MeshView meshView = meshViews[0];</b>
-<b class="nc"><i>100</i>&nbsp;        meshView.setCullFace(CullFace.BACK);</b>
-<i>101</i>&nbsp;
-<i>102</i>&nbsp;        // Apply textures
-<i>103</i>&nbsp;        // This looks up to /resources/
-<b class="nc"><i>104</i>&nbsp;        Image texture = new Image(textureUrl);</b>
-<b class="nc"><i>105</i>&nbsp;        PhongMaterial texturedMaterial = new PhongMaterial();</b>
-<b class="nc"><i>106</i>&nbsp;        texturedMaterial.setDiffuseMap(texture);</b>
-<b class="nc"><i>107</i>&nbsp;        meshView.setDrawMode(DrawMode.FILL);</b>
-<b class="nc"><i>108</i>&nbsp;        meshView.setMaterial(texturedMaterial);</b>
-<i>109</i>&nbsp;
-<b class="nc"><i>110</i>&nbsp;        meshView.setTranslateX(position.getX());</b>
-<b class="nc"><i>111</i>&nbsp;        meshView.setTranslateY(position.getY());</b>
-<b class="nc"><i>112</i>&nbsp;        meshView.setTranslateZ(position.getZ());</b>
-<i>113</i>&nbsp;
-<b class="nc"><i>114</i>&nbsp;        meshView.setScaleX(scale);</b>
-<b class="nc"><i>115</i>&nbsp;        meshView.setScaleY(scale);</b>
-<b class="nc"><i>116</i>&nbsp;        meshView.setScaleZ(scale);</b>
-<i>117</i>&nbsp;
-<b class="nc"><i>118</i>&nbsp;        actors.put(id, meshView);</b>
-<b class="nc"><i>119</i>&nbsp;        root.getChildren().add(meshView);</b>
-<b class="nc"><i>120</i>&nbsp;    }</b>
-<i>121</i>&nbsp;
-<i>122</i>&nbsp;    /**
-<i>123</i>&nbsp;     * Get an actor (Node) from the actors data structure
-<i>124</i>&nbsp;     * @param id the key of that actor
-<i>125</i>&nbsp;     * @return the Node of that actor
-<i>126</i>&nbsp;     */
-<i>127</i>&nbsp;    public Node getActorById(String id) {
-<b class="nc"><i>128</i>&nbsp;        return actors.get(id);</b>
-<i>129</i>&nbsp;    }
-<i>130</i>&nbsp;
-<i>131</i>&nbsp;    /**
-<i>132</i>&nbsp;     * Get a worker actor id.
-<i>133</i>&nbsp;     * @param player the worker&#39;s player number
-<i>134</i>&nbsp;     * @param workerId the worker&#39;s number
-<i>135</i>&nbsp;     * @return a key (String) representing that worker
-<i>136</i>&nbsp;     */
-<i>137</i>&nbsp;    public static String getWorkerActorId(int player, int workerId) {
-<b class="nc"><i>138</i>&nbsp;        return &quot;worker&quot; + player + workerId;</b>
-<i>139</i>&nbsp;    }
-<i>140</i>&nbsp;
-<i>141</i>&nbsp;    /**
-<i>142</i>&nbsp;     * Add a worker to the board.
-<i>143</i>&nbsp;     * @param point a model coordinate
-<i>144</i>&nbsp;     * @param workerId the worker id number
-<i>145</i>&nbsp;     * @param playerId the player id number
-<i>146</i>&nbsp;     */
-<i>147</i>&nbsp;    public void addWorker(Point point, int workerId, int playerId) {
-<b class="nc"><i>148</i>&nbsp;        Node worker = ActorFactory.getWorker(playerId, workerId);</b>
-<b class="nc"><i>149</i>&nbsp;        Point3D target = getSceneWorkerCoordinates(point);</b>
-<b class="nc"><i>150</i>&nbsp;        setNodeToPoint3D(worker, target);</b>
-<b class="nc"><i>151</i>&nbsp;        addToActorsAndRegister(getWorkerActorId(playerId, workerId), worker);</b>
-<b class="nc"><i>152</i>&nbsp;    }</b>
-<i>153</i>&nbsp;
-<i>154</i>&nbsp;    /**
-<i>155</i>&nbsp;     * Remove a worker from the game.
-<i>156</i>&nbsp;     * @param workerId the worker id number
-<i>157</i>&nbsp;     * @param playerId the player id number
-<i>158</i>&nbsp;     */
-<i>159</i>&nbsp;    public void removeWorker(int workerId, int playerId) {
-<b class="nc"><i>160</i>&nbsp;        Node worker = actors.get(getWorkerActorId(playerId, workerId));</b>
-<b class="nc"><i>161</i>&nbsp;        actors.remove(getWorkerActorId(playerId, workerId));</b>
-<b class="nc"><i>162</i>&nbsp;        root.getChildren().remove(worker);</b>
-<b class="nc"><i>163</i>&nbsp;    }</b>
-<i>164</i>&nbsp;
-<i>165</i>&nbsp;    /**
-<i>166</i>&nbsp;     * Get a worker by passing the player it belongs to and the id of the worker.
-<i>167</i>&nbsp;     * @param player the player number
-<i>168</i>&nbsp;     * @param worker the worker number
-<i>169</i>&nbsp;     * @return that worker&#39;s node reference
-<i>170</i>&nbsp;     */
-<i>171</i>&nbsp;    public Node getWorker(int player, int worker) {
-<b class="nc"><i>172</i>&nbsp;        return actors.get(getWorkerActorId(player, worker));</b>
-<i>173</i>&nbsp;    }
-<i>174</i>&nbsp;
-<i>175</i>&nbsp;    /**
-<i>176</i>&nbsp;     * Return a collection of nodes representing all the workers
-<i>177</i>&nbsp;     * in the game.
-<i>178</i>&nbsp;     * @return a collection of nodes
-<i>179</i>&nbsp;     */
-<i>180</i>&nbsp;    public List&lt;Node&gt; getAllWorkers() {
-<b class="nc"><i>181</i>&nbsp;        return actors.keySet().stream()</b>
-<b class="nc"><i>182</i>&nbsp;                .filter(k -&gt; k.startsWith(&quot;worker&quot;))</b>
-<b class="nc"><i>183</i>&nbsp;                .map(actors::get)</b>
-<b class="nc"><i>184</i>&nbsp;                .collect(Collectors.toList());</b>
-<i>185</i>&nbsp;    }
-<i>186</i>&nbsp;
-<i>187</i>&nbsp;    /**
-<i>188</i>&nbsp;     * Return an ordered list of points representing all the workers
-<i>189</i>&nbsp;     * of a certain player.
-<i>190</i>&nbsp;     * @param playerId the id of the player
-<i>191</i>&nbsp;     * @return a list of points
-<i>192</i>&nbsp;     */
-<i>193</i>&nbsp;    public List&lt;Point&gt; getAllPlayerWorkers(int playerId) {
-<b class="nc"><i>194</i>&nbsp;        List&lt;Point&gt; points = new ArrayList&lt;&gt;();</b>
-<b class="nc"><i>195</i>&nbsp;        for(int i = 0; i &lt; 2; ++i) {</b>
-<b class="nc"><i>196</i>&nbsp;            points.add(getBoardCoordinates(actors.get(&quot;worker&quot;+playerId+i)));</b>
-<i>197</i>&nbsp;        }
-<i>198</i>&nbsp;
-<b class="nc"><i>199</i>&nbsp;        return points;</b>
-<i>200</i>&nbsp;    }
-<i>201</i>&nbsp;
-<i>202</i>&nbsp;    /**
-<i>203</i>&nbsp;     * Return a list of nodes representing all the building components
-<i>204</i>&nbsp;     * in the game.
-<i>205</i>&nbsp;     * @return a collection of nodes
-<i>206</i>&nbsp;     */
-<i>207</i>&nbsp;    public List&lt;Node&gt; getAllBlocks() {
-<b class="nc"><i>208</i>&nbsp;        return actors.keySet().stream()</b>
-<b class="nc"><i>209</i>&nbsp;                .filter(k -&gt; k.startsWith(&quot;block&quot;))</b>
-<b class="nc"><i>210</i>&nbsp;                .map(actors::get)</b>
-<b class="nc"><i>211</i>&nbsp;                .collect(Collectors.toList());</b>
-<i>212</i>&nbsp;    }
-<i>213</i>&nbsp;
-<i>214</i>&nbsp;    /**
-<i>215</i>&nbsp;     * Hide the block passed as a parameter with a cool animation.
-<i>216</i>&nbsp;     * Unsafe: due to performance reasons, we don&#39;t check if we&#39;re resizing an
-<i>217</i>&nbsp;     * actual block or another node. Nothing bad should happen, except a (possible)
-<i>218</i>&nbsp;     * visual glitch.
-<i>219</i>&nbsp;     * @param block the block to hide
-<i>220</i>&nbsp;     */
-<i>221</i>&nbsp;    public void hideBlock(Node block) {
-<b class="nc"><i>222</i>&nbsp;        Timeline scaleBlockTimeline = new Timeline(</b>
-<i>223</i>&nbsp;                new KeyFrame(
-<b class="nc"><i>224</i>&nbsp;                        Duration.seconds(0),</b>
-<b class="nc"><i>225</i>&nbsp;                        new KeyValue(block.scaleXProperty(), BLOCK_SCALE),</b>
-<b class="nc"><i>226</i>&nbsp;                        new KeyValue(block.scaleYProperty(), BLOCK_SCALE),</b>
-<b class="nc"><i>227</i>&nbsp;                        new KeyValue(block.scaleZProperty(), BLOCK_SCALE)</b>
-<i>228</i>&nbsp;                ),
+<b class="nc"><i>79</i>&nbsp;        AmbientLight ambientLight = new AmbientLight();</b>
+<b class="nc"><i>80</i>&nbsp;        ambientLight.setColor(Color.LIGHTYELLOW);</b>
+<b class="nc"><i>81</i>&nbsp;        actors.put(&quot;light&quot;, ambientLight);</b>
+<b class="nc"><i>82</i>&nbsp;        root.getChildren().add(ambientLight);</b>
+<b class="nc"><i>83</i>&nbsp;    }</b>
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    /**
+<i>86</i>&nbsp;     * Add an actor to the scene
+<i>87</i>&nbsp;     * @param id the id of the actor
+<i>88</i>&nbsp;     * @param meshUrl an absolute path relative to the resource
+<i>89</i>&nbsp;     *                folder where the OBJ model resides.
+<i>90</i>&nbsp;     * @param textureUrl an absolute path relative to the resource
+<i>91</i>&nbsp; *                    folder where the PNG texture resides.
+<i>92</i>&nbsp;     * @param position the position of the actor
+<i>93</i>&nbsp;     * @param scale the scale of the actor
+<i>94</i>&nbsp;     */
+<i>95</i>&nbsp;    public void addActor(String id, String meshUrl, String textureUrl, Point3D position, double scale) {
+<i>96</i>&nbsp;        // Import 3D resource
+<b class="nc"><i>97</i>&nbsp;        URL modelUrl = ActorFactory.class.getResource(meshUrl);</b>
+<b class="nc"><i>98</i>&nbsp;        ObjModelImporter objImporter = new ObjModelImporter();</b>
+<i>99</i>&nbsp;
+<b class="nc"><i>100</i>&nbsp;        objImporter.read(modelUrl);</b>
+<b class="nc"><i>101</i>&nbsp;        MeshView[] meshViews = objImporter.getImport();</b>
+<b class="nc"><i>102</i>&nbsp;        objImporter.close();</b>
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;        // Get the first mesh (there should not be multiple meshes)
+<b class="nc"><i>105</i>&nbsp;        MeshView meshView = meshViews[0];</b>
+<b class="nc"><i>106</i>&nbsp;        meshView.setCullFace(CullFace.BACK);</b>
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;        // Apply textures
+<i>109</i>&nbsp;        // This looks up to /resources/
+<b class="nc"><i>110</i>&nbsp;        Image texture = new Image(textureUrl);</b>
+<b class="nc"><i>111</i>&nbsp;        PhongMaterial texturedMaterial = new PhongMaterial();</b>
+<b class="nc"><i>112</i>&nbsp;        texturedMaterial.setDiffuseMap(texture);</b>
+<b class="nc"><i>113</i>&nbsp;        meshView.setDrawMode(DrawMode.FILL);</b>
+<b class="nc"><i>114</i>&nbsp;        meshView.setMaterial(texturedMaterial);</b>
+<i>115</i>&nbsp;
+<b class="nc"><i>116</i>&nbsp;        meshView.setTranslateX(position.getX());</b>
+<b class="nc"><i>117</i>&nbsp;        meshView.setTranslateY(position.getY());</b>
+<b class="nc"><i>118</i>&nbsp;        meshView.setTranslateZ(position.getZ());</b>
+<i>119</i>&nbsp;
+<b class="nc"><i>120</i>&nbsp;        meshView.setScaleX(scale);</b>
+<b class="nc"><i>121</i>&nbsp;        meshView.setScaleY(scale);</b>
+<b class="nc"><i>122</i>&nbsp;        meshView.setScaleZ(scale);</b>
+<i>123</i>&nbsp;
+<b class="nc"><i>124</i>&nbsp;        actors.put(id, meshView);</b>
+<b class="nc"><i>125</i>&nbsp;        root.getChildren().add(meshView);</b>
+<b class="nc"><i>126</i>&nbsp;    }</b>
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;    /**
+<i>129</i>&nbsp;     * Get an actor (Node) from the actors data structure
+<i>130</i>&nbsp;     * @param id the key of that actor
+<i>131</i>&nbsp;     * @return the Node of that actor
+<i>132</i>&nbsp;     */
+<i>133</i>&nbsp;    public Node getActorById(String id) {
+<b class="nc"><i>134</i>&nbsp;        return actors.get(id);</b>
+<i>135</i>&nbsp;    }
+<i>136</i>&nbsp;
+<i>137</i>&nbsp;    /**
+<i>138</i>&nbsp;     * Get a worker actor id.
+<i>139</i>&nbsp;     * @param player the worker&#39;s player number
+<i>140</i>&nbsp;     * @param workerId the worker&#39;s number
+<i>141</i>&nbsp;     * @return a key (String) representing that worker
+<i>142</i>&nbsp;     */
+<i>143</i>&nbsp;    public static String getWorkerActorId(int player, int workerId) {
+<b class="nc"><i>144</i>&nbsp;        return &quot;worker&quot; + player + workerId;</b>
+<i>145</i>&nbsp;    }
+<i>146</i>&nbsp;
+<i>147</i>&nbsp;    /**
+<i>148</i>&nbsp;     * Add a worker to the board.
+<i>149</i>&nbsp;     * @param point a model coordinate
+<i>150</i>&nbsp;     * @param workerId the worker id number
+<i>151</i>&nbsp;     * @param playerId the player id number
+<i>152</i>&nbsp;     */
+<i>153</i>&nbsp;    public void addWorker(Point point, int workerId, int playerId) {
+<b class="nc"><i>154</i>&nbsp;        Node worker = ActorFactory.getWorker(playerId, workerId);</b>
+<b class="nc"><i>155</i>&nbsp;        Point3D target = getSceneWorkerCoordinates(point);</b>
+<b class="nc"><i>156</i>&nbsp;        setNodeToPoint3D(worker, target);</b>
+<b class="nc"><i>157</i>&nbsp;        addToActorsAndRegister(getWorkerActorId(playerId, workerId), worker);</b>
+<b class="nc"><i>158</i>&nbsp;    }</b>
+<i>159</i>&nbsp;
+<i>160</i>&nbsp;    /**
+<i>161</i>&nbsp;     * Remove a worker from the game.
+<i>162</i>&nbsp;     * @param workerId the worker id number
+<i>163</i>&nbsp;     * @param playerId the player id number
+<i>164</i>&nbsp;     */
+<i>165</i>&nbsp;    public void removeWorker(int workerId, int playerId) {
+<b class="nc"><i>166</i>&nbsp;        Node worker = actors.get(getWorkerActorId(playerId, workerId));</b>
+<b class="nc"><i>167</i>&nbsp;        actors.remove(getWorkerActorId(playerId, workerId));</b>
+<b class="nc"><i>168</i>&nbsp;        root.getChildren().remove(worker);</b>
+<b class="nc"><i>169</i>&nbsp;    }</b>
+<i>170</i>&nbsp;
+<i>171</i>&nbsp;    /**
+<i>172</i>&nbsp;     * Get a worker by passing the player it belongs to and the id of the worker.
+<i>173</i>&nbsp;     * @param player the player number
+<i>174</i>&nbsp;     * @param worker the worker number
+<i>175</i>&nbsp;     * @return that worker&#39;s node reference
+<i>176</i>&nbsp;     */
+<i>177</i>&nbsp;    public Node getWorker(int player, int worker) {
+<b class="nc"><i>178</i>&nbsp;        return actors.get(getWorkerActorId(player, worker));</b>
+<i>179</i>&nbsp;    }
+<i>180</i>&nbsp;
+<i>181</i>&nbsp;    /**
+<i>182</i>&nbsp;     * Return a collection of nodes representing all the workers
+<i>183</i>&nbsp;     * in the game.
+<i>184</i>&nbsp;     * @return a collection of nodes
+<i>185</i>&nbsp;     */
+<i>186</i>&nbsp;    public List&lt;Node&gt; getAllWorkers() {
+<b class="nc"><i>187</i>&nbsp;        return actors.keySet().stream()</b>
+<b class="nc"><i>188</i>&nbsp;                .filter(k -&gt; k.startsWith(&quot;worker&quot;))</b>
+<b class="nc"><i>189</i>&nbsp;                .map(actors::get)</b>
+<b class="nc"><i>190</i>&nbsp;                .collect(Collectors.toList());</b>
+<i>191</i>&nbsp;    }
+<i>192</i>&nbsp;
+<i>193</i>&nbsp;    /**
+<i>194</i>&nbsp;     * Return an ordered list of points representing all the workers
+<i>195</i>&nbsp;     * of a certain player.
+<i>196</i>&nbsp;     * @param playerId the id of the player
+<i>197</i>&nbsp;     * @return a list of points
+<i>198</i>&nbsp;     */
+<i>199</i>&nbsp;    public List&lt;Point&gt; getAllPlayerWorkers(int playerId) {
+<b class="nc"><i>200</i>&nbsp;        List&lt;Point&gt; points = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>201</i>&nbsp;        for(int i = 0; i &lt; 2; ++i) {</b>
+<b class="nc"><i>202</i>&nbsp;            points.add(getBoardCoordinates(actors.get(&quot;worker&quot;+playerId+i)));</b>
+<i>203</i>&nbsp;        }
+<i>204</i>&nbsp;
+<b class="nc"><i>205</i>&nbsp;        return points;</b>
+<i>206</i>&nbsp;    }
+<i>207</i>&nbsp;
+<i>208</i>&nbsp;    /**
+<i>209</i>&nbsp;     * Return a list of nodes representing all the building components
+<i>210</i>&nbsp;     * in the game.
+<i>211</i>&nbsp;     * @return a collection of nodes
+<i>212</i>&nbsp;     */
+<i>213</i>&nbsp;    public List&lt;Node&gt; getAllBlocks() {
+<b class="nc"><i>214</i>&nbsp;        return actors.keySet().stream()</b>
+<b class="nc"><i>215</i>&nbsp;                .filter(k -&gt; k.startsWith(&quot;block&quot;))</b>
+<b class="nc"><i>216</i>&nbsp;                .map(actors::get)</b>
+<b class="nc"><i>217</i>&nbsp;                .collect(Collectors.toList());</b>
+<i>218</i>&nbsp;    }
+<i>219</i>&nbsp;
+<i>220</i>&nbsp;    /**
+<i>221</i>&nbsp;     * Hide the block passed as a parameter with a cool animation.
+<i>222</i>&nbsp;     * Unsafe: due to performance reasons, we don&#39;t check if we&#39;re resizing an
+<i>223</i>&nbsp;     * actual block or another node. Nothing bad should happen, except a (possible)
+<i>224</i>&nbsp;     * visual glitch.
+<i>225</i>&nbsp;     * @param block the block to hide
+<i>226</i>&nbsp;     */
+<i>227</i>&nbsp;    public void hideBlock(Node block) {
+<b class="nc"><i>228</i>&nbsp;        Timeline scaleBlockTimeline = new Timeline(</b>
 <i>229</i>&nbsp;                new KeyFrame(
-<b class="nc"><i>230</i>&nbsp;                        Duration.millis(500),</b>
-<b class="nc"><i>231</i>&nbsp;                        new KeyValue(block.scaleXProperty(), 0),</b>
-<b class="nc"><i>232</i>&nbsp;                        new KeyValue(block.scaleYProperty(), 0),</b>
-<b class="nc"><i>233</i>&nbsp;                        new KeyValue(block.scaleZProperty(), 0)</b>
-<i>234</i>&nbsp;                )
-<i>235</i>&nbsp;        );
-<b class="nc"><i>236</i>&nbsp;        scaleBlockTimeline.setCycleCount(1);</b>
-<b class="nc"><i>237</i>&nbsp;        scaleBlockTimeline.play();</b>
-<b class="nc"><i>238</i>&nbsp;    }</b>
-<i>239</i>&nbsp;
-<i>240</i>&nbsp;    /**
-<i>241</i>&nbsp;     * Show the block passed as a parameter with a cool animation.
-<i>242</i>&nbsp;     * Unsafe: same reason as {@link #hideBlock(Node)}
-<i>243</i>&nbsp;     * @param block the block to show
-<i>244</i>&nbsp;     */
-<i>245</i>&nbsp;    public void showBlock(Node block) {
-<b class="nc"><i>246</i>&nbsp;        Timeline scaleBlockTimeline = new Timeline(</b>
-<i>247</i>&nbsp;                new KeyFrame(
-<b class="nc"><i>248</i>&nbsp;                        Duration.seconds(0),</b>
-<b class="nc"><i>249</i>&nbsp;                        new KeyValue(block.translateYProperty(), block.getTranslateY() + 1),</b>
-<b class="nc"><i>250</i>&nbsp;                        new KeyValue(block.scaleXProperty(), 0),</b>
-<b class="nc"><i>251</i>&nbsp;                        new KeyValue(block.scaleYProperty(), 0),</b>
-<b class="nc"><i>252</i>&nbsp;                        new KeyValue(block.scaleZProperty(), 0)</b>
-<i>253</i>&nbsp;                ),
-<i>254</i>&nbsp;                new KeyFrame(
-<b class="nc"><i>255</i>&nbsp;                        Duration.millis(500),</b>
-<b class="nc"><i>256</i>&nbsp;                        new KeyValue(block.translateYProperty(), block.getTranslateY()),</b>
-<b class="nc"><i>257</i>&nbsp;                        new KeyValue(block.scaleXProperty(), BLOCK_SCALE),</b>
-<b class="nc"><i>258</i>&nbsp;                        new KeyValue(block.scaleYProperty(), BLOCK_SCALE),</b>
-<b class="nc"><i>259</i>&nbsp;                        new KeyValue(block.scaleZProperty(), BLOCK_SCALE)</b>
-<i>260</i>&nbsp;                )
-<i>261</i>&nbsp;        );
-<b class="nc"><i>262</i>&nbsp;        scaleBlockTimeline.setCycleCount(1);</b>
-<b class="nc"><i>263</i>&nbsp;        scaleBlockTimeline.play();</b>
-<b class="nc"><i>264</i>&nbsp;    }</b>
-<i>265</i>&nbsp;
-<i>266</i>&nbsp;    /**
-<i>267</i>&nbsp;     * Move a worker with a cool animation.
-<i>268</i>&nbsp;     * @param playerNumber the number of the worker&#39;s player (0, 1, 2)
-<i>269</i>&nbsp;     * @param workerNumber the number of the worker (0 or 1)
-<i>270</i>&nbsp;     * @param position the target position
-<i>271</i>&nbsp;     * @param latch the CountDownLatch reference to prevent unwanted behaviour
-<i>272</i>&nbsp;     */
-<i>273</i>&nbsp;    public void moveWorker(int playerNumber, int workerNumber, Point position, CountDownLatch latch) {
-<b class="nc"><i>274</i>&nbsp;        moveWorkerNode(position, actors.get(getWorkerActorId(playerNumber, workerNumber)), latch);</b>
-<b class="nc"><i>275</i>&nbsp;    }</b>
-<i>276</i>&nbsp;
-<i>277</i>&nbsp;    /**
-<i>278</i>&nbsp;     * Move a worker to a target position with a cool animation.
-<i>279</i>&nbsp;     * @param position the target position
-<i>280</i>&nbsp;     * @param worker the worker to move
-<i>281</i>&nbsp;     */
-<i>282</i>&nbsp;    private void moveWorkerNode(Point position, Node worker, CountDownLatch latch) {
-<b class="nc"><i>283</i>&nbsp;        if (worker != null) {</b>
-<b class="nc"><i>284</i>&nbsp;            Point3D finalPosition = getSceneCoordinates(position).add(0, getWorkerHeight(position), 0),</b>
-<b class="nc"><i>285</i>&nbsp;                    diff = finalPosition.subtract(getSceneCoordinates(worker));</b>
-<b class="nc"><i>286</i>&nbsp;            Timeline xTimeline = new Timeline(</b>
-<i>287</i>&nbsp;                    new KeyFrame(
-<b class="nc"><i>288</i>&nbsp;                            Duration.millis(diff.getX() != 0 ? 250 : 0),</b>
-<b class="nc"><i>289</i>&nbsp;                            new KeyValue(worker.translateXProperty(), finalPosition.getX())</b>
-<i>290</i>&nbsp;                    )
-<i>291</i>&nbsp;            ),
-<b class="nc"><i>292</i>&nbsp;                    yTimeline = new Timeline(</b>
-<i>293</i>&nbsp;                            new KeyFrame(
-<b class="nc"><i>294</i>&nbsp;                                    Duration.millis(diff.getY() != 0 ? 250 : 0),</b>
-<b class="nc"><i>295</i>&nbsp;                                    new KeyValue(worker.translateYProperty(), finalPosition.getY())</b>
-<i>296</i>&nbsp;                            )
-<i>297</i>&nbsp;                    ),
-<b class="nc"><i>298</i>&nbsp;                    zTimeline = new Timeline(</b>
-<i>299</i>&nbsp;                            new KeyFrame(
-<b class="nc"><i>300</i>&nbsp;                                    Duration.millis(diff.getZ() != 0 ? 250 : 0),</b>
-<b class="nc"><i>301</i>&nbsp;                                    new KeyValue(worker.translateZProperty(), finalPosition.getZ())</b>
-<i>302</i>&nbsp;                            )
-<i>303</i>&nbsp;                    );
-<b class="nc"><i>304</i>&nbsp;            xTimeline.setCycleCount(1);</b>
-<b class="nc"><i>305</i>&nbsp;            yTimeline.setCycleCount(1);</b>
-<b class="nc"><i>306</i>&nbsp;            zTimeline.setCycleCount(1);</b>
-<b class="nc"><i>307</i>&nbsp;            xTimeline.setOnFinished(event -&gt; zTimeline.play());</b>
+<b class="nc"><i>230</i>&nbsp;                        Duration.seconds(0),</b>
+<b class="nc"><i>231</i>&nbsp;                        new KeyValue(block.scaleXProperty(), BLOCK_SCALE),</b>
+<b class="nc"><i>232</i>&nbsp;                        new KeyValue(block.scaleYProperty(), BLOCK_SCALE),</b>
+<b class="nc"><i>233</i>&nbsp;                        new KeyValue(block.scaleZProperty(), BLOCK_SCALE)</b>
+<i>234</i>&nbsp;                ),
+<i>235</i>&nbsp;                new KeyFrame(
+<b class="nc"><i>236</i>&nbsp;                        Duration.millis(500),</b>
+<b class="nc"><i>237</i>&nbsp;                        new KeyValue(block.scaleXProperty(), 0),</b>
+<b class="nc"><i>238</i>&nbsp;                        new KeyValue(block.scaleYProperty(), 0),</b>
+<b class="nc"><i>239</i>&nbsp;                        new KeyValue(block.scaleZProperty(), 0)</b>
+<i>240</i>&nbsp;                )
+<i>241</i>&nbsp;        );
+<b class="nc"><i>242</i>&nbsp;        scaleBlockTimeline.setCycleCount(1);</b>
+<b class="nc"><i>243</i>&nbsp;        scaleBlockTimeline.play();</b>
+<b class="nc"><i>244</i>&nbsp;    }</b>
+<i>245</i>&nbsp;
+<i>246</i>&nbsp;    /**
+<i>247</i>&nbsp;     * Show the block passed as a parameter with a cool animation.
+<i>248</i>&nbsp;     * Unsafe: same reason as {@link #hideBlock(Node)}
+<i>249</i>&nbsp;     * @param block the block to show
+<i>250</i>&nbsp;     */
+<i>251</i>&nbsp;    public void showBlock(Node block) {
+<b class="nc"><i>252</i>&nbsp;        Timeline scaleBlockTimeline = new Timeline(</b>
+<i>253</i>&nbsp;                new KeyFrame(
+<b class="nc"><i>254</i>&nbsp;                        Duration.seconds(0),</b>
+<b class="nc"><i>255</i>&nbsp;                        new KeyValue(block.translateYProperty(), block.getTranslateY() + 1),</b>
+<b class="nc"><i>256</i>&nbsp;                        new KeyValue(block.scaleXProperty(), 0),</b>
+<b class="nc"><i>257</i>&nbsp;                        new KeyValue(block.scaleYProperty(), 0),</b>
+<b class="nc"><i>258</i>&nbsp;                        new KeyValue(block.scaleZProperty(), 0)</b>
+<i>259</i>&nbsp;                ),
+<i>260</i>&nbsp;                new KeyFrame(
+<b class="nc"><i>261</i>&nbsp;                        Duration.millis(500),</b>
+<b class="nc"><i>262</i>&nbsp;                        new KeyValue(block.translateYProperty(), block.getTranslateY()),</b>
+<b class="nc"><i>263</i>&nbsp;                        new KeyValue(block.scaleXProperty(), BLOCK_SCALE),</b>
+<b class="nc"><i>264</i>&nbsp;                        new KeyValue(block.scaleYProperty(), BLOCK_SCALE),</b>
+<b class="nc"><i>265</i>&nbsp;                        new KeyValue(block.scaleZProperty(), BLOCK_SCALE)</b>
+<i>266</i>&nbsp;                )
+<i>267</i>&nbsp;        );
+<b class="nc"><i>268</i>&nbsp;        scaleBlockTimeline.setCycleCount(1);</b>
+<b class="nc"><i>269</i>&nbsp;        scaleBlockTimeline.play();</b>
+<b class="nc"><i>270</i>&nbsp;    }</b>
+<i>271</i>&nbsp;
+<i>272</i>&nbsp;    /**
+<i>273</i>&nbsp;     * Move a worker with a cool animation.
+<i>274</i>&nbsp;     * @param playerNumber the number of the worker&#39;s player (0, 1, 2)
+<i>275</i>&nbsp;     * @param workerNumber the number of the worker (0 or 1)
+<i>276</i>&nbsp;     * @param position the target position
+<i>277</i>&nbsp;     * @param latch the CountDownLatch reference to prevent unwanted behaviour
+<i>278</i>&nbsp;     */
+<i>279</i>&nbsp;    public void moveWorker(int playerNumber, int workerNumber, Point position, CountDownLatch latch) {
+<b class="nc"><i>280</i>&nbsp;        moveWorkerNode(position, actors.get(getWorkerActorId(playerNumber, workerNumber)), latch);</b>
+<b class="nc"><i>281</i>&nbsp;    }</b>
+<i>282</i>&nbsp;
+<i>283</i>&nbsp;    /**
+<i>284</i>&nbsp;     * Move a worker to a target position with a cool animation.
+<i>285</i>&nbsp;     * @param position the target position
+<i>286</i>&nbsp;     * @param latch latch to avoid async issues
+<i>287</i>&nbsp;     * @param worker the worker to move
+<i>288</i>&nbsp;     */
+<i>289</i>&nbsp;    private void moveWorkerNode(Point position, Node worker, CountDownLatch latch) {
+<b class="nc"><i>290</i>&nbsp;        if (worker != null) {</b>
+<b class="nc"><i>291</i>&nbsp;            Point3D finalPosition = getSceneCoordinates(position).add(0, getWorkerHeight(position), 0),</b>
+<b class="nc"><i>292</i>&nbsp;                    diff = finalPosition.subtract(getSceneCoordinates(worker));</b>
+<b class="nc"><i>293</i>&nbsp;            Timeline xzTimeline = new Timeline(</b>
+<i>294</i>&nbsp;                        new KeyFrame(
+<b class="nc"><i>295</i>&nbsp;                                Duration.millis(250),</b>
+<b class="nc"><i>296</i>&nbsp;                                new KeyValue(worker.translateXProperty(), finalPosition.getX()),</b>
+<b class="nc"><i>297</i>&nbsp;                                new KeyValue(worker.translateZProperty(), finalPosition.getZ())</b>
+<i>298</i>&nbsp;                        )
+<i>299</i>&nbsp;                    ),
+<b class="nc"><i>300</i>&nbsp;                    yTimeline = new Timeline(</b>
+<i>301</i>&nbsp;                            new KeyFrame(
+<b class="nc"><i>302</i>&nbsp;                                    Duration.millis(diff.getY() != 0 ? 250 : 0),</b>
+<b class="nc"><i>303</i>&nbsp;                                    new KeyValue(worker.translateYProperty(), finalPosition.getY())</b>
+<i>304</i>&nbsp;                            )
+<i>305</i>&nbsp;                    );
+<b class="nc"><i>306</i>&nbsp;            xzTimeline.setCycleCount(1);</b>
+<b class="nc"><i>307</i>&nbsp;            yTimeline.setCycleCount(1);</b>
 <b class="nc"><i>308</i>&nbsp;            if(diff.getY() &lt; 0) {</b>
-<b class="nc"><i>309</i>&nbsp;                yTimeline.setOnFinished(event -&gt; xTimeline.play());</b>
-<b class="nc"><i>310</i>&nbsp;                zTimeline.setOnFinished(event -&gt; latch.countDown());</b>
+<b class="nc"><i>309</i>&nbsp;                yTimeline.setOnFinished(event -&gt; xzTimeline.play());</b>
+<b class="nc"><i>310</i>&nbsp;                xzTimeline.setOnFinished(event -&gt; latch.countDown());</b>
 <b class="nc"><i>311</i>&nbsp;                yTimeline.play();</b>
 <i>312</i>&nbsp;            } else {
-<b class="nc"><i>313</i>&nbsp;                zTimeline.setOnFinished(event -&gt; yTimeline.play());</b>
+<b class="nc"><i>313</i>&nbsp;                xzTimeline.setOnFinished(event -&gt; yTimeline.play());</b>
 <b class="nc"><i>314</i>&nbsp;                yTimeline.setOnFinished(event -&gt; latch.countDown());</b>
-<b class="nc"><i>315</i>&nbsp;                xTimeline.play();</b>
+<b class="nc"><i>315</i>&nbsp;                xzTimeline.play();</b>
 <i>316</i>&nbsp;            }
 <b class="nc"><i>317</i>&nbsp;        } else {</b>
 <b class="nc"><i>318</i>&nbsp;            latch.countDown();</b>
@@ -696,7 +696,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

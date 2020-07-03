@@ -50,18 +50,18 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    80%
+    100%
   </span>
   <span class="absValue">
-    (4/ 5)
+    (4/ 4)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    66.7%
+    75%
   </span>
   <span class="absValue">
-    (12/ 18)
+    (12/ 16)
   </span>
 </td>
 </tr>
@@ -81,53 +81,50 @@
 <i>7</i>&nbsp;
 <i>8</i>&nbsp;import java.io.IOException;
 <i>9</i>&nbsp;
-<i>10</i>&nbsp;public class BuildAction extends Action implements Proposable {
-<i>11</i>&nbsp;    private Point point;
-<i>12</i>&nbsp;    private boolean dome;
-<i>13</i>&nbsp;    private int amount;
-<i>14</i>&nbsp;
-<i>15</i>&nbsp;    public BuildAction(String user, Point point, boolean dome, int amount) {
-<b class="fc"><i>16</i>&nbsp;        super(user);</b>
-<b class="fc"><i>17</i>&nbsp;        this.point = point;</b>
-<b class="fc"><i>18</i>&nbsp;        this.dome = dome;</b>
-<b class="fc"><i>19</i>&nbsp;        this.amount = amount;</b>
-<b class="fc"><i>20</i>&nbsp;    }</b>
-<i>21</i>&nbsp;
-<i>22</i>&nbsp;    public BuildProposal getProposal() {
-<b class="fc"><i>23</i>&nbsp;        return new BuildProposal(point, dome, amount);</b>
-<i>24</i>&nbsp;    }
-<i>25</i>&nbsp;
-<i>26</i>&nbsp;    public Point getPoint() {
-<b class="fc"><i>27</i>&nbsp;        return point;</b>
-<i>28</i>&nbsp;    }
-<i>29</i>&nbsp;
-<i>30</i>&nbsp;    @Override
-<i>31</i>&nbsp;    public void execute(MatchModel model) throws IOException {
-<b class="fc"><i>32</i>&nbsp;        if(dome) {</b>
-<b class="nc"><i>33</i>&nbsp;            model.getBoard().setAsCompleted(point);</b>
-<i>34</i>&nbsp;        } else {
-<i>35</i>&nbsp;            try {
-<b class="fc"><i>36</i>&nbsp;                for(int i = 0; i &lt; amount; ++i)</b>
-<b class="fc"><i>37</i>&nbsp;                    model.getBoard().incrementTowerSize(point);</b>
-<b class="nc"><i>38</i>&nbsp;            } catch(TowerSizeException e) {</b>
-<b class="nc"><i>39</i>&nbsp;                e.printStackTrace();</b>
-<b class="nc"><i>40</i>&nbsp;                System.exit(-1);</b>
-<b class="fc"><i>41</i>&nbsp;            }</b>
-<i>42</i>&nbsp;        }
-<b class="fc"><i>43</i>&nbsp;    }</b>
-<i>44</i>&nbsp;
-<i>45</i>&nbsp;    public boolean equals(BuildAction obj) {
-<b class="nc"><i>46</i>&nbsp;        return user.equals(obj.user) &amp;&amp;</b>
-<i>47</i>&nbsp;                dome == obj.dome &amp;&amp;
-<b class="nc"><i>48</i>&nbsp;                point.equals(obj.point);</b>
-<i>49</i>&nbsp;    }
-<i>50</i>&nbsp;}
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * The implementation of the build action.
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public class BuildAction extends Action implements Proposable {
+<i>14</i>&nbsp;    private final Point point;
+<i>15</i>&nbsp;    private final boolean dome;
+<i>16</i>&nbsp;    private final int amount;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    public BuildAction(String user, Point point, boolean dome, int amount) {
+<b class="fc"><i>19</i>&nbsp;        super(user);</b>
+<b class="fc"><i>20</i>&nbsp;        this.point = point;</b>
+<b class="fc"><i>21</i>&nbsp;        this.dome = dome;</b>
+<b class="fc"><i>22</i>&nbsp;        this.amount = amount;</b>
+<b class="fc"><i>23</i>&nbsp;    }</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    public BuildProposal getProposal() {
+<b class="fc"><i>26</i>&nbsp;        return new BuildProposal(point, dome, amount);</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    public Point getPoint() {
+<b class="fc"><i>30</i>&nbsp;        return point;</b>
+<i>31</i>&nbsp;    }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @Override
+<i>34</i>&nbsp;    public void execute(MatchModel model) throws IOException {
+<b class="fc"><i>35</i>&nbsp;        if(dome) {</b>
+<b class="nc"><i>36</i>&nbsp;            model.getBoard().setAsCompleted(point);</b>
+<i>37</i>&nbsp;        } else {
+<i>38</i>&nbsp;            try {
+<b class="fc"><i>39</i>&nbsp;                for(int i = 0; i &lt; amount; ++i)</b>
+<b class="fc"><i>40</i>&nbsp;                    model.getBoard().incrementTowerSize(point);</b>
+<b class="nc"><i>41</i>&nbsp;            } catch(TowerSizeException e) {</b>
+<b class="nc"><i>42</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>43</i>&nbsp;                System.exit(-1);</b>
+<b class="fc"><i>44</i>&nbsp;            }</b>
+<i>45</i>&nbsp;        }
+<b class="fc"><i>46</i>&nbsp;    }</b>
+<i>47</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

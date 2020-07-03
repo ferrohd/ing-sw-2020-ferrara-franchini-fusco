@@ -85,31 +85,34 @@
 <i>11</i>&nbsp; * Your Worker may build one additional block (not dome) on top of your first block.
 <i>12</i>&nbsp; */
 <i>13</i>&nbsp;public class Hephaestus extends God {
-<i>14</i>&nbsp;    public Hephaestus(String owner) {
-<b class="fc"><i>15</i>&nbsp;        super(owner);</b>
-<b class="fc"><i>16</i>&nbsp;    }</b>
-<i>17</i>&nbsp;
-<i>18</i>&nbsp;    @Override
-<i>19</i>&nbsp;    public void afterBuild(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
-<b class="fc"><i>20</i>&nbsp;        if(!player.equals(getOwner())) return;</b>
-<i>21</i>&nbsp;
-<b class="fc"><i>22</i>&nbsp;        BuildAction lastBuild = (BuildAction) model.getLastAction();</b>
-<i>23</i>&nbsp;
-<b class="fc"><i>24</i>&nbsp;        if(!model.getBoard().getIsCompleted(lastBuild.getPoint()) &amp;&amp; model.getBoard().getTowerSize(lastBuild.getPoint()) &lt; 3) {</b>
-<b class="fc"><i>25</i>&nbsp;            boolean choice = controller.askQuestion(player, &quot;HEPHAESTUS: Build on build will ya?&quot;);</b>
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    public static final String MESSAGE = &quot;HEPHAESTUS: Build on build will ya?&quot;;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    public Hephaestus(String owner) {
+<b class="fc"><i>18</i>&nbsp;        super(owner);</b>
+<b class="fc"><i>19</i>&nbsp;    }</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    @Override
+<i>22</i>&nbsp;    public void afterBuild(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
+<b class="fc"><i>23</i>&nbsp;        if(!player.equals(getOwner())) return;</b>
+<i>24</i>&nbsp;
+<b class="fc"><i>25</i>&nbsp;        BuildAction lastBuild = (BuildAction) model.getLastAction();</b>
 <i>26</i>&nbsp;
-<b class="fc"><i>27</i>&nbsp;            if(choice) {</b>
-<b class="fc"><i>28</i>&nbsp;                model.executeAction(new BuildAction(player, lastBuild.getPoint(), false, 1));</b>
-<i>29</i>&nbsp;            }
-<i>30</i>&nbsp;        }
-<b class="fc"><i>31</i>&nbsp;    }</b>
-<i>32</i>&nbsp;}
+<b class="fc"><i>27</i>&nbsp;        if(!model.getBoard().getIsCompleted(lastBuild.getPoint()) &amp;&amp; model.getBoard().getTowerSize(lastBuild.getPoint()) &lt; 3) {</b>
+<b class="fc"><i>28</i>&nbsp;            boolean choice = controller.askQuestion(player, MESSAGE);</b>
+<i>29</i>&nbsp;
+<b class="fc"><i>30</i>&nbsp;            if(choice) {</b>
+<b class="fc"><i>31</i>&nbsp;                model.executeAction(new BuildAction(player, lastBuild.getPoint(), false, 1));</b>
+<i>32</i>&nbsp;            }
+<i>33</i>&nbsp;        }
+<b class="fc"><i>34</i>&nbsp;    }</b>
+<i>35</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

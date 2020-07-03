@@ -81,14 +81,14 @@
 <i>7</i>&nbsp;import java.util.List;
 <i>8</i>&nbsp;
 <i>9</i>&nbsp;/**
-<i>10</i>&nbsp; * ProposalMessage is the base class that is sent between client and server,
+<i>10</i>&nbsp; * This is the base class that is sent between client and server,
 <i>11</i>&nbsp; * containing a list of Proposal that the client can choose from.
 <i>12</i>&nbsp; * This class and its extensions can override the execute method to
 <i>13</i>&nbsp; * execute code on the client.
 <i>14</i>&nbsp; * @param &lt;T&gt; the sub-type of Proposal used in this ProposalMessage
 <i>15</i>&nbsp; */
 <i>16</i>&nbsp;public abstract class ProposalMessage&lt;T extends Proposal&gt; implements Message, ClientExecutableMessage {
-<i>17</i>&nbsp;    private List&lt;T&gt; proposals;
+<i>17</i>&nbsp;    private final List&lt;T&gt; proposals;
 <i>18</i>&nbsp;    // Set the proposals when this class is instantiated.
 <b class="nc"><i>19</i>&nbsp;    public ProposalMessage(Collection&lt;T&gt; p) {</b>
 <b class="nc"><i>20</i>&nbsp;        proposals = new ArrayList&lt;T&gt;(p);</b>
@@ -104,7 +104,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

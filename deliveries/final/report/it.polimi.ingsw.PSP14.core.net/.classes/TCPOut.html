@@ -61,7 +61,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 17)
+    (0/ 16)
   </span>
 </td>
 </tr>
@@ -82,44 +82,58 @@
 <i>8</i>&nbsp;import java.util.concurrent.BlockingQueue;
 <i>9</i>&nbsp;import java.util.concurrent.LinkedBlockingQueue;
 <i>10</i>&nbsp;
-<i>11</i>&nbsp;public class TCPOut implements Runnable {
-<b class="nc"><i>12</i>&nbsp;    private BlockingQueue&lt;Message&gt; queue = new LinkedBlockingQueue&lt;&gt;();</b>
-<i>13</i>&nbsp;    private final ObjectOutputStream out;
-<i>14</i>&nbsp;
-<b class="nc"><i>15</i>&nbsp;    public TCPOut(ObjectOutputStream out) {</b>
-<b class="nc"><i>16</i>&nbsp;        this.out = out;</b>
-<b class="nc"><i>17</i>&nbsp;    }</b>
-<i>18</i>&nbsp;
-<i>19</i>&nbsp;    @Override
-<i>20</i>&nbsp;    public void run() {
-<i>21</i>&nbsp;        while(true) {
-<i>22</i>&nbsp;            try {
-<b class="nc"><i>23</i>&nbsp;                synchronized(out) {</b>
-<b class="nc"><i>24</i>&nbsp;                    out.writeObject(new PingMessage());</b>
-<b class="nc"><i>25</i>&nbsp;                }</b>
-<b class="nc"><i>26</i>&nbsp;                Thread.sleep(1000);</b>
-<b class="nc"><i>27</i>&nbsp;            } catch(IOException | InterruptedException e) {</b>
-<b class="nc"><i>28</i>&nbsp;                return;</b>
-<b class="nc"><i>29</i>&nbsp;            }</b>
-<i>30</i>&nbsp;        }
-<i>31</i>&nbsp;    }
-<i>32</i>&nbsp;
-<i>33</i>&nbsp;    public void sendMessage(Message message) throws IOException {
-<b class="nc"><i>34</i>&nbsp;        synchronized (out) {</b>
-<b class="nc"><i>35</i>&nbsp;            out.writeObject(message);</b>
-<b class="nc"><i>36</i>&nbsp;        }</b>
-<b class="nc"><i>37</i>&nbsp;    }</b>
-<i>38</i>&nbsp;
-<i>39</i>&nbsp;    public void close() throws IOException {
-<b class="nc"><i>40</i>&nbsp;        out.close();</b>
-<b class="nc"><i>41</i>&nbsp;    }</b>
-<i>42</i>&nbsp;}
+<i>11</i>&nbsp;/**
+<i>12</i>&nbsp; * A task that handles the outgoing messages.
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public class TCPOut implements Runnable {
+<i>15</i>&nbsp;    private final ObjectOutputStream out;
+<i>16</i>&nbsp;
+<b class="nc"><i>17</i>&nbsp;    public TCPOut(ObjectOutputStream out) {</b>
+<b class="nc"><i>18</i>&nbsp;        this.out = out;</b>
+<b class="nc"><i>19</i>&nbsp;    }</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    /**
+<i>22</i>&nbsp;     * Indefinitely sends ping messages until an exception occurs.
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    @Override
+<i>25</i>&nbsp;    public void run() {
+<i>26</i>&nbsp;        while(true) {
+<i>27</i>&nbsp;            try {
+<b class="nc"><i>28</i>&nbsp;                synchronized(out) {</b>
+<b class="nc"><i>29</i>&nbsp;                    out.writeObject(new PingMessage());</b>
+<b class="nc"><i>30</i>&nbsp;                }</b>
+<b class="nc"><i>31</i>&nbsp;                Thread.sleep(1000);</b>
+<b class="nc"><i>32</i>&nbsp;            } catch(IOException | InterruptedException e) {</b>
+<b class="nc"><i>33</i>&nbsp;                return;</b>
+<b class="nc"><i>34</i>&nbsp;            }</b>
+<i>35</i>&nbsp;        }
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * Sends a message.
+<i>40</i>&nbsp;     * @param message the message to be sent
+<i>41</i>&nbsp;     * @throws IOException if the message can&#39;t be sent
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    public void sendMessage(Message message) throws IOException {
+<b class="nc"><i>44</i>&nbsp;        synchronized (out) {</b>
+<b class="nc"><i>45</i>&nbsp;            out.writeObject(message);</b>
+<b class="nc"><i>46</i>&nbsp;        }</b>
+<b class="nc"><i>47</i>&nbsp;    }</b>
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    /**
+<i>50</i>&nbsp;     * Closes the connection.
+<i>51</i>&nbsp;     * @throws IOException if the connection can&#39;t be closed.
+<i>52</i>&nbsp;     */
+<i>53</i>&nbsp;    public void close() throws IOException {
+<b class="nc"><i>54</i>&nbsp;        out.close();</b>
+<b class="nc"><i>55</i>&nbsp;    }</b>
+<i>56</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

@@ -87,35 +87,37 @@
 <i>13</i>&nbsp; * Your Worker may move one additional time, but not back to its initial space.
 <i>14</i>&nbsp; */
 <i>15</i>&nbsp;public class Artemis extends God {
-<i>16</i>&nbsp;    public Artemis(String owner) {
-<b class="fc"><i>17</i>&nbsp;        super(owner);</b>
-<b class="fc"><i>18</i>&nbsp;    }</b>
-<i>19</i>&nbsp;
-<i>20</i>&nbsp;    @Override
-<i>21</i>&nbsp;    public void afterMove(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
-<b class="fc"><i>22</i>&nbsp;        if(!player.equals(getOwner())) return;</b>
-<i>23</i>&nbsp;
-<i>24</i>&nbsp;
-<b class="fc"><i>25</i>&nbsp;        List&lt;MoveAction&gt; movements = model.getMovements(player, workerIndex);</b>
-<b class="fc"><i>26</i>&nbsp;        MoveAction lastMove = (MoveAction) model.getLastAction();</b>
-<b class="fc"><i>27</i>&nbsp;        movements = movements.stream().filter(m -&gt; !m.getTo().equals(lastMove.getFrom())).collect(Collectors.toList());</b>
-<i>28</i>&nbsp;
-<b class="fc"><i>29</i>&nbsp;        if(movements.size() &gt; 0) {</b>
-<b class="fc"><i>30</i>&nbsp;            boolean choice = controller.askQuestion(player, &quot;ARTEMIS: Do you want get closer to the prey?&quot;);</b>
-<b class="fc"><i>31</i>&nbsp;            if (choice) {</b>
-<b class="fc"><i>32</i>&nbsp;                MoveAction action = controller.askMove(player, movements);</b>
-<b class="fc"><i>33</i>&nbsp;                model.executeAction(action);</b>
-<i>34</i>&nbsp;            }
-<i>35</i>&nbsp;        }
-<i>36</i>&nbsp;
-<b class="fc"><i>37</i>&nbsp;    }</b>
-<i>38</i>&nbsp;}
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    public static final String MESSAGE = &quot;ARTEMIS: Do you want get closer to the prey?&quot;;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    public Artemis(String owner) {
+<b class="fc"><i>20</i>&nbsp;        super(owner);</b>
+<b class="fc"><i>21</i>&nbsp;    }</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @Override
+<i>24</i>&nbsp;    public void afterMove(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
+<b class="fc"><i>25</i>&nbsp;        if(!player.equals(getOwner())) return;</b>
+<i>26</i>&nbsp;
+<b class="fc"><i>27</i>&nbsp;        List&lt;MoveAction&gt; movements = model.getMovements(player, workerIndex);</b>
+<b class="fc"><i>28</i>&nbsp;        MoveAction lastMove = (MoveAction) model.getLastAction();</b>
+<b class="fc"><i>29</i>&nbsp;        movements = movements.stream().filter(m -&gt; !m.getTo().equals(lastMove.getFrom())).collect(Collectors.toList());</b>
+<i>30</i>&nbsp;
+<b class="fc"><i>31</i>&nbsp;        if(movements.size() &gt; 0) {</b>
+<b class="fc"><i>32</i>&nbsp;            boolean choice = controller.askQuestion(player, MESSAGE);</b>
+<b class="fc"><i>33</i>&nbsp;            if (choice) {</b>
+<b class="fc"><i>34</i>&nbsp;                MoveAction action = controller.askMove(player, movements);</b>
+<b class="fc"><i>35</i>&nbsp;                model.executeAction(action);</b>
+<i>36</i>&nbsp;            }
+<i>37</i>&nbsp;        }
+<i>38</i>&nbsp;
+<b class="fc"><i>39</i>&nbsp;    }</b>
+<i>40</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

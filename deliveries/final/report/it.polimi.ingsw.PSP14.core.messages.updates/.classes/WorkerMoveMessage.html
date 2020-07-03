@@ -80,29 +80,32 @@
 <i>6</i>&nbsp;
 <i>7</i>&nbsp;import java.io.IOException;
 <i>8</i>&nbsp;
-<i>9</i>&nbsp;public class WorkerMoveMessage implements UIUpdateMessage {
-<i>10</i>&nbsp;    private Point newPos;
-<i>11</i>&nbsp;    private String player;
-<i>12</i>&nbsp;    private int workerId;
-<i>13</i>&nbsp;
-<b class="nc"><i>14</i>&nbsp;    public WorkerMoveMessage(Point newPos, String player, int workerId) {</b>
-<b class="nc"><i>15</i>&nbsp;        this.newPos = newPos;</b>
-<b class="nc"><i>16</i>&nbsp;        this.player = player;</b>
-<b class="nc"><i>17</i>&nbsp;        this.workerId = workerId;</b>
-<b class="nc"><i>18</i>&nbsp;    }</b>
-<i>19</i>&nbsp;
-<i>20</i>&nbsp;    @Override
-<i>21</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
-<b class="nc"><i>22</i>&nbsp;        ui.moveWorker(newPos, workerId, player);</b>
-<b class="nc"><i>23</i>&nbsp;        ui.update();</b>
-<b class="nc"><i>24</i>&nbsp;    }</b>
-<i>25</i>&nbsp;}
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * Message that tells the client that a player is choosing where to move a worker.
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public class WorkerMoveMessage implements UIUpdateMessage {
+<i>13</i>&nbsp;    private final Point newPos;
+<i>14</i>&nbsp;    private final String player;
+<i>15</i>&nbsp;    private final int workerId;
+<i>16</i>&nbsp;
+<b class="nc"><i>17</i>&nbsp;    public WorkerMoveMessage(Point newPos, String player, int workerId) {</b>
+<b class="nc"><i>18</i>&nbsp;        this.newPos = newPos;</b>
+<b class="nc"><i>19</i>&nbsp;        this.player = player;</b>
+<b class="nc"><i>20</i>&nbsp;        this.workerId = workerId;</b>
+<b class="nc"><i>21</i>&nbsp;    }</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @Override
+<i>24</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws IOException, InterruptedException {
+<b class="nc"><i>25</i>&nbsp;        ui.moveWorker(newPos, workerId, player);</b>
+<b class="nc"><i>26</i>&nbsp;        ui.update();</b>
+<b class="nc"><i>27</i>&nbsp;    }</b>
+<i>28</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

@@ -90,53 +90,54 @@
 <i>16</i>&nbsp; * Your Worker may build a dome at any level.
 <i>17</i>&nbsp; */
 <i>18</i>&nbsp;public class Atlas extends God {
-<b class="fc"><i>19</i>&nbsp;    private boolean activated = false;</b>
-<i>20</i>&nbsp;
-<i>21</i>&nbsp;    public Atlas(String owner) {
-<b class="fc"><i>22</i>&nbsp;        super(owner);</b>
-<b class="fc"><i>23</i>&nbsp;    }</b>
-<i>24</i>&nbsp;
-<i>25</i>&nbsp;    @Override
-<i>26</i>&nbsp;    public void beforeBuild(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
-<b class="fc"><i>27</i>&nbsp;        if(!player.equals(getOwner())) return;</b>
-<i>28</i>&nbsp;
-<b class="fc"><i>29</i>&nbsp;        activated = controller.askQuestion(player, &quot;ATLAS: DOMEEEEEES???!!!?!?!??&quot;);</b>
-<b class="fc"><i>30</i>&nbsp;    }</b>
-<i>31</i>&nbsp;
-<i>32</i>&nbsp;    @Override
-<i>33</i>&nbsp;    public void addBuilds(List&lt;BuildAction&gt; builds, String player, int workerIndex, MatchModel model) throws IOException {
-<b class="fc"><i>34</i>&nbsp;        if(!player.equals(getOwner()) || !activated) return;</b>
-<i>35</i>&nbsp;
-<b class="fc"><i>36</i>&nbsp;        ArrayList&lt;BuildAction&gt; newBuilds = new ArrayList&lt;&gt;();</b>
-<i>37</i>&nbsp;
-<b class="fc"><i>38</i>&nbsp;        for(BuildAction b: builds) {</b>
-<b class="fc"><i>39</i>&nbsp;            BuildProposal proposal = b.getProposal();</b>
-<b class="fc"><i>40</i>&nbsp;            if(!proposal.hasDome()) {</b>
-<b class="fc"><i>41</i>&nbsp;                BuildAction newBuild = new AtlasBuildAction(player, proposal.getPoint());</b>
-<b class="fc"><i>42</i>&nbsp;                newBuilds.add(newBuild);</b>
-<i>43</i>&nbsp;            }
-<b class="fc"><i>44</i>&nbsp;        }</b>
-<i>45</i>&nbsp;
-<b class="fc"><i>46</i>&nbsp;        builds.addAll(newBuilds);</b>
-<b class="fc"><i>47</i>&nbsp;    }</b>
-<i>48</i>&nbsp;
-<i>49</i>&nbsp;    @Override
-<i>50</i>&nbsp;    public void removeBuilds(List&lt;BuildAction&gt; builds, String player, int workerIndex, MatchModel model) throws IOException {
-<b class="fc"><i>51</i>&nbsp;        if(!player.equals(getOwner()) || !activated) return;</b>
-<i>52</i>&nbsp;
-<b class="fc"><i>53</i>&nbsp;        activated = false;</b>
-<i>54</i>&nbsp;
-<b class="fc"><i>55</i>&nbsp;        List&lt;BuildAction&gt; invalidBuilds = builds.stream().filter(b -&gt; !b.getProposal().hasDome()).collect(Collectors.toList());</b>
-<i>56</i>&nbsp;
-<b class="fc"><i>57</i>&nbsp;        builds.removeAll(invalidBuilds);</b>
-<b class="fc"><i>58</i>&nbsp;    }</b>
-<i>59</i>&nbsp;}
+<i>19</i>&nbsp;    public static final String MESSAGE = &quot;ATLAS: DOMEEEEEES???!!!?!?!??&quot;;
+<b class="fc"><i>20</i>&nbsp;    private boolean activated = false;</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    public Atlas(String owner) {
+<b class="fc"><i>23</i>&nbsp;        super(owner);</b>
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    @Override
+<i>27</i>&nbsp;    public void beforeBuild(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
+<b class="fc"><i>28</i>&nbsp;        if(!player.equals(getOwner())) return;</b>
+<i>29</i>&nbsp;
+<b class="fc"><i>30</i>&nbsp;        activated = controller.askQuestion(player, MESSAGE);</b>
+<b class="fc"><i>31</i>&nbsp;    }</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @Override
+<i>34</i>&nbsp;    public void addBuilds(List&lt;BuildAction&gt; builds, String player, int workerIndex, MatchModel model) throws IOException {
+<b class="fc"><i>35</i>&nbsp;        if(!player.equals(getOwner()) || !activated) return;</b>
+<i>36</i>&nbsp;
+<b class="fc"><i>37</i>&nbsp;        ArrayList&lt;BuildAction&gt; newBuilds = new ArrayList&lt;&gt;();</b>
+<i>38</i>&nbsp;
+<b class="fc"><i>39</i>&nbsp;        for(BuildAction b: builds) {</b>
+<b class="fc"><i>40</i>&nbsp;            BuildProposal proposal = b.getProposal();</b>
+<b class="fc"><i>41</i>&nbsp;            if(!proposal.hasDome()) {</b>
+<b class="fc"><i>42</i>&nbsp;                BuildAction newBuild = new AtlasBuildAction(player, proposal.getPoint());</b>
+<b class="fc"><i>43</i>&nbsp;                newBuilds.add(newBuild);</b>
+<i>44</i>&nbsp;            }
+<b class="fc"><i>45</i>&nbsp;        }</b>
+<i>46</i>&nbsp;
+<b class="fc"><i>47</i>&nbsp;        builds.addAll(newBuilds);</b>
+<b class="fc"><i>48</i>&nbsp;    }</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    @Override
+<i>51</i>&nbsp;    public void removeBuilds(List&lt;BuildAction&gt; builds, String player, int workerIndex, MatchModel model) throws IOException {
+<b class="fc"><i>52</i>&nbsp;        if(!player.equals(getOwner()) || !activated) return;</b>
+<i>53</i>&nbsp;
+<b class="fc"><i>54</i>&nbsp;        activated = false;</b>
+<i>55</i>&nbsp;
+<b class="fc"><i>56</i>&nbsp;        List&lt;BuildAction&gt; invalidBuilds = builds.stream().filter(b -&gt; !b.getProposal().hasDome()).collect(Collectors.toList());</b>
+<i>57</i>&nbsp;
+<b class="fc"><i>58</i>&nbsp;        builds.removeAll(invalidBuilds);</b>
+<b class="fc"><i>59</i>&nbsp;    }</b>
+<i>60</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

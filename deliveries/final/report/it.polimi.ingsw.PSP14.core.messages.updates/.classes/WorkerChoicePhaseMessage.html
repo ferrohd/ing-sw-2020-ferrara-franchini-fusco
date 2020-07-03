@@ -79,23 +79,26 @@
 <i>5</i>&nbsp;
 <i>6</i>&nbsp;import java.io.IOException;
 <i>7</i>&nbsp;
-<i>8</i>&nbsp;public class WorkerChoicePhaseMessage extends PhaseMessage {
-<i>9</i>&nbsp;
-<i>10</i>&nbsp;    public WorkerChoicePhaseMessage(String player) {
-<b class="nc"><i>11</i>&nbsp;        super(player);</b>
-<b class="nc"><i>12</i>&nbsp;    }</b>
-<i>13</i>&nbsp;
-<i>14</i>&nbsp;    @Override
-<i>15</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException {
-<b class="nc"><i>16</i>&nbsp;        ui.startWorkerChoice(getPlayer());</b>
-<b class="nc"><i>17</i>&nbsp;    }</b>
-<i>18</i>&nbsp;}
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Message that tells the client that a player is choosing which worker to move.
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;public class WorkerChoicePhaseMessage extends PhaseMessage {
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    public WorkerChoicePhaseMessage(String player) {
+<b class="nc"><i>14</i>&nbsp;        super(player);</b>
+<b class="nc"><i>15</i>&nbsp;    }</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    @Override
+<i>18</i>&nbsp;    public void execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException {
+<b class="nc"><i>19</i>&nbsp;        ui.startWorkerChoice(getPlayer());</b>
+<b class="nc"><i>20</i>&nbsp;    }</b>
+<i>21</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

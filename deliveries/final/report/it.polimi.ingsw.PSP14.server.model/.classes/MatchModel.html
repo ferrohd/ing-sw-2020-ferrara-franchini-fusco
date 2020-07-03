@@ -50,18 +50,18 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    26.1%
+    22.7%
   </span>
   <span class="absValue">
-    (6/ 23)
+    (5/ 22)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    19%
+    18.5%
   </span>
   <span class="absValue">
-    (29/ 153)
+    (27/ 146)
   </span>
 </td>
 </tr>
@@ -90,8 +90,8 @@
 <i>16</i>&nbsp;import java.util.stream.Collectors;
 <i>17</i>&nbsp;
 <i>18</i>&nbsp;/**
-<i>19</i>&nbsp; * Model for a single match, server side. The MatchModel contains references to
-<i>20</i>&nbsp; * the clients&#39; connections.
+<i>19</i>&nbsp; * The model represents the state of a match.
+<i>20</i>&nbsp; * It contains the data representing the board and the players and the main logic of the game.
 <i>21</i>&nbsp; */
 <i>22</i>&nbsp;public class MatchModel implements Runnable {
 <i>23</i>&nbsp;    private final Board board;
@@ -100,102 +100,102 @@
 <b class="fc"><i>26</i>&nbsp;    private final List&lt;String&gt; userNames = new ArrayList&lt;&gt;();</b>
 <i>27</i>&nbsp;    private final MatchController controller;
 <b class="fc"><i>28</i>&nbsp;    private final HashMap&lt;String, Player&gt; playerMap = new HashMap&lt;&gt;();</b>
-<b class="fc"><i>29</i>&nbsp;    private final Map&lt;String, God&gt; godMap = new HashMap&lt;&gt;();</b>
-<i>30</i>&nbsp;
-<i>31</i>&nbsp;    /**
-<i>32</i>&nbsp;     * Constructor of Match. Since players don&#39;t require any previous data except
-<i>33</i>&nbsp;     * for username, the order of setup doesn&#39;t matter.
-<i>34</i>&nbsp;     * @param controller the controller of the match
-<i>35</i>&nbsp;     * @throws IOException if there&#39;s a problem creating the board
-<i>36</i>&nbsp;     */
-<b class="fc"><i>37</i>&nbsp;    public MatchModel(MatchController controller) throws IOException {</b>
-<b class="fc"><i>38</i>&nbsp;        this.controller = controller;</b>
-<b class="fc"><i>39</i>&nbsp;        this.userNames.addAll(controller.getUsers());</b>
-<b class="fc"><i>40</i>&nbsp;        board = new Board(controller);</b>
-<b class="fc"><i>41</i>&nbsp;    }</b>
-<i>42</i>&nbsp;
-<i>43</i>&nbsp;    /**
-<i>44</i>&nbsp;     * Entry point for MatchController logic.
-<i>45</i>&nbsp;     */
-<i>46</i>&nbsp;    @Override
-<i>47</i>&nbsp;    public void run() {
-<i>48</i>&nbsp;        try {
-<b class="nc"><i>49</i>&nbsp;            setupGame();</b>
-<b class="nc"><i>50</i>&nbsp;            gameLoop();</b>
-<b class="nc"><i>51</i>&nbsp;        } catch (EndGameException e) {</b>
-<b class="nc"><i>52</i>&nbsp;            System.out.println(&quot;Game is over. Terminating...&quot;);</b>
-<b class="nc"><i>53</i>&nbsp;        } catch (IOException e) {</b>
-<b class="nc"><i>54</i>&nbsp;            System.out.println(&quot;An error has occurred. Closing...&quot;);</b>
-<b class="nc"><i>55</i>&nbsp;            e.printStackTrace();</b>
-<b class="nc"><i>56</i>&nbsp;            controller.closeConnections();</b>
-<b class="nc"><i>57</i>&nbsp;        }</b>
-<b class="nc"><i>58</i>&nbsp;    }</b>
-<i>59</i>&nbsp;
-<i>60</i>&nbsp;    /**
-<i>61</i>&nbsp;     * Helper function to setup the game. Does the following things: - gets
-<i>62</i>&nbsp;     * usernames from players - asks the room leader to choose the gods of the game
-<i>63</i>&nbsp;     * - asks each player to choose their god - asks the room leader to choose the
-<i>64</i>&nbsp;     * game leader - asks each player to place their worker (twice)
-<i>65</i>&nbsp;     * 
-<i>66</i>&nbsp;     * @throws IOException
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    /**
+<i>31</i>&nbsp;     * Constructor of Match. Since players don&#39;t require any previous data except
+<i>32</i>&nbsp;     * for username, the order of setup doesn&#39;t matter.
+<i>33</i>&nbsp;     * @param controller the controller of the match
+<i>34</i>&nbsp;     * @throws IOException if there&#39;s a problem creating the board
+<i>35</i>&nbsp;     */
+<b class="fc"><i>36</i>&nbsp;    public MatchModel(MatchController controller) throws IOException {</b>
+<b class="fc"><i>37</i>&nbsp;        this.controller = controller;</b>
+<b class="fc"><i>38</i>&nbsp;        this.userNames.addAll(controller.getUsers());</b>
+<b class="fc"><i>39</i>&nbsp;        board = new Board(controller);</b>
+<b class="fc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /**
+<i>43</i>&nbsp;     * Entry point for MatchController logic.
+<i>44</i>&nbsp;     * Sets up the game and runs indefinitely the gameloop.
+<i>45</i>&nbsp;     * It terminates on game end or if a connection exception occurs.
+<i>46</i>&nbsp;     */
+<i>47</i>&nbsp;    @Override
+<i>48</i>&nbsp;    public void run() {
+<i>49</i>&nbsp;        try {
+<b class="nc"><i>50</i>&nbsp;            setupGame();</b>
+<b class="nc"><i>51</i>&nbsp;            gameLoop();</b>
+<b class="nc"><i>52</i>&nbsp;        } catch (EndGameException e) {</b>
+<b class="nc"><i>53</i>&nbsp;            System.out.println(&quot;Game is over. Terminating...&quot;);</b>
+<b class="nc"><i>54</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>55</i>&nbsp;            System.out.println(&quot;An error has occurred. Closing...&quot;);</b>
+<b class="nc"><i>56</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>57</i>&nbsp;            controller.closeConnections();</b>
+<b class="nc"><i>58</i>&nbsp;        }</b>
+<b class="nc"><i>59</i>&nbsp;    }</b>
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    /**
+<i>62</i>&nbsp;     * Helper function to setup the game. Does the following things: - gets
+<i>63</i>&nbsp;     * usernames from players - asks the room leader to choose the gods of the game
+<i>64</i>&nbsp;     * - asks each player to choose their god - asks the room leader to choose the
+<i>65</i>&nbsp;     * game leader - asks each player to place their worker (twice)
+<i>66</i>&nbsp;     * @throws IOException if there&#39;s a connection error
 <i>67</i>&nbsp;     */
 <i>68</i>&nbsp;    private void setupGame() throws IOException {
 <i>69</i>&nbsp;        List&lt;String&gt; availableGods;
-<i>70</i>&nbsp;
-<b class="nc"><i>71</i>&nbsp;        availableGods = controller.getMatchGods(userNames.get(0));</b>
-<i>72</i>&nbsp;
-<i>73</i>&nbsp;        // roomMaster is last to choose
-<b class="nc"><i>74</i>&nbsp;        for (int i = 1; i &lt;= userNames.size(); ++i) {</b>
-<b class="nc"><i>75</i>&nbsp;            String p = userNames.get(i % userNames.size());</b>
-<b class="nc"><i>76</i>&nbsp;            String chosenGod = controller.chooseGod(p, availableGods);</b>
-<b class="nc"><i>77</i>&nbsp;            godMap.put(p, GodFactory.getGod(chosenGod, p));</b>
-<b class="nc"><i>78</i>&nbsp;            availableGods.remove(chosenGod);</b>
-<i>79</i>&nbsp;        }
-<i>80</i>&nbsp;
-<b class="nc"><i>81</i>&nbsp;        String firstPlayer = controller.chooseFirstPlayer(userNames.get(0), userNames);</b>
-<b class="nc"><i>82</i>&nbsp;        Collections.rotate(userNames, -userNames.indexOf(firstPlayer));</b>
-<i>83</i>&nbsp;
-<b class="nc"><i>84</i>&nbsp;        for (String p : userNames) {</b>
-<b class="nc"><i>85</i>&nbsp;            playerMap.put(p, new Player(p, godMap.get(p), controller));</b>
-<b class="nc"><i>86</i>&nbsp;        }</b>
-<i>87</i>&nbsp;
-<b class="nc"><i>88</i>&nbsp;        controller.startGame();</b>
-<i>89</i>&nbsp;
-<b class="nc"><i>90</i>&nbsp;        playersPlaceWorkers();</b>
-<b class="nc"><i>91</i>&nbsp;    }</b>
-<i>92</i>&nbsp;
-<i>93</i>&nbsp;    /**
-<i>94</i>&nbsp;     * Main gameloop function.
-<i>95</i>&nbsp;     *
-<i>96</i>&nbsp;     * Consists of an infinite loop that plays the turn indefinitely until either a
-<i>97</i>&nbsp;     * connection error occurs or a end game event is detected.
-<i>98</i>&nbsp;     */
-<i>99</i>&nbsp;    private void gameLoop() throws IOException, EndGameException {
-<i>100</i>&nbsp;        while (true)
-<b class="nc"><i>101</i>&nbsp;            for (String p : userNames)</b>
-<b class="nc"><i>102</i>&nbsp;                turn(p);</b>
-<i>103</i>&nbsp;    }
-<i>104</i>&nbsp;
-<i>105</i>&nbsp;    /**
-<i>106</i>&nbsp;     * Helper function of setupGame. Asks all players to place their workers
-<i>107</i>&nbsp;     * 
-<i>108</i>&nbsp;     * @throws IOException a connection error occurs
-<i>109</i>&nbsp;     */
-<i>110</i>&nbsp;    private void playersPlaceWorkers() throws IOException {
-<b class="nc"><i>111</i>&nbsp;        List&lt;Point&gt; busyPositions = new ArrayList&lt;&gt;();</b>
-<i>112</i>&nbsp;
-<b class="nc"><i>113</i>&nbsp;        for (String p : userNames) {</b>
-<b class="nc"><i>114</i>&nbsp;            for (int i = 0; i &lt; 2; ++i) {</b>
-<b class="nc"><i>115</i>&nbsp;                Point pos = controller.chooseWorkerPosition(p, busyPositions);</b>
-<b class="nc"><i>116</i>&nbsp;                getPlayerByUsername(p).setWorker(i, pos);</b>
-<b class="nc"><i>117</i>&nbsp;                busyPositions.add(pos);</b>
-<i>118</i>&nbsp;            }
-<b class="nc"><i>119</i>&nbsp;        }</b>
-<b class="nc"><i>120</i>&nbsp;    }</b>
-<i>121</i>&nbsp;
-<i>122</i>&nbsp;    public List&lt;Action&gt; getHistory() {
-<b class="nc"><i>123</i>&nbsp;        return new ArrayList&lt;&gt;(history);</b>
-<i>124</i>&nbsp;    }
+<b class="nc"><i>70</i>&nbsp;        Map&lt;String, God&gt; godMap = new HashMap&lt;&gt;();</b>
+<i>71</i>&nbsp;
+<b class="nc"><i>72</i>&nbsp;        availableGods = controller.getMatchGods(userNames.get(0));</b>
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;        // roomMaster is last to choose
+<b class="nc"><i>75</i>&nbsp;        for (int i = 1; i &lt;= userNames.size(); ++i) {</b>
+<b class="nc"><i>76</i>&nbsp;            String p = userNames.get(i % userNames.size());</b>
+<b class="nc"><i>77</i>&nbsp;            String chosenGod = controller.chooseGod(p, availableGods);</b>
+<b class="nc"><i>78</i>&nbsp;            godMap.put(p, GodFactory.getGod(chosenGod, p));</b>
+<b class="nc"><i>79</i>&nbsp;            availableGods.remove(chosenGod);</b>
+<i>80</i>&nbsp;        }
+<i>81</i>&nbsp;
+<b class="nc"><i>82</i>&nbsp;        String firstPlayer = controller.chooseFirstPlayer(userNames.get(0), userNames);</b>
+<b class="nc"><i>83</i>&nbsp;        Collections.rotate(userNames, -userNames.indexOf(firstPlayer));</b>
+<i>84</i>&nbsp;
+<b class="nc"><i>85</i>&nbsp;        for (String p : userNames) {</b>
+<b class="nc"><i>86</i>&nbsp;            playerMap.put(p, new Player(p, godMap.get(p), controller));</b>
+<b class="nc"><i>87</i>&nbsp;        }</b>
+<i>88</i>&nbsp;
+<b class="nc"><i>89</i>&nbsp;        controller.startGame();</b>
+<i>90</i>&nbsp;
+<b class="nc"><i>91</i>&nbsp;        playersPlaceWorkers();</b>
+<b class="nc"><i>92</i>&nbsp;    }</b>
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;    /**
+<i>95</i>&nbsp;     * Main gameloop function.
+<i>96</i>&nbsp;     *
+<i>97</i>&nbsp;     * Consists of an infinite loop that plays the turn indefinitely until either a
+<i>98</i>&nbsp;     * connection error occurs or a end game event is detected.
+<i>99</i>&nbsp;     * @throws IOException if there&#39;s a connection error
+<i>100</i>&nbsp;     */
+<i>101</i>&nbsp;    private void gameLoop() throws IOException {
+<i>102</i>&nbsp;        while (true) {
+<b class="nc"><i>103</i>&nbsp;            ArrayList&lt;String&gt; playingUsers = new ArrayList&lt;&gt;(userNames);</b>
+<b class="nc"><i>104</i>&nbsp;            for (String p : playingUsers)</b>
+<b class="nc"><i>105</i>&nbsp;                turn(p);</b>
+<b class="nc"><i>106</i>&nbsp;        }</b>
+<i>107</i>&nbsp;    }
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    /**
+<i>110</i>&nbsp;     * Helper function of setupGame. Asks all players to place their workers
+<i>111</i>&nbsp;     * 
+<i>112</i>&nbsp;     * @throws IOException a connection error occurs
+<i>113</i>&nbsp;     */
+<i>114</i>&nbsp;    private void playersPlaceWorkers() throws IOException {
+<b class="nc"><i>115</i>&nbsp;        List&lt;Point&gt; busyPositions = new ArrayList&lt;&gt;();</b>
+<i>116</i>&nbsp;
+<b class="nc"><i>117</i>&nbsp;        for (String p : userNames) {</b>
+<b class="nc"><i>118</i>&nbsp;            for (int i = 0; i &lt; 2; ++i) {</b>
+<b class="nc"><i>119</i>&nbsp;                Point pos = controller.chooseWorkerPosition(p, busyPositions);</b>
+<b class="nc"><i>120</i>&nbsp;                getPlayerByUsername(p).setWorker(i, pos);</b>
+<b class="nc"><i>121</i>&nbsp;                busyPositions.add(pos);</b>
+<i>122</i>&nbsp;            }
+<b class="nc"><i>123</i>&nbsp;        }</b>
+<b class="nc"><i>124</i>&nbsp;    }</b>
 <i>125</i>&nbsp;
 <i>126</i>&nbsp;    /**
 <i>127</i>&nbsp;     * @return the last action executed
@@ -215,256 +215,268 @@
 <b class="fc"><i>141</i>&nbsp;        history.add(action);</b>
 <b class="fc"><i>142</i>&nbsp;    }</b>
 <i>143</i>&nbsp;
-<i>144</i>&nbsp;    public ArrayList&lt;Player&gt; getPlayerMap() {
-<b class="nc"><i>145</i>&nbsp;        return new ArrayList&lt;&gt;(playerMap.values());</b>
-<i>146</i>&nbsp;    }
-<i>147</i>&nbsp;
-<i>148</i>&nbsp;    private void applyBeforeTurnEffects(String player) throws IOException {
-<b class="nc"><i>149</i>&nbsp;        for (Player p : playerMap.values())</b>
-<b class="nc"><i>150</i>&nbsp;            p.getGod().beforeTurn(player, controller, this);</b>
-<b class="nc"><i>151</i>&nbsp;    }</b>
-<i>152</i>&nbsp;
-<i>153</i>&nbsp;    private void applyAfterTurnEffects(String player, int workerIndex) throws IOException {
-<b class="nc"><i>154</i>&nbsp;        for (Player p : playerMap.values())</b>
-<b class="nc"><i>155</i>&nbsp;            p.getGod().afterTurn(player, workerIndex, controller, this);</b>
-<b class="nc"><i>156</i>&nbsp;    }</b>
-<i>157</i>&nbsp;
-<i>158</i>&nbsp;    /**
-<i>159</i>&nbsp;     * Main game logic functions. Executes the following: - calls the beforeTurn
-<i>160</i>&nbsp;     * effects of all gods - asks the player for the worker to move and build -
-<i>161</i>&nbsp;     * executes the move and build phases - calls the afterTurn effects of all gods
-<i>162</i>&nbsp;     * 
-<i>163</i>&nbsp;     * @param player the player of the turn
-<i>164</i>&nbsp;     * @throws IOException if a connection error occurs
-<i>165</i>&nbsp;     */
-<i>166</i>&nbsp;    private void turn(String player) throws IOException {
-<b class="nc"><i>167</i>&nbsp;        controller.startTurn(player);</b>
-<i>168</i>&nbsp;
-<b class="nc"><i>169</i>&nbsp;        applyBeforeTurnEffects(player);</b>
-<i>170</i>&nbsp;
-<b class="nc"><i>171</i>&nbsp;        List&lt;Integer&gt; movableWorkers = getMovableWorkers(player);</b>
-<b class="nc"><i>172</i>&nbsp;        if (movableWorkers.size() == 0) {</b>
-<b class="nc"><i>173</i>&nbsp;            lose(player);</b>
-<b class="nc"><i>174</i>&nbsp;            return;</b>
-<i>175</i>&nbsp;        }
-<i>176</i>&nbsp;
-<b class="nc"><i>177</i>&nbsp;        int workerIndex = controller.getWorkerIndex(player, movableWorkers);</b>
-<i>178</i>&nbsp;
-<b class="nc"><i>179</i>&nbsp;        move(player, workerIndex);</b>
-<b class="nc"><i>180</i>&nbsp;        build(player, workerIndex);</b>
-<i>181</i>&nbsp;
-<b class="nc"><i>182</i>&nbsp;        applyAfterTurnEffects(player, workerIndex);</b>
-<b class="nc"><i>183</i>&nbsp;    }</b>
-<i>184</i>&nbsp;
-<i>185</i>&nbsp;    private List&lt;Integer&gt; getMovableWorkers(String player) {
-<b class="nc"><i>186</i>&nbsp;        List&lt;Integer&gt; workerIndexes = new ArrayList&lt;&gt;();</b>
-<b class="nc"><i>187</i>&nbsp;        for (int i = 0; i &lt; 2; ++i) {</b>
-<b class="nc"><i>188</i>&nbsp;            if (getMovements(player, i).size() &gt; 0) {</b>
-<b class="nc"><i>189</i>&nbsp;                workerIndexes.add(i);</b>
-<i>190</i>&nbsp;            }
-<i>191</i>&nbsp;        }
-<i>192</i>&nbsp;
-<b class="nc"><i>193</i>&nbsp;        return workerIndexes;</b>
-<i>194</i>&nbsp;    }
-<i>195</i>&nbsp;
-<i>196</i>&nbsp;    /**
-<i>197</i>&nbsp;     * Function that implements all logic relative to the move phase. In order: -
-<i>198</i>&nbsp;     * gets all valid move actions - gets the choice from the client - executes the
-<i>199</i>&nbsp;     * chosen action - calls the afterMove effects of all gods
-<i>200</i>&nbsp;     * 
-<i>201</i>&nbsp;     * @param player      the moving player
-<i>202</i>&nbsp;     * @param workerIndex the index of the moving worker
-<i>203</i>&nbsp;     * @throws IOException if a connection error occurs
-<i>204</i>&nbsp;     */
-<i>205</i>&nbsp;    public void move(String player, int workerIndex) throws IOException {
-<b class="nc"><i>206</i>&nbsp;        for (Player p : playerMap.values())</b>
-<b class="nc"><i>207</i>&nbsp;            p.getGod().beforeMove(player, workerIndex, controller, this);</b>
-<i>208</i>&nbsp;
-<b class="nc"><i>209</i>&nbsp;        List&lt;MoveAction&gt; movements = getMovements(player, workerIndex);</b>
-<b class="nc"><i>210</i>&nbsp;        if (movements.size() == 0)</b>
-<b class="nc"><i>211</i>&nbsp;            lose(player);</b>
-<i>212</i>&nbsp;
-<b class="nc"><i>213</i>&nbsp;        MoveAction action = controller.askMove(player, movements);</b>
-<b class="nc"><i>214</i>&nbsp;        executeAction(action);</b>
-<i>215</i>&nbsp;
-<b class="nc"><i>216</i>&nbsp;        for (Player p : playerMap.values())</b>
-<b class="nc"><i>217</i>&nbsp;            p.getGod().afterMove(player, workerIndex, controller, this);</b>
-<b class="nc"><i>218</i>&nbsp;    }</b>
+<i>144</i>&nbsp;    /**
+<i>145</i>&nbsp;     * @return an array containing all player models.
+<i>146</i>&nbsp;     */
+<i>147</i>&nbsp;    public ArrayList&lt;Player&gt; getPlayerMap() {
+<b class="nc"><i>148</i>&nbsp;        return new ArrayList&lt;&gt;(playerMap.values());</b>
+<i>149</i>&nbsp;    }
+<i>150</i>&nbsp;
+<i>151</i>&nbsp;    private void applyBeforeTurnEffects(String player) throws IOException {
+<b class="nc"><i>152</i>&nbsp;        for (Player p : playerMap.values())</b>
+<b class="nc"><i>153</i>&nbsp;            p.getGod().beforeTurn(player, controller, this);</b>
+<b class="nc"><i>154</i>&nbsp;    }</b>
+<i>155</i>&nbsp;
+<i>156</i>&nbsp;    private void applyAfterTurnEffects(String player, int workerIndex) throws IOException {
+<b class="nc"><i>157</i>&nbsp;        for (Player p : playerMap.values())</b>
+<b class="nc"><i>158</i>&nbsp;            p.getGod().afterTurn(player, workerIndex, controller, this);</b>
+<b class="nc"><i>159</i>&nbsp;    }</b>
+<i>160</i>&nbsp;
+<i>161</i>&nbsp;    /**
+<i>162</i>&nbsp;     * Main game logic functions. Executes the following: - calls the beforeTurn
+<i>163</i>&nbsp;     * effects of all gods - asks the player for the worker to move and build -
+<i>164</i>&nbsp;     * executes the move and build phases - calls the afterTurn effects of all gods
+<i>165</i>&nbsp;     * 
+<i>166</i>&nbsp;     * @param player the player of the turn
+<i>167</i>&nbsp;     * @throws IOException if a connection error occurs
+<i>168</i>&nbsp;     */
+<i>169</i>&nbsp;    private void turn(String player) throws IOException {
+<b class="nc"><i>170</i>&nbsp;        controller.startTurn(player);</b>
+<i>171</i>&nbsp;
+<b class="nc"><i>172</i>&nbsp;        applyBeforeTurnEffects(player);</b>
+<i>173</i>&nbsp;
+<b class="nc"><i>174</i>&nbsp;        List&lt;Integer&gt; movableWorkers = getMovableWorkers(player);</b>
+<i>175</i>&nbsp;
+<i>176</i>&nbsp;        int workerIndex;
+<i>177</i>&nbsp;
+<b class="nc"><i>178</i>&nbsp;        if (movableWorkers.size() == 0) {</b>
+<b class="nc"><i>179</i>&nbsp;            lose(player);</b>
+<b class="nc"><i>180</i>&nbsp;            return;</b>
+<b class="nc"><i>181</i>&nbsp;        } else if (movableWorkers.size() == 1) {</b>
+<b class="nc"><i>182</i>&nbsp;            workerIndex = movableWorkers.get(0);</b>
+<i>183</i>&nbsp;        } else {
+<b class="nc"><i>184</i>&nbsp;            workerIndex = controller.getWorkerIndex(player, movableWorkers);</b>
+<i>185</i>&nbsp;        }
+<i>186</i>&nbsp;
+<i>187</i>&nbsp;
+<b class="nc"><i>188</i>&nbsp;        if (!move(player, workerIndex)) return;</b>
+<b class="nc"><i>189</i>&nbsp;        if (!build(player, workerIndex)) return;</b>
+<i>190</i>&nbsp;
+<b class="nc"><i>191</i>&nbsp;        applyAfterTurnEffects(player, workerIndex);</b>
+<b class="nc"><i>192</i>&nbsp;    }</b>
+<i>193</i>&nbsp;
+<i>194</i>&nbsp;    private List&lt;Integer&gt; getMovableWorkers(String player) throws IOException {
+<b class="nc"><i>195</i>&nbsp;        List&lt;Integer&gt; workerIndexes = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>196</i>&nbsp;        for (int i = 0; i &lt; 2; ++i) {</b>
+<b class="nc"><i>197</i>&nbsp;            if (getMovements(player, i).size() &gt; 0) {</b>
+<b class="nc"><i>198</i>&nbsp;                workerIndexes.add(i);</b>
+<i>199</i>&nbsp;            }
+<i>200</i>&nbsp;        }
+<i>201</i>&nbsp;
+<b class="nc"><i>202</i>&nbsp;        return workerIndexes;</b>
+<i>203</i>&nbsp;    }
+<i>204</i>&nbsp;
+<i>205</i>&nbsp;    /**
+<i>206</i>&nbsp;     * Function that implements all logic relative to the move phase. In order: -
+<i>207</i>&nbsp;     * - calls the beforeMove effect of all gods - gets all valid move actions -
+<i>208</i>&nbsp;     * gets the choice from the client - executes the
+<i>209</i>&nbsp;     * chosen action - calls the afterMove effects of all gods
+<i>210</i>&nbsp;     * 
+<i>211</i>&nbsp;     * @param player      the moving player
+<i>212</i>&nbsp;     * @param workerIndex the index of the moving worker
+<i>213</i>&nbsp;     * @throws IOException if a connection error occurs
+<i>214</i>&nbsp;     * @return true if the move succeeded, false if the player lost
+<i>215</i>&nbsp;     */
+<i>216</i>&nbsp;    public boolean move(String player, int workerIndex) throws IOException {
+<b class="nc"><i>217</i>&nbsp;        for (Player p : playerMap.values())</b>
+<b class="nc"><i>218</i>&nbsp;            p.getGod().beforeMove(player, workerIndex, controller, this);</b>
 <i>219</i>&nbsp;
-<i>220</i>&nbsp;    /**
-<i>221</i>&nbsp;     * Function that implements all logic relative to the build phase. In order: -
-<i>222</i>&nbsp;     * gets all valid build actions - gets the choice from the client - executes the
-<i>223</i>&nbsp;     * chosen action - calls the afterBuild effects of all gods
-<i>224</i>&nbsp;     * 
-<i>225</i>&nbsp;     * @param player      the building player
-<i>226</i>&nbsp;     * @param workerIndex the index of the building worker
-<i>227</i>&nbsp;     * @throws IOException if a connection error occurs
-<i>228</i>&nbsp;     */
-<i>229</i>&nbsp;    public void build(String player, int workerIndex) throws IOException {
-<b class="nc"><i>230</i>&nbsp;        for (Player p : playerMap.values())</b>
-<b class="nc"><i>231</i>&nbsp;            p.getGod().beforeBuild(player, workerIndex, controller, this);</b>
-<i>232</i>&nbsp;
-<b class="nc"><i>233</i>&nbsp;        List&lt;BuildAction&gt; builds = getBuildable(player, workerIndex);</b>
-<b class="nc"><i>234</i>&nbsp;        if (builds.size() == 0)</b>
-<b class="nc"><i>235</i>&nbsp;            lose(player);</b>
-<i>236</i>&nbsp;
-<b class="nc"><i>237</i>&nbsp;        BuildAction action = controller.askBuild(player, builds);</b>
-<b class="nc"><i>238</i>&nbsp;        executeAction(action);</b>
-<i>239</i>&nbsp;
-<b class="nc"><i>240</i>&nbsp;        for (Player p : playerMap.values())</b>
-<b class="nc"><i>241</i>&nbsp;            p.getGod().afterBuild(player, workerIndex, controller, this);</b>
-<b class="nc"><i>242</i>&nbsp;    }</b>
-<i>243</i>&nbsp;
-<i>244</i>&nbsp;    /**
-<i>245</i>&nbsp;     * Ends the game by throwing an EndGameException.
-<i>246</i>&nbsp;     * 
-<i>247</i>&nbsp;     * @param winningPlayer the name of the winning player
-<i>248</i>&nbsp;     * @throws EndGameException always, to notify the turn function and terminate
-<i>249</i>&nbsp;     *                          the Match thread
-<i>250</i>&nbsp;     * @throws IOException      if a connection error occurs
-<i>251</i>&nbsp;     */
-<i>252</i>&nbsp;    public void end(String winningPlayer) throws EndGameException, IOException {
-<b class="nc"><i>253</i>&nbsp;        controller.endGame(winningPlayer);</b>
-<b class="nc"><i>254</i>&nbsp;        System.out.println(&quot;Game ended, closing...&quot;);</b>
-<b class="nc"><i>255</i>&nbsp;        throw new EndGameException();</b>
-<i>256</i>&nbsp;    }
-<i>257</i>&nbsp;
-<i>258</i>&nbsp;    public void lose(String losingPlayer) throws IOException {
-<b class="nc"><i>259</i>&nbsp;        controller.lose(losingPlayer);</b>
-<b class="nc"><i>260</i>&nbsp;        userNames.remove(losingPlayer);</b>
-<b class="nc"><i>261</i>&nbsp;        playerMap.get(losingPlayer).clear();</b>
-<b class="nc"><i>262</i>&nbsp;        playerMap.remove(losingPlayer);</b>
-<b class="nc"><i>263</i>&nbsp;        if (userNames.size() == 1)</b>
-<b class="nc"><i>264</i>&nbsp;            end(userNames.get(0));</b>
-<b class="nc"><i>265</i>&nbsp;    }</b>
-<i>266</i>&nbsp;
-<i>267</i>&nbsp;    /**
-<i>268</i>&nbsp;     * Retrieve a Player object by username.
-<i>269</i>&nbsp;     * 
-<i>270</i>&nbsp;     * @param username the username of the Player
-<i>271</i>&nbsp;     * @return the associated Player
+<b class="nc"><i>220</i>&nbsp;        List&lt;MoveAction&gt; movements = getMovements(player, workerIndex);</b>
+<b class="nc"><i>221</i>&nbsp;        if (movements.size() == 0) {</b>
+<b class="nc"><i>222</i>&nbsp;            lose(player);</b>
+<b class="nc"><i>223</i>&nbsp;            return false;</b>
+<i>224</i>&nbsp;        }
+<i>225</i>&nbsp;
+<b class="nc"><i>226</i>&nbsp;        MoveAction action = controller.askMove(player, movements);</b>
+<b class="nc"><i>227</i>&nbsp;        executeAction(action);</b>
+<i>228</i>&nbsp;
+<b class="nc"><i>229</i>&nbsp;        for (Player p : playerMap.values())</b>
+<b class="nc"><i>230</i>&nbsp;            p.getGod().afterMove(player, workerIndex, controller, this);</b>
+<i>231</i>&nbsp;
+<b class="nc"><i>232</i>&nbsp;        return true;</b>
+<i>233</i>&nbsp;    }
+<i>234</i>&nbsp;
+<i>235</i>&nbsp;    /**
+<i>236</i>&nbsp;     * Function that implements all logic relative to the build phase. In order: -
+<i>237</i>&nbsp;     * calls the beforeBuild effect of all gods - gets all valid build actions -
+<i>238</i>&nbsp;     * gets the choice from the client - executes the
+<i>239</i>&nbsp;     * chosen action - calls the afterBuild effects of all gods
+<i>240</i>&nbsp;     * 
+<i>241</i>&nbsp;     * @param player      the building player
+<i>242</i>&nbsp;     * @param workerIndex the index of the building worker
+<i>243</i>&nbsp;     * @throws IOException if a connection error occurs
+<i>244</i>&nbsp;     * @return true if the build succeeded, false if the player lost
+<i>245</i>&nbsp;     */
+<i>246</i>&nbsp;    public boolean build(String player, int workerIndex) throws IOException {
+<b class="nc"><i>247</i>&nbsp;        for (Player p : playerMap.values())</b>
+<b class="nc"><i>248</i>&nbsp;            p.getGod().beforeBuild(player, workerIndex, controller, this);</b>
+<i>249</i>&nbsp;
+<b class="nc"><i>250</i>&nbsp;        List&lt;BuildAction&gt; builds = getBuildable(player, workerIndex);</b>
+<b class="nc"><i>251</i>&nbsp;        if (builds.size() == 0) {</b>
+<b class="nc"><i>252</i>&nbsp;            lose(player);</b>
+<b class="nc"><i>253</i>&nbsp;            return false;</b>
+<i>254</i>&nbsp;        }
+<i>255</i>&nbsp;
+<b class="nc"><i>256</i>&nbsp;        BuildAction action = controller.askBuild(player, builds);</b>
+<b class="nc"><i>257</i>&nbsp;        executeAction(action);</b>
+<i>258</i>&nbsp;
+<b class="nc"><i>259</i>&nbsp;        for (Player p : playerMap.values())</b>
+<b class="nc"><i>260</i>&nbsp;            p.getGod().afterBuild(player, workerIndex, controller, this);</b>
+<i>261</i>&nbsp;
+<b class="nc"><i>262</i>&nbsp;        return true;</b>
+<i>263</i>&nbsp;    }
+<i>264</i>&nbsp;
+<i>265</i>&nbsp;    /**
+<i>266</i>&nbsp;     * Ends the game by throwing an EndGameException.
+<i>267</i>&nbsp;     * 
+<i>268</i>&nbsp;     * @param winningPlayer the name of the winning player
+<i>269</i>&nbsp;     * @throws EndGameException always, to notify the turn function and terminate
+<i>270</i>&nbsp;     *                          the Match thread
+<i>271</i>&nbsp;     * @throws IOException      if a connection error occurs
 <i>272</i>&nbsp;     */
-<i>273</i>&nbsp;    public Player getPlayerByUsername(String username) {
-<b class="nc"><i>274</i>&nbsp;        return playerMap.get(username);</b>
-<i>275</i>&nbsp;    }
-<i>276</i>&nbsp;
-<i>277</i>&nbsp;    public Board getBoard() {
-<b class="fc"><i>278</i>&nbsp;        return board;</b>
-<i>279</i>&nbsp;    }
-<i>280</i>&nbsp;
-<i>281</i>&nbsp;    /**
-<i>282</i>&nbsp;     * Retrieve the position of all workers (of all players).
-<i>283</i>&nbsp;     * 
-<i>284</i>&nbsp;     * @return an array containing the workers&#39; positions
-<i>285</i>&nbsp;     */
-<i>286</i>&nbsp;    public ArrayList&lt;Point&gt; getWorkerPositions() {
-<b class="fc"><i>287</i>&nbsp;        ArrayList&lt;Point&gt; workerPositions = new ArrayList&lt;&gt;();</b>
-<b class="fc"><i>288</i>&nbsp;        for (Player p : playerMap.values())</b>
-<b class="nc"><i>289</i>&nbsp;            for (int i = 0; i &lt; 2; ++i)</b>
-<b class="nc"><i>290</i>&nbsp;                workerPositions.add(p.getWorkerPos(i));</b>
-<i>291</i>&nbsp;
-<b class="fc"><i>292</i>&nbsp;        return workerPositions;</b>
-<i>293</i>&nbsp;    }
-<i>294</i>&nbsp;
-<i>295</i>&nbsp;    /**
-<i>296</i>&nbsp;     * Check if the target cell contains a worker.
-<i>297</i>&nbsp;     * 
-<i>298</i>&nbsp;     * @param position the cell you want to check
-<i>299</i>&nbsp;     * @return true if the cell does not contain a worker
-<i>300</i>&nbsp;     */
-<i>301</i>&nbsp;    public boolean isCellFree(Point position) {
-<b class="fc"><i>302</i>&nbsp;        for (Point wp : getWorkerPositions()) {</b>
-<b class="nc"><i>303</i>&nbsp;            if (wp.equals(position))</b>
-<b class="nc"><i>304</i>&nbsp;                return false;</b>
-<b class="nc"><i>305</i>&nbsp;        }</b>
-<b class="fc"><i>306</i>&nbsp;        return true;</b>
-<i>307</i>&nbsp;    }
-<i>308</i>&nbsp;
-<i>309</i>&nbsp;    /**
-<i>310</i>&nbsp;     * Retrieve a list of the possible move actions a player can do.
-<i>311</i>&nbsp;     * 
-<i>312</i>&nbsp;     * @param playerName player to move
-<i>313</i>&nbsp;     * @param worker     index of worker to move
-<i>314</i>&nbsp;     * @return an array of Points to move to
-<i>315</i>&nbsp;     */
-<i>316</i>&nbsp;    public List&lt;MoveAction&gt; getMovements(String playerName, int worker) {
-<b class="nc"><i>317</i>&nbsp;        ArrayList&lt;MoveAction&gt; legalMoves = new ArrayList&lt;&gt;();</b>
+<i>273</i>&nbsp;    public void end(String winningPlayer) throws EndGameException, IOException {
+<b class="nc"><i>274</i>&nbsp;        controller.endGame(winningPlayer);</b>
+<b class="nc"><i>275</i>&nbsp;        System.out.println(&quot;Game ended, closing...&quot;);</b>
+<b class="nc"><i>276</i>&nbsp;        throw new EndGameException();</b>
+<i>277</i>&nbsp;    }
+<i>278</i>&nbsp;
+<i>279</i>&nbsp;    /**
+<i>280</i>&nbsp;     * Removes a losing player and its workers, and calls end if only one player is left.
+<i>281</i>&nbsp;     *
+<i>282</i>&nbsp;     * @param losingPlayer the losing player
+<i>283</i>&nbsp;     * @throws IOException if a connection error occurs
+<i>284</i>&nbsp;     */
+<i>285</i>&nbsp;    public void lose(String losingPlayer) throws IOException {
+<b class="nc"><i>286</i>&nbsp;        controller.lose(losingPlayer);</b>
+<b class="nc"><i>287</i>&nbsp;        userNames.remove(losingPlayer);</b>
+<b class="nc"><i>288</i>&nbsp;        playerMap.get(losingPlayer).clear();</b>
+<b class="nc"><i>289</i>&nbsp;        playerMap.remove(losingPlayer);</b>
+<b class="nc"><i>290</i>&nbsp;        if (userNames.size() == 1)</b>
+<b class="nc"><i>291</i>&nbsp;            end(userNames.get(0));</b>
+<b class="nc"><i>292</i>&nbsp;    }</b>
+<i>293</i>&nbsp;
+<i>294</i>&nbsp;    /**
+<i>295</i>&nbsp;     * Retrieve a Player object by username.
+<i>296</i>&nbsp;     * 
+<i>297</i>&nbsp;     * @param username the username of the Player
+<i>298</i>&nbsp;     * @return the associated Player
+<i>299</i>&nbsp;     */
+<i>300</i>&nbsp;    public Player getPlayerByUsername(String username) {
+<b class="nc"><i>301</i>&nbsp;        return playerMap.get(username);</b>
+<i>302</i>&nbsp;    }
+<i>303</i>&nbsp;
+<i>304</i>&nbsp;    public Board getBoard() {
+<b class="nc"><i>305</i>&nbsp;        return board;</b>
+<i>306</i>&nbsp;    }
+<i>307</i>&nbsp;
+<i>308</i>&nbsp;    /**
+<i>309</i>&nbsp;     * Retrieve the position of all workers (of all players).
+<i>310</i>&nbsp;     * 
+<i>311</i>&nbsp;     * @return an array containing the workers&#39; positions
+<i>312</i>&nbsp;     */
+<i>313</i>&nbsp;    private ArrayList&lt;Point&gt; getWorkerPositions() {
+<b class="fc"><i>314</i>&nbsp;        ArrayList&lt;Point&gt; workerPositions = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>315</i>&nbsp;        for (Player p : playerMap.values())</b>
+<b class="nc"><i>316</i>&nbsp;            for (int i = 0; i &lt; 2; ++i)</b>
+<b class="nc"><i>317</i>&nbsp;                workerPositions.add(p.getWorkerPos(i));</b>
 <i>318</i>&nbsp;
-<b class="nc"><i>319</i>&nbsp;        Player currPlayer = getPlayerByUsername(playerName);</b>
-<i>320</i>&nbsp;
-<b class="nc"><i>321</i>&nbsp;        Point currentPos = currPlayer.getWorkerPos(worker);</b>
-<b class="nc"><i>322</i>&nbsp;        int currentLevel = board.getTowerSize(currentPos);</b>
-<b class="nc"><i>323</i>&nbsp;        for (Direction dir : Direction.values()) {</b>
-<b class="nc"><i>324</i>&nbsp;            Point toCheckPos = currentPos.move(dir);</b>
-<b class="nc"><i>325</i>&nbsp;            if (Board.isValidPos(toCheckPos) &amp;&amp; !board.getIsCompleted(toCheckPos) &amp;&amp; isCellFree(toCheckPos)) {</b>
-<b class="nc"><i>326</i>&nbsp;                int toCheckLevel = board.getTowerSize(toCheckPos);</b>
-<b class="nc"><i>327</i>&nbsp;                if (toCheckLevel &lt;= currentLevel + 1)</b>
-<b class="nc"><i>328</i>&nbsp;                    legalMoves.add(new MoveAction(playerName, currentPos, toCheckPos));</b>
-<i>329</i>&nbsp;            }
-<i>330</i>&nbsp;        }
-<i>331</i>&nbsp;
-<b class="nc"><i>332</i>&nbsp;        for (Player p : playerMap.values())</b>
-<i>333</i>&nbsp;            try {
-<b class="nc"><i>334</i>&nbsp;                p.getGod().addMoves(legalMoves, playerName, worker, this);</b>
-<b class="nc"><i>335</i>&nbsp;            } catch (IOException e) {</b>
-<b class="nc"><i>336</i>&nbsp;                e.printStackTrace();</b>
-<b class="nc"><i>337</i>&nbsp;            }</b>
-<i>338</i>&nbsp;
-<b class="nc"><i>339</i>&nbsp;        for (Player p : playerMap.values())</b>
-<i>340</i>&nbsp;            try {
-<b class="nc"><i>341</i>&nbsp;                p.getGod().removeMoves(legalMoves, playerName, worker, this);</b>
-<b class="nc"><i>342</i>&nbsp;            } catch (IOException e) {</b>
-<b class="nc"><i>343</i>&nbsp;                e.printStackTrace();</b>
-<b class="nc"><i>344</i>&nbsp;            }</b>
-<i>345</i>&nbsp;
-<b class="nc"><i>346</i>&nbsp;        return legalMoves;</b>
-<i>347</i>&nbsp;    }
+<b class="fc"><i>319</i>&nbsp;        return workerPositions;</b>
+<i>320</i>&nbsp;    }
+<i>321</i>&nbsp;
+<i>322</i>&nbsp;    /**
+<i>323</i>&nbsp;     * Check if the target cell contains a worker.
+<i>324</i>&nbsp;     * 
+<i>325</i>&nbsp;     * @param position the cell you want to check
+<i>326</i>&nbsp;     * @return true if the cell does not contain a worker
+<i>327</i>&nbsp;     */
+<i>328</i>&nbsp;    public boolean isCellFree(Point position) {
+<b class="fc"><i>329</i>&nbsp;        for (Point wp : getWorkerPositions()) {</b>
+<b class="nc"><i>330</i>&nbsp;            if (wp.equals(position))</b>
+<b class="nc"><i>331</i>&nbsp;                return false;</b>
+<b class="nc"><i>332</i>&nbsp;        }</b>
+<b class="fc"><i>333</i>&nbsp;        return true;</b>
+<i>334</i>&nbsp;    }
+<i>335</i>&nbsp;
+<i>336</i>&nbsp;    /**
+<i>337</i>&nbsp;     * Retrieve a list of the possible move actions a player can do.
+<i>338</i>&nbsp;     * 
+<i>339</i>&nbsp;     * @param playerName player to move
+<i>340</i>&nbsp;     * @param worker     index of worker to move
+<i>341</i>&nbsp;     * @throws IOException if a connection error occurs
+<i>342</i>&nbsp;     * @return the array of possible MoveActions
+<i>343</i>&nbsp;     */
+<i>344</i>&nbsp;    public List&lt;MoveAction&gt; getMovements(String playerName, int worker) throws IOException {
+<b class="nc"><i>345</i>&nbsp;        ArrayList&lt;MoveAction&gt; legalMoves = new ArrayList&lt;&gt;();</b>
+<i>346</i>&nbsp;
+<b class="nc"><i>347</i>&nbsp;        Player currPlayer = getPlayerByUsername(playerName);</b>
 <i>348</i>&nbsp;
-<i>349</i>&nbsp;    /**
-<i>350</i>&nbsp;     * Retrieve a list of the possible build actions a player can do.
-<i>351</i>&nbsp;     * 
-<i>352</i>&nbsp;     * @param player player who builds
-<i>353</i>&nbsp;     * @param worker index of worker who builds
-<i>354</i>&nbsp;     * @return an array of Points where building is possible (including
-<i>355</i>&nbsp;     *         dome-building)
-<i>356</i>&nbsp;     */
-<i>357</i>&nbsp;    public List&lt;BuildAction&gt; getBuildable(String player, int worker) {
-<b class="fc"><i>358</i>&nbsp;        ArrayList&lt;Point&gt; buildablePositions = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>349</i>&nbsp;        Point currentPos = currPlayer.getWorkerPos(worker);</b>
+<b class="nc"><i>350</i>&nbsp;        int currentLevel = board.getTowerSize(currentPos);</b>
+<b class="nc"><i>351</i>&nbsp;        for (Direction dir : Direction.values()) {</b>
+<b class="nc"><i>352</i>&nbsp;            Point toCheckPos = currentPos.move(dir);</b>
+<b class="nc"><i>353</i>&nbsp;            if (Board.isValidPos(toCheckPos) &amp;&amp; !board.getIsCompleted(toCheckPos) &amp;&amp; isCellFree(toCheckPos)) {</b>
+<b class="nc"><i>354</i>&nbsp;                int toCheckLevel = board.getTowerSize(toCheckPos);</b>
+<b class="nc"><i>355</i>&nbsp;                if (toCheckLevel &lt;= currentLevel + 1)</b>
+<b class="nc"><i>356</i>&nbsp;                    legalMoves.add(new MoveAction(playerName, currentPos, toCheckPos));</b>
+<i>357</i>&nbsp;            }
+<i>358</i>&nbsp;        }
 <i>359</i>&nbsp;
-<b class="fc"><i>360</i>&nbsp;        Point currentPos = getPlayerByUsername(player).getWorkerPos(worker);</b>
-<b class="fc"><i>361</i>&nbsp;        for (Direction dir : Direction.values()) {</b>
-<b class="fc"><i>362</i>&nbsp;            Point toCheckPos = currentPos.move(dir);</b>
-<b class="fc"><i>363</i>&nbsp;            if (Board.isValidPos(toCheckPos) &amp;&amp; !board.getIsCompleted(toCheckPos) &amp;&amp; isCellFree(toCheckPos)) {</b>
-<b class="fc"><i>364</i>&nbsp;                buildablePositions.add(toCheckPos);</b>
-<i>365</i>&nbsp;            }
-<i>366</i>&nbsp;        }
-<i>367</i>&nbsp;
-<b class="fc"><i>368</i>&nbsp;        List&lt;BuildAction&gt; buildActions = buildablePositions.stream()</b>
-<b class="fc"><i>369</i>&nbsp;                .map(p -&gt; new BuildAction(player, p, board.getTowerSize(p) == 3, 1)).collect(Collectors.toList());</b>
-<i>370</i>&nbsp;
-<b class="fc"><i>371</i>&nbsp;        for (Player p : playerMap.values())</b>
-<i>372</i>&nbsp;            try {
-<b class="nc"><i>373</i>&nbsp;                p.getGod().addBuilds(buildActions, player, worker, this);</b>
-<b class="nc"><i>374</i>&nbsp;            } catch (IOException e) {</b>
-<b class="nc"><i>375</i>&nbsp;                e.printStackTrace();</b>
-<b class="nc"><i>376</i>&nbsp;            }</b>
-<i>377</i>&nbsp;
-<b class="fc"><i>378</i>&nbsp;        for (Player p : playerMap.values())</b>
-<i>379</i>&nbsp;            try {
-<b class="nc"><i>380</i>&nbsp;                p.getGod().removeBuilds(buildActions, player, worker, this);</b>
-<b class="nc"><i>381</i>&nbsp;            } catch (IOException e) {</b>
-<b class="nc"><i>382</i>&nbsp;                e.printStackTrace();</b>
-<b class="nc"><i>383</i>&nbsp;            }</b>
-<i>384</i>&nbsp;
-<b class="fc"><i>385</i>&nbsp;        return buildActions;</b>
-<i>386</i>&nbsp;    }
-<i>387</i>&nbsp;}
+<b class="nc"><i>360</i>&nbsp;        for (Player p : playerMap.values())</b>
+<b class="nc"><i>361</i>&nbsp;                p.getGod().addMoves(legalMoves, playerName, worker, this);</b>
+<i>362</i>&nbsp;
+<b class="nc"><i>363</i>&nbsp;        for (Player p : playerMap.values())</b>
+<b class="nc"><i>364</i>&nbsp;                p.getGod().removeMoves(legalMoves, playerName, worker, this);</b>
+<i>365</i>&nbsp;
+<b class="nc"><i>366</i>&nbsp;        return legalMoves;</b>
+<i>367</i>&nbsp;    }
+<i>368</i>&nbsp;
+<i>369</i>&nbsp;    /**
+<i>370</i>&nbsp;     * Retrieve a list of the possible build actions a player can do.
+<i>371</i>&nbsp;     * 
+<i>372</i>&nbsp;     * @param player player who builds
+<i>373</i>&nbsp;     * @param worker index of worker who builds
+<i>374</i>&nbsp;     * @throws IOException if a connection error occurs
+<i>375</i>&nbsp;     * @return the array of possible MoveActions
+<i>376</i>&nbsp;     */
+<i>377</i>&nbsp;    public List&lt;BuildAction&gt; getBuildable(String player, int worker) throws IOException {
+<b class="fc"><i>378</i>&nbsp;        ArrayList&lt;Point&gt; buildablePositions = new ArrayList&lt;&gt;();</b>
+<i>379</i>&nbsp;
+<b class="fc"><i>380</i>&nbsp;        Point currentPos = getPlayerByUsername(player).getWorkerPos(worker);</b>
+<b class="fc"><i>381</i>&nbsp;        for (Direction dir : Direction.values()) {</b>
+<b class="fc"><i>382</i>&nbsp;            Point toCheckPos = currentPos.move(dir);</b>
+<b class="fc"><i>383</i>&nbsp;            if (Board.isValidPos(toCheckPos) &amp;&amp; !board.getIsCompleted(toCheckPos) &amp;&amp; isCellFree(toCheckPos)) {</b>
+<b class="fc"><i>384</i>&nbsp;                buildablePositions.add(toCheckPos);</b>
+<i>385</i>&nbsp;            }
+<i>386</i>&nbsp;        }
+<i>387</i>&nbsp;
+<b class="fc"><i>388</i>&nbsp;        List&lt;BuildAction&gt; buildActions = buildablePositions.stream()</b>
+<b class="fc"><i>389</i>&nbsp;                .map(p -&gt; new BuildAction(player, p, board.getTowerSize(p) == 3, 1)).collect(Collectors.toList());</b>
+<i>390</i>&nbsp;
+<b class="fc"><i>391</i>&nbsp;        for (Player p : playerMap.values())</b>
+<b class="nc"><i>392</i>&nbsp;                p.getGod().addBuilds(buildActions, player, worker, this);</b>
+<i>393</i>&nbsp;
+<b class="fc"><i>394</i>&nbsp;        for (Player p : playerMap.values())</b>
+<b class="nc"><i>395</i>&nbsp;                p.getGod().removeBuilds(buildActions, player, worker, this);</b>
+<i>396</i>&nbsp;
+<b class="fc"><i>397</i>&nbsp;        return buildActions;</b>
+<i>398</i>&nbsp;    }
+<i>399</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

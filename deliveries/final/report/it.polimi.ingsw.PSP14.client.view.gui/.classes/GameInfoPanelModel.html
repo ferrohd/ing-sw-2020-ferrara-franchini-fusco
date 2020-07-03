@@ -156,92 +156,97 @@
 <b class="nc"><i>82</i>&nbsp;        this.hud = hud;</b>
 <b class="nc"><i>83</i>&nbsp;    }</b>
 <i>84</i>&nbsp;
-<i>85</i>&nbsp;    public void registerPlayerInfo(String player, String god) {
-<i>86</i>&nbsp;        // Get god data
-<i>87</i>&nbsp;        UIGod _god;
-<i>88</i>&nbsp;        try {
-<b class="nc"><i>89</i>&nbsp;            _god = GodFactory.getInstance().getGod(god);</b>
-<b class="nc"><i>90</i>&nbsp;        } catch (IOException e) {</b>
-<b class="nc"><i>91</i>&nbsp;            _god = new UIGod(&quot;???&quot;, &quot;???&quot;, &quot;???&quot;, &quot;???&quot;);</b>
-<b class="nc"><i>92</i>&nbsp;            e.printStackTrace();</b>
-<b class="nc"><i>93</i>&nbsp;        }</b>
-<i>94</i>&nbsp;
-<b class="nc"><i>95</i>&nbsp;        Image godImage = new Image(&quot;/images/gods/icons/&quot; + god + &quot;.png&quot;);</b>
-<i>96</i>&nbsp;
-<b class="nc"><i>97</i>&nbsp;        ImageView godBackground = new ImageView();</b>
-<b class="nc"><i>98</i>&nbsp;        godBackground.setImage(godImage);</b>
-<b class="nc"><i>99</i>&nbsp;        godBackground.setFitWidth(MAX_WIDTH - H_PADDING * 2);</b>
-<b class="nc"><i>100</i>&nbsp;        godBackground.setPreserveRatio(true);</b>
-<b class="nc"><i>101</i>&nbsp;        godBackground.setOpacity(0.5);</b>
-<b class="nc"><i>102</i>&nbsp;        godBackground.setSmooth(true);</b>
-<i>103</i>&nbsp;
-<i>104</i>&nbsp;        // Create container
-<b class="nc"><i>105</i>&nbsp;        StackPane container = new StackPane();</b>
-<b class="nc"><i>106</i>&nbsp;        container.setPrefHeight(150);</b>
-<b class="nc"><i>107</i>&nbsp;        container.setMaxWidth(MAX_WIDTH - H_PADDING * 2);</b>
+<i>85</i>&nbsp;    /**
+<i>86</i>&nbsp;     * Adds a player to the 2D info overlay in the game scene.
+<i>87</i>&nbsp;     * @param player the name of the player
+<i>88</i>&nbsp;     * @param god the god id of the player
+<i>89</i>&nbsp;     */
+<i>90</i>&nbsp;    public void registerPlayerInfo(String player, String god) {
+<i>91</i>&nbsp;        // Get god data
+<i>92</i>&nbsp;        UIGod _god;
+<i>93</i>&nbsp;        try {
+<b class="nc"><i>94</i>&nbsp;            _god = GodFactory.getInstance().getGod(god);</b>
+<b class="nc"><i>95</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>96</i>&nbsp;            _god = new UIGod(&quot;???&quot;, &quot;???&quot;, &quot;???&quot;, &quot;???&quot;);</b>
+<b class="nc"><i>97</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>98</i>&nbsp;        }</b>
+<i>99</i>&nbsp;
+<b class="nc"><i>100</i>&nbsp;        Image godImage = new Image(&quot;/images/gods/icons/&quot; + god + &quot;.png&quot;);</b>
+<i>101</i>&nbsp;
+<b class="nc"><i>102</i>&nbsp;        ImageView godBackground = new ImageView();</b>
+<b class="nc"><i>103</i>&nbsp;        godBackground.setImage(godImage);</b>
+<b class="nc"><i>104</i>&nbsp;        godBackground.setFitWidth(MAX_WIDTH - H_PADDING * 2);</b>
+<b class="nc"><i>105</i>&nbsp;        godBackground.setPreserveRatio(true);</b>
+<b class="nc"><i>106</i>&nbsp;        godBackground.setOpacity(0.5);</b>
+<b class="nc"><i>107</i>&nbsp;        godBackground.setSmooth(true);</b>
 <i>108</i>&nbsp;
-<i>109</i>&nbsp;        // Create &quot;text&quot; container
-<b class="nc"><i>110</i>&nbsp;        VBox box = new VBox();</b>
-<b class="nc"><i>111</i>&nbsp;        box.setMaxHeight(150);</b>
-<b class="nc"><i>112</i>&nbsp;        box.setPrefWidth(MAX_WIDTH - H_PADDING * 2);</b>
-<b class="nc"><i>113</i>&nbsp;        box.setAlignment(Pos.BOTTOM_CENTER);</b>
-<b class="nc"><i>114</i>&nbsp;        box.setSpacing(V_PADDING);</b>
-<i>115</i>&nbsp;
-<i>116</i>&nbsp;        // Add white shadow to improve legibility
-<b class="nc"><i>117</i>&nbsp;        DropShadow ds = new DropShadow();</b>
-<b class="nc"><i>118</i>&nbsp;        ds.setSpread(0.75f);</b>
-<b class="nc"><i>119</i>&nbsp;        ds.setColor(Color.valueOf(&quot;eeeeeebb&quot;));</b>
+<i>109</i>&nbsp;        // Create container
+<b class="nc"><i>110</i>&nbsp;        StackPane container = new StackPane();</b>
+<b class="nc"><i>111</i>&nbsp;        container.setPrefHeight(150);</b>
+<b class="nc"><i>112</i>&nbsp;        container.setMaxWidth(MAX_WIDTH - H_PADDING * 2);</b>
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;        // Create &quot;text&quot; container
+<b class="nc"><i>115</i>&nbsp;        VBox box = new VBox();</b>
+<b class="nc"><i>116</i>&nbsp;        box.setMaxHeight(150);</b>
+<b class="nc"><i>117</i>&nbsp;        box.setPrefWidth(MAX_WIDTH - H_PADDING * 2);</b>
+<b class="nc"><i>118</i>&nbsp;        box.setAlignment(Pos.BOTTOM_CENTER);</b>
+<b class="nc"><i>119</i>&nbsp;        box.setSpacing(V_PADDING);</b>
 <i>120</i>&nbsp;
-<i>121</i>&nbsp;        // Player name
-<b class="nc"><i>122</i>&nbsp;        Text playerName = new Text();</b>
-<b class="nc"><i>123</i>&nbsp;        playerName.setText(player);</b>
-<b class="nc"><i>124</i>&nbsp;        playerName.setFont(Font.font(&quot;Georgia&quot;, FontWeight.BOLD, 14));</b>
-<b class="nc"><i>125</i>&nbsp;        playerName.setEffect(ds);</b>
-<b class="nc"><i>126</i>&nbsp;        playerName.setCache(true);</b>
-<i>127</i>&nbsp;
-<i>128</i>&nbsp;        // God name
-<b class="nc"><i>129</i>&nbsp;        Text godName = new Text();</b>
-<b class="nc"><i>130</i>&nbsp;        godName.setText(_god.getName());</b>
-<b class="nc"><i>131</i>&nbsp;        godName.setFont(Font.font(&quot;Georgia&quot;, FontWeight.BOLD, 16));</b>
-<b class="nc"><i>132</i>&nbsp;        godName.setUnderline(true);</b>
-<b class="nc"><i>133</i>&nbsp;        godName.setEffect(ds);</b>
-<b class="nc"><i>134</i>&nbsp;        godName.setCache(true);</b>
-<i>135</i>&nbsp;
-<i>136</i>&nbsp;        // God description container
-<b class="nc"><i>137</i>&nbsp;        VBox godText = new VBox();</b>
-<b class="nc"><i>138</i>&nbsp;        godText.setAlignment(Pos.TOP_LEFT);</b>
-<b class="nc"><i>139</i>&nbsp;        godText.setPadding(new Insets(0, H_PADDING, 0, H_PADDING));</b>
+<i>121</i>&nbsp;        // Add white shadow to improve legibility
+<b class="nc"><i>122</i>&nbsp;        DropShadow ds = new DropShadow();</b>
+<b class="nc"><i>123</i>&nbsp;        ds.setSpread(0.75f);</b>
+<b class="nc"><i>124</i>&nbsp;        ds.setColor(Color.valueOf(&quot;eeeeeebb&quot;));</b>
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;        // Player name
+<b class="nc"><i>127</i>&nbsp;        Text playerName = new Text();</b>
+<b class="nc"><i>128</i>&nbsp;        playerName.setText(player);</b>
+<b class="nc"><i>129</i>&nbsp;        playerName.setFont(Font.font(&quot;Georgia&quot;, FontWeight.BOLD, 14));</b>
+<b class="nc"><i>130</i>&nbsp;        playerName.setEffect(ds);</b>
+<b class="nc"><i>131</i>&nbsp;        playerName.setCache(true);</b>
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;        // God name
+<b class="nc"><i>134</i>&nbsp;        Text godName = new Text();</b>
+<b class="nc"><i>135</i>&nbsp;        godName.setText(_god.getName());</b>
+<b class="nc"><i>136</i>&nbsp;        godName.setFont(Font.font(&quot;Georgia&quot;, FontWeight.BOLD, 16));</b>
+<b class="nc"><i>137</i>&nbsp;        godName.setUnderline(true);</b>
+<b class="nc"><i>138</i>&nbsp;        godName.setEffect(ds);</b>
+<b class="nc"><i>139</i>&nbsp;        godName.setCache(true);</b>
 <i>140</i>&nbsp;
-<i>141</i>&nbsp;        // God ability (the header/effect)
-<b class="nc"><i>142</i>&nbsp;        Text godAbility = new Text();</b>
-<b class="nc"><i>143</i>&nbsp;        godAbility.setText(_god.getAbility() + &quot;:&quot;);</b>
-<b class="nc"><i>144</i>&nbsp;        godAbility.setFont(Font.font(&quot;Georgia&quot;, FontWeight.BOLD, 12));</b>
-<b class="nc"><i>145</i>&nbsp;        godAbility.setEffect(ds);</b>
-<b class="nc"><i>146</i>&nbsp;        godAbility.setCache(true);</b>
-<i>147</i>&nbsp;
-<i>148</i>&nbsp;        // God effect description
-<b class="nc"><i>149</i>&nbsp;        Text godDescription = new Text();</b>
-<b class="nc"><i>150</i>&nbsp;        godDescription.setText(_god.getDescription());</b>
-<b class="nc"><i>151</i>&nbsp;        godDescription.setFont(Font.font(&quot;Georgia&quot;, FontWeight.NORMAL, 12));</b>
-<b class="nc"><i>152</i>&nbsp;        godDescription.setWrappingWidth(MAX_WIDTH - H_PADDING * 4);</b>
-<b class="nc"><i>153</i>&nbsp;        godDescription.setEffect(ds);</b>
-<b class="nc"><i>154</i>&nbsp;        godDescription.setCache(true);</b>
-<i>155</i>&nbsp;
-<b class="nc"><i>156</i>&nbsp;        godText.getChildren().addAll(godAbility, godDescription);</b>
-<i>157</i>&nbsp;
-<b class="nc"><i>158</i>&nbsp;        box.getChildren().addAll(playerName, godName, godText);</b>
-<i>159</i>&nbsp;
-<b class="nc"><i>160</i>&nbsp;        container.getChildren().addAll(godBackground, box);</b>
-<i>161</i>&nbsp;
-<b class="nc"><i>162</i>&nbsp;        hud.getChildren().add(container);</b>
-<b class="nc"><i>163</i>&nbsp;    }</b>
-<i>164</i>&nbsp;}
+<i>141</i>&nbsp;        // God description container
+<b class="nc"><i>142</i>&nbsp;        VBox godText = new VBox();</b>
+<b class="nc"><i>143</i>&nbsp;        godText.setAlignment(Pos.TOP_LEFT);</b>
+<b class="nc"><i>144</i>&nbsp;        godText.setPadding(new Insets(0, H_PADDING, 0, H_PADDING));</b>
+<i>145</i>&nbsp;
+<i>146</i>&nbsp;        // God ability (the header/effect)
+<b class="nc"><i>147</i>&nbsp;        Text godAbility = new Text();</b>
+<b class="nc"><i>148</i>&nbsp;        godAbility.setText(_god.getAbility() + &quot;:&quot;);</b>
+<b class="nc"><i>149</i>&nbsp;        godAbility.setFont(Font.font(&quot;Georgia&quot;, FontWeight.BOLD, 12));</b>
+<b class="nc"><i>150</i>&nbsp;        godAbility.setEffect(ds);</b>
+<b class="nc"><i>151</i>&nbsp;        godAbility.setCache(true);</b>
+<i>152</i>&nbsp;
+<i>153</i>&nbsp;        // God effect description
+<b class="nc"><i>154</i>&nbsp;        Text godDescription = new Text();</b>
+<b class="nc"><i>155</i>&nbsp;        godDescription.setText(_god.getDescription());</b>
+<b class="nc"><i>156</i>&nbsp;        godDescription.setFont(Font.font(&quot;Georgia&quot;, FontWeight.NORMAL, 12));</b>
+<b class="nc"><i>157</i>&nbsp;        godDescription.setWrappingWidth(MAX_WIDTH - H_PADDING * 4);</b>
+<b class="nc"><i>158</i>&nbsp;        godDescription.setEffect(ds);</b>
+<b class="nc"><i>159</i>&nbsp;        godDescription.setCache(true);</b>
+<i>160</i>&nbsp;
+<b class="nc"><i>161</i>&nbsp;        godText.getChildren().addAll(godAbility, godDescription);</b>
+<i>162</i>&nbsp;
+<b class="nc"><i>163</i>&nbsp;        box.getChildren().addAll(playerName, godName, godText);</b>
+<i>164</i>&nbsp;
+<b class="nc"><i>165</i>&nbsp;        container.getChildren().addAll(godBackground, box);</b>
+<i>166</i>&nbsp;
+<b class="nc"><i>167</i>&nbsp;        hud.getChildren().add(container);</b>
+<b class="nc"><i>168</i>&nbsp;    }</b>
+<i>169</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

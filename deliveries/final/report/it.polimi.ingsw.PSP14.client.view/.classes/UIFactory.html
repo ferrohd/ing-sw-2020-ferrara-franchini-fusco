@@ -78,32 +78,35 @@
 <i>4</i>&nbsp;import it.polimi.ingsw.PSP14.client.view.cli.CLI;
 <i>5</i>&nbsp;import it.polimi.ingsw.PSP14.client.view.gui.GUI;
 <i>6</i>&nbsp;
-<i>7</i>&nbsp;public class UIFactory {
-<b class="nc"><i>8</i>&nbsp;    private UIFactory() {}</b>
-<i>9</i>&nbsp;
-<i>10</i>&nbsp;    /**
-<i>11</i>&nbsp;     * Launch GUI or CLI based on settings
-<i>12</i>&nbsp;     * @param setting param used to launch cli or gui
-<i>13</i>&nbsp;     * @return UI to use
-<i>14</i>&nbsp;     * @throws InvalidSettingsException if the specified setting isn&#39;t implemented
-<i>15</i>&nbsp;     */
-<i>16</i>&nbsp;    public static UI getUI(String setting) throws InvalidSettingsException {
-<b class="nc"><i>17</i>&nbsp;        switch(setting) {</b>
-<i>18</i>&nbsp;            case &quot;cli&quot;:
-<b class="nc"><i>19</i>&nbsp;                return new CLI();</b>
-<i>20</i>&nbsp;            case &quot;gui&quot;:
-<b class="nc"><i>21</i>&nbsp;                return new GUI();</b>
-<i>22</i>&nbsp;            default:
-<b class="nc"><i>23</i>&nbsp;                throw new InvalidSettingsException();</b>
-<i>24</i>&nbsp;        }
-<i>25</i>&nbsp;    }
-<i>26</i>&nbsp;}
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * A class containing static methods to obtain the requested implementation of the UI (CLI or GUI)
+<i>9</i>&nbsp; */
+<i>10</i>&nbsp;public class UIFactory {
+<b class="nc"><i>11</i>&nbsp;    private UIFactory() {}</b>
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    /**
+<i>14</i>&nbsp;     * Launch GUI or CLI based on settings
+<i>15</i>&nbsp;     * @param setting param used to launch cli or gui
+<i>16</i>&nbsp;     * @return UI to use
+<i>17</i>&nbsp;     * @throws InvalidSettingsException if the specified setting isn&#39;t implemented
+<i>18</i>&nbsp;     */
+<i>19</i>&nbsp;    public static UI getUI(String setting) throws InvalidSettingsException {
+<b class="nc"><i>20</i>&nbsp;        switch(setting) {</b>
+<i>21</i>&nbsp;            case &quot;cli&quot;:
+<b class="nc"><i>22</i>&nbsp;                return new CLI();</b>
+<i>23</i>&nbsp;            case &quot;gui&quot;:
+<b class="nc"><i>24</i>&nbsp;                return new GUI();</b>
+<i>25</i>&nbsp;            default:
+<b class="nc"><i>26</i>&nbsp;                throw new InvalidSettingsException();</b>
+<i>27</i>&nbsp;        }
+<i>28</i>&nbsp;    }
+<i>29</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

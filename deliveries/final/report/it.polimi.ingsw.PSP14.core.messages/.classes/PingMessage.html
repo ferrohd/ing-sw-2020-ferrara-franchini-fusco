@@ -77,19 +77,22 @@
 <i>3</i>&nbsp;
 <i>4</i>&nbsp;import java.time.Instant;
 <i>5</i>&nbsp;
-<b class="nc"><i>6</i>&nbsp;public class PingMessage implements Message {</b>
-<b class="nc"><i>7</i>&nbsp;    private Instant timestamp = Instant.now();</b>
-<i>8</i>&nbsp;
-<i>9</i>&nbsp;    public Instant getTimestamp() {
-<b class="nc"><i>10</i>&nbsp;        return timestamp;</b>
-<i>11</i>&nbsp;    }
-<i>12</i>&nbsp;}
+<i>6</i>&nbsp;/**
+<i>7</i>&nbsp; * Message to detect disconnections.
+<i>8</i>&nbsp; */
+<b class="nc"><i>9</i>&nbsp;public class PingMessage implements Message {</b>
+<b class="nc"><i>10</i>&nbsp;    private final Instant timestamp = Instant.now();</b>
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    public Instant getTimestamp() {
+<b class="nc"><i>13</i>&nbsp;        return timestamp;</b>
+<i>14</i>&nbsp;    }
+<i>15</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>

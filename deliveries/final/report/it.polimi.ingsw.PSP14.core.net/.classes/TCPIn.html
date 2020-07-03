@@ -61,7 +61,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 20)
+    (0/ 26)
   </span>
 </td>
 </tr>
@@ -84,53 +84,77 @@
 <i>10</i>&nbsp;import java.util.concurrent.BlockingQueue;
 <i>11</i>&nbsp;import java.util.concurrent.LinkedBlockingQueue;
 <i>12</i>&nbsp;import java.util.concurrent.TimeUnit;
-<i>13</i>&nbsp;
-<i>14</i>&nbsp;public class TCPIn implements Runnable {
-<b class="nc"><i>15</i>&nbsp;    private BlockingQueue&lt;Message&gt; queue = new LinkedBlockingQueue&lt;&gt;();</b>
-<i>16</i>&nbsp;    private ObjectInputStream in;
-<b class="nc"><i>17</i>&nbsp;    private Instant lastTimestamp = Instant.now();</b>
-<i>18</i>&nbsp;
-<b class="nc"><i>19</i>&nbsp;    public TCPIn(ObjectInputStream in) {</b>
-<b class="nc"><i>20</i>&nbsp;        this.in = in;</b>
-<b class="nc"><i>21</i>&nbsp;    }</b>
-<i>22</i>&nbsp;
-<i>23</i>&nbsp;    @Override
-<i>24</i>&nbsp;    public void run() {
-<i>25</i>&nbsp;        while(true) {
-<i>26</i>&nbsp;            try {
-<b class="nc"><i>27</i>&nbsp;                Message message = (Message) in.readObject();</b>
-<b class="nc"><i>28</i>&nbsp;                if(message instanceof PingMessage)</b>
-<b class="nc"><i>29</i>&nbsp;                    lastTimestamp = ((PingMessage)message).getTimestamp();</b>
-<i>30</i>&nbsp;                else
-<b class="nc"><i>31</i>&nbsp;                    queue.add(message);</b>
-<b class="nc"><i>32</i>&nbsp;            } catch(ClassNotFoundException | IOException e) {</b>
-<b class="nc"><i>33</i>&nbsp;                lastTimestamp = Instant.EPOCH;</b>
-<b class="nc"><i>34</i>&nbsp;                return;</b>
-<b class="nc"><i>35</i>&nbsp;            }</b>
-<i>36</i>&nbsp;        }
-<i>37</i>&nbsp;    }
-<i>38</i>&nbsp;
-<i>39</i>&nbsp;    public Message receiveMessage() throws IOException {
-<i>40</i>&nbsp;        try {
-<i>41</i>&nbsp;            Message message;
-<i>42</i>&nbsp;            do {
-<b class="nc"><i>43</i>&nbsp;                if (Duration.between(lastTimestamp, Instant.now()).toMillis() &gt; 5000) throw new IOException(&quot;Too much time elapsed!&quot;);</b>
-<b class="nc"><i>44</i>&nbsp;                message = queue.poll(100, TimeUnit.MILLISECONDS);</b>
-<b class="nc"><i>45</i>&nbsp;            } while(message == null);</b>
-<b class="nc"><i>46</i>&nbsp;            return message;</b>
-<b class="nc"><i>47</i>&nbsp;        } catch(InterruptedException e) {throw new IOException();}</b>
+<i>13</i>&nbsp;import java.util.concurrent.locks.Lock;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;/**
+<i>16</i>&nbsp; * A task that handles the incoming messages.
+<i>17</i>&nbsp; */
+<i>18</i>&nbsp;public class TCPIn implements Runnable {
+<b class="nc"><i>19</i>&nbsp;    private final BlockingQueue&lt;Message&gt; queue = new LinkedBlockingQueue&lt;&gt;();</b>
+<i>20</i>&nbsp;    private final ObjectInputStream in;
+<b class="nc"><i>21</i>&nbsp;    private Instant lastTimestamp = Instant.now();</b>
+<b class="nc"><i>22</i>&nbsp;    private final Object timestampLock = new Object();</b>
+<i>23</i>&nbsp;
+<b class="nc"><i>24</i>&nbsp;    public TCPIn(ObjectInputStream in) {</b>
+<b class="nc"><i>25</i>&nbsp;        this.in = in;</b>
+<b class="nc"><i>26</i>&nbsp;    }</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**
+<i>29</i>&nbsp;     * Indefinitely reads objects from the socket until an exception occurs.
+<i>30</i>&nbsp;     * Detects ping messages and discards them, updating the lastTimestamp attribute.
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    @Override
+<i>33</i>&nbsp;    public void run() {
+<i>34</i>&nbsp;        while(true) {
+<i>35</i>&nbsp;            try {
+<b class="nc"><i>36</i>&nbsp;                Message message = (Message) in.readObject();</b>
+<b class="nc"><i>37</i>&nbsp;                if(message instanceof PingMessage)</b>
+<b class="nc"><i>38</i>&nbsp;                    synchronized(timestampLock) {</b>
+<b class="nc"><i>39</i>&nbsp;                        lastTimestamp = Instant.now();</b>
+<b class="nc"><i>40</i>&nbsp;                    }</b>
+<i>41</i>&nbsp;                else
+<b class="nc"><i>42</i>&nbsp;                    queue.add(message);</b>
+<b class="nc"><i>43</i>&nbsp;            } catch(ClassNotFoundException | IOException e) {</b>
+<b class="nc"><i>44</i>&nbsp;                lastTimestamp = Instant.EPOCH;</b>
+<b class="nc"><i>45</i>&nbsp;                return;</b>
+<b class="nc"><i>46</i>&nbsp;            }</b>
+<i>47</i>&nbsp;        }
 <i>48</i>&nbsp;    }
 <i>49</i>&nbsp;
-<i>50</i>&nbsp;    public void close() throws IOException {
-<b class="nc"><i>51</i>&nbsp;        in.close();</b>
-<b class="nc"><i>52</i>&nbsp;    }</b>
-<i>53</i>&nbsp;}
+<i>50</i>&nbsp;    /**
+<i>51</i>&nbsp;     * Function called to receive a message.
+<i>52</i>&nbsp;     * It takes a message from the internal queue and returns it.
+<i>53</i>&nbsp;     * @return the first message in the internal queue
+<i>54</i>&nbsp;     * @throws IOException if interrupted or too much time has elapsed since the last Ping
+<i>55</i>&nbsp;     */
+<i>56</i>&nbsp;    public Message receiveMessage() throws IOException {
+<i>57</i>&nbsp;        try {
+<i>58</i>&nbsp;            Message message;
+<i>59</i>&nbsp;            do {
+<b class="nc"><i>60</i>&nbsp;                synchronized (timestampLock) {</b>
+<b class="nc"><i>61</i>&nbsp;                    if (Duration.between(lastTimestamp, Instant.now()).toMillis() &gt; 5000)</b>
+<b class="nc"><i>62</i>&nbsp;                        throw new IOException(&quot;Too much time elapsed!&quot;);</b>
+<b class="nc"><i>63</i>&nbsp;                }</b>
+<b class="nc"><i>64</i>&nbsp;                message = queue.poll(100, TimeUnit.MILLISECONDS);</b>
+<b class="nc"><i>65</i>&nbsp;            } while(message == null);</b>
+<b class="nc"><i>66</i>&nbsp;            return message;</b>
+<b class="nc"><i>67</i>&nbsp;        } catch(InterruptedException e) {throw new IOException();}</b>
+<i>68</i>&nbsp;    }
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    /**
+<i>71</i>&nbsp;     * Closes the connection.
+<i>72</i>&nbsp;     * @throws IOException if the connection can&#39;t be closed.
+<i>73</i>&nbsp;     */
+<i>74</i>&nbsp;    public void close() throws IOException {
+<b class="nc"><i>75</i>&nbsp;        in.close();</b>
+<b class="nc"><i>76</i>&nbsp;    }</b>
+<i>77</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-18 16:44</div>
+    <div style="float:right;">generated on 2020-07-03 09:09</div>
 </div>
 </body>
 </html>
