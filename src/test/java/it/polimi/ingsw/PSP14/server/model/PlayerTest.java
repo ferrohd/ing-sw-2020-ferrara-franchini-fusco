@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,8 +18,8 @@ public class PlayerTest {
 
     @BeforeEach
     void setUp() throws IOException {
-            testPlayer = new Player("Ada", new God("Ada"), new MatchController());
-            testPlayer.setWorker(0, new Point(0, 0));
+        testPlayer = new Player("Ada", new God("Ada"), new MatchController());
+        testPlayer.setWorker(0, new Point(0, 0));
     }
 
     @Test
@@ -31,12 +30,12 @@ public class PlayerTest {
     @Test
     void moveWorker() throws IOException {
         testPlayer.moveWorker(0, Direction.N);
-        assertTrue(testPlayer.getWorkerPos(0).equals(new Point(0,1)));
+        assertTrue(testPlayer.getWorkerPos(0).equals(new Point(0, 1)));
     }
 
     @Test
     void getWorker() {
-        assertTrue(testPlayer.getWorkerPos(0).equals(new Point(0,0)));
+        assertTrue(testPlayer.getWorkerPos(0).equals(new Point(0, 0)));
     }
 
     @Test

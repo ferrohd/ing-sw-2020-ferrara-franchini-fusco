@@ -24,18 +24,18 @@ public class TCPClientConnectionFactory implements ClientConnectionFactory {
      * retrieved later with getClientConnection.
      */
     public void run() {
-        while(true) {
+        while (true) {
             Socket newConnectionSocket;
             try {
                 newConnectionSocket = serverSocket.accept();
                 System.out.println("New client connected!");
-            } catch(IOException e) {
+            } catch (IOException e) {
                 continue;
             }
             try {
                 ClientConnection newConnection = new TCPClientConnection(newConnectionSocket);
                 clientQueue.put(newConnection);
-            } catch(InterruptedException | IOException e) {
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
                 System.exit(-1);
             }

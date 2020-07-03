@@ -24,7 +24,7 @@ public class Apollo extends God {
 
     @Override
     public void addMoves(List<MoveAction> moves, String player, int workerIndex, MatchModel model) throws IOException {
-        if(!player.equals(getOwner())) {
+        if (!player.equals(getOwner())) {
             return;
         }
         Player playing = model.getPlayerByUsername(player);
@@ -34,7 +34,7 @@ public class Apollo extends God {
         Point currPos = playing.getWorkerPos(workerIndex);
         int currentLevel = model.getBoard().getTowerSize(currPos);
 
-        for(Direction dir: Direction.values()) {
+        for (Direction dir : Direction.values()) {
             Point newPos = currPos.move(dir);
             if (Board.isValidPos(newPos) && !newPos.equals(worker0) && !newPos.equals(worker1)) {
                 int newLevel = model.getBoard().getTowerSize(newPos);

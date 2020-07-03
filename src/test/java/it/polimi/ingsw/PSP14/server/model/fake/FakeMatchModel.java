@@ -8,7 +8,6 @@ import it.polimi.ingsw.PSP14.server.model.board.Player;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FakeMatchModel extends MatchModel {
     public boolean flag;
@@ -35,7 +34,8 @@ public class FakeMatchModel extends MatchModel {
     public void resetBoard() {
         try {
             this.board = new Board();
-        } catch (IOException ignore) {}
+        } catch (IOException ignore) {
+        }
     }
 
     @Override
@@ -45,7 +45,7 @@ public class FakeMatchModel extends MatchModel {
 
     @Override
     public Player getPlayerByUsername(String username) {
-        for(Player p : players) if (p.getUsername().equals(username)) return p;
+        for (Player p : players) if (p.getUsername().equals(username)) return p;
 
         return null;
     }

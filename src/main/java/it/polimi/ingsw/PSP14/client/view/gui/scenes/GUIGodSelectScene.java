@@ -52,8 +52,8 @@ public class GUIGodSelectScene implements Runnable {
             String basePath = "images/gods/";
 
             List<Node> icons = godGrid.getChildren();
-            for(Node icon : icons) ((ImageView)icon).fitHeightProperty().bind(godGrid.heightProperty().divide(3.2));
-            for(int i = 0; i < gods.size(); ++i) {
+            for (Node icon : icons) ((ImageView) icon).fitHeightProperty().bind(godGrid.heightProperty().divide(3.2));
+            for (int i = 0; i < gods.size(); ++i) {
                 ImageView img = (ImageView) icons.get(i);
                 String godName = gods.get(i);
                 String path = basePath + "icons/" + godName + ".png";
@@ -65,17 +65,19 @@ public class GUIGodSelectScene implements Runnable {
                         this.godName.setText(godName);
                         godDescription.setText(god.getDescription());
                         godSplash.setImage(new Image(basePath + godName + ".png"));
-                    } catch(IOException e) {}
+                    } catch (IOException e) {
+                    }
                 });
             }
 
             selectButton.setOnMouseClicked((event) -> {
-                if(!godName.getText().equals("")) {
+                if (!godName.getText().equals("")) {
                     selectButton.setDisable(true);
                     selectButton.setText("Waiting...");
                     try {
                         GUIMain.getQueue().put(gods.indexOf(godName.getText()));
-                    } catch (InterruptedException e) {}
+                    } catch (InterruptedException e) {
+                    }
                 }
             });
 

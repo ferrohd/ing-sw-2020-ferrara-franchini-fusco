@@ -31,7 +31,7 @@ public class CLI implements UI {
 
     @Override
     public void startWorkerChoice(String player) throws InterruptedException {
-        if(player.equals(playerUsername)) {
+        if (player.equals(playerUsername)) {
             showNotification("Choose the worker you would like to move");
         } else {
             showNotification(player + " is choosing the worker to move");
@@ -40,7 +40,7 @@ public class CLI implements UI {
 
     @Override
     public void startMove(String player) throws InterruptedException {
-        if(player.equals(playerUsername)) {
+        if (player.equals(playerUsername)) {
             showNotification("Choose where to move");
         } else {
             showNotification(player + " is choosing where to move");
@@ -49,7 +49,7 @@ public class CLI implements UI {
 
     @Override
     public void startBuild(String player) throws InterruptedException {
-        if(player.equals(playerUsername)) {
+        if (player.equals(playerUsername)) {
             showNotification("Choose where to build");
         } else {
             showNotification(player + " is choosing where to build");
@@ -58,7 +58,7 @@ public class CLI implements UI {
 
     @Override
     public void startWorkerPlacement(String player) throws InterruptedException {
-        if(player.equals(playerUsername)) {
+        if (player.equals(playerUsername)) {
             showNotification("Choose where to place your workers");
         } else {
             showNotification(player + " is choosing where to place their workers");
@@ -118,7 +118,7 @@ public class CLI implements UI {
     public UIColor getColor() {
         CLIColor[] colorList = CLIColor.values();
         CLIColor toRet;
-        while((toRet = colorList[new Random().nextInt(colorList.length)]) == CLIColor.RESET);
+        while ((toRet = colorList[new Random().nextInt(colorList.length)]) == CLIColor.RESET) ;
         return toRet;
     }
 
@@ -131,7 +131,8 @@ public class CLI implements UI {
             if (_input.matches("^\\d+$")) {
                 try {
                     _i = Integer.parseInt(_input);
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                }
                 if (_i >= 1 && _i <= maxValue) break;
             }
         } while (true);
@@ -162,15 +163,17 @@ public class CLI implements UI {
 
     /**
      * Use this to draw a fullscreen message.
+     *
      * @param text the text to draw
      */
     private void drawMessage(String text) {
         System.out.println(CLIColor.YELLOW + "> " + text + CLIColor.RESET);
     }
-    
+
     /**
      * Use this to draw a fullscreen message.
-     * @param text the text to draw
+     *
+     * @param text  the text to draw
      * @param color color of the drawing
      */
     private void drawMessage(String text, CLIColor color) {
@@ -225,7 +228,7 @@ public class CLI implements UI {
         do {
             drawMessage("How many players you want in the match? {2, 3}");
             choice = in.nextLine();
-        } while(!choice.equals("2") && !choice.equals("3"));
+        } while (!choice.equals("2") && !choice.equals("3"));
 
         return Integer.parseInt(choice);
     }
@@ -300,7 +303,7 @@ public class CLI implements UI {
         List<Point> workersPosition = _pw.stream().map(w -> w.getCell().getPoint()).collect(Collectors.toList());
         List<String> _workers = _pw.stream()
                 .filter(w -> choices.contains(w.getId()))
-                .map(w -> "[" + (char)(w.getCell().getY()+'A') + " " + w.getCell().getX() + "]")
+                .map(w -> "[" + (char) (w.getCell().getY() + 'A') + " " + w.getCell().getX() + "]")
                 .collect(Collectors.toList());
 
         ctx.drawBoardAndPlayers();
@@ -316,7 +319,7 @@ public class CLI implements UI {
     @Override
     public int chooseMove(List<MoveProposal> moves) throws IOException {
         List<String> moveStrings = moves.stream()
-                .map(m -> "[" + (char)(m.getPoint().getY() +'A') + " " + m.getPoint().getX() + "]")
+                .map(m -> "[" + (char) (m.getPoint().getY() + 'A') + " " + m.getPoint().getX() + "]")
                 .collect(Collectors.toList());
         List<Point> validMoves = moves.stream().map(m -> m.getPoint()).collect(Collectors.toList());
 
@@ -333,7 +336,7 @@ public class CLI implements UI {
     @Override
     public int chooseBuild(List<BuildProposal> moves) throws IOException {
         List<String> buildStrings = moves.stream()
-                .map(m -> "[" + (char)(m.getPoint().getY() +'A') + " " + m.getPoint().getX() + "]" + (m.hasDome() ? " (dome)" : ""))
+                .map(m -> "[" + (char) (m.getPoint().getY() + 'A') + " " + m.getPoint().getX() + "]" + (m.hasDome() ? " (dome)" : ""))
                 .collect(Collectors.toList());
         List<Point> buildPositions = moves.stream().map(m -> m.getPoint()).collect(Collectors.toList());
 
@@ -344,7 +347,7 @@ public class CLI implements UI {
                         + "Choose where to build: "
                         + CLIColor.CYAN
                         + "[insert coordinates like \"A 0\"]"),
-                    buildPositions);
+                buildPositions);
     }
 
     @Override

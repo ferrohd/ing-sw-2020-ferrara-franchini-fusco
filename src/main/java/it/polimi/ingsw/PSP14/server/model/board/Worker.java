@@ -8,6 +8,7 @@ public class Worker {
 
     /**
      * Constructs a worker at specified position
+     *
      * @param pos the position
      */
     public Worker(Point pos) {
@@ -24,7 +25,9 @@ public class Worker {
     /**
      * @param pos new position to set the worker to
      */
-    public void setPos(Point pos) { this.pos = pos; }
+    public void setPos(Point pos) {
+        this.pos = pos;
+    }
 
     /**
      * @param dir direction where to move the worker

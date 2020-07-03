@@ -1,14 +1,5 @@
 package it.polimi.ingsw.PSP14.server.model;
 
-import it.polimi.ingsw.PSP14.server.controller.GodfileParser;
-import org.junit.jupiter.api.Test;
-import org.xml.sax.SAXException;
-
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 public class GodfileParserTest {
 /*    @Test
     void shouldParseCorrectly() {

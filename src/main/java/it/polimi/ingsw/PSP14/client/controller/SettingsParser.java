@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * Class for reading the settings file and getting the single settings.
- *
+ * <p>
  * The settings file is composed of lines. Each line represent a single setting.
  * Each setting is composed of two substrings, separated by the ':' character.
  * The left hand side represents the name of the setting. The right hand side represents the setting value.
@@ -24,7 +24,7 @@ public class SettingsParser {
         settingsMap = new HashMap<>();
         BufferedReader reader = new BufferedReader(new FileReader(filename));
         String line;
-        while((line = reader.readLine()) != null) {
+        while ((line = reader.readLine()) != null) {
             line = line.replace(" ", "");
             String[] tokens = line.split(":");
             settingsMap.put(tokens[0], tokens[1]);

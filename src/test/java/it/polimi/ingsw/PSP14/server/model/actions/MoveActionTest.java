@@ -2,14 +2,12 @@ package it.polimi.ingsw.PSP14.server.model.actions;
 
 import it.polimi.ingsw.PSP14.core.proposals.MoveProposal;
 import it.polimi.ingsw.PSP14.server.model.EndGameException;
-import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.board.Board;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,7 +33,8 @@ public class MoveActionTest {
                     p.setWorker(0, new Point(3, 4));
                     p.setWorker(1, new Point(0, 0));
                     players.add(p);
-                } catch (IOException ignore) {}
+                } catch (IOException ignore) {
+                }
             }
 
             @Override
@@ -44,11 +43,12 @@ public class MoveActionTest {
                     board = new Board();
                     for (int i = 0; i < 3; ++i)
                         board.incrementTowerSize(new Point(1, 1));
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                }
             }
 
             @Override
-            public void end(String winningPlayer) throws EndGameException, IOException {
+            public void end(String winningPlayer) throws IOException {
                 s = winningPlayer;
             }
         };
@@ -56,7 +56,7 @@ public class MoveActionTest {
 
     @Test
     public void moveActionTest() throws IOException {
-        MoveAction action = new MoveAction("user", new Point(0,0), new Point(1,1));
+        MoveAction action = new MoveAction("user", new Point(0, 0), new Point(1, 1));
 
         model.executeAction(action);
         assertEquals("user", model.s);
@@ -65,7 +65,7 @@ public class MoveActionTest {
 
     @Test
     public void apolloMoveActionTest() throws IOException {
-        MoveAction action = new ApolloMoveAction("user", new Point(0,0), new Point(0,1));
+        MoveAction action = new ApolloMoveAction("user", new Point(0, 0), new Point(0, 1));
 
         model.executeAction(action);
         assertTrue(model.getPlayerByUsername("user").getWorkerPos(1).equals(new Point(0, 1)));
@@ -74,7 +74,7 @@ public class MoveActionTest {
 
     @Test
     public void minotaurMoveActionTest() throws IOException {
-        MoveAction action = new MinotaurMoveAction("user", new Point(0,0), new Point(0,1));
+        MoveAction action = new MinotaurMoveAction("user", new Point(0, 0), new Point(0, 1));
 
         model.executeAction(action);
         assertTrue(model.getPlayerByUsername("user").getWorkerPos(1).equals(new Point(0, 1)));

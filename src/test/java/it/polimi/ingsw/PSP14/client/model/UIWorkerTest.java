@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 class UIWorkerTest {
 
     UIWorker worker;
-    UIPlayer player = new UIPlayer("Ada", 0,null);
+    UIPlayer player = new UIPlayer("Ada", 0, null);
     UICell cell = new UICell(1, 1);
 
     @BeforeEach

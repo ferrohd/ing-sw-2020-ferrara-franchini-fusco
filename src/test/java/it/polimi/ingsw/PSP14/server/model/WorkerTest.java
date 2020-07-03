@@ -14,7 +14,7 @@ public class WorkerTest {
 
     @BeforeEach
     void setUp() {
-        worker = new Worker(new Point(0,0));
+        worker = new Worker(new Point(0, 0));
     }
 
     @Test
@@ -30,13 +30,13 @@ public class WorkerTest {
 
     @Test
     void workerShouldInstantiate() {
-        Worker testWorker = new Worker(new Point(2,2));
-        assertTrue(testWorker.getPos().equals(new Point(2,2)));
+        Worker testWorker = new Worker(new Point(2, 2));
+        assertTrue(testWorker.getPos().equals(new Point(2, 2)));
     }
 
     @Test
     void setPositionShouldWork() {
-        worker.setPos(new Point(2,2));
-        assertTrue(worker.getPos().equals(new Point(2,2)));
+        worker.setPos(new Point(2, 2));
+        assertTrue(worker.getPos().equals(new Point(2, 2)));
     }
 }

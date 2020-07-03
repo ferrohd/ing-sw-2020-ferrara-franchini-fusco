@@ -17,14 +17,14 @@ public class MinotaurMoveAction extends MoveAction {
 
     @Override
     public void execute(MatchModel model) throws IOException {
-        for(Player p: model.getPlayerMap()) {
-            for(int i = 0; i < 2; ++i) {
-                if(p.getWorkerPos(i).equals(getTo()) &&
+        for (Player p : model.getPlayerMap()) {
+            for (int i = 0; i < 2; ++i) {
+                if (p.getWorkerPos(i).equals(getTo()) &&
                         !p.getUsername().equals(getUser())) {
                     super.execute(model);
                     Point newPos = new Point(
-                            2*getTo().getX() - getFrom().getX(),
-                            2*getTo().getY() - getFrom().getY()
+                            2 * getTo().getX() - getFrom().getX(),
+                            2 * getTo().getY() - getFrom().getY()
                     );
                     p.setWorker(i, newPos);
                 }

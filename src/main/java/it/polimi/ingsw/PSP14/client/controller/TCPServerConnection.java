@@ -18,6 +18,7 @@ public class TCPServerConnection implements ServerConnection {
 
     /**
      * Constructor of the connection.
+     *
      * @param socket the socket on the server we need to connect to.
      * @throws IOException if a connection error occurs
      */

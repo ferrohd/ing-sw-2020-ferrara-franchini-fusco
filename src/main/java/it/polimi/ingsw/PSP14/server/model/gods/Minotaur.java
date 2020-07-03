@@ -25,7 +25,7 @@ public class Minotaur extends God {
 
     @Override
     public void addMoves(List<MoveAction> moves, String player, int workerIndex, MatchModel model) throws IOException {
-        if(!player.equals(getOwner())) {
+        if (!player.equals(getOwner())) {
             return;
         }
         Player playing = model.getPlayerByUsername(player);
@@ -35,10 +35,10 @@ public class Minotaur extends God {
         Point currPos = playing.getWorkerPos(workerIndex);
         int currentLevel = model.getBoard().getTowerSize(currPos);
 
-        for(Direction dir: Direction.values()) {
+        for (Direction dir : Direction.values()) {
             Point newPos = currPos.move(dir),
                     minotaurPos = newPos.move(dir);
-            if(Board.isValidPos(minotaurPos) && !newPos.equals(worker0) && !newPos.equals(worker1)) {
+            if (Board.isValidPos(minotaurPos) && !newPos.equals(worker0) && !newPos.equals(worker1)) {
                 int newLevel = model.getBoard().getTowerSize(newPos);
                 if (!model.isCellFree(newPos) && model.isCellFree(minotaurPos) && newLevel <= currentLevel + 1 &&
                         !model.getBoard().getIsCompleted(newPos) && !model.getBoard().getIsCompleted(minotaurPos))

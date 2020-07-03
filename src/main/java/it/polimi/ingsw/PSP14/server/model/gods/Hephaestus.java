@@ -20,14 +20,14 @@ public class Hephaestus extends God {
 
     @Override
     public void afterBuild(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
-        if(!player.equals(getOwner())) return;
+        if (!player.equals(getOwner())) return;
 
         BuildAction lastBuild = (BuildAction) model.getLastAction();
 
-        if(!model.getBoard().getIsCompleted(lastBuild.getPoint()) && model.getBoard().getTowerSize(lastBuild.getPoint()) < 3) {
+        if (!model.getBoard().getIsCompleted(lastBuild.getPoint()) && model.getBoard().getTowerSize(lastBuild.getPoint()) < 3) {
             boolean choice = controller.askQuestion(player, MESSAGE);
 
-            if(choice) {
+            if (choice) {
                 model.executeAction(new BuildAction(player, lastBuild.getPoint(), false, 1));
             }
         }

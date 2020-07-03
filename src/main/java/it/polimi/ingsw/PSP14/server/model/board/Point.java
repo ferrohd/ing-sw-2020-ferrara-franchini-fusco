@@ -28,6 +28,7 @@ public class Point implements Serializable {
 
     /**
      * Compare two points and return a boolean whether they are equals or not.
+     *
      * @param point a point to confront with
      * @return whether the points are in the same position
      */

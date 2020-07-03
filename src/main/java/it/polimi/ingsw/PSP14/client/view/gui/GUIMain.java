@@ -20,24 +20,28 @@ import java.util.concurrent.LinkedBlockingDeque;
 public class GUIMain extends Application {
 
     private static final BlockingQueue<Object> queue = new LinkedBlockingDeque<>();
+
     public static BlockingQueue<Object> getQueue() {
         return queue;
     }
 
     private static Stage initStage;
+
     public static Stage getStage() {
         return initStage;
     }
 
     public static VBox getInfoPanel() {
-        return (VBox) ((BorderPane)getMainPane().getContent()).getLeft();
+        return (VBox) ((BorderPane) getMainPane().getContent()).getLeft();
     }
+
     public static Text getInfoText() {
-        return (Text) ((StackPane)getInfoPanel().getChildren().get(0)).getChildren().get(0);
+        return (Text) ((StackPane) getInfoPanel().getChildren().get(0)).getChildren().get(0);
     }
 
     /**
      * Entry point of JavaFX
+     *
      * @param primaryStage First Window created by JavaFX
      */
     @Override

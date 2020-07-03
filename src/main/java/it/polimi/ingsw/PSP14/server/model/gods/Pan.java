@@ -17,13 +17,13 @@ public class Pan extends God {
 
     @Override
     public void afterMove(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
-        if(!player.equals(getOwner())) return;
+        if (!player.equals(getOwner())) return;
 
         MoveAction lastMove = (MoveAction) model.getLastAction();
         int levelFrom = model.getBoard().getTowerSize(lastMove.getFrom());
         int levelTo = model.getBoard().getTowerSize(lastMove.getTo());
 
-        if(levelFrom - levelTo > 1) {
+        if (levelFrom - levelTo > 1) {
             model.end(player);
         }
     }

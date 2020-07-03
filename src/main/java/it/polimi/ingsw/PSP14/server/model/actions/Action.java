@@ -3,7 +3,6 @@ package it.polimi.ingsw.PSP14.server.model.actions;
 import it.polimi.ingsw.PSP14.server.model.MatchModel;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.time.Instant;
 
 /**
@@ -28,10 +27,13 @@ public abstract class Action {
     /**
      * @return the player who made the action
      */
-    public String getUser() { return user; }
+    public String getUser() {
+        return user;
+    }
 
     /**
      * Executes the message on the current model
+     *
      * @param model the current model
      * @throws IOException if a connection error occurs
      */

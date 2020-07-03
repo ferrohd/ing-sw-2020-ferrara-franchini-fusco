@@ -31,9 +31,10 @@ public class Cell {
 
     /**
      * Increases by one the size of the tower.
+     *
      * @throws TowerSizeException when you try to increase a tower of 3 blocks.
      */
-    public void incrementTowerSize() throws TowerSizeException{
+    public void incrementTowerSize() throws TowerSizeException {
         if (towerSize < 3) {
             towerSize += 1;
         } else throw new TowerSizeException();

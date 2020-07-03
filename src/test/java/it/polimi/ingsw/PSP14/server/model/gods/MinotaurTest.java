@@ -1,11 +1,11 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchModel;
 import it.polimi.ingsw.PSP14.server.model.MatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import it.polimi.ingsw.PSP14.server.model.board.TowerSizeException;
+import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchModel;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -28,7 +28,8 @@ public class MinotaurTest {
                     player = new Player("minotaurOwner");
                     player.setWorker(0, new Point(0, 0));
                     player.setWorker(1, new Point(1, 1));
-                } catch(IOException e) {}
+                } catch (IOException e) {
+                }
 
                 return player;
             }
@@ -60,7 +61,8 @@ public class MinotaurTest {
                     player = new Player("minotaurOwner");
                     player.setWorker(0, new Point(0, 0));
                     player.setWorker(1, new Point(1, 1));
-                } catch(IOException e) {}
+                } catch (IOException e) {
+                }
 
                 return player;
             }

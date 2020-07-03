@@ -90,3 +90,6 @@ out/
 !delieveries/
 
 .DS_Store
+
+# As of 2020 June 2, we're removing .idea folder for delievery
+.idea/

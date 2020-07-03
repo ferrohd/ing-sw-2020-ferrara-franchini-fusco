@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PointTest {
 
-    private Point point = new Point(0, 0);
+    private final Point point = new Point(0, 0);
 
     @Test
     void coordinatesAreCorrect() {

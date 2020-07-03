@@ -9,7 +9,8 @@ public class ColorChar {
 
     /**
      * Constructor.
-     * @param c the char you want to add color to
+     *
+     * @param c     the char you want to add color to
      * @param color the color
      */
     ColorChar(char c, CLIColor color) {
@@ -23,7 +24,9 @@ public class ColorChar {
         return character;
     }
 
-    public CLIColor getColor() { return color; }
+    public CLIColor getColor() {
+        return color;
+    }
 
     /**
      * @return a string sequence made up of the character if no color is set, and the

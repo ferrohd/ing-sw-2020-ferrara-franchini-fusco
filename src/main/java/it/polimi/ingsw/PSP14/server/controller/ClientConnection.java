@@ -22,8 +22,10 @@ public abstract class ClientConnection {
     protected void ping() throws IOException {
         sendMessage(new PingMessage());
     }
+
     /**
      * Serialize and send a message to the client.
+     *
      * @param message the message to send
      * @throws IOException if it fails to send the message
      */
@@ -31,6 +33,7 @@ public abstract class ClientConnection {
 
     /**
      * Receive a message from the client.
+     *
      * @return the received message
      * @throws IOException if it fails to send the message
      */
@@ -42,6 +45,7 @@ public abstract class ClientConnection {
 
     /**
      * A request to the client to provide the name that the player has chosen.
+     *
      * @return the player username
      * @throws IOException if there's a connection error
      */
@@ -53,8 +57,9 @@ public abstract class ClientConnection {
 
     /**
      * Ask a player to select from a list of gods the one that will be available in the match.
+     *
      * @param availableGods the gods to select from
-     * @param n the number of gods to select
+     * @param n             the number of gods to select
      * @return a list of god names representing the chosen gods
      * @throws IOException if there's a connection error
      */
@@ -75,6 +80,7 @@ public abstract class ClientConnection {
 
     /**
      * Asks the user to pick the God he wants to play with
+     *
      * @param gods available gods to chose from
      * @return the god selected
      * @throws IOException if there's a connection error
@@ -84,7 +90,7 @@ public abstract class ClientConnection {
         GodChoiceProposalMessage message = new GodChoiceProposalMessage(godProposals);
         sendMessage(message);
         int choice = receiveChoice();
-        while(choice < 0 || choice >= godProposals.size()) {
+        while (choice < 0 || choice >= godProposals.size()) {
             sendNotification("Out of range!");
             sendMessage(message);
             choice = receiveChoice();
@@ -95,6 +101,7 @@ public abstract class ClientConnection {
 
     /**
      * Ask the player owner of the lobby which player will make the first move
+     *
      * @param players list of the players
      * @return selected player
      * @throws IOException if there's a connection error
@@ -105,7 +112,7 @@ public abstract class ClientConnection {
 
         sendMessage(message);
         int choice = receiveChoice();
-        while(choice < 0 || choice >= playerProposals.size()) {
+        while (choice < 0 || choice >= playerProposals.size()) {
             sendNotification("Out of range!");
             sendMessage(message);
             choice = receiveChoice();
@@ -116,6 +123,7 @@ public abstract class ClientConnection {
 
     /**
      * Retrieve the index of a worker specified by a player.
+     *
      * @param choices the workers' indexes
      * @return the index of the chosen worker
      * @throws IOException if there's a connection error
@@ -124,7 +132,7 @@ public abstract class ClientConnection {
         Message message = new WorkerIndexMessage(choices);
         sendMessage(message);
         int workerIndex = receiveChoice();
-        while(!choices.contains(workerIndex)) {
+        while (!choices.contains(workerIndex)) {
             sendNotification("Out of Range!");
             sendMessage(message);
             workerIndex = receiveChoice();
@@ -135,6 +143,7 @@ public abstract class ClientConnection {
 
     /**
      * Asks the player where to place the Worker
+     *
      * @return a Point where to place the worker
      * @throws IOException if there's a connection error
      */
@@ -144,7 +153,7 @@ public abstract class ClientConnection {
         int[] coord = new int[2];
         coord[0] = receiveChoice();
         coord[1] = receiveChoice();
-        while(coord[0] < 0 || coord[0] >= 5 || coord[1] < 0 || coord[1] >= 5) {
+        while (coord[0] < 0 || coord[0] >= 5 || coord[1] < 0 || coord[1] >= 5) {
             sendNotification("Out of range!");
             sendMessage(message);
             coord[0] = receiveChoice();
@@ -156,6 +165,7 @@ public abstract class ClientConnection {
 
     /**
      * Add a player to the match
+     *
      * @param p the name of the player
      * @throws IOException if there's a connection error
      */
@@ -165,8 +175,9 @@ public abstract class ClientConnection {
 
     /**
      * Add a worker to a match
-     * @param pos where to place the worker
-     * @param player the worker's owner name
+     *
+     * @param pos         where to place the worker
+     * @param player      the worker's owner name
      * @param workerIndex the index of the worker
      * @throws IOException if there's a connection error
      */
@@ -176,6 +187,7 @@ public abstract class ClientConnection {
 
     /**
      * Add a dome at the target position.
+     *
      * @param p the target position
      * @throws IOException if there's a connection error
      */
@@ -185,6 +197,7 @@ public abstract class ClientConnection {
 
     /**
      * Notify the client a tower has been built with size amount and in position p
+     *
      * @param p position (Point) of the build
      * @throws IOException if there's a connection error
      */
@@ -194,8 +207,9 @@ public abstract class ClientConnection {
 
     /**
      * Notify the client of that a worker has been moved
-     * @param p the new position of the worker
-     * @param user the worker's owner
+     *
+     * @param p        the new position of the worker
+     * @param user     the worker's owner
      * @param workerId the worker's id
      * @throws IOException if there's a connection error
      */
@@ -205,6 +219,7 @@ public abstract class ClientConnection {
 
     /**
      * Tell the client that a player has been removed
+     *
      * @param player the player to unregister
      * @throws IOException if there's a connection error
      */
@@ -214,15 +229,16 @@ public abstract class ClientConnection {
 
     /**
      * Send a generic choice to the player
+     *
      * @param message Message to the player
-     * @param size size of the proposal range (0-size)
+     * @param size    size of the proposal range (0-size)
      * @return choice of the player (between 0 and size)
      * @throws IOException if there's a connection error
      */
     protected int askProposalMessage(ProposalMessage<? extends Proposal> message, int size) throws IOException {
         sendMessage(message);
         int choice = receiveChoice();
-        while(choice < 0 || choice >= size) {
+        while (choice < 0 || choice >= size) {
             sendNotification("Out of range!");
             sendMessage(message);
             choice = receiveChoice();
@@ -233,6 +249,7 @@ public abstract class ClientConnection {
 
     /**
      * Ask the player where they want to build.
+     *
      * @param proposals a list of possible moves
      * @return the index of the chosen move
      * @throws IOException if there's a connection error
@@ -243,6 +260,7 @@ public abstract class ClientConnection {
 
     /**
      * Ask the player where they want to move.
+     *
      * @param proposals a list of possible moves
      * @return the index of the chosen move
      * @throws IOException if there's a connection error
@@ -253,6 +271,7 @@ public abstract class ClientConnection {
 
     /**
      * Ask the player the size of the lobby to be create
+     *
      * @return the size of the lobby
      * @throws IOException if there's a connection error
      */
@@ -261,7 +280,7 @@ public abstract class ClientConnection {
         sendMessage(message);
         int choice = receiveChoice();
 
-        while(choice != 2 && choice != 3) {
+        while (choice != 2 && choice != 3) {
             sendNotification("Error!");
             sendMessage(message);
             choice = receiveChoice();
@@ -272,6 +291,7 @@ public abstract class ClientConnection {
 
     /**
      * Send a notification to the client
+     *
      * @param s the content of the notification
      * @throws IOException if there's a connection error
      */
@@ -281,6 +301,7 @@ public abstract class ClientConnection {
 
     /**
      * Ask the player a close question (yes/no)
+     *
      * @param s the content of the question
      * @return the answer
      * @throws IOException if there's a connection error
@@ -290,7 +311,7 @@ public abstract class ClientConnection {
         sendMessage(message);
 
         int choice = receiveChoice();
-        while(choice != 0 && choice != 1) {
+        while (choice != 0 && choice != 1) {
             sendNotification("Error!");
             sendMessage(message);
             choice = receiveChoice();
@@ -301,6 +322,7 @@ public abstract class ClientConnection {
 
     /**
      * Notify the player that the game has ended with a winner
+     *
      * @param winner winner of the game
      * @throws IOException if there's a connectione error
      */
@@ -314,6 +336,7 @@ public abstract class ClientConnection {
 
     /**
      * Notify that a player is choosing which of their workers to move
+     *
      * @param player the name of that player
      * @throws IOException if there's a connection error
      */
@@ -323,6 +346,7 @@ public abstract class ClientConnection {
 
     /**
      * Notify that a player is moving
+     *
      * @param player the name of that player
      * @throws IOException if there's a connection error
      */
@@ -332,6 +356,7 @@ public abstract class ClientConnection {
 
     /**
      * Notify that a player is building
+     *
      * @param player the name of that player
      * @throws IOException if there's a connection error
      */
@@ -341,6 +366,7 @@ public abstract class ClientConnection {
 
     /**
      * Notify that a player is placing their workers
+     *
      * @param player the name of that player
      * @throws IOException if there's a connection error
      */
@@ -350,6 +376,7 @@ public abstract class ClientConnection {
 
     /**
      * Close the connection with the client.
+     *
      * @throws IOException if there's a connection error.
      */
     protected abstract void close() throws IOException;

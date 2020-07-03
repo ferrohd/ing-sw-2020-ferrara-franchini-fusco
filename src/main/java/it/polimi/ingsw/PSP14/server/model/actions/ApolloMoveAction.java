@@ -18,9 +18,9 @@ public class ApolloMoveAction extends MoveAction {
     @Override
     public void execute(MatchModel model) throws IOException {
         // finds the worker at the "to" position
-        for(Player p: model.getPlayerMap()) {
-            for(int i = 0; i < 2; ++i) {
-                if(p.getWorkerPos(i).equals(getTo())) {
+        for (Player p : model.getPlayerMap()) {
+            for (int i = 0; i < 2; ++i) {
+                if (p.getWorkerPos(i).equals(getTo())) {
                     // moves the worker at "from" to  "to"
                     super.execute(model);
                     p.setWorker(i, getFrom());

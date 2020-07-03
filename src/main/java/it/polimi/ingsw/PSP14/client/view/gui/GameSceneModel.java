@@ -1,15 +1,6 @@
 package it.polimi.ingsw.PSP14.client.view.gui;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.stream.Collectors;
-
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
-
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -25,6 +16,14 @@ import javafx.scene.shape.CullFace;
 import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.MeshView;
 import javafx.util.Duration;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.stream.Collectors;
 
 /**
  * This class manages the actors in a 3D context,
@@ -51,10 +50,10 @@ public class GameSceneModel {
             WORKER_Y_3 = -3.4, // lv 2
             WORKER_Y_4 = -4.25, // lv 3
             SELECT_HEIGHT = 0.4,
-            SELECT_Y_1 = 0 - SELECT_HEIGHT/2, // ground
-            SELECT_Y_2 = -1.5 - SELECT_HEIGHT/2, // lv 1
-            SELECT_Y_3 = -2.5 - SELECT_HEIGHT/2, // lv 2
-            SELECT_Y_4 = -3.5 - SELECT_HEIGHT/2; // lv 3
+            SELECT_Y_1 = 0 - SELECT_HEIGHT / 2, // ground
+            SELECT_Y_2 = -1.5 - SELECT_HEIGHT / 2, // lv 1
+            SELECT_Y_3 = -2.5 - SELECT_HEIGHT / 2, // lv 2
+            SELECT_Y_4 = -3.5 - SELECT_HEIGHT / 2; // lv 3
 
     // Contains all actors, accessible with an ID
     private final Map<String, Node> actors = new HashMap<>();
@@ -64,7 +63,9 @@ public class GameSceneModel {
         setupScenery();
     }
 
-    public Group getRoot() { return root; }
+    public Group getRoot() {
+        return root;
+    }
 
     /**
      * Init the scenery (sea, board, cliff, all the cosmetic stuff).
@@ -84,13 +85,14 @@ public class GameSceneModel {
 
     /**
      * Add an actor to the scene
-     * @param id the id of the actor
-     * @param meshUrl an absolute path relative to the resource
-     *                folder where the OBJ model resides.
+     *
+     * @param id         the id of the actor
+     * @param meshUrl    an absolute path relative to the resource
+     *                   folder where the OBJ model resides.
      * @param textureUrl an absolute path relative to the resource
- *                    folder where the PNG texture resides.
-     * @param position the position of the actor
-     * @param scale the scale of the actor
+     *                   folder where the PNG texture resides.
+     * @param position   the position of the actor
+     * @param scale      the scale of the actor
      */
     public void addActor(String id, String meshUrl, String textureUrl, Point3D position, double scale) {
         // Import 3D resource
@@ -127,6 +129,7 @@ public class GameSceneModel {
 
     /**
      * Get an actor (Node) from the actors data structure
+     *
      * @param id the key of that actor
      * @return the Node of that actor
      */
@@ -136,7 +139,8 @@ public class GameSceneModel {
 
     /**
      * Get a worker actor id.
-     * @param player the worker's player number
+     *
+     * @param player   the worker's player number
      * @param workerId the worker's number
      * @return a key (String) representing that worker
      */
@@ -146,7 +150,8 @@ public class GameSceneModel {
 
     /**
      * Add a worker to the board.
-     * @param point a model coordinate
+     *
+     * @param point    a model coordinate
      * @param workerId the worker id number
      * @param playerId the player id number
      */
@@ -159,6 +164,7 @@ public class GameSceneModel {
 
     /**
      * Remove a worker from the game.
+     *
      * @param workerId the worker id number
      * @param playerId the player id number
      */
@@ -170,6 +176,7 @@ public class GameSceneModel {
 
     /**
      * Get a worker by passing the player it belongs to and the id of the worker.
+     *
      * @param player the player number
      * @param worker the worker number
      * @return that worker's node reference
@@ -181,6 +188,7 @@ public class GameSceneModel {
     /**
      * Return a collection of nodes representing all the workers
      * in the game.
+     *
      * @return a collection of nodes
      */
     public List<Node> getAllWorkers() {
@@ -193,13 +201,14 @@ public class GameSceneModel {
     /**
      * Return an ordered list of points representing all the workers
      * of a certain player.
+     *
      * @param playerId the id of the player
      * @return a list of points
      */
     public List<Point> getAllPlayerWorkers(int playerId) {
         List<Point> points = new ArrayList<>();
-        for(int i = 0; i < 2; ++i) {
-            points.add(getBoardCoordinates(actors.get("worker"+playerId+i)));
+        for (int i = 0; i < 2; ++i) {
+            points.add(getBoardCoordinates(actors.get("worker" + playerId + i)));
         }
 
         return points;
@@ -208,6 +217,7 @@ public class GameSceneModel {
     /**
      * Return a list of nodes representing all the building components
      * in the game.
+     *
      * @return a collection of nodes
      */
     public List<Node> getAllBlocks() {
@@ -222,6 +232,7 @@ public class GameSceneModel {
      * Unsafe: due to performance reasons, we don't check if we're resizing an
      * actual block or another node. Nothing bad should happen, except a (possible)
      * visual glitch.
+     *
      * @param block the block to hide
      */
     public void hideBlock(Node block) {
@@ -246,6 +257,7 @@ public class GameSceneModel {
     /**
      * Show the block passed as a parameter with a cool animation.
      * Unsafe: same reason as {@link #hideBlock(Node)}
+     *
      * @param block the block to show
      */
     public void showBlock(Node block) {
@@ -271,10 +283,11 @@ public class GameSceneModel {
 
     /**
      * Move a worker with a cool animation.
+     *
      * @param playerNumber the number of the worker's player (0, 1, 2)
      * @param workerNumber the number of the worker (0 or 1)
-     * @param position the target position
-     * @param latch the CountDownLatch reference to prevent unwanted behaviour
+     * @param position     the target position
+     * @param latch        the CountDownLatch reference to prevent unwanted behaviour
      */
     public void moveWorker(int playerNumber, int workerNumber, Point position, CountDownLatch latch) {
         moveWorkerNode(position, actors.get(getWorkerActorId(playerNumber, workerNumber)), latch);
@@ -282,21 +295,22 @@ public class GameSceneModel {
 
     /**
      * Move a worker to a target position with a cool animation.
+     *
      * @param position the target position
-     * @param latch latch to avoid async issues
-     * @param worker the worker to move
+     * @param latch    latch to avoid async issues
+     * @param worker   the worker to move
      */
     private void moveWorkerNode(Point position, Node worker, CountDownLatch latch) {
         if (worker != null) {
             Point3D finalPosition = getSceneCoordinates(position).add(0, getWorkerHeight(position), 0),
                     diff = finalPosition.subtract(getSceneCoordinates(worker));
             Timeline xzTimeline = new Timeline(
-                        new KeyFrame(
-                                Duration.millis(250),
-                                new KeyValue(worker.translateXProperty(), finalPosition.getX()),
-                                new KeyValue(worker.translateZProperty(), finalPosition.getZ())
-                        )
-                    ),
+                    new KeyFrame(
+                            Duration.millis(250),
+                            new KeyValue(worker.translateXProperty(), finalPosition.getX()),
+                            new KeyValue(worker.translateZProperty(), finalPosition.getZ())
+                    )
+            ),
                     yTimeline = new Timeline(
                             new KeyFrame(
                                     Duration.millis(diff.getY() != 0 ? 250 : 0),
@@ -305,7 +319,7 @@ public class GameSceneModel {
                     );
             xzTimeline.setCycleCount(1);
             yTimeline.setCycleCount(1);
-            if(diff.getY() < 0) {
+            if (diff.getY() < 0) {
                 yTimeline.setOnFinished(event -> xzTimeline.play());
                 xzTimeline.setOnFinished(event -> latch.countDown());
                 yTimeline.play();
@@ -321,6 +335,7 @@ public class GameSceneModel {
 
     /**
      * Get a tower height in model "numbers".
+     *
      * @param position the tower position in model coordinates
      * @return the height of the tower
      */
@@ -336,6 +351,7 @@ public class GameSceneModel {
 
     /**
      * Get a preset coordinate for a worker height
+     *
      * @param workerPos a model coordinate for the worker
      * @return the world Y coordinate for that worker
      */
@@ -356,6 +372,7 @@ public class GameSceneModel {
 
     /**
      * Get a preset coordinate for a tower height
+     *
      * @param towerPos a model coordinate for the tower
      * @return the world Y coordinate for that tower
      */
@@ -376,7 +393,8 @@ public class GameSceneModel {
 
     /**
      * Set a node to a target world position
-     * @param node the node
+     *
+     * @param node  the node
      * @param point the target position
      */
     private void setNodeToPoint3D(Node node, Point3D point) {
@@ -387,8 +405,9 @@ public class GameSceneModel {
 
     /**
      * Get the block ID string.
+     *
      * @param position of the block
-     * @param height of the block
+     * @param height   of the block
      * @return the unique block label
      */
     public static String getBlockId(Point position, int height) {
@@ -397,7 +416,8 @@ public class GameSceneModel {
 
     /**
      * Keep track of a node by binding it with an ID
-     * @param id the ID of the node
+     *
+     * @param id   the ID of the node
      * @param node the node
      */
     private void addToActorsAndRegister(String id, Node node) {
@@ -408,6 +428,7 @@ public class GameSceneModel {
 
     /**
      * Add a tower block on a tower.
+     *
      * @param position the position of the tower.
      */
     public void incrementCell(Point position) {
@@ -421,7 +442,7 @@ public class GameSceneModel {
      * towers. It should get called when a cell is updated.
      */
     private void updateWorkers() {
-        for(Node w : getAllWorkers()) {
+        for (Node w : getAllWorkers()) {
             Point p = getBoardCoordinates(w);
             moveWorkerNode(p, w, new CountDownLatch(1));
         }
@@ -432,7 +453,7 @@ public class GameSceneModel {
      * towers. It should get called when a cell is updated.
      */
     private void updateSelectables() {
-        for(Node w : getAllSelectables()) {
+        for (Node w : getAllSelectables()) {
             Point p = getBoardCoordinates(w);
             moveSelectableNode(p, w);
         }
@@ -441,17 +462,19 @@ public class GameSceneModel {
     /**
      * Put a dome on the cell, "filling" the tower (setting it to height 3).
      * WARN: Chronus + Atlas (might) cause graphic glitches.
+     *
      * @param position the model position of the dome
      */
     public void putDome(Point position) {
-        while(getTowerHeight(position) <= 3)
+        while (getTowerHeight(position) <= 3)
             setTower(position, getTowerHeight(position));
     }
 
     /**
      * Build a tower in the specified model position at the specified height.
+     *
      * @param position the model position of the tower
-     * @param height the height of the tower
+     * @param height   the height of the tower
      */
     private void setTower(Point position, int height) {
         Node tower = ActorFactory.getBlock(height);
@@ -469,7 +492,8 @@ public class GameSceneModel {
 
     /**
      * Creates a rect at target position
-     * @param index index of the selectable
+     *
+     * @param index     index of the selectable
      * @param targetPos where to spawn the rect
      */
     public void addSelectable(int index, Point targetPos) {
@@ -481,6 +505,7 @@ public class GameSceneModel {
 
     /**
      * Render a list of points (choices) as selectables.
+     *
      * @param positions a list of points
      */
     public void addAllSelectables(List<Point> positions) {
@@ -493,7 +518,7 @@ public class GameSceneModel {
      * Remove all rendered selectables from the scene.
      */
     public void removeAllSelectables() {
-       actors.keySet().stream()
+        actors.keySet().stream()
                 .filter(k -> k.startsWith("sel"))
                 .map(actors::get)
                 .forEach(a -> root.getChildren().remove(a));
@@ -501,6 +526,7 @@ public class GameSceneModel {
 
     /**
      * Move a selectable node adjusting its height
+     *
      * @param p target position
      * @param n the node of the selectable
      */
@@ -511,6 +537,7 @@ public class GameSceneModel {
 
     /**
      * Get a preset coordinate for a selectable height
+     *
      * @param towerPos a model coordinate for the selectable
      * @return the world Y coordinate for that selectable
      */
@@ -539,6 +566,7 @@ public class GameSceneModel {
 
     /**
      * Transforms coordinates in world space to model coordinates.
+     *
      * @param v the world coordinates
      * @return the model coordinates
      */
@@ -552,6 +580,7 @@ public class GameSceneModel {
 
     /**
      * Get model coordinates from a node
+     *
      * @param n a node
      * @return the position of the node in model coordinates
      */
@@ -565,6 +594,7 @@ public class GameSceneModel {
 
     /**
      * Get world coordinates from Point (2D).
+     *
      * @param v a point from the model
      * @return the point in world coordinates
      */
@@ -572,11 +602,12 @@ public class GameSceneModel {
         double x = 2.5 * (v.getX() - 2);
         double z = -2.5 * (v.getY() - 2);
 
-        return new Point3D(x,0, z);
+        return new Point3D(x, 0, z);
     }
 
     /**
      * Get the coordinates to place a worker from a Point (2D).
+     *
      * @param point the point from the model
      * @return new worker coordinates
      */
@@ -588,6 +619,7 @@ public class GameSceneModel {
      * Get the coordinates to place a tower block from a Point (2D).
      * The returned coordinates contain the updated Y axis, to place the block of
      * the tower at the correct height.
+     *
      * @param point the point from the model
      * @return new tower block coordinates
      */
@@ -597,6 +629,7 @@ public class GameSceneModel {
 
     /**
      * Get the coordinates to place a worker from a Point (2D).
+     *
      * @param point the point from the model
      * @return new worker coordinates
      */
@@ -606,6 +639,7 @@ public class GameSceneModel {
 
     /**
      * Get the coordinates of a generic Node with a Point3D.
+     *
      * @param n the node
      * @return a Point3D of the coordinates of the node n
      */

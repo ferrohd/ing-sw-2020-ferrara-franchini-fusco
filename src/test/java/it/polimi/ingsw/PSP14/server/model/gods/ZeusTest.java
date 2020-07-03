@@ -1,10 +1,10 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
-import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.BuildAction;
 import it.polimi.ingsw.PSP14.server.model.board.Player;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import it.polimi.ingsw.PSP14.server.model.board.TowerSizeException;
+import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchModel;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -28,7 +28,8 @@ public class ZeusTest {
                 try {
                     p = new Player("owner");
                     p.setWorker(0, new Point(0, 0));
-                } catch(IOException e) {};
+                } catch (IOException e) {
+                }
 
                 return p;
             }

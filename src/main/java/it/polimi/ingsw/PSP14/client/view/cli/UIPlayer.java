@@ -20,10 +20,11 @@ public class UIPlayer {
 
     /**
      * Construct a player object.
+     *
      * @param username the username of the player (retrieved from the user
      *                 or the server).
-     * @param number a unique number to distinguish the player
-     * @param color a unique UIColor to highlight the player's belongings.
+     * @param number   a unique number to distinguish the player
+     * @param color    a unique UIColor to highlight the player's belongings.
      */
     public UIPlayer(String username, int number, UIColor color) {
         this.username = username;
@@ -34,6 +35,7 @@ public class UIPlayer {
 
     /**
      * Retrieve a player's username
+     *
      * @return the player username
      */
     public String getUsername() {
@@ -42,6 +44,7 @@ public class UIPlayer {
 
     /**
      * Retrieve the color assigned to this player
+     *
      * @return the color (it may need a cast to the correct implementation)
      */
     public UIColor getColor() {
@@ -50,12 +53,16 @@ public class UIPlayer {
 
     /**
      * Retrieve the player unique number
+     *
      * @return the number
      */
-    public int getNumber() { return number; }
+    public int getNumber() {
+        return number;
+    }
 
     /**
      * Set a player god. If a god is not found, it will be <code>null</code>!
+     *
      * @param id the name retrieved from the server corresponding
      *           to this god.
      */
@@ -70,6 +77,7 @@ public class UIPlayer {
 
     /**
      * Get the god assigned to this player
+     *
      * @return the god object
      */
     public UIGod getGod() {
@@ -78,6 +86,7 @@ public class UIPlayer {
 
     /**
      * Get all this player's workers in a List.
+     *
      * @return a list of workers
      */
     public List<UIWorker> getWorkers() {
@@ -86,6 +95,7 @@ public class UIPlayer {
 
     /**
      * Get a worker from a player.
+     *
      * @param id the id of the worker
      * @return the worker
      */
@@ -95,6 +105,7 @@ public class UIPlayer {
 
     /**
      * Assign a new worker to this player.
+     *
      * @param worker a new instance of a worker.
      */
     public void setWorker(UIWorker worker) {
@@ -106,6 +117,7 @@ public class UIPlayer {
      * This will effectively delete a worker from the entire match
      * (such as when the player loses).
      * Only a player can remove a worker.
+     *
      * @param withId the id of the worker
      */
     public void removeWorker(int withId) {

@@ -18,8 +18,8 @@ public class Board {
      * @param controller the controller of the current match
      */
     public Board(MatchController controller) {
-        for(int i = 0; i < 5; ++i) {
-            for(int j = 0; j < 5; ++j) {
+        for (int i = 0; i < 5; ++i) {
+            for (int j = 0; j < 5; ++j) {
                 board[j][i] = new Cell();
             }
         }
@@ -43,9 +43,10 @@ public class Board {
 
     /**
      * Increase by one level the height of a tower.
+     *
      * @param pos the coordinates of the cell
      * @throws TowerSizeException when you can't increase a tower size
-     * @throws IOException if it cant notify the controller
+     * @throws IOException        if it cant notify the controller
      */
     public void incrementTowerSize(Point pos) throws TowerSizeException, IOException {
         board[pos.getY()][pos.getX()].incrementTowerSize();
@@ -77,6 +78,7 @@ public class Board {
 
     /**
      * Tells if the provided Point is inside the board
+     *
      * @param pos the Point to check
      * @return the validity of the point
      */

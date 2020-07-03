@@ -1,12 +1,12 @@
 package it.polimi.ingsw.PSP14.server.model.gods;
 
 import it.polimi.ingsw.PSP14.server.controller.MatchController;
-import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchController;
-import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchModel;
 import it.polimi.ingsw.PSP14.server.model.actions.Action;
 import it.polimi.ingsw.PSP14.server.model.actions.MoveAction;
 import it.polimi.ingsw.PSP14.server.model.board.Point;
 import it.polimi.ingsw.PSP14.server.model.board.TowerSizeException;
+import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchController;
+import it.polimi.ingsw.PSP14.server.model.fake.FakeMatchModel;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

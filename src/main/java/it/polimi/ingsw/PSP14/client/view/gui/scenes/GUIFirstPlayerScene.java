@@ -32,12 +32,12 @@ public class GUIFirstPlayerScene implements Runnable {
                 Integer index = i;
                 buttons.get(i).setText(names.get(i));
                 buttons.get(i).setOnMouseClicked((event) -> {
-                    for(Button b : buttons) b.setDisable(true);
+                    for (Button b : buttons) b.setDisable(true);
                     GUIMain.getQueue().add(index);
                 });
             }
 
-            if(names.size() == 2) {
+            if (names.size() == 2) {
                 root.lookup("#button2").setVisible(false);
                 root.lookup("#button2").setManaged(false);
             }

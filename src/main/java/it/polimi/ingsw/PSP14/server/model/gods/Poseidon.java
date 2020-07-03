@@ -19,13 +19,13 @@ public class Poseidon extends God {
 
     @Override
     public void afterTurn(String player, int workerIndex, MatchController controller, MatchModel model) throws IOException {
-        if(!player.equals(getOwner())) return;
+        if (!player.equals(getOwner())) return;
 
         int otherWorker = workerIndex == 1 ? 0 : 1;
 
-        if(model.getBoard().getTowerSize(model.getPlayerByUsername(player).getWorkerPos(otherWorker)) == 0) {
-            for(int i = 0; i < 3; ++i) {
-                if(model.getBuildable(player, otherWorker).size() > 0) {
+        if (model.getBoard().getTowerSize(model.getPlayerByUsername(player).getWorkerPos(otherWorker)) == 0) {
+            for (int i = 0; i < 3; ++i) {
+                if (model.getBuildable(player, otherWorker).size() > 0) {
                     boolean choice = controller.askQuestion(player, MESSAGE);
 
                     if (!choice) break;

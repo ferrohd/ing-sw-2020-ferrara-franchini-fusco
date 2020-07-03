@@ -16,8 +16,9 @@ public class ClientMatch implements Runnable {
 
     /**
      * Constructor for ClientMatch.
+     *
      * @param serverConnection a connection to send and receive messages.
-     * @param ui a UI to represent the game state
+     * @param ui               a UI to represent the game state
      */
     public ClientMatch(ServerConnection serverConnection, UI ui) {
         this.serverConnection = serverConnection;
@@ -26,21 +27,21 @@ public class ClientMatch implements Runnable {
 
     /**
      * Run main method of the ClientMatch class.
-     * Recieves messages from the server and executes them in an infinite loop.
+     * Receives messages from the server and executes them in an infinite loop.
      * Exits if an IOException is caught (meaning a connection error has occurred).
      */
     @Override
     public void run() {
         // Execute every new message that the client receives
-        while(true) {
+        while (true) {
             try {
-                ClientExecutableMessage inMessage  = (ClientExecutableMessage) serverConnection.receiveMessage();
+                ClientExecutableMessage inMessage = (ClientExecutableMessage) serverConnection.receiveMessage();
                 inMessage.execute(ui, serverConnection);
             } catch (IOException | InterruptedException e) {
                 System.out.println("Connection lost. Closing...");
                 try {
                     serverConnection.close();
-                } catch(IOException ioe) {
+                } catch (IOException ioe) {
                     System.out.println("Could not close. Terminating...");
                 }
                 System.exit(-1);

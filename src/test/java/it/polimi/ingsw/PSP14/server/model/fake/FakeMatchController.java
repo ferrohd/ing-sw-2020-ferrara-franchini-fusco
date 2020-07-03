@@ -1,8 +1,6 @@
 package it.polimi.ingsw.PSP14.server.model.fake;
 
-import it.polimi.ingsw.PSP14.core.messages.ChoiceMessage;
 import it.polimi.ingsw.PSP14.core.messages.Message;
-import it.polimi.ingsw.PSP14.server.controller.ClientConnection;
 import it.polimi.ingsw.PSP14.server.controller.MatchController;
 
 import java.io.IOException;
@@ -18,7 +16,8 @@ public class FakeMatchController extends MatchController {
 
     /**
      * Always returns true, for the test cases.
-     * @param player who cares
+     *
+     * @param player  who cares
      * @param message who cares
      * @return true, always
      * @throws IOException never

@@ -9,6 +9,7 @@ public class StringMessage implements Message {
     /**
      * Constructor of the message. You've got to set
      * here the contents.
+     *
      * @param string the content of the message
      */
     public StringMessage(String string) {

@@ -1,9 +1,6 @@
 package it.polimi.ingsw.PSP14.client.view.gui;
 
-import java.net.URL;
-
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -11,12 +8,10 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Box;
-import javafx.scene.shape.CullFace;
-import javafx.scene.shape.DrawMode;
-import javafx.scene.shape.Mesh;
-import javafx.scene.shape.MeshView;
+import javafx.scene.shape.*;
 import javafx.util.Duration;
+
+import java.net.URL;
 
 /**
  * Utility class with methods to create and handle 3D models in a 3D context.

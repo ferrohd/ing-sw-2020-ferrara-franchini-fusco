@@ -14,10 +14,11 @@ import java.io.IOException;
 public interface ClientExecutableMessage extends Message {
     /**
      * Execute the instruction contained in this method on the client.
-     * @param ui the client UI
+     *
+     * @param ui               the client UI
      * @param serverConnection a way to send/receive messages to/from the server
      * @throws InterruptedException if interrupted
-     * @throws IOException if there's a connection error
+     * @throws IOException          if there's a connection error
      */
     void execute(UI ui, ServerConnection serverConnection) throws InterruptedException, IOException;
 }
