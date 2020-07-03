@@ -77,8 +77,10 @@ public class GameFactory implements Runnable {
                 newGame.setName("Match");
                 System.out.println(STARTING_GAME);
                 newGame.start();
-            } catch (InterruptedException | IOException e) {
-                e.printStackTrace();
+            } catch(InterruptedException | IOException e) {
+                try {
+                    for (ClientConnection c : players) c.close();
+                } catch (IOException ignore) {}
             }
         }
     }

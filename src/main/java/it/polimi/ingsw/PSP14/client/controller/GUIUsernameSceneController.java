@@ -17,7 +17,6 @@ public class GUIUsernameSceneController {
 
     @FXML
     protected void didClickPlay(ActionEvent event) throws InterruptedException {
-        System.out.println("HELLO " + usernameField.getText());
         if (usernameField.getText().length() > 0) {
             playBtn.setDisable(true);
             usernameField.setDisable(true);
